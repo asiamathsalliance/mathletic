@@ -1,0 +1,339 @@
+[
+  {
+    "id": "ap-2015-alg-hard",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Derivatives",
+    "subtopic": "Polynomials",
+    "year": 2015,
+    "examSource": "AP Precalculus",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "The polynomial $p(x) = x^3 - 4x^2 + x + 6$ has a root at $x = 2$. Find all roots.",
+    "choices": [
+      "$x = 2$, $x = 3$, $x = -1$",
+      "$x = 2$, $x = -2$, $x = 1$",
+      "$x = 2$, $x = 1$, $x = 3$",
+      "$x = 2$, $x = -3$, $x = 1$"
+    ],
+    "correctIndex": 0,
+    "solution": "Factor: $(x-2)(x^2 - 2x - 3) = (x-2)(x-3)(x+1)$. Roots: $2$, $3$, $-1$.",
+    "tags": [
+      "algebra",
+      "polynomials",
+      "roots"
+    ]
+  },
+  {
+    "id": "ap-2012-trig-hard",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Derivatives",
+    "subtopic": "Identities",
+    "year": 2012,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "Simplify $\\frac{\\sin^2\\theta}{1 - \\cos\\theta} - (1 + \\cos\\theta)$.",
+    "choices": [
+      "$0$",
+      "$1$",
+      "$2\\cos\\theta$",
+      "$\\tan\\theta$"
+    ],
+    "correctIndex": 0,
+    "solution": "Using $\\sin^2\\theta = 1 - \\cos^2\\theta$, we get $\\frac{1-\\cos^2\\theta}{1-\\cos\\theta} - (1+\\cos\\theta) = 1+\\cos\\theta - 1 - \\cos\\theta = 0$.",
+    "tags": [
+      "trigonometry",
+      "identities",
+      "simplify"
+    ]
+  },
+  {
+    "id": "ap-2017-calc-hard",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Integrals",
+    "subtopic": "Integration",
+    "year": 2017,
+    "examSource": "AP Calculus AB FRQ",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "Evaluate $\\int_0^1 \\frac{x}{x^2 + 1} \\, dx$.",
+    "choices": [
+      "$\\frac{1}{2}\\ln 2$",
+      "$\\ln 2$",
+      "$\\frac{\\pi}{4}$",
+      "$1$"
+    ],
+    "correctIndex": 0,
+    "solution": "Substitute $u = x^2 + 1$, $du = 2x\\,dx$. Then $\\int \\frac{x}{x^2+1}dx = \\frac{1}{2}\\ln|x^2+1| + C$. So $\\int_0^1 = \\frac{1}{2}\\ln 2$.",
+    "tags": [
+      "calculus",
+      "integration",
+      "substitution"
+    ]
+  },
+  {
+    "id": "ap-2019-stats",
+    "curriculum": "AP",
+    "stream": "statistics",
+    "topic": "Random Variables and Distributions",
+    "subtopic": "Distributions",
+    "year": 2019,
+    "examSource": "AP Statistics",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "The random variable $X$ is normally distributed with mean $70$ and standard deviation $8$. Find $P(62 < X < 86)$.",
+    "choices": [
+      "Approximately $0.8185$",
+      "Approximately $0.95$",
+      "Approximately $0.68$",
+      "Approximately $0.997$"
+    ],
+    "correctIndex": 0,
+    "solution": "$Z$ for 62: $\\frac{62-70}{8} = -1$; for 86: $\\frac{86-70}{8} = 2$. So $P(62 < X < 86) = P(-1 < Z < 2) = \\Phi(2) - \\Phi(-1) \\approx 0.9772 - 0.1587 = 0.8185$.",
+    "tags": [
+      "probability",
+      "normal distribution",
+      "statistics"
+    ]
+  },
+  {
+    "id": "ap-2011-vec-hard",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Series and Parametric/Polar Functions",
+    "subtopic": "Geometry",
+    "year": 2011,
+    "examSource": "AP Calculus BC",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "The points $A(1,0)$, $B(3,2)$ and $C(5,4)$ are given. What can we conclude?",
+    "choices": [
+      "$A$, $B$, $C$ are collinear",
+      "$A$, $B$, $C$ form a right triangle",
+      "$\\overrightarrow{AB} = \\overrightarrow{BC}$ only",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\overrightarrow{AB} = (2,2)$, $\\overrightarrow{BC} = (2,2)$. So $\\overrightarrow{BC} = \\overrightarrow{AB}$, hence the points are collinear.",
+    "tags": [
+      "vectors",
+      "collinear",
+      "geometry"
+    ]
+  },
+  {
+    "id": "ap-2010-func-hard",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Derivatives",
+    "subtopic": "Exponential",
+    "year": 2010,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "Solve $2^{x+1} = 16$ for $x$.",
+    "choices": [
+      "$x = 3$",
+      "$x = 4$",
+      "$x = 15$",
+      "$x = 2$"
+    ],
+    "correctIndex": 0,
+    "solution": "$2^{x+1} = 2^4$ so $x+1 = 4$, hence $x = 3$.",
+    "tags": [
+      "functions",
+      "exponential",
+      "equations"
+    ]
+  },
+  {
+    "id": "ap-2020-calc-medium",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Applications of Derivatives",
+    "subtopic": "Applications",
+    "year": 2020,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "A particle moves so that its velocity is $v(t) = 3t^2 - 12t + 9$ for $t \\geq 0$. At what time $t$ is the particle at rest?",
+    "choices": [
+      "$t = 1$ and $t = 3$",
+      "$t = 2$ only",
+      "$t = 0$ and $t = 4$",
+      "$t = 3$ only"
+    ],
+    "correctIndex": 0,
+    "solution": "At rest when $v(t) = 0$: $3t^2 - 12t + 9 = 3(t^2 - 4t + 3) = 3(t-1)(t-3) = 0$, so $t = 1$ or $t = 3$.",
+    "tags": [
+      "calculus",
+      "velocity",
+      "applications"
+    ]
+  },
+  {
+    "id": "ap-2018-trig-medium",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Derivatives",
+    "subtopic": "Equations",
+    "year": 2018,
+    "examSource": "AP Precalculus",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Solve $2\\cos\\theta - 1 = 0$ for $0 \\leq \\theta < 2\\pi$.",
+    "choices": [
+      "$\\theta = \\frac{\\pi}{3}$ or $\\frac{5\\pi}{3}$",
+      "$\\theta = \\frac{\\pi}{6}$ only",
+      "$\\theta = \\frac{\\pi}{2}$ or $\\frac{3\\pi}{2}$",
+      "$\\theta = \\frac{2\\pi}{3}$ or $\\frac{4\\pi}{3}$"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\cos\\theta = \\frac{1}{2}$. In $[0, 2\\pi)$, $\\theta = \\frac{\\pi}{3}$ or $\\theta = 2\\pi - \\frac{\\pi}{3} = \\frac{5\\pi}{3}$.",
+    "tags": [
+      "trigonometry",
+      "equations",
+      "cosine"
+    ]
+  },
+  {
+    "id": "ap-2021-limits-easy",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Limits and Continuity",
+    "subtopic": "Limits",
+    "year": 2021,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Easy",
+    "image": "none",
+    "questionText": "Evaluate $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x}$.",
+    "choices": [
+      "$3$",
+      "$1$",
+      "$0$",
+      "The limit does not exist"
+    ],
+    "correctIndex": 0,
+    "solution": "Using $\\lim_{t \\to 0} \\frac{\\sin t}{t} = 1$, we have $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = 3 \\lim_{x \\to 0} \\frac{\\sin(3x)}{3x} = 3(1) = 3$.",
+    "tags": [
+      "limits",
+      "continuity",
+      "trig limit"
+    ]
+  },
+  {
+    "id": "ap-2019-integrals-medium",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Integrals",
+    "subtopic": "Definite Integral",
+    "year": 2019,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Evaluate $\\int_1^e \\frac{1}{x} \\, dx$.",
+    "choices": [
+      "$1$",
+      "$e$",
+      "$e - 1$",
+      "$\\frac{1}{e}$"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\int_1^e \\frac{1}{x}\\,dx = \\ln|x|\\big|_1^e = \\ln e - \\ln 1 = 1 - 0 = 1$.",
+    "tags": [
+      "integrals",
+      "definite integral",
+      "logarithm"
+    ]
+  },
+  {
+    "id": "ap-2020-appint-medium",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Applications of Integrals",
+    "subtopic": "Area",
+    "year": 2020,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Find the area enclosed by $y = x^2$ and $y = 2x$.",
+    "choices": [
+      "$\\frac{4}{3}$",
+      "$2$",
+      "$\\frac{2}{3}$",
+      "$4$"
+    ],
+    "correctIndex": 0,
+    "solution": "Intersection: $x^2 = 2x$ so $x = 0$ or $x = 2$. Area $= \\int_0^2 (2x - x^2)\\,dx = [x^2 - \\frac{x^3}{3}]_0^2 = 4 - \\frac{8}{3} = \\frac{4}{3}$.",
+    "tags": [
+      "applications",
+      "integrals",
+      "area"
+    ]
+  },
+  {
+    "id": "ap-2018-stats-prob-easy",
+    "curriculum": "AP",
+    "stream": "statistics",
+    "topic": "Probability",
+    "subtopic": "Basic",
+    "year": 2018,
+    "examSource": "AP Statistics",
+    "difficulty": "Easy",
+    "image": "none",
+    "questionText": "A box contains 3 red and 5 blue pens. Two pens are drawn at random without replacement. What is the probability that both are red?",
+    "choices": [
+      "$\\frac{3}{28}$",
+      "$\\frac{9}{64}$",
+      "$\\frac{3}{8}$",
+      "$\\frac{5}{14}$"
+    ],
+    "correctIndex": 0,
+    "solution": "$P(\\text{both red}) = \\frac{3}{8} \\cdot \\frac{2}{7} = \\frac{6}{56} = \\frac{3}{28}$.",
+    "tags": [
+      "probability",
+      "without replacement"
+    ]
+  },
+  {
+    "id": "ap-2020-calc-long-1",
+    "curriculum": "AP",
+    "stream": "calculus",
+    "topic": "Applications of Derivatives",
+    "subtopic": "Optimization",
+    "year": 2020,
+    "examSource": "AP Calculus AB",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "A rectangular field is to be enclosed using 200 m of fencing, with one side along a river (no fence needed on that side). Find the dimensions that maximize the enclosed area. Show your reasoning.",
+    "solution": "Let width $= w$ and length parallel to river $= \\ell$. Constraint: $2w + \\ell = 200$, so $\\ell = 200 - 2w$. Area $A(w) = w(200-2w) = 200w - 2w^2$. $A'(w) = 200 - 4w = 0$ gives $w = 50$. Then $\\ell = 100$. Maximum area rectangle: $50$ m by $100$ m.",
+    "tags": [
+      "calculus",
+      "optimization",
+      "applications",
+      "long answer"
+    ]
+  },
+  {
+    "id": "ap-2017-stats-long-1",
+    "curriculum": "AP",
+    "stream": "statistics",
+    "topic": "Statistical Inference",
+    "subtopic": "Confidence Intervals",
+    "year": 2017,
+    "examSource": "AP Statistics",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "A sample of 36 students has mean score 72 and standard deviation 12. Construct and interpret a 95% confidence interval for the population mean score.",
+    "solution": "For large $n$, $\\bar{x} \\pm z^* \\frac{s}{\\sqrt{n}}$ with $z^* = 1.96$. Margin $= 1.96 \\cdot \\frac{12}{\\sqrt{36}} = 1.96 \\cdot 2 = 3.92$. Interval: $(72 - 3.92,\\, 72 + 3.92) = (68.08,\\, 75.92)$. We are 95% confident the true population mean lies in this interval.",
+    "tags": [
+      "statistics",
+      "inference",
+      "confidence interval",
+      "long answer"
+    ]
+  }
+]

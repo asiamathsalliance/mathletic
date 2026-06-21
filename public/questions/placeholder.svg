@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200" fill="none">
+  <rect width="600" height="200" rx="8" fill="oklch(0.96 0.01 250)"/>
+  <rect x="2" y="2" width="596" height="196" rx="6" stroke="oklch(0.85 0.02 250)" stroke-width="2" fill="none"/>
+  <text x="300" y="105" font-family="system-ui, sans-serif" font-size="14" fill="oklch(0.5 0.02 250)" text-anchor="middle">Question image (replace with your image)</text>
+  <text x="300" y="125" font-family="system-ui, sans-serif" font-size="12" fill="oklch(0.6 0.02 250)" text-anchor="middle">Place files in public/questions/ and set questionImage in questions.json</text>
+</svg>

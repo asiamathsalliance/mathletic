@@ -1,0 +1,240 @@
+[
+  {
+    "id": "alevel-2024-alg-easy",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Algebra",
+    "subtopic": "Quadratics",
+    "year": 2024,
+    "examSource": "Edexcel Pure Mathematics",
+    "difficulty": "Easy",
+    "image": "none",
+    "questionText": "Solve $x^2 - 7x + 12 = 0$.",
+    "choices": [
+      "$x = 3$ or $x = 4$",
+      "$x = -3$ or $x = -4$",
+      "$x = 2$ or $x = 6$",
+      "$x = 1$ or $x = 12$"
+    ],
+    "correctIndex": 0,
+    "solution": "Factor: $(x-3)(x-4)=0$, so $x=3$ or $x=4$.",
+    "tags": ["algebra", "quadratics", "equations"]
+  },
+  {
+    "id": "alevel-2023-alg-medium",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Algebra",
+    "subtopic": "Sequences",
+    "year": 2023,
+    "examSource": "AQA Pure Mathematics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "The first term of an arithmetic sequence is 5 and the common difference is 3. Find the 10th term.",
+    "choices": [
+      "$32$",
+      "$35$",
+      "$29$",
+      "$38$"
+    ],
+    "correctIndex": 0,
+    "solution": "$a_{10} = a_1 + 9d = 5 + 27 = 32$.",
+    "tags": ["algebra", "sequences", "arithmetic"]
+  },
+  {
+    "id": "alevel-2022-trig-easy",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Trigonometry",
+    "subtopic": "Identities",
+    "year": 2022,
+    "examSource": "OCR Pure Mathematics",
+    "difficulty": "Easy",
+    "image": "none",
+    "questionText": "Given $\\sin\\theta = \\frac{3}{5}$ and $\\theta$ is acute, find $\\cos\\theta$.",
+    "choices": [
+      "$\\frac{4}{5}$",
+      "$\\frac{3}{4}$",
+      "$\\frac{5}{4}$",
+      "$\\frac{2}{5}$"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\cos^2\\theta = 1 - \\sin^2\\theta = 1 - \\frac{9}{25} = \\frac{16}{25}$, so $\\cos\\theta = \\frac{4}{5}$ (acute).",
+    "tags": ["trigonometry", "identities"]
+  },
+  {
+    "id": "alevel-2021-calc-medium",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Calculus",
+    "subtopic": "Differentiation",
+    "year": 2021,
+    "examSource": "Edexcel Pure Mathematics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Differentiate $f(x) = 3x^4 - 2x^2 + 7$.",
+    "choices": [
+      "$f'(x) = 12x^3 - 4x$",
+      "$f'(x) = 12x^3 - 2x$",
+      "$f'(x) = 3x^3 - 2x$",
+      "$f'(x) = 12x^3 + 4x$"
+    ],
+    "correctIndex": 0,
+    "solution": "$f'(x) = 12x^3 - 4x$.",
+    "tags": ["calculus", "differentiation"]
+  },
+  {
+    "id": "alevel-2020-calc-hard",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Calculus",
+    "subtopic": "Integration",
+    "year": 2020,
+    "examSource": "AQA Pure Mathematics",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "Evaluate $\\int_0^2 (2x + 1)\\,dx$.",
+    "choices": [
+      "$6$",
+      "$4$",
+      "$8$",
+      "$5$"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\int_0^2 (2x+1)\\,dx = [x^2 + x]_0^2 = 4 + 2 = 6$.",
+    "tags": ["calculus", "integration"]
+  },
+  {
+    "id": "alevel-2019-func-medium",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Functions and Graphs",
+    "subtopic": "Transformations",
+    "year": 2019,
+    "examSource": "OCR Pure Mathematics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "The graph of $y = f(x)$ is translated 2 units right and 3 units up. Which equation represents the new graph?",
+    "choices": [
+      "$y = f(x-2) + 3$",
+      "$y = f(x+2) + 3$",
+      "$y = f(x-2) - 3$",
+      "$y = f(x+2) - 3$"
+    ],
+    "correctIndex": 0,
+    "solution": "Right 2: replace $x$ with $x-2$. Up 3: add 3. So $y = f(x-2)+3$.",
+    "tags": ["functions", "transformations"]
+  },
+  {
+    "id": "alevel-2018-stats-easy",
+    "curriculum": "A-Level",
+    "stream": "statistics",
+    "topic": "Probability",
+    "subtopic": "Basic",
+    "year": 2018,
+    "examSource": "Edexcel Statistics",
+    "difficulty": "Easy",
+    "image": "none",
+    "questionText": "A fair die is rolled once. What is the probability of obtaining a number greater than 4?",
+    "choices": [
+      "$\\frac{1}{3}$",
+      "$\\frac{1}{6}$",
+      "$\\frac{1}{2}$",
+      "$\\frac{2}{3}$"
+    ],
+    "correctIndex": 0,
+    "solution": "Favourable outcomes: 5, 6. $P = \\frac{2}{6} = \\frac{1}{3}$.",
+    "tags": ["probability", "basic"]
+  },
+  {
+    "id": "alevel-2017-stats-medium",
+    "curriculum": "A-Level",
+    "stream": "statistics",
+    "topic": "Statistics and Data Analysis",
+    "subtopic": "Mean and Variance",
+    "year": 2017,
+    "examSource": "AQA Statistics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Data set: 2, 4, 4, 6, 9. Find the mean.",
+    "choices": [
+      "$5$",
+      "$4$",
+      "$4.5$",
+      "$6$"
+    ],
+    "correctIndex": 0,
+    "solution": "Mean $= \\frac{2+4+4+6+9}{5} = \\frac{25}{5} = 5$.",
+    "tags": ["statistics", "mean"]
+  },
+  {
+    "id": "alevel-2016-pure-hard",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Algebra",
+    "subtopic": "Binomial",
+    "year": 2016,
+    "examSource": "OCR Pure Mathematics",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "Expand $(1 + 2x)^4$ and give the coefficient of $x^2$.",
+    "choices": [
+      "$24$",
+      "$16$",
+      "$6$",
+      "$32$"
+    ],
+    "correctIndex": 0,
+    "solution": "Binomial: $\\binom{4}{2}(2x)^2 = 6 \\cdot 4x^2 = 24x^2$. Coefficient is 24.",
+    "tags": ["algebra", "binomial"]
+  },
+  {
+    "id": "alevel-2015-vectors-medium",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Vectors",
+    "subtopic": "Dot Product",
+    "year": 2015,
+    "examSource": "Edexcel Pure Mathematics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Find the dot product of $\\mathbf{a} = (2, -1, 3)$ and $\\mathbf{b} = (1, 4, -2)$.",
+    "choices": [
+      "$-4$",
+      "$4$",
+      "$0$",
+      "$-8$"
+    ],
+    "correctIndex": 0,
+    "solution": "$\\mathbf{a}\\cdot\\mathbf{b} = 2(1) + (-1)(4) + 3(-2) = 2 - 4 - 6 = -4$.",
+    "tags": ["vectors", "dot product"]
+  },
+  {
+    "id": "alevel-2024-proof-long-1",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Algebra",
+    "subtopic": "Proof",
+    "year": 2024,
+    "examSource": "Edexcel Pure Mathematics",
+    "difficulty": "Medium",
+    "image": "none",
+    "questionText": "Prove that the sum of two consecutive odd integers is divisible by 4.",
+    "solution": "Let the odd integers be $2n+1$ and $2n+3$. Their sum is $(2n+1)+(2n+3)=4n+4=4(n+1)$, which is divisible by 4.",
+    "tags": ["algebra", "proof", "long answer"]
+  },
+  {
+    "id": "alevel-2023-calc-long-1",
+    "curriculum": "A-Level",
+    "stream": "pure",
+    "topic": "Calculus",
+    "subtopic": "Applications",
+    "year": 2023,
+    "examSource": "AQA Pure Mathematics",
+    "difficulty": "Hard",
+    "image": "none",
+    "questionText": "The curve $y = x^3 - 6x^2 + 9x + 1$ has stationary points. Find the coordinates of each stationary point and classify them.",
+    "solution": "$y' = 3x^2 - 12x + 9 = 3(x^2 - 4x + 3) = 3(x-1)(x-3)$. Stationary at $x=1$ and $x=3$. $y(1)=1-6+9+1=5$, $y(3)=27-54+27+1=1$. $y''=6x-12$: at $x=1$, $y''=-6<0$ (max); at $x=3$, $y''=6>0$ (min). Points: $(1,5)$ local max, $(3,1)$ local min.",
+    "tags": ["calculus", "stationary points", "long answer"]
+  }
+]
