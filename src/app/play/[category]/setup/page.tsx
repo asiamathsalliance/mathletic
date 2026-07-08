@@ -1,5 +1,10 @@
-import { PlaySetupClient } from "./PlaySetupClient";
+import { redirect } from "next/navigation";
 
-export default function PlaySetupPage() {
-  return <PlaySetupClient />;
+interface PageProps {
+  params: Promise<{ category: string }>;
+}
+
+export default async function PlaySetupRedirectPage({ params }: PageProps) {
+  const { category } = await params;
+  redirect(`/challenge/${category}/setup`);
 }

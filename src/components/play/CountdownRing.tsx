@@ -22,7 +22,7 @@ export function CountdownRing({ timeLeftMs, timeLimitMs, size = 72 }: CountdownR
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="var(--game-cream)"
+          stroke="var(--muted)"
           strokeWidth={stroke}
         />
         <circle
@@ -30,7 +30,7 @@ export function CountdownRing({ timeLeftMs, timeLimitMs, size = 72 }: CountdownR
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke={urgent ? "#000" : "var(--game-forest)"}
+          stroke={urgent ? "var(--destructive)" : "var(--primary)"}
           strokeWidth={stroke}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
@@ -39,7 +39,9 @@ export function CountdownRing({ timeLeftMs, timeLimitMs, size = 72 }: CountdownR
         />
       </svg>
       <span
-        className={`absolute text-sm font-bold tabular-nums ${urgent ? "text-black" : "text-[var(--game-forest)]"}`}
+        className={`absolute text-sm font-medium tabular-nums ${
+          urgent ? "text-destructive" : "text-foreground"
+        }`}
       >
         {Math.ceil(timeLeftMs / 1000)}
       </span>

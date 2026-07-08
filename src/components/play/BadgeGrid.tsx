@@ -1,7 +1,8 @@
 "use client";
 
 import { BADGE_LABELS, type BadgeId } from "@/lib/gameProfile";
-import { GameCard } from "./GameCard";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface BadgeGridProps {
   badges: BadgeId[];
@@ -15,14 +16,20 @@ export function BadgeGrid({ badges }: BadgeGridProps) {
       {allBadges.map((id) => {
         const earned = badges.includes(id);
         return (
-          <GameCard
+          <Card
             key={id}
-            accent={earned}
-            className={`text-center py-4 ${!earned ? "opacity-40" : ""}`}
+            className={cn(
+              "text-center py-3",
+              earned ? "border-primary/40 bg-primary/5" : "opacity-50"
+            )}
           >
-            <p className="font-bold text-sm text-[var(--game-forest)]">{BADGE_LABELS[id]}</p>
-            <p className="text-xs mt-1 font-semibold">{earned ? "Earned" : "Locked"}</p>
-          </GameCard>
+            <CardContent className="p-0">
+              <p className="text-sm font-medium">{BADGE_LABELS[id]}</p>
+              <p className="text-meta mt-1 normal-case tracking-normal">
+                {earned ? "Earned" : "Locked"}
+              </p>
+            </CardContent>
+          </Card>
         );
       })}
     </div>

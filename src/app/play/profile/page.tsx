@@ -1,5 +1,5 @@
-import { PlayProfileClient } from "./PlayProfileClient";
+import { redirect } from "next/navigation";
 
 export default function PlayProfilePage() {
-  return <PlayProfileClient />;
+  redirect("/dashboard");
 }

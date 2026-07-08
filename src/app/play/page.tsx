@@ -1,11 +1,5 @@
-import { PlayHomeClient } from "@/components/play/PlayHomeClient";
-import { GameStatusBar } from "@/components/play/GameStatusBar";
+import { redirect } from "next/navigation";
 
-export default function PlayLandingPage() {
-  return (
-    <>
-      <GameStatusBar />
-      <PlayHomeClient />
-    </>
-  );
+export default function PlayPage() {
+  redirect("/challenge");
 }

@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { LatexText } from "@/components/LatexText";
+import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { ClientMcqQuestion } from "@/lib/playSessionToken";
-import { GameCard } from "./GameCard";
-import { GameButton } from "./GameButton";
+import { cn } from "@/lib/utils";
 import { CountdownRing } from "./CountdownRing";
 import { ComboCounter } from "./ComboCounter";
 
@@ -102,58 +103,74 @@ export function SpeedRoundQuestion({ question, combo, token, onAnswered }: Speed
     submitAnswer(index);
   };
 
+  const choiceClass = (index: number) => {
+    if (selected !== index || !feedback) {
+      return "border-border hover:bg-muted/60";
+    }
+    return feedback === "correct"
+      ? "border-green-600 bg-green-100 text-green-900"
+      : "border-red-600 bg-red-100 text-red-900";
+  };
+
   return (
-    <GameCard
-      className={`relative space-y-5 play-card-head ${feedback === "correct" ? "game-pop" : feedback === "wrong" ? "game-shake" : ""}`}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="font-bold text-[var(--game-forest)]">
-          Speed round {question.questionIndex + 1} / {question.totalMcq}
+    <Card className="relative">
+      <CardHeader className="pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm font-medium text-muted-foreground">
+            Speed round {question.questionIndex + 1} / {question.totalMcq}
+          </p>
+          <div className="flex items-center gap-3">
+            <ComboCounter combo={combo} milestone={milestone} />
+            <CountdownRing timeLeftMs={timeLeft} timeLimitMs={question.timeLimitMs} />
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <ComboCounter combo={combo} milestone={milestone} />
-          <CountdownRing timeLeftMs={timeLeft} timeLimitMs={question.timeLimitMs} />
+      </CardHeader>
+
+      <CardContent className="space-y-5">
+        {pointsPopup != null && (
+          <div className="absolute top-16 right-6 text-lg font-semibold text-green-700">
+            +{pointsPopup}
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-2">
+          <DifficultyBadge difficulty={question.difficulty} />
+          <span className="text-meta rounded-md border border-border px-2 py-1">{question.topic}</span>
         </div>
-      </div>
 
-      {pointsPopup != null && (
-        <div className="absolute top-16 right-6 points-popup font-bold text-xl text-[var(--game-forest)]">
-          +{pointsPopup}
+        <div className="text-sm leading-relaxed">
+          <LatexText>{question.questionText}</LatexText>
         </div>
-      )}
 
-      <div className="flex flex-wrap gap-2 text-sm font-bold">
-        <span className="rounded-full border-2 border-[var(--game-forest)] px-3 py-1 bg-[var(--game-sage)]">
-          {question.difficulty}
-        </span>
-        <span className="rounded-full border-2 border-[var(--game-forest)] px-3 py-1">
-          {question.topic}
-        </span>
-      </div>
+        {imagePath && (
+          <div className="relative w-full max-w-md aspect-video rounded-md border border-border overflow-hidden">
+            <Image src={imagePath} alt="Question diagram" fill className="object-contain" />
+          </div>
+        )}
 
-      <div className="text-lg font-semibold text-[var(--game-forest)]">
-        <LatexText>{question.questionText}</LatexText>
-      </div>
-
-      {imagePath && (
-        <div className="relative w-full max-w-md aspect-video rounded-xl border-[3px] border-[var(--game-forest)] overflow-hidden">
-          <Image src={imagePath} alt="Question diagram" fill className="object-contain" />
+        <div className="space-y-2 border-t border-border pt-4">
+          {question.choices.map((choice, i) => (
+            <button
+              key={i}
+              type="button"
+              className={cn(
+                "w-full flex items-start gap-3 rounded-md border px-4 py-3 text-left text-sm transition-colors",
+                choiceClass(i),
+                feedback && "pointer-events-none"
+              )}
+              disabled={submitting && !feedback}
+              onClick={() => handleSelect(i)}
+            >
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium">
+                {String.fromCharCode(65 + i)}
+              </span>
+              <span className="flex-1 min-w-0">
+                <LatexText>{choice}</LatexText>
+              </span>
+            </button>
+          ))}
         </div>
-      )}
-
-      <div className="play-mcq-section border-t-[3px] border-[var(--game-forest)]/20 grid gap-3">
-        {question.choices.map((choice, i) => (
-          <GameButton
-            key={i}
-            variant={selected === i ? "sage" : "secondary"}
-            className="w-full justify-start text-left h-auto min-h-[48px] whitespace-normal"
-            disabled={submitting}
-            onClick={() => handleSelect(i)}
-          >
-            <LatexText>{choice}</LatexText>
-          </GameButton>
-        ))}
-      </div>
-    </GameCard>
+      </CardContent>
+    </Card>
   );
 }

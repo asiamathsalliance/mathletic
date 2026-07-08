@@ -1,511 +1,1690 @@
 [
-  {
-    "id": "hsc-2021-alg-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Quadratics",
-    "year": 2021,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Solve the equation $2x^2 - 5x - 3 = 0$.",
-    "choices": [
-      "$x = -\\frac{1}{2}$ or $x = 3$",
-      "$x = 1$ or $x = -3$",
-      "$x = \\frac{5}{2}$ or $x = -1$",
-      "$x = 2$ or $x = -\\frac{3}{2}$"
-    ],
-    "correctIndex": 0,
-    "solution": "Factor: $2x^2 - 5x - 3 = (2x+1)(x-3) = 0$. So $x = -\\frac{1}{2}$ or $x = 3$.",
-    "tags": [
-      "algebra",
-      "quadratics",
-      "equations"
-    ]
-  },
-  {
-    "id": "hsc-2023-alg-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Linear",
-    "year": 2023,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "If $3x + 7 = 22$, what is $x$?",
-    "choices": [
-      "$x = 5$",
-      "$x = 4$",
-      "$x = 6$",
-      "$x = \\frac{29}{3}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$3x = 15$, so $x = 5$.",
-    "tags": [
-      "algebra",
-      "linear",
-      "equations"
-    ]
-  },
-  {
-    "id": "hsc-2019-trig-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Trigonometry",
-    "subtopic": "Identities",
-    "year": 2019,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Which identity is always true for all $\\theta$?",
-    "choices": [
-      "$\\sin^2\\theta + \\cos^2\\theta = 1$",
-      "$\\sin\\theta + \\cos\\theta = 1$",
-      "$\\tan\\theta = \\sin\\theta \\cdot \\cos\\theta$",
-      "$\\sin(2\\theta) = 2\\sin\\theta$"
-    ],
-    "correctIndex": 0,
-    "solution": "The Pythagorean identity: $\\sin^2\\theta + \\cos^2\\theta = 1$ holds for all $\\theta$.",
-    "tags": [
-      "trigonometry",
-      "identities"
-    ]
-  },
-  {
-    "id": "hsc-2020-calc-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Calculus (Differentiation and Integration)",
-    "subtopic": "Differentiation",
-    "year": 2020,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "What is the derivative of $f(x) = x^4$?",
-    "choices": [
-      "$4x^3$",
-      "$x^3$",
-      "$4x^4$",
-      "$\\frac{x^5}{5}$"
-    ],
-    "correctIndex": 0,
-    "solution": "By the power rule: $f'(x) = 4x^3$.",
-    "tags": [
-      "calculus",
-      "differentiation",
-      "power rule"
-    ]
-  },
-  {
-    "id": "hsc-2022-calc-medium",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Calculus (Differentiation and Integration)",
-    "subtopic": "Differentiation",
-    "year": 2022,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "A curve has equation $y = x^3 - 3x^2 + 2$. At which $x$ does the curve have a stationary point?",
-    "choices": [
-      "$x = 0$ and $x = 2$",
-      "$x = 1$ only",
-      "$x = 0$ and $x = 3$",
-      "$x = 2$ only"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\frac{dy}{dx} = 3x^2 - 6x = 3x(x-2) = 0$ when $x = 0$ or $x = 2$.",
-    "tags": [
-      "calculus",
-      "differentiation",
-      "stationary points"
-    ]
-  },
-  {
-    "id": "hsc-2024-prob-medium",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Probability and Statistics",
-    "subtopic": "Conditional",
-    "year": 2024,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Two cards are drawn without replacement from a standard deck. What is the probability both are aces?",
-    "choices": [
-      "$\\frac{4}{52} \\cdot \\frac{3}{51} = \\frac{1}{221}$",
-      "$\\frac{4}{52} \\cdot \\frac{4}{52}$",
-      "$\\frac{1}{52} \\cdot \\frac{1}{51}$",
-      "$\\frac{4}{52} + \\frac{3}{51}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$P(\\text{first ace}) = \\frac{4}{52}$, $P(\\text{second ace} \\mid \\text{first ace}) = \\frac{3}{51}$. So $P = \\frac{4}{52} \\cdot \\frac{3}{51} = \\frac{1}{221}$.",
-    "tags": [
-      "probability",
-      "conditional",
-      "cards"
-    ]
-  },
-  {
-    "id": "hsc-2014-vec-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Basics",
-    "year": 2014,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "If $\\vec{a} = (3, 4)$, what is $|\\vec{a}|$?",
-    "choices": [
-      "$5$",
-      "$7$",
-      "$12$",
-      "$\\sqrt{7}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$|\\vec{a}| = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.",
-    "tags": [
-      "vectors",
-      "magnitude"
-    ]
-  },
-  {
-    "id": "hsc-2017-func-medium",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Inverse",
-    "year": 2017,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "If $f(x) = 2x + 3$, what is $f^{-1}(x)$?",
-    "choices": [
-      "$f^{-1}(x) = \\frac{x-3}{2}$",
-      "$f^{-1}(x) = \\frac{x+3}{2}$",
-      "$f^{-1}(x) = 2x - 3$",
-      "$f^{-1}(x) = \\frac{1}{2x+3}$"
-    ],
-    "correctIndex": 0,
-    "solution": "Solve $y = 2x + 3$ for $x$: $x = \\frac{y-3}{2}$. So $f^{-1}(x) = \\frac{x-3}{2}$.",
-    "tags": [
-      "functions",
-      "inverse"
-    ]
-  },
-  {
-    "id": "hsc-2025-alg-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Quadratics",
-    "year": 2025,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Expand $(x+2)(x-3)$.",
-    "choices": [
-      "$x^2 - x - 6$",
-      "$x^2 + x - 6$",
-      "$x^2 - 5x + 6$",
-      "$x^2 - 6$"
-    ],
-    "correctIndex": 0,
-    "solution": "$(x+2)(x-3) = x^2 - 3x + 2x - 6 = x^2 - x - 6$.",
-    "tags": [
-      "algebra",
-      "expand",
-      "quadratics"
-    ]
-  },
-  {
-    "id": "hsc-2023-alg-medium",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Quadratics",
-    "year": 2023,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "The parabola $y = x^2 - 4x + 3$ has its vertex at $(h, k)$. Find $h + k$.",
-    "choices": [
-      "$-1$",
-      "$1$",
-      "$3$",
-      "$7$"
-    ],
-    "correctIndex": 1,
-    "solution": "Complete the square: $y = x^2 - 4x + 3 = (x-2)^2 - 4 + 3 = (x-2)^2 - 1$. Vertex is $(2, -1)$, so $h + k = 2 + (-1) = 1$.",
-    "tags": [
-      "algebra",
-      "quadratics",
-      "vertex",
-      "parabola"
-    ]
-  },
-  {
-    "id": "hsc-2022-trig-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Trigonometry",
-    "subtopic": "Ratios",
-    "year": 2022,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "In a right-angled triangle, if $\\sin\\theta = \\frac{3}{5}$, what is $\\cos\\theta$?",
-    "choices": [
-      "$\\frac{4}{5}$",
-      "$\\frac{3}{4}$",
-      "$\\frac{5}{4}$",
-      "$\\frac{2}{5}$"
-    ],
-    "correctIndex": 0,
-    "solution": "Using $\\sin^2\\theta + \\cos^2\\theta = 1$: $\\cos^2\\theta = 1 - \\frac{9}{25} = \\frac{16}{25}$, so $\\cos\\theta = \\frac{4}{5}$ (positive in first quadrant).",
-    "tags": [
-      "trigonometry",
-      "ratios",
-      "identities"
-    ]
-  },
-  {
-    "id": "hsc-2021-calc-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Calculus (Differentiation and Integration)",
-    "subtopic": "Integration",
-    "year": 2021,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Find $\\int (3x^2 + 2x) \\, dx$.",
-    "choices": [
-      "$x^3 + x^2 + C$",
-      "$6x + 2 + C$",
-      "$x^3 + 2x^2 + C$",
-      "$3x^3 + 2x^2 + C$"
-    ],
-    "correctIndex": 0,
-    "solution": "By the power rule: $\\int 3x^2\\,dx = x^3$, $\\int 2x\\,dx = x^2$. So $\\int (3x^2 + 2x)\\,dx = x^3 + x^2 + C$.",
-    "tags": [
-      "calculus",
-      "integration",
-      "power rule"
-    ]
-  },
-  {
-    "id": "hsc-2020-prob-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Probability and Statistics",
-    "subtopic": "Basic",
-    "year": 2020,
-    "examSource": "HSC Mathematics Standard",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "A bag contains 5 red and 7 blue marbles. One marble is drawn at random. What is the probability it is red?",
-    "choices": [
-      "$\\frac{5}{12}$",
-      "$\\frac{7}{12}$",
-      "$\\frac{5}{7}$",
-      "$\\frac{1}{2}$"
-    ],
-    "correctIndex": 0,
-    "solution": "There are 12 marbles in total. $P(\\text{red}) = \\frac{5}{12}$.",
-    "tags": [
-      "probability",
-      "basic"
-    ]
-  },
-  {
-    "id": "hsc-2018-func-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Domain",
-    "year": 2018,
-    "examSource": "HSC Mathematics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "What is the natural domain of $f(x) = \\sqrt{x - 4}$?",
-    "choices": [
-      "$x \\geq 4$",
-      "$x > 4$",
-      "$x \\geq 0$",
-      "All real $x$"
-    ],
-    "correctIndex": 0,
-    "solution": "We need $x - 4 \\geq 0$, so the domain is $x \\geq 4$.",
-    "tags": [
-      "functions",
-      "domain",
-      "square root"
-    ]
-  },
-  {
-    "id": "hsc-2024-alg-func-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Logarithms",
-    "year": 2024,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Simplify $\\log_3(9) + \\log_3(3)$.",
-    "choices": [
-      "$3$",
-      "$2$",
-      "$\\log_3(12)$",
-      "$\\log_6(27)$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\log_3(9) = 2$ and $\\log_3(3) = 1$, so $\\log_3(9) + \\log_3(3) = 3$.",
-    "tags": [
-      "algebra",
-      "functions",
-      "logarithms"
-    ]
-  },
-  {
-    "id": "hsc-2023-sequences-easy",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Sequences and Series",
-    "subtopic": "Arithmetic",
-    "year": 2023,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "The first term of an arithmetic sequence is $5$ and the common difference is $3$. What is the $10$th term?",
-    "choices": [
-      "$32$",
-      "$35$",
-      "$30$",
-      "$28$"
-    ],
-    "correctIndex": 0,
-    "solution": "$T_{10} = a + 9d = 5 + 9(3) = 32$.",
-    "tags": [
-      "sequences",
-      "series",
-      "arithmetic"
-    ]
-  },
-  {
-    "id": "hsc-2022-financial-medium",
-    "curriculum": "HSC",
-    "stream": "standard",
-    "topic": "Financial Mathematics",
-    "subtopic": "Compound Interest",
-    "year": 2022,
-    "examSource": "HSC Mathematics Standard",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "A principal of $\\$2000$ is invested at $5\\%$ per annum compound interest. What is the balance after $3$ years (to the nearest dollar)?",
-    "choices": [
-      "$\\$2315$",
-      "$\\$2300$",
-      "$\\$2310$",
-      "$\\$2320$"
-    ],
-    "correctIndex": 0,
-    "solution": "Balance $= 2000(1.05)^3 \\approx 2315.25$, so $\\$2315$ to the nearest dollar.",
-    "tags": [
-      "financial",
-      "compound interest"
-    ]
-  },
-  {
-    "id": "hsc-2021-appcalc-medium",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Applications of Calculus",
-    "subtopic": "Rates of Change",
-    "year": 2021,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "The area $A$ of a circle is increasing at a rate of $2\\pi \\text{ cm}^2/\\text{s}$. At what rate is the radius increasing when $r = 3$ cm?",
-    "choices": [
-      "$\\frac{1}{3}$ cm/s",
-      "$2$ cm/s",
-      "$\\frac{1}{2}$ cm/s",
-      "$6\\pi$ cm/s"
-    ],
-    "correctIndex": 0,
-    "solution": "$A = \\pi r^2$ so $\\frac{dA}{dt} = 2\\pi r \\frac{dr}{dt}$. Thus $2\\pi = 2\\pi(3)\\frac{dr}{dt}$, so $\\frac{dr}{dt} = \\frac{1}{3}$ cm/s.",
-    "tags": [
-      "applications",
-      "calculus",
-      "rates of change"
-    ]
-  },
-  {
-    "id": "hsc-standard-prob-easy",
-    "curriculum": "HSC",
-    "stream": "standard",
-    "topic": "Probability",
-    "subtopic": "Basic",
-    "year": 2023,
-    "examSource": "HSC Mathematics Standard",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "A spinner has 8 equal sectors. What is the probability of landing on sector 1?",
-    "choices": [
-      "$\\frac{1}{8}$",
-      "$\\frac{1}{4}$",
-      "$8$",
-      "$\\frac{8}{1}$"
-    ],
-    "correctIndex": 0,
-    "solution": "One favourable outcome out of 8: $P = \\frac{1}{8}$.",
-    "tags": [
-      "probability",
-      "basic",
-      "standard"
-    ]
-  },
-  {
-    "id": "hsc-2025-long-answer-1",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Algebra and Functions",
-    "subtopic": "Proof",
-    "year": 2025,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Prove that for all real numbers $x$, if $x > 1$ then $x^2 + x > 2x$.",
-    "solution": "If $x > 1$ then $x^2 + x - 2x = x^2 - x = x(x - 1)$. Since $x > 1$, both $x > 0$ and $x - 1 > 0$, so their product $x(x - 1)$ is positive. Hence $x^2 - x > 0$, which means $x^2 + x > 2x$.",
-    "tags": [
-      "algebra",
-      "inequalities",
-      "proof",
-      "long answer"
-    ]
-  },
-  {
-    "id": "hsc-2024-calc-long-1",
-    "curriculum": "HSC",
-    "stream": "advanced",
-    "topic": "Calculus (Differentiation and Integration)",
-    "subtopic": "Integration",
-    "year": 2024,
-    "examSource": "HSC Mathematics Advanced",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Find the area bounded by the curve $y = x^2 - 4x + 3$ and the $x$-axis between $x = 0$ and $x = 3$. Show all working.",
-    "solution": "Roots: $x^2 - 4x + 3 = (x-1)(x-3) = 0$, so $x = 1$ and $x = 3$. On $[0,1]$ the curve is above the axis; on $[1,3]$ it is below. Area $= \\int_0^1 (x^2 - 4x + 3)\\,dx + \\left|\\int_1^3 (x^2 - 4x + 3)\\,dx\\right|$. Antiderivative: $\\frac{x^3}{3} - 2x^2 + 3x$. First part: $\\frac{1}{3} - 2 + 3 = \\frac{4}{3}$. Second: $\\left[\\frac{x^3}{3} - 2x^2 + 3x\\right]_1^3 = (9 - 18 + 9) - \\frac{4}{3} = -\\frac{4}{3}$, absolute value $\\frac{4}{3}$. Total area $= \\frac{8}{3}$.",
-    "tags": [
-      "calculus",
-      "integration",
-      "area",
-      "long answer"
-    ]
-  }
+ {
+  "id": "hsc-2021-alg-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Quadratics",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve the equation $2x^2 - 5x - 3 = 0$.",
+  "choices": [
+   "$x = -\\frac{1}{2}$ or $x = 3$",
+   "$x = 1$ or $x = -3$",
+   "$x = \\frac{5}{2}$ or $x = -1$",
+   "$x = 2$ or $x = -\\frac{3}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "Factor: $2x^2 - 5x - 3 = (2x+1)(x-3) = 0$. So $x = -\\frac{1}{2}$ or $x = 3$.",
+  "tags": [
+   "algebra",
+   "quadratics",
+   "equations"
+  ]
+ },
+ {
+  "id": "hsc-2023-alg-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Linear",
+  "year": 2023,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "If $3x + 7 = 22$, what is $x$?",
+  "choices": [
+   "$x = 5$",
+   "$x = 4$",
+   "$x = 6$",
+   "$x = \\frac{29}{3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$3x = 15$, so $x = 5$.",
+  "tags": [
+   "algebra",
+   "linear",
+   "equations"
+  ]
+ },
+ {
+  "id": "hsc-2019-trig-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Identities",
+  "year": 2019,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Which identity is always true for all $\\theta$?",
+  "choices": [
+   "$\\sin^2\\theta + \\cos^2\\theta = 1$",
+   "$\\sin\\theta + \\cos\\theta = 1$",
+   "$\\tan\\theta = \\sin\\theta \\cdot \\cos\\theta$",
+   "$\\sin(2\\theta) = 2\\sin\\theta$"
+  ],
+  "correctIndex": 0,
+  "solution": "The Pythagorean identity: $\\sin^2\\theta + \\cos^2\\theta = 1$ holds for all $\\theta$.",
+  "tags": [
+   "trigonometry",
+   "identities"
+  ]
+ },
+ {
+  "id": "hsc-2020-calc-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Differentiation",
+  "year": 2020,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the derivative of $f(x) = x^4$?",
+  "choices": [
+   "$4x^3$",
+   "$x^3$",
+   "$4x^4$",
+   "$\\frac{x^5}{5}$"
+  ],
+  "correctIndex": 0,
+  "solution": "By the power rule: $f'(x) = 4x^3$.",
+  "tags": [
+   "calculus",
+   "differentiation",
+   "power rule"
+  ]
+ },
+ {
+  "id": "hsc-2022-calc-medium",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Differentiation",
+  "year": 2022,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A curve has equation $y = x^3 - 3x^2 + 2$. At which $x$ does the curve have a stationary point?",
+  "choices": [
+   "$x = 0$ and $x = 2$",
+   "$x = 1$ only",
+   "$x = 0$ and $x = 3$",
+   "$x = 2$ only"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\frac{dy}{dx} = 3x^2 - 6x = 3x(x-2) = 0$ when $x = 0$ or $x = 2$.",
+  "tags": [
+   "calculus",
+   "differentiation",
+   "stationary points"
+  ]
+ },
+ {
+  "id": "hsc-2024-prob-medium",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Conditional",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two cards are drawn without replacement from a standard deck. What is the probability both are aces?",
+  "choices": [
+   "$\\frac{4}{52} \\cdot \\frac{3}{51} = \\frac{1}{221}$",
+   "$\\frac{4}{52} \\cdot \\frac{4}{52}$",
+   "$\\frac{1}{52} \\cdot \\frac{1}{51}$",
+   "$\\frac{4}{52} + \\frac{3}{51}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$P(\\text{first ace}) = \\frac{4}{52}$, $P(\\text{second ace} \\mid \\text{first ace}) = \\frac{3}{51}$. So $P = \\frac{4}{52} \\cdot \\frac{3}{51} = \\frac{1}{221}$.",
+  "tags": [
+   "probability",
+   "conditional",
+   "cards"
+  ]
+ },
+ {
+  "id": "hsc-2014-vec-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Basics",
+  "year": 2014,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "If $\\vec{a} = (3, 4)$, what is $|\\vec{a}|$?",
+  "choices": [
+   "$5$",
+   "$7$",
+   "$12$",
+   "$\\sqrt{7}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$|\\vec{a}| = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.",
+  "tags": [
+   "vectors",
+   "magnitude"
+  ]
+ },
+ {
+  "id": "hsc-2017-func-medium",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Inverse",
+  "year": 2017,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "If $f(x) = 2x + 3$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\frac{x-3}{2}$",
+   "$f^{-1}(x) = \\frac{x+3}{2}$",
+   "$f^{-1}(x) = 2x - 3$",
+   "$f^{-1}(x) = \\frac{1}{2x+3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "Solve $y = 2x + 3$ for $x$: $x = \\frac{y-3}{2}$. So $f^{-1}(x) = \\frac{x-3}{2}$.",
+  "tags": [
+   "functions",
+   "inverse"
+  ]
+ },
+ {
+  "id": "hsc-2025-alg-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Quadratics",
+  "year": 2025,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Expand $(x+2)(x-3)$.",
+  "choices": [
+   "$x^2 - x - 6$",
+   "$x^2 + x - 6$",
+   "$x^2 - 5x + 6$",
+   "$x^2 - 6$"
+  ],
+  "correctIndex": 0,
+  "solution": "$(x+2)(x-3) = x^2 - 3x + 2x - 6 = x^2 - x - 6$.",
+  "tags": [
+   "algebra",
+   "expand",
+   "quadratics"
+  ]
+ },
+ {
+  "id": "hsc-2023-alg-medium",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Quadratics",
+  "year": 2023,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "The parabola $y = x^2 - 4x + 3$ has its vertex at $(h, k)$. Find $h + k$.",
+  "choices": [
+   "$-1$",
+   "$1$",
+   "$3$",
+   "$7$"
+  ],
+  "correctIndex": 1,
+  "solution": "Complete the square: $y = x^2 - 4x + 3 = (x-2)^2 - 4 + 3 = (x-2)^2 - 1$. Vertex is $(2, -1)$, so $h + k = 2 + (-1) = 1$.",
+  "tags": [
+   "algebra",
+   "quadratics",
+   "vertex",
+   "parabola"
+  ]
+ },
+ {
+  "id": "hsc-2022-trig-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Ratios",
+  "year": 2022,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "In a right-angled triangle, if $\\sin\\theta = \\frac{3}{5}$, what is $\\cos\\theta$?",
+  "choices": [
+   "$\\frac{4}{5}$",
+   "$\\frac{3}{4}$",
+   "$\\frac{5}{4}$",
+   "$\\frac{2}{5}$"
+  ],
+  "correctIndex": 0,
+  "solution": "Using $\\sin^2\\theta + \\cos^2\\theta = 1$: $\\cos^2\\theta = 1 - \\frac{9}{25} = \\frac{16}{25}$, so $\\cos\\theta = \\frac{4}{5}$ (positive in first quadrant).",
+  "tags": [
+   "trigonometry",
+   "ratios",
+   "identities"
+  ]
+ },
+ {
+  "id": "hsc-2021-calc-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Integration",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int (3x^2 + 2x) \\, dx$.",
+  "choices": [
+   "$x^3 + x^2 + C$",
+   "$6x + 2 + C$",
+   "$x^3 + 2x^2 + C$",
+   "$3x^3 + 2x^2 + C$"
+  ],
+  "correctIndex": 0,
+  "solution": "By the power rule: $\\int 3x^2\\,dx = x^3$, $\\int 2x\\,dx = x^2$. So $\\int (3x^2 + 2x)\\,dx = x^3 + x^2 + C$.",
+  "tags": [
+   "calculus",
+   "integration",
+   "power rule"
+  ]
+ },
+ {
+  "id": "hsc-2020-prob-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Basic",
+  "year": 2020,
+  "examSource": "HSC Mathematics Standard",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 5 red and 7 blue marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{5}{12}$",
+   "$\\frac{7}{12}$",
+   "$\\frac{5}{7}$",
+   "$\\frac{1}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are 12 marbles in total. $P(\\text{red}) = \\frac{5}{12}$.",
+  "tags": [
+   "probability",
+   "basic"
+  ]
+ },
+ {
+  "id": "hsc-2018-func-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Domain",
+  "year": 2018,
+  "examSource": "HSC Mathematics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the natural domain of $f(x) = \\sqrt{x - 4}$?",
+  "choices": [
+   "$x \\geq 4$",
+   "$x > 4$",
+   "$x \\geq 0$",
+   "All real $x$"
+  ],
+  "correctIndex": 0,
+  "solution": "We need $x - 4 \\geq 0$, so the domain is $x \\geq 4$.",
+  "tags": [
+   "functions",
+   "domain",
+   "square root"
+  ]
+ },
+ {
+  "id": "hsc-2024-alg-func-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Logarithms",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Simplify $\\log_3(9) + \\log_3(3)$.",
+  "choices": [
+   "$3$",
+   "$2$",
+   "$\\log_3(12)$",
+   "$\\log_6(27)$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\log_3(9) = 2$ and $\\log_3(3) = 1$, so $\\log_3(9) + \\log_3(3) = 3$.",
+  "tags": [
+   "algebra",
+   "functions",
+   "logarithms"
+  ]
+ },
+ {
+  "id": "hsc-2023-sequences-easy",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Sequences and Series",
+  "subtopic": "Arithmetic",
+  "year": 2023,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "The first term of an arithmetic sequence is $5$ and the common difference is $3$. What is the $10$th term?",
+  "choices": [
+   "$32$",
+   "$35$",
+   "$30$",
+   "$28$"
+  ],
+  "correctIndex": 0,
+  "solution": "$T_{10} = a + 9d = 5 + 9(3) = 32$.",
+  "tags": [
+   "sequences",
+   "series",
+   "arithmetic"
+  ]
+ },
+ {
+  "id": "hsc-2022-financial-medium",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Financial Mathematics",
+  "subtopic": "Compound Interest",
+  "year": 2022,
+  "examSource": "HSC Mathematics Standard",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A principal of $\\$2000$ is invested at $5\\%$ per annum compound interest. What is the balance after $3$ years (to the nearest dollar)?",
+  "choices": [
+   "$\\$2315$",
+   "$\\$2300$",
+   "$\\$2310$",
+   "$\\$2320$"
+  ],
+  "correctIndex": 0,
+  "solution": "Balance $= 2000(1.05)^3 \\approx 2315.25$, so $\\$2315$ to the nearest dollar.",
+  "tags": [
+   "financial",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "hsc-2021-appcalc-medium",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Applications of Calculus",
+  "subtopic": "Rates of Change",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "The area $A$ of a circle is increasing at a rate of $2\\pi \\text{ cm}^2/\\text{s}$. At what rate is the radius increasing when $r = 3$ cm?",
+  "choices": [
+   "$\\frac{1}{3}$ cm/s",
+   "$2$ cm/s",
+   "$\\frac{1}{2}$ cm/s",
+   "$6\\pi$ cm/s"
+  ],
+  "correctIndex": 0,
+  "solution": "$A = \\pi r^2$ so $\\frac{dA}{dt} = 2\\pi r \\frac{dr}{dt}$. Thus $2\\pi = 2\\pi(3)\\frac{dr}{dt}$, so $\\frac{dr}{dt} = \\frac{1}{3}$ cm/s.",
+  "tags": [
+   "applications",
+   "calculus",
+   "rates of change"
+  ]
+ },
+ {
+  "id": "hsc-standard-prob-easy",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Probability",
+  "subtopic": "Basic",
+  "year": 2023,
+  "examSource": "HSC Mathematics Standard",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A spinner has 8 equal sectors. What is the probability of landing on sector 1?",
+  "choices": [
+   "$\\frac{1}{8}$",
+   "$\\frac{1}{4}$",
+   "$8$",
+   "$\\frac{8}{1}$"
+  ],
+  "correctIndex": 0,
+  "solution": "One favourable outcome out of 8: $P = \\frac{1}{8}$.",
+  "tags": [
+   "probability",
+   "basic",
+   "standard"
+  ]
+ },
+ {
+  "id": "hsc-2025-long-answer-1",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Proof",
+  "year": 2025,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Prove that for all real numbers $x$, if $x > 1$ then $x^2 + x > 2x$.",
+  "solution": "If $x > 1$ then $x^2 + x - 2x = x^2 - x = x(x - 1)$. Since $x > 1$, both $x > 0$ and $x - 1 > 0$, so their product $x(x - 1)$ is positive. Hence $x^2 - x > 0$, which means $x^2 + x > 2x$.",
+  "tags": [
+   "algebra",
+   "inequalities",
+   "proof",
+   "long answer"
+  ]
+ },
+ {
+  "id": "hsc-2024-calc-long-1",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Integration",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Find the area bounded by the curve $y = x^2 - 4x + 3$ and the $x$-axis between $x = 0$ and $x = 3$. Show all working.",
+  "solution": "Roots: $x^2 - 4x + 3 = (x-1)(x-3) = 0$, so $x = 1$ and $x = 3$. On $[0,1]$ the curve is above the axis; on $[1,3]$ it is below. Area $= \\int_0^1 (x^2 - 4x + 3)\\,dx + \\left|\\int_1^3 (x^2 - 4x + 3)\\,dx\\right|$. Antiderivative: $\\frac{x^3}{3} - 2x^2 + 3x$. First part: $\\frac{1}{3} - 2 + 3 = \\frac{4}{3}$. Second: $\\left[\\frac{x^3}{3} - 2x^2 + 3x\\right]_1^3 = (9 - 18 + 9) - \\frac{4}{3} = -\\frac{4}{3}$, absolute value $\\frac{4}{3}$. Total area $= \\frac{8}{3}$.",
+  "tags": [
+   "calculus",
+   "integration",
+   "area",
+   "long answer"
+  ]
+ },
+ {
+  "id": "hsc-gen-001",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Linear Equations",
+  "year": 2017,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $6x + 8 = 26$.",
+  "choices": [
+   "x = 3",
+   "x = 4",
+   "x = 18",
+   "x = -3"
+  ],
+  "correctIndex": 0,
+  "solution": "Subtract 8 from both sides: $6x = 18$. Divide by 6: $x = 3$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-002",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Linear Equations",
+  "year": 2018,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $6x - 9 = -33$.",
+  "choices": [
+   "x = 4",
+   "x = -3",
+   "x = -24",
+   "x = -4"
+  ],
+  "correctIndex": 3,
+  "solution": "Subtract -9 from both sides: $6x = -24$. Divide by 6: $x = -4$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-003",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Quadratics",
+  "year": 2019,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve the equation $x^2 - 5x + 6 = 0$.",
+  "choices": [
+   "$x = 4$ or $x = 1$",
+   "$x = 3$ or $x = -2$",
+   "$x = 3$ or $x = 2$",
+   "$x = -3$ or $x = -2$"
+  ],
+  "correctIndex": 2,
+  "solution": "Factor: $(x - 3)(x - 2) = 0$, so $x = 3$ or $x = 2$.",
+  "tags": [
+   "algebra",
+   "quadratics"
+  ]
+ },
+ {
+  "id": "hsc-gen-004",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Quadratics",
+  "year": 2020,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve the equation $x^2 - 7x + 12 = 0$.",
+  "choices": [
+   "$x = 4$ or $x = -3$",
+   "$x = 4$ or $x = 3$",
+   "$x = -4$ or $x = -3$",
+   "$x = 5$ or $x = 2$"
+  ],
+  "correctIndex": 1,
+  "solution": "Factor: $(x - 4)(x - 3) = 0$, so $x = 4$ or $x = 3$.",
+  "tags": [
+   "algebra",
+   "quadratics"
+  ]
+ },
+ {
+  "id": "hsc-gen-005",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Logarithms",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve for $x$: $\\log_{5} 25 = x$.",
+  "choices": [
+   "x = 2",
+   "x = 3",
+   "x = 1",
+   "x = 5"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\log_{5} 25 = x$ means $5^x = 25 = 5^{2}$, so $x = 2$.",
+  "tags": [
+   "algebra",
+   "logarithms"
+  ]
+ },
+ {
+  "id": "hsc-gen-006",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Logarithms",
+  "year": 2022,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve for $x$: $\\log_{2} 8 = x$.",
+  "choices": [
+   "x = 4",
+   "x = 8",
+   "x = 3",
+   "x = 2"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\log_{2} 8 = x$ means $2^x = 8 = 2^{3}$, so $x = 3$.",
+  "tags": [
+   "algebra",
+   "logarithms"
+  ]
+ },
+ {
+  "id": "hsc-gen-007",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Domain and Range",
+  "year": 2023,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 5}$?",
+  "choices": [
+   "$x \\leq 5$",
+   "$x > 5$",
+   "$x \\geq 5$",
+   "$x \\geq -5$"
+  ],
+  "correctIndex": 2,
+  "solution": "The expression under the square root must be non-negative: $x - 5 \\geq 0$, so $x \\geq 5$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "hsc-gen-008",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Algebra and Functions",
+  "subtopic": "Domain and Range",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 1}$?",
+  "choices": [
+   "$x \\geq 1$",
+   "$x \\geq -1$",
+   "$x > 1$",
+   "$x \\leq 1$"
+  ],
+  "correctIndex": 0,
+  "solution": "The expression under the square root must be non-negative: $x - 1 \\geq 0$, so $x \\geq 1$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "hsc-gen-009",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2025,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\sin 30^\\circ$?",
+  "choices": [
+   "$\\frac{1}{2}$",
+   "$\\frac{\\sqrt{2}}{2}$",
+   "$1$",
+   "$\\frac{\\sqrt{3}}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "From the exact value table, $\\sin 30^\\circ = \\frac{1}{2}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "hsc-gen-010",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2016,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\cos 60^\\circ$?",
+  "choices": [
+   "$\\frac{\\sqrt{2}}{2}$",
+   "$1$",
+   "$\\frac{\\sqrt{3}}{2}$",
+   "$\\frac{1}{2}$"
+  ],
+  "correctIndex": 3,
+  "solution": "From the exact value table, $\\cos 60^\\circ = \\frac{1}{2}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "hsc-gen-011",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Trigonometric Equations",
+  "year": 2017,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $\\sin x = \\frac{1}{2}$ for $0^\\circ \\leq x < 360^\\circ$.",
+  "choices": [
+   "$x = 45^\\circ$ or $x = 225^\\circ$",
+   "$x = 60^\\circ$ or $x = 300^\\circ$",
+   "$x = 30^\\circ$ or $x = 150^\\circ$",
+   "$x = 60^\\circ$ or $x = 120^\\circ$"
+  ],
+  "correctIndex": 2,
+  "solution": "Sine is positive in quadrants I and II: $x = 30^\\circ$ and $x = 180^\\circ - 30^\\circ = 150^\\circ$.",
+  "tags": [
+   "trigonometry",
+   "equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-012",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Trigonometric Equations",
+  "year": 2018,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $\\cos x = \\frac{1}{2}$ for $0^\\circ \\leq x < 360^\\circ$.",
+  "choices": [
+   "$x = 60^\\circ$ or $x = 120^\\circ$",
+   "$x = 45^\\circ$ or $x = 225^\\circ$",
+   "$x = 60^\\circ$ or $x = 300^\\circ$",
+   "$x = 30^\\circ$ or $x = 150^\\circ$"
+  ],
+  "correctIndex": 2,
+  "solution": "Cosine is positive in quadrants I and IV: $x = 60^\\circ$ and $x = 360^\\circ - 60^\\circ = 300^\\circ$.",
+  "tags": [
+   "trigonometry",
+   "equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-013",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Trigonometry",
+  "subtopic": "Identities",
+  "year": 2019,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Prove the identity $(1 - \\cos\\theta)(1 + \\cos\\theta) = \\sin^2\\theta$.",
+  "solution": "Expanding the left-hand side: $(1 - \\cos\\theta)(1 + \\cos\\theta) = 1 - \\cos^2\\theta$. By the Pythagorean identity $\\sin^2\\theta + \\cos^2\\theta = 1$, we have $1 - \\cos^2\\theta = \\sin^2\\theta$, which equals the right-hand side.",
+  "tags": [
+   "trigonometry",
+   "identities",
+   "proof",
+   "long answer"
+  ]
+ },
+ {
+  "id": "hsc-gen-014",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Differentiation",
+  "year": 2020,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 2x^{2} + 9x$.",
+  "choices": [
+   "$2x + 9$",
+   "$4x^{2} + 9$",
+   "$4x$",
+   "$4x + 9$"
+  ],
+  "correctIndex": 3,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(2x^{2}\\right) = 4x$ and $\\frac{d}{dx}(9x) = 9$. So $\\frac{dy}{dx} = 4x + 9$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "hsc-gen-015",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Differentiation",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 6x^{4} + 8x$.",
+  "choices": [
+   "$24x^{3}$",
+   "$24x^{3} + 8$",
+   "$24x^{4} + 8$",
+   "$6x^{3} + 8$"
+  ],
+  "correctIndex": 1,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(6x^{4}\\right) = 24x^{3}$ and $\\frac{d}{dx}(8x) = 8$. So $\\frac{dy}{dx} = 24x^{3} + 8$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "hsc-gen-016",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Chain Rule",
+  "year": 2022,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (3x + 1)^{4}$.",
+  "choices": [
+   "$3(3x + 1)^{3}$",
+   "$4(3x + 1)^{3}$",
+   "$12(3x + 1)^{3}$",
+   "$12(3x + 1)^{4}$"
+  ],
+  "correctIndex": 2,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 4(3x + 1)^{3} \\cdot 3 = 12(3x + 1)^{3}$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "hsc-gen-017",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Chain Rule",
+  "year": 2023,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (2x + 3)^{2}$.",
+  "choices": [
+   "$2(2x + 3)$",
+   "$4(2x + 3)^{2}$",
+   "$4x$",
+   "$4(2x + 3)$"
+  ],
+  "correctIndex": 3,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 2(2x + 3) \\cdot 2 = 4(2x + 3)$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "hsc-gen-018",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Integration",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int 12x^{3} \\, dx$.",
+  "choices": [
+   "$36x^{2} + C$",
+   "$3x^{4} + C$",
+   "$3x^{3} + C$",
+   "$12x^{4} + C$"
+  ],
+  "correctIndex": 1,
+  "solution": "$\\int 12x^{3}\\,dx = \\frac{12}{4}x^{4} + C = 3x^{4} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "hsc-gen-019",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Integration",
+  "year": 2025,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int 8x^{3} \\, dx$.",
+  "choices": [
+   "$8x^{4} + C$",
+   "$2x^{3} + C$",
+   "$24x^{2} + C$",
+   "$2x^{4} + C$"
+  ],
+  "correctIndex": 3,
+  "solution": "$\\int 8x^{3}\\,dx = \\frac{8}{4}x^{4} + C = 2x^{4} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "hsc-gen-020",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Calculus (Differentiation and Integration)",
+  "subtopic": "Definite Integrals",
+  "year": 2016,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{2} 8x \\, dx$.",
+  "choices": [
+   "$16$",
+   "None of these",
+   "$32$",
+   "$24$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\int_0^{2} 8x\\,dx = \\left[4x^2\\right]_0^{2} = 4 \\times 2^2 = 16$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "hsc-gen-021",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Sequences and Series",
+  "subtopic": "Arithmetic Sequences",
+  "year": 2017,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "An arithmetic sequence has first term $7$ and common difference $4$. Find the 11th term.",
+  "choices": [
+   "$51$",
+   "$43$",
+   "$18$",
+   "$47$"
+  ],
+  "correctIndex": 3,
+  "solution": "$T_n = a + (n-1)d = 7 + 10 \\times 4 = 47$.",
+  "tags": [
+   "sequences",
+   "arithmetic sequence"
+  ]
+ },
+ {
+  "id": "hsc-gen-022",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Sequences and Series",
+  "subtopic": "Arithmetic Sequences",
+  "year": 2018,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "An arithmetic sequence has first term $6$ and common difference $3$. Find the 15th term.",
+  "choices": [
+   "$45$",
+   "$48$",
+   "$51$",
+   "$21$"
+  ],
+  "correctIndex": 1,
+  "solution": "$T_n = a + (n-1)d = 6 + 14 \\times 3 = 48$.",
+  "tags": [
+   "sequences",
+   "arithmetic sequence"
+  ]
+ },
+ {
+  "id": "hsc-gen-023",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Sequences and Series",
+  "subtopic": "Geometric Sequences",
+  "year": 2019,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A geometric sequence has first term $4$ and common ratio $3$. Find the 5th term.",
+  "choices": [
+   "$108$",
+   "$972$",
+   "$328$",
+   "$324$"
+  ],
+  "correctIndex": 3,
+  "solution": "$T_n = ar^{n-1} = 4 \\times 3^{4} = 324$.",
+  "tags": [
+   "sequences",
+   "geometric sequence"
+  ]
+ },
+ {
+  "id": "hsc-gen-024",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Sequences and Series",
+  "subtopic": "Geometric Sequences",
+  "year": 2020,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A geometric sequence has first term $3$ and common ratio $2$. Find the 6th term.",
+  "choices": [
+   "$192$",
+   "$96$",
+   "$99$",
+   "$48$"
+  ],
+  "correctIndex": 1,
+  "solution": "$T_n = ar^{n-1} = 3 \\times 2^{5} = 96$.",
+  "tags": [
+   "sequences",
+   "geometric sequence"
+  ]
+ },
+ {
+  "id": "hsc-gen-025",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Basic Probability",
+  "year": 2021,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 2 red, 5 blue and 3 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{1}{5}$",
+   "$\\frac{3}{10}$",
+   "$\\frac{1}{2}$",
+   "$\\frac{1}{4}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $10$ marbles in total, of which $2$ are red. $P(\\text{red}) = \\frac{1}{5}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "hsc-gen-026",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Basic Probability",
+  "year": 2022,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 5 red, 2 blue and 3 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{1}{2}$",
+   "$1$",
+   "$\\frac{1}{5}$",
+   "$\\frac{3}{10}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $10$ marbles in total, of which $5$ are red. $P(\\text{red}) = \\frac{1}{2}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "hsc-gen-027",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Dice Problems",
+  "year": 2023,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 6?",
+  "choices": [
+   "$\\frac{5}{36}$",
+   "$\\frac{1}{6}$",
+   "$\\frac{1}{9}$",
+   "$\\frac{5}{18}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $36$ equally likely outcomes and $5$ of them sum to 6, so the probability is $\\frac{5}{36}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "hsc-gen-028",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Probability and Statistics",
+  "subtopic": "Binomial Probability",
+  "year": 2024,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A fair coin is tossed 6 times. What is the probability of getting exactly 3 heads?",
+  "choices": [
+   "$\\frac{1}{2}$",
+   "$\\frac{5}{16}$",
+   "$\\frac{11}{32}$",
+   "$\\frac{5}{32}$"
+  ],
+  "correctIndex": 1,
+  "solution": "$P(X = 3) = \\binom{6}{3} \\left(\\frac{1}{2}\\right)^{6} = \\frac{20}{64} = \\frac{5}{16}$.",
+  "tags": [
+   "probability",
+   "binomial"
+  ]
+ },
+ {
+  "id": "hsc-gen-029",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Financial Mathematics",
+  "subtopic": "Compound Interest",
+  "year": 2025,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$1000$ is invested at 4\\% per annum compound interest. Find the value of the investment after 2 years.",
+  "choices": [
+   "$\\$1124.86$",
+   "$\\$1081.60$",
+   "$\\$1080$",
+   "$\\$1040$"
+  ],
+  "correctIndex": 1,
+  "solution": "$A = P(1 + r)^n = 1000(1.04)^{2} = \\$1081.60$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "hsc-gen-030",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Financial Mathematics",
+  "subtopic": "Compound Interest",
+  "year": 2016,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$4000$ is invested at 4\\% per annum compound interest. Find the value of the investment after 3 years.",
+  "choices": [
+   "$\\$4480$",
+   "$\\$4679.43$",
+   "$\\$4499.46$",
+   "$\\$4160$"
+  ],
+  "correctIndex": 2,
+  "solution": "$A = P(1 + r)^n = 4000(1.04)^{3} = \\$4499.46$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "hsc-gen-031",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Applications of Calculus",
+  "subtopic": "Stationary Points",
+  "year": 2017,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Let $f(x) = x^3 - 12x$. Find the stationary points of $f$ and determine their nature.",
+  "solution": "$f'(x) = 3x^2 - 12 = 3(x^2 - 4)$, so stationary points occur at $x = \\pm 2$. $f''(x) = 6x$: at $x = 2$, $f''(2) = 12 > 0$, a local minimum with $f(2) = -16$; at $x = -2$, $f''(-2) = -12 < 0$, a local maximum with $f(-2) = 16$.",
+  "tags": [
+   "calculus",
+   "stationary points",
+   "long answer"
+  ]
+ },
+ {
+  "id": "hsc-gen-032",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Applications of Calculus",
+  "subtopic": "Area Under Curve",
+  "year": 2018,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the area enclosed between the curve $y = 6x^2$, the $x$-axis, and the lines $x = 0$ and $x = 3$.",
+  "solution": "Area $= \\int_0^{3} 6x^2\\,dx = \\left[2x^3\\right]_0^{3} = 2 \\times 27 = 54$ square units.",
+  "tags": [
+   "calculus",
+   "area under curve",
+   "long answer"
+  ]
+ },
+ {
+  "id": "hsc-gen-033",
+  "curriculum": "HSC",
+  "stream": "advanced",
+  "topic": "Applications of Calculus",
+  "subtopic": "Tangents",
+  "year": 2019,
+  "examSource": "HSC Mathematics Advanced",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the slope of the tangent line to $y = x^2$ at the point where $x = 2$.",
+  "choices": [
+   "$2$",
+   "$4$",
+   "$5$",
+   "$1$"
+  ],
+  "correctIndex": 1,
+  "solution": "$\\frac{dy}{dx} = 2x$. At $x = 2$ the slope is $2 \\times 2 = 4$.",
+  "tags": [
+   "calculus",
+   "tangent line"
+  ]
+ },
+ {
+  "id": "hsc-gen-034",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Algebra and Linear Relationships",
+  "subtopic": "Linear Equations",
+  "year": 2020,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $2x - 6 = -12$.",
+  "choices": [
+   "x = 3",
+   "x = -6",
+   "x = -3",
+   "x = -2"
+  ],
+  "correctIndex": 2,
+  "solution": "Subtract -6 from both sides: $2x = -6$. Divide by 2: $x = -3$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-035",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Algebra and Linear Relationships",
+  "subtopic": "Linear Equations",
+  "year": 2021,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $4x - 6 = -30$.",
+  "choices": [
+   "x = 6",
+   "x = -24",
+   "x = -6",
+   "x = -5"
+  ],
+  "correctIndex": 2,
+  "solution": "Subtract -6 from both sides: $4x = -24$. Divide by 4: $x = -6$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-036",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Algebra and Linear Relationships",
+  "subtopic": "Linear Equations",
+  "year": 2022,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $2x - 8 = 4$.",
+  "choices": [
+   "x = 12",
+   "x = 7",
+   "x = 6",
+   "x = -6"
+  ],
+  "correctIndex": 2,
+  "solution": "Subtract -8 from both sides: $2x = 12$. Divide by 2: $x = 6$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "hsc-gen-037",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Measurement and Geometry",
+  "subtopic": "Pythagoras",
+  "year": 2023,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A right-angled triangle has legs of length $3$ cm and $4$ cm. Find the length of the hypotenuse.",
+  "choices": [
+   "$5$ cm",
+   "$6$ cm",
+   "$4$ cm",
+   "$7$ cm"
+  ],
+  "correctIndex": 0,
+  "solution": "By Pythagoras' theorem, $c = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$ cm.",
+  "tags": [
+   "geometry",
+   "pythagoras"
+  ]
+ },
+ {
+  "id": "hsc-gen-038",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Measurement and Geometry",
+  "subtopic": "Pythagoras",
+  "year": 2024,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A right-angled triangle has legs of length $6$ cm and $8$ cm. Find the length of the hypotenuse.",
+  "choices": [
+   "$10$ cm",
+   "$9$ cm",
+   "$11$ cm",
+   "$14$ cm"
+  ],
+  "correctIndex": 0,
+  "solution": "By Pythagoras' theorem, $c = \\sqrt{6^2 + 8^2} = \\sqrt{100} = 10$ cm.",
+  "tags": [
+   "geometry",
+   "pythagoras"
+  ]
+ },
+ {
+  "id": "hsc-gen-039",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2025,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\sin 45^\\circ$?",
+  "choices": [
+   "$1$",
+   "$\\frac{\\sqrt{2}}{2}$",
+   "$\\frac{1}{2}$",
+   "$\\frac{\\sqrt{3}}{2}$"
+  ],
+  "correctIndex": 1,
+  "solution": "From the exact value table, $\\sin 45^\\circ = \\frac{\\sqrt{2}}{2}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "hsc-gen-040",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2016,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\tan 45^\\circ$?",
+  "choices": [
+   "$1$",
+   "$\\frac{1}{2}$",
+   "$\\frac{\\sqrt{3}}{2}$",
+   "$\\frac{\\sqrt{2}}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "From the exact value table, $\\tan 45^\\circ = 1$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "hsc-gen-041",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Financial Mathematics",
+  "subtopic": "Compound Interest",
+  "year": 2017,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$2000$ is invested at 4\\% per annum compound interest. Find the value of the investment after 2 years.",
+  "choices": [
+   "$\\$2163.20$",
+   "$\\$2249.73$",
+   "$\\$2160$",
+   "$\\$2080$"
+  ],
+  "correctIndex": 0,
+  "solution": "$A = P(1 + r)^n = 2000(1.04)^{2} = \\$2163.20$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "hsc-gen-042",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Financial Mathematics",
+  "subtopic": "Compound Interest",
+  "year": 2018,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$5000$ is invested at 10\\% per annum compound interest. Find the value of the investment after 3 years.",
+  "choices": [
+   "$\\$6500$",
+   "$\\$7320.50$",
+   "$\\$6655$",
+   "$\\$5500$"
+  ],
+  "correctIndex": 2,
+  "solution": "$A = P(1 + r)^n = 5000(1.10)^{3} = \\$6655$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "hsc-gen-043",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Financial Mathematics",
+  "subtopic": "Simple Interest",
+  "year": 2019,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the simple interest earned on $\\$3000$ invested at 3\\% per annum for 3 years.",
+  "choices": [
+   "$\\$270$",
+   "$\\$540$",
+   "$\\$90$",
+   "$\\$370$"
+  ],
+  "correctIndex": 0,
+  "solution": "$I = Prt = 3000 \\times 0.03 \\times 3 = \\$270$.",
+  "tags": [
+   "financial mathematics",
+   "simple interest"
+  ]
+ },
+ {
+  "id": "hsc-gen-044",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Data and Statistics",
+  "subtopic": "Mean and Median",
+  "year": 2020,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the median of the data set: $3,\\ 5,\\ 12,\\ 15,\\ 18$.",
+  "choices": [
+   "$5$",
+   "$15$",
+   "$10$",
+   "$12$"
+  ],
+  "correctIndex": 3,
+  "solution": "The data is already ordered; the median is the middle (3rd) value, which is $12$.",
+  "tags": [
+   "statistics",
+   "median"
+  ]
+ },
+ {
+  "id": "hsc-gen-045",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Data and Statistics",
+  "subtopic": "Mean and Median",
+  "year": 2021,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the mean of the data set: $7,\\ 9,\\ 11,\\ 13,\\ 15$.",
+  "choices": [
+   "$10$",
+   "$12$",
+   "$15$",
+   "$11$"
+  ],
+  "correctIndex": 3,
+  "solution": "Mean $= \\frac{7 + 9 + 11 + 13 + 15}{5} = \\frac{55}{5} = 11$.",
+  "tags": [
+   "statistics",
+   "mean"
+  ]
+ },
+ {
+  "id": "hsc-gen-046",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Data and Statistics",
+  "subtopic": "Mean and Median",
+  "year": 2022,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the mean of the data set: $4,\\ 6,\\ 8,\\ 10,\\ 12$.",
+  "choices": [
+   "$7$",
+   "$9$",
+   "$12$",
+   "$8$"
+  ],
+  "correctIndex": 3,
+  "solution": "Mean $= \\frac{4 + 6 + 8 + 10 + 12}{5} = \\frac{40}{5} = 8$.",
+  "tags": [
+   "statistics",
+   "mean"
+  ]
+ },
+ {
+  "id": "hsc-gen-047",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2023,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 6 red, 3 blue and 4 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{6}{13}$",
+   "$\\frac{6}{7}$",
+   "$\\frac{3}{13}$",
+   "$\\frac{4}{13}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $13$ marbles in total, of which $6$ are red. $P(\\text{red}) = \\frac{6}{13}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "hsc-gen-048",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2024,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 6 red, 5 blue and 3 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{5}{14}$",
+   "$\\frac{3}{14}$",
+   "$\\frac{3}{4}$",
+   "$\\frac{3}{7}$"
+  ],
+  "correctIndex": 3,
+  "solution": "There are $14$ marbles in total, of which $6$ are red. $P(\\text{red}) = \\frac{3}{7}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "hsc-gen-049",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Probability",
+  "subtopic": "Dice Problems",
+  "year": 2025,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 7?",
+  "choices": [
+   "$\\frac{1}{3}$",
+   "$\\frac{7}{36}$",
+   "$\\frac{1}{6}$",
+   "$\\frac{5}{36}$"
+  ],
+  "correctIndex": 2,
+  "solution": "There are $36$ equally likely outcomes and $6$ of them sum to 7, so the probability is $\\frac{1}{6}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "hsc-gen-050",
+  "curriculum": "HSC",
+  "stream": "standard",
+  "topic": "Networks and Time Series",
+  "subtopic": "Networks",
+  "year": 2016,
+  "examSource": "HSC Mathematics Standard 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A network has 6 vertices and every pair of vertices is joined by exactly one edge. How many edges does the network have?",
+  "choices": [
+   "$15$",
+   "$12$",
+   "$30$",
+   "$6$"
+  ],
+  "correctIndex": 0,
+  "solution": "A complete graph on $n$ vertices has $\\frac{n(n-1)}{2}$ edges. For $n = 6$: $\\frac{6 \\times 5}{2} = 15$ edges.",
+  "tags": [
+   "networks",
+   "graphs"
+  ]
+ }
 ]

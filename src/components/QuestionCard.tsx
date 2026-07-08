@@ -208,8 +208,8 @@ export function QuestionCard({ question }: QuestionCardProps) {
           )}
         </CardHeader>
         {isMultipleChoice && question.choices && (
-          <CardContent className="play-mcq-section mt-2 border-t border-border">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <CardContent className="play-mcq-section mt-4 border-t border-border pt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
             {question.choices.map((choice, index) => {
               const chosen = selectedChoice === index;
               const correct = index === question.correctIndex;

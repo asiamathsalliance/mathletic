@@ -53,8 +53,9 @@ export function LatexText({ children, className = "", block = false }: LatexText
         continue;
       }
 
-      // Inline: $...$ (non-greedy, may span lines) or \(...\)
-      const inlineDollar = remaining.match(/^\$([\s\S]*?)\$/);
+      // Inline: $...$ (non-greedy, may span lines; \$ inside math is not a
+      // delimiter) or \(...\)
+      const inlineDollar = remaining.match(/^\$((?:\\.|[^$\\])*?)\$/);
       const inlineParen = remaining.match(/^\\\(\s*([\s\S]*?)\s*\\\)/);
       const inlineMatch = inlineDollar ?? inlineParen;
       const inlineContent = inlineMatch ? inlineMatch[1] : null;
@@ -81,6 +82,13 @@ export function LatexText({ children, className = "", block = false }: LatexText
       if (next === -1) {
         parts.push({ type: "text", content: remaining });
         break;
+      }
+      if (next === 0) {
+        // Unmatched delimiter at the current position (e.g. a lone "$"):
+        // emit it as text and advance one char to guarantee progress.
+        parts.push({ type: "text", content: remaining[0] });
+        remaining = remaining.slice(1);
+        continue;
       }
       parts.push({ type: "text", content: remaining.slice(0, next) });
       remaining = remaining.slice(next);

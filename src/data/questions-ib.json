@@ -1,362 +1,1545 @@
 [
-  {
-    "id": "ib-2020-alg-medium",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Algebra",
-    "subtopic": "Quadratics",
-    "year": 2020,
-    "examSource": "IB Paper 1",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "The quadratic $x^2 + bx + c$ has roots $2$ and $-3$. Find $b$ and $c$.",
-    "choices": [
-      "$b = 1$, $c = -6$",
-      "$b = -1$, $c = 6$",
-      "$b = 5$, $c = -6$",
-      "$b = -5$, $c = 6$"
-    ],
-    "correctIndex": 0,
-    "solution": "Sum of roots $= -b = -1$ so $b = 1$. Product $= c = -6$.",
-    "tags": [
-      "algebra",
-      "quadratics",
-      "roots"
-    ]
-  },
-  {
-    "id": "ib-2018-trig-medium",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Trigonometry",
-    "subtopic": "Equations",
-    "year": 2018,
-    "examSource": "IB Paper 2",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Solve $\\sin\\theta = \\frac{1}{2}$ for $0 \\leq \\theta \\leq 2\\pi$.",
-    "choices": [
-      "$\\theta = \\frac{\\pi}{6}$ or $\\frac{5\\pi}{6}$",
-      "$\\theta = \\frac{\\pi}{3}$ only",
-      "$\\theta = \\frac{\\pi}{6}$ or $\\frac{7\\pi}{6}$",
-      "$\\theta = \\frac{\\pi}{2}$ or $\\frac{3\\pi}{2}$"
-    ],
-    "correctIndex": 0,
-    "solution": "In $[0, 2\\pi]$, $\\sin\\theta = \\frac{1}{2}$ when $\\theta = \\frac{\\pi}{6}$ or $\\theta = \\pi - \\frac{\\pi}{6} = \\frac{5\\pi}{6}$.",
-    "tags": [
-      "trigonometry",
-      "equations"
-    ]
-  },
-  {
-    "id": "ib-2019-calc-1",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Calculus",
-    "subtopic": "Integration",
-    "year": 2019,
-    "examSource": "IB Paper 2",
-    "difficulty": "Hard",
-    "image": "/questions/placeholder.svg",
-    "questionText": "Find $\\int x e^{2x} \\, dx$ using integration by parts.",
-    "choices": [
-      "$\\frac{1}{2}x e^{2x} - \\frac{1}{4}e^{2x} + C$",
-      "$x e^{2x} - e^{2x} + C$",
-      "$\\frac{1}{2}x e^{2x} + C$",
-      "$e^{2x}(x - 1) + C$"
-    ],
-    "correctIndex": 0,
-    "solution": "With $u = x$, $dv = e^{2x}dx$: $du = dx$, $v = \\frac{1}{2}e^{2x}$. So $\\int x e^{2x}dx = \\frac{1}{2}x e^{2x} - \\int \\frac{1}{2}e^{2x}dx = \\frac{1}{2}x e^{2x} - \\frac{1}{4}e^{2x} + C$.",
-    "tags": [
-      "integration",
-      "integration by parts",
-      "by parts"
-    ]
-  },
-  {
-    "id": "ib-2016-prob-easy",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Statistics and Probability",
-    "subtopic": "Basic",
-    "year": 2016,
-    "examSource": "IB Paper 1",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "A fair die is rolled once. What is the probability of getting a 4?",
-    "choices": [
-      "$\\frac{1}{6}$",
-      "$\\frac{1}{4}$",
-      "$\\frac{4}{6}$",
-      "$\\frac{1}{3}$"
-    ],
-    "correctIndex": 0,
-    "solution": "One favourable outcome out of 6: $P = \\frac{1}{6}$.",
-    "tags": [
-      "probability",
-      "basic"
-    ]
-  },
-  {
-    "id": "ib-2018-vec-4",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Vectors",
-    "subtopic": "Scalar Product",
-    "year": 2018,
-    "examSource": "IB Paper 2 Question 4",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Vectors $\\vec{a}$ and $\\vec{b}$ have magnitudes 4 and 5 and the angle between them is $60^\\circ$. Find $\\vec{a} \\cdot \\vec{b}$.",
-    "choices": [
-      "$10$",
-      "$20$",
-      "$9$",
-      "$\\sqrt{61}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos 60^\\circ = 4 \\cdot 5 \\cdot \\frac{1}{2} = 10$.",
-    "tags": [
-      "vectors",
-      "dot product",
-      "scalar product"
-    ]
-  },
-  {
-    "id": "ib-2020-func-1",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Functions and Graphs",
-    "subtopic": "Transformations",
-    "year": 2020,
-    "examSource": "IB Paper 1",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "The graph of $y = f(x)$ is transformed to $y = 2f(x-1) + 3$. Which transformation is applied first?",
-    "choices": [
-      "Horizontal translation 1 unit right",
-      "Vertical stretch by factor 2",
-      "Vertical translation 3 units up",
-      "Reflection in $x$-axis"
-    ],
-    "correctIndex": 0,
-    "solution": "The order is: horizontal translation 1 unit right ($x \\to x-1$), then vertical stretch by 2, then vertical translation 3 up.",
-    "tags": [
-      "functions",
-      "transformations",
-      "graph"
-    ]
-  },
-  {
-    "id": "ib-2013-calc-medium",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Calculus",
-    "subtopic": "Differentiation",
-    "year": 2013,
-    "examSource": "IB Paper 2",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Find the derivative of $y = e^{3x}$.",
-    "choices": [
-      "$3e^{3x}$",
-      "$e^{3x}$",
-      "$3xe^{3x}$",
-      "$\\frac{e^{3x}}{3}$"
-    ],
-    "correctIndex": 0,
-    "solution": "By the chain rule: $\\frac{dy}{dx} = e^{3x} \\cdot 3 = 3e^{3x}$.",
-    "tags": [
-      "calculus",
-      "differentiation",
-      "exponential"
-    ]
-  },
-  {
-    "id": "ib-2021-alg-hard",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Algebra",
-    "subtopic": "Logarithms",
-    "year": 2021,
-    "examSource": "IB Paper 1",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Solve $\\log_2(x) + \\log_2(x-2) = 3$ for $x > 2$.",
-    "choices": [
-      "$x = 4$",
-      "$x = 2$",
-      "$x = 6$",
-      "$x = -2$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\log_2(x(x-2)) = 3$ so $x(x-2) = 8$, i.e. $x^2 - 2x - 8 = 0$. Factor: $(x-4)(x+2) = 0$. With $x > 2$, $x = 4$.",
-    "tags": [
-      "algebra",
-      "logarithms",
-      "equations"
-    ]
-  },
-  {
-    "id": "ib-2019-vec-easy",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Vectors",
-    "subtopic": "Basics",
-    "year": 2019,
-    "examSource": "IB Paper 1",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "If $\\vec{u} = (1, 2)$ and $\\vec{v} = (3, -1)$, find $\\vec{u} + \\vec{v}$.",
-    "choices": [
-      "$(4, 1)$",
-      "$(2, 3)$",
-      "$(3, 2)$",
-      "$(-2, 3)$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\vec{u} + \\vec{v} = (1+3, 2+(-1)) = (4, 1)$.",
-    "tags": [
-      "vectors",
-      "addition"
-    ]
-  },
-  {
-    "id": "ib-2022-alg-medium",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Algebra",
-    "subtopic": "Binomial",
-    "year": 2022,
-    "examSource": "IB Paper 1",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Find the coefficient of $x^3$ in the expansion of $(1 + 2x)^5$.",
-    "choices": [
-      "$80$",
-      "$40$",
-      "$10$",
-      "$32$"
-    ],
-    "correctIndex": 0,
-    "solution": "Coefficient is $\\binom{5}{3}(2)^3 = 10 \\times 8 = 80$.",
-    "tags": [
-      "algebra",
-      "binomial",
-      "expansion"
-    ]
-  },
-  {
-    "id": "ib-2021-func-medium",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Functions and Graphs",
-    "subtopic": "Exponential",
-    "year": 2021,
-    "examSource": "IB Paper 2",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "The function $f(x) = a \\cdot e^{kx}$ satisfies $f(0) = 4$ and $f(2) = 4e^2$. Find $a$ and $k$.",
-    "choices": [
-      "$a = 4$, $k = 1$",
-      "$a = 4$, $k = 2$",
-      "$a = 2$, $k = 1$",
-      "$a = 4e$, $k = 1$"
-    ],
-    "correctIndex": 0,
-    "solution": "$f(0) = a = 4$. Then $f(2) = 4e^{2k} = 4e^2$, so $e^{2k} = e^2$, hence $k = 1$.",
-    "tags": [
-      "functions",
-      "exponential",
-      "graphs"
-    ]
-  },
-  {
-    "id": "ib-2019-stats-medium",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Statistics and Probability",
-    "subtopic": "Distributions",
-    "year": 2019,
-    "examSource": "IB Paper 2",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "A discrete random variable $X$ has $E(X) = 5$ and $\\text{Var}(X) = 4$. Find $E(X^2)$.",
-    "choices": [
-      "$29$",
-      "$25$",
-      "$9$",
-      "$21$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\text{Var}(X) = E(X^2) - (E(X))^2$, so $4 = E(X^2) - 25$, hence $E(X^2) = 29$.",
-    "tags": [
-      "statistics",
-      "probability",
-      "variance"
-    ]
-  },
-  {
-    "id": "ib-2017-calc-hard",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Calculus",
-    "subtopic": "Differential Equations",
-    "year": 2017,
-    "examSource": "IB Paper 2",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Solve the differential equation $\\frac{dy}{dx} = 2y$ with $y(0) = 3$.",
-    "choices": [
-      "$y = 3e^{2x}$",
-      "$y = 2e^{3x}$",
-      "$y = 3e^{x}$",
-      "$y = 6e^{x}$"
-    ],
-    "correctIndex": 0,
-    "solution": "Separating variables: $\\frac{dy}{y} = 2\\,dx$, so $\\ln|y| = 2x + C$. With $y(0) = 3$, $\\ln 3 = C$. So $y = e^{2x + \\ln 3} = 3e^{2x}$.",
-    "tags": [
-      "calculus",
-      "differential equations",
-      "separation"
-    ]
-  },
-  {
-    "id": "ib-2021-alg-long-1",
-    "curriculum": "IB",
-    "stream": "hl",
-    "topic": "Algebra",
-    "subtopic": "Proof",
-    "year": 2021,
-    "examSource": "IB Paper 2",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Prove by mathematical induction that for all positive integers $n$, $1 + 3 + 5 + \\cdots + (2n-1) = n^2$.",
-    "solution": "Base case $n=1$: LHS $= 1$, RHS $= 1^2 = 1$. Assume true for $n=k$: $1+3+\\cdots+(2k-1)=k^2$. For $n=k+1$: add $(2(k+1)-1)=2k+1$ to both sides: $k^2 + 2k + 1 = (k+1)^2$. Hence true for all $n \\in \\mathbb{Z}^+$.",
-    "tags": [
-      "algebra",
-      "induction",
-      "proof",
-      "long answer"
-    ]
-  },
-  {
-    "id": "ib-2019-calc-long-1",
-    "curriculum": "IB",
-    "stream": "sl",
-    "topic": "Calculus",
-    "subtopic": "Applications",
-    "year": 2019,
-    "examSource": "IB Paper 2",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "A particle moves along a line so that its velocity at time $t$ seconds is $v(t) = 3t^2 - 12t + 9$ m/s. Find the displacement from $t = 0$ to $t = 4$, and the times when the particle is at rest.",
-    "solution": "At rest when $v(t)=0$: $3t^2-12t+9=3(t^2-4t+3)=3(t-1)(t-3)=0$, so $t=1$ or $t=3$. Displacement $= \\int_0^4 (3t^2-12t+9)\\,dt = [t^3 - 6t^2 + 9t]_0^4 = 64 - 96 + 36 = 4$ m.",
-    "tags": [
-      "calculus",
-      "kinematics",
-      "integration",
-      "long answer"
-    ]
-  }
+ {
+  "id": "ib-2020-alg-medium",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Quadratics",
+  "year": 2020,
+  "examSource": "IB Paper 1",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "The quadratic $x^2 + bx + c$ has roots $2$ and $-3$. Find $b$ and $c$.",
+  "choices": [
+   "$b = 1$, $c = -6$",
+   "$b = -1$, $c = 6$",
+   "$b = 5$, $c = -6$",
+   "$b = -5$, $c = 6$"
+  ],
+  "correctIndex": 0,
+  "solution": "Sum of roots $= -b = -1$ so $b = 1$. Product $= c = -6$.",
+  "tags": [
+   "algebra",
+   "quadratics",
+   "roots"
+  ]
+ },
+ {
+  "id": "ib-2018-trig-medium",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Trigonometry",
+  "subtopic": "Equations",
+  "year": 2018,
+  "examSource": "IB Paper 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $\\sin\\theta = \\frac{1}{2}$ for $0 \\leq \\theta \\leq 2\\pi$.",
+  "choices": [
+   "$\\theta = \\frac{\\pi}{6}$ or $\\frac{5\\pi}{6}$",
+   "$\\theta = \\frac{\\pi}{3}$ only",
+   "$\\theta = \\frac{\\pi}{6}$ or $\\frac{7\\pi}{6}$",
+   "$\\theta = \\frac{\\pi}{2}$ or $\\frac{3\\pi}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "In $[0, 2\\pi]$, $\\sin\\theta = \\frac{1}{2}$ when $\\theta = \\frac{\\pi}{6}$ or $\\theta = \\pi - \\frac{\\pi}{6} = \\frac{5\\pi}{6}$.",
+  "tags": [
+   "trigonometry",
+   "equations"
+  ]
+ },
+ {
+  "id": "ib-2019-calc-1",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Integration",
+  "year": 2019,
+  "examSource": "IB Paper 2",
+  "difficulty": "Hard",
+  "image": "/questions/placeholder.svg",
+  "questionText": "Find $\\int x e^{2x} \\, dx$ using integration by parts.",
+  "choices": [
+   "$\\frac{1}{2}x e^{2x} - \\frac{1}{4}e^{2x} + C$",
+   "$x e^{2x} - e^{2x} + C$",
+   "$\\frac{1}{2}x e^{2x} + C$",
+   "$e^{2x}(x - 1) + C$"
+  ],
+  "correctIndex": 0,
+  "solution": "With $u = x$, $dv = e^{2x}dx$: $du = dx$, $v = \\frac{1}{2}e^{2x}$. So $\\int x e^{2x}dx = \\frac{1}{2}x e^{2x} - \\int \\frac{1}{2}e^{2x}dx = \\frac{1}{2}x e^{2x} - \\frac{1}{4}e^{2x} + C$.",
+  "tags": [
+   "integration",
+   "integration by parts",
+   "by parts"
+  ]
+ },
+ {
+  "id": "ib-2016-prob-easy",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Statistics and Probability",
+  "subtopic": "Basic",
+  "year": 2016,
+  "examSource": "IB Paper 1",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A fair die is rolled once. What is the probability of getting a 4?",
+  "choices": [
+   "$\\frac{1}{6}$",
+   "$\\frac{1}{4}$",
+   "$\\frac{4}{6}$",
+   "$\\frac{1}{3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "One favourable outcome out of 6: $P = \\frac{1}{6}$.",
+  "tags": [
+   "probability",
+   "basic"
+  ]
+ },
+ {
+  "id": "ib-2018-vec-4",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Vectors",
+  "subtopic": "Scalar Product",
+  "year": 2018,
+  "examSource": "IB Paper 2 Question 4",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Vectors $\\vec{a}$ and $\\vec{b}$ have magnitudes 4 and 5 and the angle between them is $60^\\circ$. Find $\\vec{a} \\cdot \\vec{b}$.",
+  "choices": [
+   "$10$",
+   "$20$",
+   "$9$",
+   "$\\sqrt{61}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos 60^\\circ = 4 \\cdot 5 \\cdot \\frac{1}{2} = 10$.",
+  "tags": [
+   "vectors",
+   "dot product",
+   "scalar product"
+  ]
+ },
+ {
+  "id": "ib-2020-func-1",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Transformations",
+  "year": 2020,
+  "examSource": "IB Paper 1",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "The graph of $y = f(x)$ is transformed to $y = 2f(x-1) + 3$. Which transformation is applied first?",
+  "choices": [
+   "Horizontal translation 1 unit right",
+   "Vertical stretch by factor 2",
+   "Vertical translation 3 units up",
+   "Reflection in $x$-axis"
+  ],
+  "correctIndex": 0,
+  "solution": "The order is: horizontal translation 1 unit right ($x \\to x-1$), then vertical stretch by 2, then vertical translation 3 up.",
+  "tags": [
+   "functions",
+   "transformations",
+   "graph"
+  ]
+ },
+ {
+  "id": "ib-2013-calc-medium",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Differentiation",
+  "year": 2013,
+  "examSource": "IB Paper 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the derivative of $y = e^{3x}$.",
+  "choices": [
+   "$3e^{3x}$",
+   "$e^{3x}$",
+   "$3xe^{3x}$",
+   "$\\frac{e^{3x}}{3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "By the chain rule: $\\frac{dy}{dx} = e^{3x} \\cdot 3 = 3e^{3x}$.",
+  "tags": [
+   "calculus",
+   "differentiation",
+   "exponential"
+  ]
+ },
+ {
+  "id": "ib-2021-alg-hard",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Logarithms",
+  "year": 2021,
+  "examSource": "IB Paper 1",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Solve $\\log_2(x) + \\log_2(x-2) = 3$ for $x > 2$.",
+  "choices": [
+   "$x = 4$",
+   "$x = 2$",
+   "$x = 6$",
+   "$x = -2$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\log_2(x(x-2)) = 3$ so $x(x-2) = 8$, i.e. $x^2 - 2x - 8 = 0$. Factor: $(x-4)(x+2) = 0$. With $x > 2$, $x = 4$.",
+  "tags": [
+   "algebra",
+   "logarithms",
+   "equations"
+  ]
+ },
+ {
+  "id": "ib-2019-vec-easy",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Vectors",
+  "subtopic": "Basics",
+  "year": 2019,
+  "examSource": "IB Paper 1",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "If $\\vec{u} = (1, 2)$ and $\\vec{v} = (3, -1)$, find $\\vec{u} + \\vec{v}$.",
+  "choices": [
+   "$(4, 1)$",
+   "$(2, 3)$",
+   "$(3, 2)$",
+   "$(-2, 3)$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\vec{u} + \\vec{v} = (1+3, 2+(-1)) = (4, 1)$.",
+  "tags": [
+   "vectors",
+   "addition"
+  ]
+ },
+ {
+  "id": "ib-2022-alg-medium",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Binomial",
+  "year": 2022,
+  "examSource": "IB Paper 1",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the coefficient of $x^3$ in the expansion of $(1 + 2x)^5$.",
+  "choices": [
+   "$80$",
+   "$40$",
+   "$10$",
+   "$32$"
+  ],
+  "correctIndex": 0,
+  "solution": "Coefficient is $\\binom{5}{3}(2)^3 = 10 \\times 8 = 80$.",
+  "tags": [
+   "algebra",
+   "binomial",
+   "expansion"
+  ]
+ },
+ {
+  "id": "ib-2021-func-medium",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Exponential",
+  "year": 2021,
+  "examSource": "IB Paper 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "The function $f(x) = a \\cdot e^{kx}$ satisfies $f(0) = 4$ and $f(2) = 4e^2$. Find $a$ and $k$.",
+  "choices": [
+   "$a = 4$, $k = 1$",
+   "$a = 4$, $k = 2$",
+   "$a = 2$, $k = 1$",
+   "$a = 4e$, $k = 1$"
+  ],
+  "correctIndex": 0,
+  "solution": "$f(0) = a = 4$. Then $f(2) = 4e^{2k} = 4e^2$, so $e^{2k} = e^2$, hence $k = 1$.",
+  "tags": [
+   "functions",
+   "exponential",
+   "graphs"
+  ]
+ },
+ {
+  "id": "ib-2019-stats-medium",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Statistics and Probability",
+  "subtopic": "Distributions",
+  "year": 2019,
+  "examSource": "IB Paper 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A discrete random variable $X$ has $E(X) = 5$ and $\\text{Var}(X) = 4$. Find $E(X^2)$.",
+  "choices": [
+   "$29$",
+   "$25$",
+   "$9$",
+   "$21$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\text{Var}(X) = E(X^2) - (E(X))^2$, so $4 = E(X^2) - 25$, hence $E(X^2) = 29$.",
+  "tags": [
+   "statistics",
+   "probability",
+   "variance"
+  ]
+ },
+ {
+  "id": "ib-2017-calc-hard",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Differential Equations",
+  "year": 2017,
+  "examSource": "IB Paper 2",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Solve the differential equation $\\frac{dy}{dx} = 2y$ with $y(0) = 3$.",
+  "choices": [
+   "$y = 3e^{2x}$",
+   "$y = 2e^{3x}$",
+   "$y = 3e^{x}$",
+   "$y = 6e^{x}$"
+  ],
+  "correctIndex": 0,
+  "solution": "Separating variables: $\\frac{dy}{y} = 2\\,dx$, so $\\ln|y| = 2x + C$. With $y(0) = 3$, $\\ln 3 = C$. So $y = e^{2x + \\ln 3} = 3e^{2x}$.",
+  "tags": [
+   "calculus",
+   "differential equations",
+   "separation"
+  ]
+ },
+ {
+  "id": "ib-2021-alg-long-1",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Proof",
+  "year": 2021,
+  "examSource": "IB Paper 2",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Prove by mathematical induction that for all positive integers $n$, $1 + 3 + 5 + \\cdots + (2n-1) = n^2$.",
+  "solution": "Base case $n=1$: LHS $= 1$, RHS $= 1^2 = 1$. Assume true for $n=k$: $1+3+\\cdots+(2k-1)=k^2$. For $n=k+1$: add $(2(k+1)-1)=2k+1$ to both sides: $k^2 + 2k + 1 = (k+1)^2$. Hence true for all $n \\in \\mathbb{Z}^+$.",
+  "tags": [
+   "algebra",
+   "induction",
+   "proof",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ib-2019-calc-long-1",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Applications",
+  "year": 2019,
+  "examSource": "IB Paper 2",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A particle moves along a line so that its velocity at time $t$ seconds is $v(t) = 3t^2 - 12t + 9$ m/s. Find the displacement from $t = 0$ to $t = 4$, and the times when the particle is at rest.",
+  "solution": "At rest when $v(t)=0$: $3t^2-12t+9=3(t^2-4t+3)=3(t-1)(t-3)=0$, so $t=1$ or $t=3$. Displacement $= \\int_0^4 (3t^2-12t+9)\\,dt = [t^3 - 6t^2 + 9t]_0^4 = 64 - 96 + 36 = 4$ m.",
+  "tags": [
+   "calculus",
+   "kinematics",
+   "integration",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ib-gen-001",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Logarithms",
+  "year": 2017,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve for $x$: $\\log_{5} 125 = x$.",
+  "choices": [
+   "x = 4",
+   "x = 2",
+   "x = 25",
+   "x = 3"
+  ],
+  "correctIndex": 3,
+  "solution": "$\\log_{5} 125 = x$ means $5^x = 125 = 5^{3}$, so $x = 3$.",
+  "tags": [
+   "algebra",
+   "logarithms"
+  ]
+ },
+ {
+  "id": "ib-gen-002",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Logarithms",
+  "year": 2018,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve for $x$: $\\log_{5} 25 = x$.",
+  "choices": [
+   "x = 3",
+   "x = 2",
+   "x = 5",
+   "x = 1"
+  ],
+  "correctIndex": 1,
+  "solution": "$\\log_{5} 25 = x$ means $5^x = 25 = 5^{2}$, so $x = 2$.",
+  "tags": [
+   "algebra",
+   "logarithms"
+  ]
+ },
+ {
+  "id": "ib-gen-003",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Quadratics",
+  "year": 2019,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve the equation $x^2 + x - 20 = 0$.",
+  "choices": [
+   "$x = 5$ or $x = -6$",
+   "$x = -4$ or $x = 5$",
+   "$x = 4$ or $x = -5$",
+   "$x = 4$ or $x = 5$"
+  ],
+  "correctIndex": 2,
+  "solution": "Factor: $(x - 4)(x + 5) = 0$, so $x = 4$ or $x = -5$.",
+  "tags": [
+   "algebra",
+   "quadratics"
+  ]
+ },
+ {
+  "id": "ib-gen-004",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Quadratics",
+  "year": 2020,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve the equation $x^2 - 4x + 3 = 0$.",
+  "choices": [
+   "$x = 1$ or $x = 3$",
+   "$x = 1$ or $x = -3$",
+   "$x = 2$ or $x = 2$",
+   "$x = -1$ or $x = -3$"
+  ],
+  "correctIndex": 0,
+  "solution": "Factor: $(x - 1)(x - 3) = 0$, so $x = 1$ or $x = 3$.",
+  "tags": [
+   "algebra",
+   "quadratics"
+  ]
+ },
+ {
+  "id": "ib-gen-005",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Geometric Sequences",
+  "year": 2021,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A geometric sequence has first term $4$ and common ratio $2$. Find the 4th term.",
+  "choices": [
+   "$64$",
+   "$36$",
+   "$32$",
+   "$16$"
+  ],
+  "correctIndex": 2,
+  "solution": "$T_n = ar^{n-1} = 4 \\times 2^{3} = 32$.",
+  "tags": [
+   "sequences",
+   "geometric sequence"
+  ]
+ },
+ {
+  "id": "ib-gen-006",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Algebra",
+  "subtopic": "Geometric Sequences",
+  "year": 2022,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A geometric sequence has first term $1$ and common ratio $3$. Find the 4th term.",
+  "choices": [
+   "$9$",
+   "$27$",
+   "$28$",
+   "$81$"
+  ],
+  "correctIndex": 1,
+  "solution": "$T_n = ar^{n-1} = 1 \\times 3^{3} = 27$.",
+  "tags": [
+   "sequences",
+   "geometric sequence"
+  ]
+ },
+ {
+  "id": "ib-gen-007",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Domain and Range",
+  "year": 2023,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 2}$?",
+  "choices": [
+   "$x \\leq 2$",
+   "$x \\geq 2$",
+   "$x \\geq -2$",
+   "$x > 2$"
+  ],
+  "correctIndex": 1,
+  "solution": "The expression under the square root must be non-negative: $x - 2 \\geq 0$, so $x \\geq 2$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "ib-gen-008",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Domain and Range",
+  "year": 2024,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 6}$?",
+  "choices": [
+   "$x > 6$",
+   "$x \\geq 6$",
+   "$x \\geq -6$",
+   "$x \\leq 6$"
+  ],
+  "correctIndex": 1,
+  "solution": "The expression under the square root must be non-negative: $x - 6 \\geq 0$, so $x \\geq 6$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "ib-gen-009",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Linear Functions",
+  "year": 2025,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $8x + 4 = 52$.",
+  "choices": [
+   "x = 48",
+   "x = 6",
+   "x = 7",
+   "x = -6"
+  ],
+  "correctIndex": 1,
+  "solution": "Subtract 4 from both sides: $8x = 48$. Divide by 8: $x = 6$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "ib-gen-010",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2016,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\sin 60^\\circ$?",
+  "choices": [
+   "$\\frac{\\sqrt{3}}{2}$",
+   "$\\frac{\\sqrt{2}}{2}$",
+   "$\\frac{1}{2}$",
+   "$1$"
+  ],
+  "correctIndex": 0,
+  "solution": "From the exact value table, $\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "ib-gen-011",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Trigonometry",
+  "subtopic": "Trigonometric Equations",
+  "year": 2017,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $\\tan x = 1$ for $0^\\circ \\leq x < 360^\\circ$.",
+  "choices": [
+   "$x = 60^\\circ$ or $x = 300^\\circ$",
+   "$x = 45^\\circ$ or $x = 225^\\circ$",
+   "$x = 60^\\circ$ or $x = 120^\\circ$",
+   "$x = 30^\\circ$ or $x = 150^\\circ$"
+  ],
+  "correctIndex": 1,
+  "solution": "Tangent is positive in quadrants I and III: $x = 45^\\circ$ and $x = 180^\\circ + 45^\\circ = 225^\\circ$.",
+  "tags": [
+   "trigonometry",
+   "equations"
+  ]
+ },
+ {
+  "id": "ib-gen-012",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Trigonometry",
+  "subtopic": "Trigonometric Equations",
+  "year": 2018,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $\\sin x = \\frac{\\sqrt{3}}{2}$ for $0^\\circ \\leq x < 360^\\circ$.",
+  "choices": [
+   "$x = 60^\\circ$ or $x = 120^\\circ$",
+   "$x = 30^\\circ$ or $x = 150^\\circ$",
+   "$x = 60^\\circ$ or $x = 300^\\circ$",
+   "$x = 45^\\circ$ or $x = 225^\\circ$"
+  ],
+  "correctIndex": 0,
+  "solution": "Sine is positive in quadrants I and II: $x = 60^\\circ$ and $x = 180^\\circ - 60^\\circ = 120^\\circ$.",
+  "tags": [
+   "trigonometry",
+   "equations"
+  ]
+ },
+ {
+  "id": "ib-gen-013",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Vectors",
+  "subtopic": "Magnitude",
+  "year": 2019,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the magnitude of the vector $\\mathbf{v} = 3\\mathbf{i} + 4\\mathbf{j}$.",
+  "choices": [
+   "$\\sqrt{7}$",
+   "$6$",
+   "$7$",
+   "$5$"
+  ],
+  "correctIndex": 3,
+  "solution": "$|\\mathbf{v}| = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.",
+  "tags": [
+   "vectors",
+   "magnitude"
+  ]
+ },
+ {
+  "id": "ib-gen-014",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Vectors",
+  "subtopic": "Magnitude",
+  "year": 2020,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the magnitude of the vector $\\mathbf{v} = 6\\mathbf{i} + 8\\mathbf{j}$.",
+  "choices": [
+   "$11$",
+   "$14$",
+   "$\\sqrt{14}$",
+   "$10$"
+  ],
+  "correctIndex": 3,
+  "solution": "$|\\mathbf{v}| = \\sqrt{6^2 + 8^2} = \\sqrt{100} = 10$.",
+  "tags": [
+   "vectors",
+   "magnitude"
+  ]
+ },
+ {
+  "id": "ib-gen-015",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Vectors",
+  "subtopic": "Magnitude",
+  "year": 2021,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the magnitude of the vector $\\mathbf{v} = 5\\mathbf{i} + 12\\mathbf{j}$.",
+  "choices": [
+   "$17$",
+   "$\\sqrt{17}$",
+   "$14$",
+   "$13$"
+  ],
+  "correctIndex": 3,
+  "solution": "$|\\mathbf{v}| = \\sqrt{5^2 + 12^2} = \\sqrt{169} = 13$.",
+  "tags": [
+   "vectors",
+   "magnitude"
+  ]
+ },
+ {
+  "id": "ib-gen-016",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Differentiation",
+  "year": 2022,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 5x^{4} + 7x$.",
+  "choices": [
+   "$20x^{4} + 7$",
+   "$20x^{3}$",
+   "$20x^{3} + 7$",
+   "$5x^{3} + 7$"
+  ],
+  "correctIndex": 2,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(5x^{4}\\right) = 20x^{3}$ and $\\frac{d}{dx}(7x) = 7$. So $\\frac{dy}{dx} = 20x^{3} + 7$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ib-gen-017",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Differentiation",
+  "year": 2023,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 5x^{4} + 6x$.",
+  "choices": [
+   "$20x^{3} + 6$",
+   "$20x^{4} + 6$",
+   "$20x^{3}$",
+   "$5x^{3} + 6$"
+  ],
+  "correctIndex": 0,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(5x^{4}\\right) = 20x^{3}$ and $\\frac{d}{dx}(6x) = 6$. So $\\frac{dy}{dx} = 20x^{3} + 6$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ib-gen-018",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Chain Rule",
+  "year": 2024,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (5x + 1)^{4}$.",
+  "choices": [
+   "$4(5x + 1)^{3}$",
+   "$20(5x + 1)^{4}$",
+   "$5(5x + 1)^{3}$",
+   "$20(5x + 1)^{3}$"
+  ],
+  "correctIndex": 3,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 4(5x + 1)^{3} \\cdot 5 = 20(5x + 1)^{3}$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "ib-gen-019",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Chain Rule",
+  "year": 2025,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (5x + 3)^{2}$.",
+  "choices": [
+   "$5(5x + 3)$",
+   "$2(5x + 3)$",
+   "$10(5x + 3)^{2}$",
+   "$10(5x + 3)$"
+  ],
+  "correctIndex": 3,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 2(5x + 3) \\cdot 5 = 10(5x + 3)$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "ib-gen-020",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Integration",
+  "year": 2016,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find $\\int 5x^{4} \\, dx$.",
+  "choices": [
+   "$x^{4} + C$",
+   "$20x^{3} + C$",
+   "$x^{5} + C$",
+   "$5x^{5} + C$"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\int 5x^{4}\\,dx = \\frac{5}{5}x^{5} + C = x^{5} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "ib-gen-021",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Calculus",
+  "subtopic": "Limits",
+  "year": 2017,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}$.",
+  "choices": [
+   "$9$",
+   "$0$",
+   "$3$",
+   "$6$"
+  ],
+  "correctIndex": 3,
+  "solution": "Factor the numerator: $\\frac{(x-3)(x+3)}{x-3} = x + 3$ for $x \\neq 3$. The limit is $3 + 3 = 6$.",
+  "tags": [
+   "calculus",
+   "limits"
+  ]
+ },
+ {
+  "id": "ib-gen-022",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Statistics and Probability",
+  "subtopic": "Binomial Probability",
+  "year": 2018,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A fair coin is tossed 6 times. What is the probability of getting exactly 3 heads?",
+  "choices": [
+   "$\\frac{5}{32}$",
+   "$\\frac{1}{2}$",
+   "$\\frac{5}{16}$",
+   "$\\frac{11}{32}$"
+  ],
+  "correctIndex": 2,
+  "solution": "$P(X = 3) = \\binom{6}{3} \\left(\\frac{1}{2}\\right)^{6} = \\frac{20}{64} = \\frac{5}{16}$.",
+  "tags": [
+   "probability",
+   "binomial"
+  ]
+ },
+ {
+  "id": "ib-gen-023",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Statistics and Probability",
+  "subtopic": "Binomial Probability",
+  "year": 2019,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A fair coin is tossed 5 times. What is the probability of getting exactly 2 heads?",
+  "choices": [
+   "$\\frac{5}{32}$",
+   "$\\frac{2}{5}$",
+   "$\\frac{5}{16}$",
+   "$\\frac{3}{8}$"
+  ],
+  "correctIndex": 2,
+  "solution": "$P(X = 2) = \\binom{5}{2} \\left(\\frac{1}{2}\\right)^{5} = \\frac{10}{32} = \\frac{5}{16}$.",
+  "tags": [
+   "probability",
+   "binomial"
+  ]
+ },
+ {
+  "id": "ib-gen-024",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Statistics and Probability",
+  "subtopic": "Normal Distribution",
+  "year": 2020,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Scores are normally distributed with mean $100$ and standard deviation $5$. What is the $z$-score of a value of $95$?",
+  "choices": [
+   "$0$",
+   "$-1$",
+   "$1$",
+   "$-2$"
+  ],
+  "correctIndex": 1,
+  "solution": "$z = \\frac{x - \\mu}{\\sigma} = \\frac{95 - 100}{5} = -1$.",
+  "tags": [
+   "statistics",
+   "normal distribution",
+   "z-score"
+  ]
+ },
+ {
+  "id": "ib-gen-025",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Mathematical Reasoning",
+  "subtopic": "Proof",
+  "year": 2021,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Prove that $x^2 + 16 \\geq 8x$ for all real numbers $x$.",
+  "solution": "Consider $x^2 - 8x + 16 = (x - 4)^2$. Since a square is always non-negative, $(x - 4)^2 \\geq 0$, so $x^2 + 16 \\geq 8x$ for all real $x$, with equality when $x = 4$.",
+  "tags": [
+   "proof",
+   "inequalities",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ib-gen-026",
+  "curriculum": "IB",
+  "stream": "hl",
+  "topic": "Mathematical Reasoning",
+  "subtopic": "Identities",
+  "year": 2022,
+  "examSource": "IB Mathematics AA HL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Prove the identity $(1 - \\cos\\theta)(1 + \\cos\\theta) = \\sin^2\\theta$.",
+  "solution": "Expanding the left-hand side: $(1 - \\cos\\theta)(1 + \\cos\\theta) = 1 - \\cos^2\\theta$. By the Pythagorean identity $\\sin^2\\theta + \\cos^2\\theta = 1$, we have $1 - \\cos^2\\theta = \\sin^2\\theta$, which equals the right-hand side.",
+  "tags": [
+   "trigonometry",
+   "identities",
+   "proof",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ib-gen-027",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Algebra",
+  "subtopic": "Linear Equations",
+  "year": 2023,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $9x + 3 = -24$.",
+  "choices": [
+   "x = -27",
+   "x = -2",
+   "x = 3",
+   "x = -3"
+  ],
+  "correctIndex": 3,
+  "solution": "Subtract 3 from both sides: $9x = -27$. Divide by 9: $x = -3$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "ib-gen-028",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Algebra",
+  "subtopic": "Linear Equations",
+  "year": 2024,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Solve for $x$: $2x - 7 = 5$.",
+  "choices": [
+   "x = 12",
+   "x = 7",
+   "x = -6",
+   "x = 6"
+  ],
+  "correctIndex": 3,
+  "solution": "Subtract -7 from both sides: $2x = 12$. Divide by 2: $x = 6$.",
+  "tags": [
+   "algebra",
+   "linear equations"
+  ]
+ },
+ {
+  "id": "ib-gen-029",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Algebra",
+  "subtopic": "Arithmetic Sequences",
+  "year": 2025,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "An arithmetic sequence has first term $2$ and common difference $7$. Find the 10th term.",
+  "choices": [
+   "$12$",
+   "$65$",
+   "$72$",
+   "$58$"
+  ],
+  "correctIndex": 1,
+  "solution": "$T_n = a + (n-1)d = 2 + 9 \\times 7 = 65$.",
+  "tags": [
+   "sequences",
+   "arithmetic sequence"
+  ]
+ },
+ {
+  "id": "ib-gen-030",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Algebra",
+  "subtopic": "Arithmetic Sequences",
+  "year": 2016,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "An arithmetic sequence has first term $4$ and common difference $4$. Find the 9th term.",
+  "choices": [
+   "$40$",
+   "$36$",
+   "$32$",
+   "$13$"
+  ],
+  "correctIndex": 1,
+  "solution": "$T_n = a + (n-1)d = 4 + 8 \\times 4 = 36$.",
+  "tags": [
+   "sequences",
+   "arithmetic sequence"
+  ]
+ },
+ {
+  "id": "ib-gen-031",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Domain and Range",
+  "year": 2017,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 5}$?",
+  "choices": [
+   "$x \\leq 5$",
+   "$x \\geq -5$",
+   "$x \\geq 5$",
+   "$x > 5$"
+  ],
+  "correctIndex": 2,
+  "solution": "The expression under the square root must be non-negative: $x - 5 \\geq 0$, so $x \\geq 5$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "ib-gen-032",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Functions and Graphs",
+  "subtopic": "Domain and Range",
+  "year": 2018,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the domain of $f(x) = \\sqrt{x - 3}$?",
+  "choices": [
+   "$x \\geq 3$",
+   "$x > 3$",
+   "$x \\geq -3$",
+   "$x \\leq 3$"
+  ],
+  "correctIndex": 0,
+  "solution": "The expression under the square root must be non-negative: $x - 3 \\geq 0$, so $x \\geq 3$.",
+  "tags": [
+   "functions",
+   "domain"
+  ]
+ },
+ {
+  "id": "ib-gen-033",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2019,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\cos 30^\\circ$?",
+  "choices": [
+   "$\\frac{\\sqrt{3}}{2}$",
+   "$\\frac{1}{2}$",
+   "$1$",
+   "$\\frac{\\sqrt{2}}{2}$"
+  ],
+  "correctIndex": 0,
+  "solution": "From the exact value table, $\\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "ib-gen-034",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Trigonometry",
+  "subtopic": "Exact Values",
+  "year": 2020,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "What is the exact value of $\\tan 60^\\circ$?",
+  "choices": [
+   "$\\frac{\\sqrt{3}}{2}$",
+   "$\\sqrt{3}$",
+   "$\\frac{\\sqrt{2}}{2}$",
+   "$\\frac{1}{2}$"
+  ],
+  "correctIndex": 1,
+  "solution": "From the exact value table, $\\tan 60^\\circ = \\sqrt{3}$.",
+  "tags": [
+   "trigonometry",
+   "exact values"
+  ]
+ },
+ {
+  "id": "ib-gen-035",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Differentiation",
+  "year": 2021,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 2x^{3} + 3x$.",
+  "choices": [
+   "$2x^{2} + 3$",
+   "$6x^{2}$",
+   "$6x^{2} + 3$",
+   "$6x^{3} + 3$"
+  ],
+  "correctIndex": 2,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(2x^{3}\\right) = 6x^{2}$ and $\\frac{d}{dx}(3x) = 3$. So $\\frac{dy}{dx} = 6x^{2} + 3$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ib-gen-036",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Differentiation",
+  "year": 2022,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 4x^{5} + 8x$.",
+  "choices": [
+   "$20x^{5} + 8$",
+   "$20x^{4} + 8$",
+   "$4x^{4} + 8$",
+   "$20x^{4}$"
+  ],
+  "correctIndex": 1,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(4x^{5}\\right) = 20x^{4}$ and $\\frac{d}{dx}(8x) = 8$. So $\\frac{dy}{dx} = 20x^{4} + 8$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ib-gen-037",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Definite Integrals",
+  "year": 2023,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{5} 4x \\, dx$.",
+  "choices": [
+   "$100$",
+   "$20$",
+   "$50$",
+   "$54$"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\int_0^{5} 4x\\,dx = \\left[2x^2\\right]_0^{5} = 2 \\times 5^2 = 50$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ib-gen-038",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Calculus",
+  "subtopic": "Definite Integrals",
+  "year": 2024,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{3} 4x \\, dx$.",
+  "choices": [
+   "$36$",
+   "$22$",
+   "$18$",
+   "$12$"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\int_0^{3} 4x\\,dx = \\left[2x^2\\right]_0^{3} = 2 \\times 3^2 = 18$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ib-gen-039",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Statistics and Data Analysis",
+  "subtopic": "Mean and Median",
+  "year": 2025,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the median of the data set: $2,\\ 7,\\ 12,\\ 16,\\ 17$.",
+  "choices": [
+   "$12$",
+   "$16$",
+   "$11.5$",
+   "$7$"
+  ],
+  "correctIndex": 0,
+  "solution": "The data is already ordered; the median is the middle (3rd) value, which is $12$.",
+  "tags": [
+   "statistics",
+   "median"
+  ]
+ },
+ {
+  "id": "ib-gen-040",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Statistics and Data Analysis",
+  "subtopic": "Mean and Median",
+  "year": 2016,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the mean of the data set: $3,\\ 5,\\ 7,\\ 9,\\ 11$.",
+  "choices": [
+   "$7$",
+   "$8$",
+   "$6$",
+   "$11$"
+  ],
+  "correctIndex": 0,
+  "solution": "Mean $= \\frac{3 + 5 + 7 + 9 + 11}{5} = \\frac{35}{5} = 7$.",
+  "tags": [
+   "statistics",
+   "mean"
+  ]
+ },
+ {
+  "id": "ib-gen-041",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Statistics and Data Analysis",
+  "subtopic": "Mean and Median",
+  "year": 2017,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the median of the data set: $1,\\ 6,\\ 10,\\ 16,\\ 20$.",
+  "choices": [
+   "$6$",
+   "$10$",
+   "$16$",
+   "$11$"
+  ],
+  "correctIndex": 1,
+  "solution": "The data is already ordered; the median is the middle (3rd) value, which is $10$.",
+  "tags": [
+   "statistics",
+   "median"
+  ]
+ },
+ {
+  "id": "ib-gen-042",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Statistics and Data Analysis",
+  "subtopic": "Normal Distribution",
+  "year": 2018,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Scores are normally distributed with mean $50$ and standard deviation $10$. What is the $z$-score of a value of $30$?",
+  "choices": [
+   "$-2$",
+   "$2$",
+   "$-3$",
+   "$-1$"
+  ],
+  "correctIndex": 0,
+  "solution": "$z = \\frac{x - \\mu}{\\sigma} = \\frac{30 - 50}{10} = -2$.",
+  "tags": [
+   "statistics",
+   "normal distribution",
+   "z-score"
+  ]
+ },
+ {
+  "id": "ib-gen-043",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2019,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 4 red, 2 blue and 7 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{7}{13}$",
+   "$\\frac{2}{13}$",
+   "$\\frac{4}{13}$",
+   "$\\frac{4}{9}$"
+  ],
+  "correctIndex": 2,
+  "solution": "There are $13$ marbles in total, of which $4$ are red. $P(\\text{red}) = \\frac{4}{13}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "ib-gen-044",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2020,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 7 red, 4 blue and 3 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{2}{7}$",
+   "$1$",
+   "$\\frac{1}{2}$",
+   "$\\frac{3}{14}$"
+  ],
+  "correctIndex": 2,
+  "solution": "There are $14$ marbles in total, of which $7$ are red. $P(\\text{red}) = \\frac{1}{2}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "ib-gen-045",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Probability",
+  "subtopic": "Dice Problems",
+  "year": 2021,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 9?",
+  "choices": [
+   "$\\frac{1}{12}$",
+   "$\\frac{1}{9}$",
+   "$\\frac{1}{4}$",
+   "$\\frac{5}{36}$"
+  ],
+  "correctIndex": 1,
+  "solution": "There are $36$ equally likely outcomes and $4$ of them sum to 9, so the probability is $\\frac{1}{9}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "ib-gen-046",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Probability",
+  "subtopic": "Dice Problems",
+  "year": 2022,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 9?",
+  "choices": [
+   "$\\frac{1}{9}$",
+   "$\\frac{5}{36}$",
+   "$\\frac{1}{12}$",
+   "$\\frac{1}{4}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $36$ equally likely outcomes and $4$ of them sum to 9, so the probability is $\\frac{1}{9}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "ib-gen-047",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Mathematical Modelling",
+  "subtopic": "Exponential Growth",
+  "year": 2023,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$2000$ is invested at 5\\% per annum compound interest. Find the value of the investment after 3 years.",
+  "choices": [
+   "$\\$2100$",
+   "$\\$2431.01$",
+   "$\\$2315.25$",
+   "$\\$2300$"
+  ],
+  "correctIndex": 2,
+  "solution": "$A = P(1 + r)^n = 2000(1.05)^{3} = \\$2315.25$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "ib-gen-048",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Mathematical Modelling",
+  "subtopic": "Exponential Growth",
+  "year": 2024,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "$\\$1000$ is invested at 5\\% per annum compound interest. Find the value of the investment after 2 years.",
+  "choices": [
+   "$\\$1100$",
+   "$\\$1157.63$",
+   "$\\$1050$",
+   "$\\$1102.50$"
+  ],
+  "correctIndex": 3,
+  "solution": "$A = P(1 + r)^n = 1000(1.05)^{2} = \\$1102.50$.",
+  "tags": [
+   "financial mathematics",
+   "compound interest"
+  ]
+ },
+ {
+  "id": "ib-gen-049",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Mathematical Modelling",
+  "subtopic": "Area Models",
+  "year": 2025,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the area enclosed between the curve $y = 3x^2$, the $x$-axis, and the lines $x = 0$ and $x = 2$.",
+  "solution": "Area $= \\int_0^{2} 3x^2\\,dx = \\left[x^3\\right]_0^{2} = 1 \\times 8 = 8$ square units.",
+  "tags": [
+   "calculus",
+   "area under curve",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ib-gen-050",
+  "curriculum": "IB",
+  "stream": "sl",
+  "topic": "Mathematical Modelling",
+  "subtopic": "Infinite Series",
+  "year": 2016,
+  "examSource": "IB Mathematics AA SL",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the sum to infinity of the geometric series with first term $3$ and common ratio $\\frac{1}{2}$.",
+  "choices": [
+   "$9$",
+   "$3$",
+   "$6$",
+   "$12$"
+  ],
+  "correctIndex": 2,
+  "solution": "$S_\\infty = \\frac{a}{1 - r} = \\frac{3}{1 - \\frac{1}{2}} = 6$.",
+  "tags": [
+   "series",
+   "sum to infinity"
+  ]
+ }
 ]

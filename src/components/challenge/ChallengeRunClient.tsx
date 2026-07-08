@@ -1,27 +1,29 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SpeedRoundQuestion } from "@/components/play/SpeedRoundQuestion";
 import { BossQuestion } from "@/components/play/BossQuestion";
 import { SessionResults, type SessionResultsData } from "@/components/play/SessionResults";
-import { GameCard } from "@/components/play/GameCard";
-import { GameButton } from "@/components/play/GameButton";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import type { ClientBossQuestion, ClientMcqQuestion } from "@/lib/playSessionToken";
 import { recordRun } from "@/lib/gameProfile";
 import type { PlayCategory } from "@/lib/playConfig";
 import { playCategoryFromSlug } from "@/lib/playConfig";
 
-interface PlayRunClientProps {
+interface ChallengeRunClientProps {
   categorySlug: string;
 }
 
 type Phase = "loading" | "mcq" | "boss" | "results" | "error";
 
-export function PlayRunClient({ categorySlug }: PlayRunClientProps) {
+export function ChallengeRunClient({ categorySlug }: ChallengeRunClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = playCategoryFromSlug(categorySlug);
+  const topic = searchParams.get("topic") ?? "";
+  const difficulty = searchParams.get("difficulty") ?? "";
 
   const [phase, setPhase] = useState<Phase>("loading");
   const [error, setError] = useState<string | null>(null);
@@ -32,37 +34,49 @@ export function PlayRunClient({ categorySlug }: PlayRunClientProps) {
   const [bossQuestion, setBossQuestion] = useState<ClientBossQuestion | null>(null);
   const [results, setResults] = useState<SessionResultsData | null>(null);
 
-  const startSession = useCallback(async () => {
-    if (!category) return;
-    setPhase("loading");
-    setError(null);
-
-    const topic = searchParams.get("topic") ?? undefined;
-    const difficulty = searchParams.get("difficulty") ?? undefined;
-
-    try {
-      const res = await fetch("/api/play/session/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, topic, difficulty }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || data.error);
-
-      setToken(data.token);
-      setCombo(data.combo);
-      setMaxCombo(data.combo);
-      setMcqQuestion(data.question);
-      setPhase("mcq");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to start session");
-      setPhase("error");
-    }
-  }, [category, searchParams]);
-
   useEffect(() => {
-    startSession();
-  }, [startSession]);
+    if (!category) return;
+
+    const controller = new AbortController();
+    let active = true;
+
+    (async () => {
+      setPhase("loading");
+      setError(null);
+
+      try {
+        const res = await fetch("/api/play/session/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            category,
+            topic: topic || undefined,
+            difficulty: difficulty || undefined,
+          }),
+          signal: controller.signal,
+        });
+        const data = await res.json();
+        if (!active) return;
+        if (!res.ok) throw new Error(data.message || data.error);
+        if (!data.question) throw new Error("Session started but no question was returned.");
+
+        setToken(data.token);
+        setCombo(data.combo);
+        setMaxCombo(data.combo);
+        setMcqQuestion(data.question);
+        setPhase("mcq");
+      } catch (e) {
+        if (!active || (e instanceof DOMException && e.name === "AbortError")) return;
+        setError(e instanceof Error ? e.message : "Failed to start session");
+        setPhase("error");
+      }
+    })();
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, [category, topic, difficulty]);
 
   const handleMcqAnswered = (data: {
     token: string;
@@ -129,40 +143,40 @@ export function PlayRunClient({ categorySlug }: PlayRunClientProps) {
 
   if (!category) {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
-      <GameCard>
-        <p className="font-bold text-[var(--game-forest)]">Unknown category.</p>
-      </GameCard>
-      </div>
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="pt-6">
+          <p>Unknown category.</p>
+        </CardContent>
+      </Card>
     );
   }
 
   if (phase === "loading") {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
-      <GameCard className="text-center py-12">
-        <p className="text-xl font-bold text-[var(--game-forest)]">Starting your run...</p>
-      </GameCard>
-      </div>
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="py-12 text-center">
+          <p className="text-muted-foreground">Starting challenge...</p>
+        </CardContent>
+      </Card>
     );
   }
 
   if (phase === "error") {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
-      <GameCard className="space-y-4 text-center">
-        <p className="font-bold text-[var(--game-forest)]">{error}</p>
-        <GameButton onClick={() => router.push(`/play/${categorySlug}/setup`)}>
-          Back to setup
-        </GameButton>
-      </GameCard>
-      </div>
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="py-8 text-center space-y-4">
+          <p>{error}</p>
+          <Button onClick={() => router.push(`/challenge/${categorySlug}/setup`)}>
+            Back to setup
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
   if (phase === "results" && results) {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <SessionResults data={results} />
       </div>
     );
@@ -170,7 +184,7 @@ export function PlayRunClient({ categorySlug }: PlayRunClientProps) {
 
   if (phase === "boss" && bossQuestion) {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <BossQuestion question={bossQuestion} token={token} onComplete={handleBossComplete} />
       </div>
     );
@@ -178,14 +192,27 @@ export function PlayRunClient({ categorySlug }: PlayRunClientProps) {
 
   if (phase === "mcq" && mcqQuestion) {
     return (
-      <div className="play-subpage max-w-2xl mx-auto">
-      <SpeedRoundQuestion
-        question={mcqQuestion}
-        combo={combo}
-        token={token}
-        onAnswered={handleMcqAnswered}
-      />
+      <div className="max-w-2xl mx-auto">
+        <SpeedRoundQuestion
+          question={mcqQuestion}
+          combo={combo}
+          token={token}
+          onAnswered={handleMcqAnswered}
+        />
       </div>
+    );
+  }
+
+  if (phase === "mcq") {
+    return (
+      <Card className="max-w-2xl mx-auto">
+        <CardContent className="py-8 text-center space-y-4">
+          <p>Could not load the first question.</p>
+          <Button onClick={() => router.push(`/challenge/${categorySlug}/setup`)}>
+            Back to setup
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 

@@ -1,339 +1,1515 @@
 [
-  {
-    "id": "ap-2015-alg-hard",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Derivatives",
-    "subtopic": "Polynomials",
-    "year": 2015,
-    "examSource": "AP Precalculus",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "The polynomial $p(x) = x^3 - 4x^2 + x + 6$ has a root at $x = 2$. Find all roots.",
-    "choices": [
-      "$x = 2$, $x = 3$, $x = -1$",
-      "$x = 2$, $x = -2$, $x = 1$",
-      "$x = 2$, $x = 1$, $x = 3$",
-      "$x = 2$, $x = -3$, $x = 1$"
-    ],
-    "correctIndex": 0,
-    "solution": "Factor: $(x-2)(x^2 - 2x - 3) = (x-2)(x-3)(x+1)$. Roots: $2$, $3$, $-1$.",
-    "tags": [
-      "algebra",
-      "polynomials",
-      "roots"
-    ]
-  },
-  {
-    "id": "ap-2012-trig-hard",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Derivatives",
-    "subtopic": "Identities",
-    "year": 2012,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Simplify $\\frac{\\sin^2\\theta}{1 - \\cos\\theta} - (1 + \\cos\\theta)$.",
-    "choices": [
-      "$0$",
-      "$1$",
-      "$2\\cos\\theta$",
-      "$\\tan\\theta$"
-    ],
-    "correctIndex": 0,
-    "solution": "Using $\\sin^2\\theta = 1 - \\cos^2\\theta$, we get $\\frac{1-\\cos^2\\theta}{1-\\cos\\theta} - (1+\\cos\\theta) = 1+\\cos\\theta - 1 - \\cos\\theta = 0$.",
-    "tags": [
-      "trigonometry",
-      "identities",
-      "simplify"
-    ]
-  },
-  {
-    "id": "ap-2017-calc-hard",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Integrals",
-    "subtopic": "Integration",
-    "year": 2017,
-    "examSource": "AP Calculus AB FRQ",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Evaluate $\\int_0^1 \\frac{x}{x^2 + 1} \\, dx$.",
-    "choices": [
-      "$\\frac{1}{2}\\ln 2$",
-      "$\\ln 2$",
-      "$\\frac{\\pi}{4}$",
-      "$1$"
-    ],
-    "correctIndex": 0,
-    "solution": "Substitute $u = x^2 + 1$, $du = 2x\\,dx$. Then $\\int \\frac{x}{x^2+1}dx = \\frac{1}{2}\\ln|x^2+1| + C$. So $\\int_0^1 = \\frac{1}{2}\\ln 2$.",
-    "tags": [
-      "calculus",
-      "integration",
-      "substitution"
-    ]
-  },
-  {
-    "id": "ap-2019-stats",
-    "curriculum": "AP",
-    "stream": "statistics",
-    "topic": "Random Variables and Distributions",
-    "subtopic": "Distributions",
-    "year": 2019,
-    "examSource": "AP Statistics",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "The random variable $X$ is normally distributed with mean $70$ and standard deviation $8$. Find $P(62 < X < 86)$.",
-    "choices": [
-      "Approximately $0.8185$",
-      "Approximately $0.95$",
-      "Approximately $0.68$",
-      "Approximately $0.997$"
-    ],
-    "correctIndex": 0,
-    "solution": "$Z$ for 62: $\\frac{62-70}{8} = -1$; for 86: $\\frac{86-70}{8} = 2$. So $P(62 < X < 86) = P(-1 < Z < 2) = \\Phi(2) - \\Phi(-1) \\approx 0.9772 - 0.1587 = 0.8185$.",
-    "tags": [
-      "probability",
-      "normal distribution",
-      "statistics"
-    ]
-  },
-  {
-    "id": "ap-2011-vec-hard",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Series and Parametric/Polar Functions",
-    "subtopic": "Geometry",
-    "year": 2011,
-    "examSource": "AP Calculus BC",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "The points $A(1,0)$, $B(3,2)$ and $C(5,4)$ are given. What can we conclude?",
-    "choices": [
-      "$A$, $B$, $C$ are collinear",
-      "$A$, $B$, $C$ form a right triangle",
-      "$\\overrightarrow{AB} = \\overrightarrow{BC}$ only",
-      "None of the above"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\overrightarrow{AB} = (2,2)$, $\\overrightarrow{BC} = (2,2)$. So $\\overrightarrow{BC} = \\overrightarrow{AB}$, hence the points are collinear.",
-    "tags": [
-      "vectors",
-      "collinear",
-      "geometry"
-    ]
-  },
-  {
-    "id": "ap-2010-func-hard",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Derivatives",
-    "subtopic": "Exponential",
-    "year": 2010,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "Solve $2^{x+1} = 16$ for $x$.",
-    "choices": [
-      "$x = 3$",
-      "$x = 4$",
-      "$x = 15$",
-      "$x = 2$"
-    ],
-    "correctIndex": 0,
-    "solution": "$2^{x+1} = 2^4$ so $x+1 = 4$, hence $x = 3$.",
-    "tags": [
-      "functions",
-      "exponential",
-      "equations"
-    ]
-  },
-  {
-    "id": "ap-2020-calc-medium",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Applications of Derivatives",
-    "subtopic": "Applications",
-    "year": 2020,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "A particle moves so that its velocity is $v(t) = 3t^2 - 12t + 9$ for $t \\geq 0$. At what time $t$ is the particle at rest?",
-    "choices": [
-      "$t = 1$ and $t = 3$",
-      "$t = 2$ only",
-      "$t = 0$ and $t = 4$",
-      "$t = 3$ only"
-    ],
-    "correctIndex": 0,
-    "solution": "At rest when $v(t) = 0$: $3t^2 - 12t + 9 = 3(t^2 - 4t + 3) = 3(t-1)(t-3) = 0$, so $t = 1$ or $t = 3$.",
-    "tags": [
-      "calculus",
-      "velocity",
-      "applications"
-    ]
-  },
-  {
-    "id": "ap-2018-trig-medium",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Derivatives",
-    "subtopic": "Equations",
-    "year": 2018,
-    "examSource": "AP Precalculus",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Solve $2\\cos\\theta - 1 = 0$ for $0 \\leq \\theta < 2\\pi$.",
-    "choices": [
-      "$\\theta = \\frac{\\pi}{3}$ or $\\frac{5\\pi}{3}$",
-      "$\\theta = \\frac{\\pi}{6}$ only",
-      "$\\theta = \\frac{\\pi}{2}$ or $\\frac{3\\pi}{2}$",
-      "$\\theta = \\frac{2\\pi}{3}$ or $\\frac{4\\pi}{3}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\cos\\theta = \\frac{1}{2}$. In $[0, 2\\pi)$, $\\theta = \\frac{\\pi}{3}$ or $\\theta = 2\\pi - \\frac{\\pi}{3} = \\frac{5\\pi}{3}$.",
-    "tags": [
-      "trigonometry",
-      "equations",
-      "cosine"
-    ]
-  },
-  {
-    "id": "ap-2021-limits-easy",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Limits and Continuity",
-    "subtopic": "Limits",
-    "year": 2021,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "Evaluate $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x}$.",
-    "choices": [
-      "$3$",
-      "$1$",
-      "$0$",
-      "The limit does not exist"
-    ],
-    "correctIndex": 0,
-    "solution": "Using $\\lim_{t \\to 0} \\frac{\\sin t}{t} = 1$, we have $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = 3 \\lim_{x \\to 0} \\frac{\\sin(3x)}{3x} = 3(1) = 3$.",
-    "tags": [
-      "limits",
-      "continuity",
-      "trig limit"
-    ]
-  },
-  {
-    "id": "ap-2019-integrals-medium",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Integrals",
-    "subtopic": "Definite Integral",
-    "year": 2019,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Evaluate $\\int_1^e \\frac{1}{x} \\, dx$.",
-    "choices": [
-      "$1$",
-      "$e$",
-      "$e - 1$",
-      "$\\frac{1}{e}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$\\int_1^e \\frac{1}{x}\\,dx = \\ln|x|\\big|_1^e = \\ln e - \\ln 1 = 1 - 0 = 1$.",
-    "tags": [
-      "integrals",
-      "definite integral",
-      "logarithm"
-    ]
-  },
-  {
-    "id": "ap-2020-appint-medium",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Applications of Integrals",
-    "subtopic": "Area",
-    "year": 2020,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "Find the area enclosed by $y = x^2$ and $y = 2x$.",
-    "choices": [
-      "$\\frac{4}{3}$",
-      "$2$",
-      "$\\frac{2}{3}$",
-      "$4$"
-    ],
-    "correctIndex": 0,
-    "solution": "Intersection: $x^2 = 2x$ so $x = 0$ or $x = 2$. Area $= \\int_0^2 (2x - x^2)\\,dx = [x^2 - \\frac{x^3}{3}]_0^2 = 4 - \\frac{8}{3} = \\frac{4}{3}$.",
-    "tags": [
-      "applications",
-      "integrals",
-      "area"
-    ]
-  },
-  {
-    "id": "ap-2018-stats-prob-easy",
-    "curriculum": "AP",
-    "stream": "statistics",
-    "topic": "Probability",
-    "subtopic": "Basic",
-    "year": 2018,
-    "examSource": "AP Statistics",
-    "difficulty": "Easy",
-    "image": "none",
-    "questionText": "A box contains 3 red and 5 blue pens. Two pens are drawn at random without replacement. What is the probability that both are red?",
-    "choices": [
-      "$\\frac{3}{28}$",
-      "$\\frac{9}{64}$",
-      "$\\frac{3}{8}$",
-      "$\\frac{5}{14}$"
-    ],
-    "correctIndex": 0,
-    "solution": "$P(\\text{both red}) = \\frac{3}{8} \\cdot \\frac{2}{7} = \\frac{6}{56} = \\frac{3}{28}$.",
-    "tags": [
-      "probability",
-      "without replacement"
-    ]
-  },
-  {
-    "id": "ap-2020-calc-long-1",
-    "curriculum": "AP",
-    "stream": "calculus",
-    "topic": "Applications of Derivatives",
-    "subtopic": "Optimization",
-    "year": 2020,
-    "examSource": "AP Calculus AB",
-    "difficulty": "Medium",
-    "image": "none",
-    "questionText": "A rectangular field is to be enclosed using 200 m of fencing, with one side along a river (no fence needed on that side). Find the dimensions that maximize the enclosed area. Show your reasoning.",
-    "solution": "Let width $= w$ and length parallel to river $= \\ell$. Constraint: $2w + \\ell = 200$, so $\\ell = 200 - 2w$. Area $A(w) = w(200-2w) = 200w - 2w^2$. $A'(w) = 200 - 4w = 0$ gives $w = 50$. Then $\\ell = 100$. Maximum area rectangle: $50$ m by $100$ m.",
-    "tags": [
-      "calculus",
-      "optimization",
-      "applications",
-      "long answer"
-    ]
-  },
-  {
-    "id": "ap-2017-stats-long-1",
-    "curriculum": "AP",
-    "stream": "statistics",
-    "topic": "Statistical Inference",
-    "subtopic": "Confidence Intervals",
-    "year": 2017,
-    "examSource": "AP Statistics",
-    "difficulty": "Hard",
-    "image": "none",
-    "questionText": "A sample of 36 students has mean score 72 and standard deviation 12. Construct and interpret a 95% confidence interval for the population mean score.",
-    "solution": "For large $n$, $\\bar{x} \\pm z^* \\frac{s}{\\sqrt{n}}$ with $z^* = 1.96$. Margin $= 1.96 \\cdot \\frac{12}{\\sqrt{36}} = 1.96 \\cdot 2 = 3.92$. Interval: $(72 - 3.92,\\, 72 + 3.92) = (68.08,\\, 75.92)$. We are 95% confident the true population mean lies in this interval.",
-    "tags": [
-      "statistics",
-      "inference",
-      "confidence interval",
-      "long answer"
-    ]
-  }
+ {
+  "id": "ap-2015-alg-hard",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Polynomials",
+  "year": 2015,
+  "examSource": "AP Precalculus",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "The polynomial $p(x) = x^3 - 4x^2 + x + 6$ has a root at $x = 2$. Find all roots.",
+  "choices": [
+   "$x = 2$, $x = 3$, $x = -1$",
+   "$x = 2$, $x = -2$, $x = 1$",
+   "$x = 2$, $x = 1$, $x = 3$",
+   "$x = 2$, $x = -3$, $x = 1$"
+  ],
+  "correctIndex": 0,
+  "solution": "Factor: $(x-2)(x^2 - 2x - 3) = (x-2)(x-3)(x+1)$. Roots: $2$, $3$, $-1$.",
+  "tags": [
+   "algebra",
+   "polynomials",
+   "roots"
+  ]
+ },
+ {
+  "id": "ap-2012-trig-hard",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Identities",
+  "year": 2012,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Simplify $\\frac{\\sin^2\\theta}{1 - \\cos\\theta} - (1 + \\cos\\theta)$.",
+  "choices": [
+   "$0$",
+   "$1$",
+   "$2\\cos\\theta$",
+   "$\\tan\\theta$"
+  ],
+  "correctIndex": 0,
+  "solution": "Using $\\sin^2\\theta = 1 - \\cos^2\\theta$, we get $\\frac{1-\\cos^2\\theta}{1-\\cos\\theta} - (1+\\cos\\theta) = 1+\\cos\\theta - 1 - \\cos\\theta = 0$.",
+  "tags": [
+   "trigonometry",
+   "identities",
+   "simplify"
+  ]
+ },
+ {
+  "id": "ap-2017-calc-hard",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Integration",
+  "year": 2017,
+  "examSource": "AP Calculus AB FRQ",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^1 \\frac{x}{x^2 + 1} \\, dx$.",
+  "choices": [
+   "$\\frac{1}{2}\\ln 2$",
+   "$\\ln 2$",
+   "$\\frac{\\pi}{4}$",
+   "$1$"
+  ],
+  "correctIndex": 0,
+  "solution": "Substitute $u = x^2 + 1$, $du = 2x\\,dx$. Then $\\int \\frac{x}{x^2+1}dx = \\frac{1}{2}\\ln|x^2+1| + C$. So $\\int_0^1 = \\frac{1}{2}\\ln 2$.",
+  "tags": [
+   "calculus",
+   "integration",
+   "substitution"
+  ]
+ },
+ {
+  "id": "ap-2019-stats",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Random Variables and Distributions",
+  "subtopic": "Distributions",
+  "year": 2019,
+  "examSource": "AP Statistics",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "The random variable $X$ is normally distributed with mean $70$ and standard deviation $8$. Find $P(62 < X < 86)$.",
+  "choices": [
+   "Approximately $0.8185$",
+   "Approximately $0.95$",
+   "Approximately $0.68$",
+   "Approximately $0.997$"
+  ],
+  "correctIndex": 0,
+  "solution": "$Z$ for 62: $\\frac{62-70}{8} = -1$; for 86: $\\frac{86-70}{8} = 2$. So $P(62 < X < 86) = P(-1 < Z < 2) = \\Phi(2) - \\Phi(-1) \\approx 0.9772 - 0.1587 = 0.8185$.",
+  "tags": [
+   "probability",
+   "normal distribution",
+   "statistics"
+  ]
+ },
+ {
+  "id": "ap-2011-vec-hard",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Series and Parametric/Polar Functions",
+  "subtopic": "Geometry",
+  "year": 2011,
+  "examSource": "AP Calculus BC",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "The points $A(1,0)$, $B(3,2)$ and $C(5,4)$ are given. What can we conclude?",
+  "choices": [
+   "$A$, $B$, $C$ are collinear",
+   "$A$, $B$, $C$ form a right triangle",
+   "$\\overrightarrow{AB} = \\overrightarrow{BC}$ only",
+   "None of the above"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\overrightarrow{AB} = (2,2)$, $\\overrightarrow{BC} = (2,2)$. So $\\overrightarrow{BC} = \\overrightarrow{AB}$, hence the points are collinear.",
+  "tags": [
+   "vectors",
+   "collinear",
+   "geometry"
+  ]
+ },
+ {
+  "id": "ap-2010-func-hard",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Exponential",
+  "year": 2010,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Solve $2^{x+1} = 16$ for $x$.",
+  "choices": [
+   "$x = 3$",
+   "$x = 4$",
+   "$x = 15$",
+   "$x = 2$"
+  ],
+  "correctIndex": 0,
+  "solution": "$2^{x+1} = 2^4$ so $x+1 = 4$, hence $x = 3$.",
+  "tags": [
+   "functions",
+   "exponential",
+   "equations"
+  ]
+ },
+ {
+  "id": "ap-2020-calc-medium",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Applications",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A particle moves so that its velocity is $v(t) = 3t^2 - 12t + 9$ for $t \\geq 0$. At what time $t$ is the particle at rest?",
+  "choices": [
+   "$t = 1$ and $t = 3$",
+   "$t = 2$ only",
+   "$t = 0$ and $t = 4$",
+   "$t = 3$ only"
+  ],
+  "correctIndex": 0,
+  "solution": "At rest when $v(t) = 0$: $3t^2 - 12t + 9 = 3(t^2 - 4t + 3) = 3(t-1)(t-3) = 0$, so $t = 1$ or $t = 3$.",
+  "tags": [
+   "calculus",
+   "velocity",
+   "applications"
+  ]
+ },
+ {
+  "id": "ap-2018-trig-medium",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Equations",
+  "year": 2018,
+  "examSource": "AP Precalculus",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Solve $2\\cos\\theta - 1 = 0$ for $0 \\leq \\theta < 2\\pi$.",
+  "choices": [
+   "$\\theta = \\frac{\\pi}{3}$ or $\\frac{5\\pi}{3}$",
+   "$\\theta = \\frac{\\pi}{6}$ only",
+   "$\\theta = \\frac{\\pi}{2}$ or $\\frac{3\\pi}{2}$",
+   "$\\theta = \\frac{2\\pi}{3}$ or $\\frac{4\\pi}{3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\cos\\theta = \\frac{1}{2}$. In $[0, 2\\pi)$, $\\theta = \\frac{\\pi}{3}$ or $\\theta = 2\\pi - \\frac{\\pi}{3} = \\frac{5\\pi}{3}$.",
+  "tags": [
+   "trigonometry",
+   "equations",
+   "cosine"
+  ]
+ },
+ {
+  "id": "ap-2021-limits-easy",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Limits and Continuity",
+  "subtopic": "Limits",
+  "year": 2021,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Evaluate $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x}$.",
+  "choices": [
+   "$3$",
+   "$1$",
+   "$0$",
+   "The limit does not exist"
+  ],
+  "correctIndex": 0,
+  "solution": "Using $\\lim_{t \\to 0} \\frac{\\sin t}{t} = 1$, we have $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = 3 \\lim_{x \\to 0} \\frac{\\sin(3x)}{3x} = 3(1) = 3$.",
+  "tags": [
+   "limits",
+   "continuity",
+   "trig limit"
+  ]
+ },
+ {
+  "id": "ap-2019-integrals-medium",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Definite Integral",
+  "year": 2019,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_1^e \\frac{1}{x} \\, dx$.",
+  "choices": [
+   "$1$",
+   "$e$",
+   "$e - 1$",
+   "$\\frac{1}{e}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\int_1^e \\frac{1}{x}\\,dx = \\ln|x|\\big|_1^e = \\ln e - \\ln 1 = 1 - 0 = 1$.",
+  "tags": [
+   "integrals",
+   "definite integral",
+   "logarithm"
+  ]
+ },
+ {
+  "id": "ap-2020-appint-medium",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Integrals",
+  "subtopic": "Area",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the area enclosed by $y = x^2$ and $y = 2x$.",
+  "choices": [
+   "$\\frac{4}{3}$",
+   "$2$",
+   "$\\frac{2}{3}$",
+   "$4$"
+  ],
+  "correctIndex": 0,
+  "solution": "Intersection: $x^2 = 2x$ so $x = 0$ or $x = 2$. Area $= \\int_0^2 (2x - x^2)\\,dx = [x^2 - \\frac{x^3}{3}]_0^2 = 4 - \\frac{8}{3} = \\frac{4}{3}$.",
+  "tags": [
+   "applications",
+   "integrals",
+   "area"
+  ]
+ },
+ {
+  "id": "ap-2018-stats-prob-easy",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Probability",
+  "subtopic": "Basic",
+  "year": 2018,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A box contains 3 red and 5 blue pens. Two pens are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{3}{28}$",
+   "$\\frac{9}{64}$",
+   "$\\frac{3}{8}$",
+   "$\\frac{5}{14}$"
+  ],
+  "correctIndex": 0,
+  "solution": "$P(\\text{both red}) = \\frac{3}{8} \\cdot \\frac{2}{7} = \\frac{6}{56} = \\frac{3}{28}$.",
+  "tags": [
+   "probability",
+   "without replacement"
+  ]
+ },
+ {
+  "id": "ap-2020-calc-long-1",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Optimization",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A rectangular field is to be enclosed using 200 m of fencing, with one side along a river (no fence needed on that side). Find the dimensions that maximize the enclosed area. Show your reasoning.",
+  "solution": "Let width $= w$ and length parallel to river $= \\ell$. Constraint: $2w + \\ell = 200$, so $\\ell = 200 - 2w$. Area $A(w) = w(200-2w) = 200w - 2w^2$. $A'(w) = 200 - 4w = 0$ gives $w = 50$. Then $\\ell = 100$. Maximum area rectangle: $50$ m by $100$ m.",
+  "tags": [
+   "calculus",
+   "optimization",
+   "applications",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-2017-stats-long-1",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Statistical Inference",
+  "subtopic": "Confidence Intervals",
+  "year": 2017,
+  "examSource": "AP Statistics",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A sample of 36 students has mean score 72 and standard deviation 12. Construct and interpret a 95% confidence interval for the population mean score.",
+  "solution": "For large $n$, $\\bar{x} \\pm z^* \\frac{s}{\\sqrt{n}}$ with $z^* = 1.96$. Margin $= 1.96 \\cdot \\frac{12}{\\sqrt{36}} = 1.96 \\cdot 2 = 3.92$. Interval: $(72 - 3.92,\\, 72 + 3.92) = (68.08,\\, 75.92)$. We are 95% confident the true population mean lies in this interval.",
+  "tags": [
+   "statistics",
+   "inference",
+   "confidence interval",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-gen-001",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Limits and Continuity",
+  "subtopic": "Limits",
+  "year": 2017,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Evaluate $\\lim_{x \\to 7} \\frac{x^2 - 49}{x - 7}$.",
+  "choices": [
+   "$0$",
+   "$14$",
+   "$49$",
+   "$7$"
+  ],
+  "correctIndex": 1,
+  "solution": "Factor the numerator: $\\frac{(x-7)(x+7)}{x-7} = x + 7$ for $x \\neq 7$. The limit is $7 + 7 = 14$.",
+  "tags": [
+   "calculus",
+   "limits"
+  ]
+ },
+ {
+  "id": "ap-gen-002",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Limits and Continuity",
+  "subtopic": "Limits",
+  "year": 2018,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Evaluate $\\lim_{x \\to 6} \\frac{x^2 - 36}{x - 6}$.",
+  "choices": [
+   "$36$",
+   "$6$",
+   "$12$",
+   "$0$"
+  ],
+  "correctIndex": 2,
+  "solution": "Factor the numerator: $\\frac{(x-6)(x+6)}{x-6} = x + 6$ for $x \\neq 6$. The limit is $6 + 6 = 12$.",
+  "tags": [
+   "calculus",
+   "limits"
+  ]
+ },
+ {
+  "id": "ap-gen-003",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Limits and Continuity",
+  "subtopic": "Limits",
+  "year": 2019,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Evaluate $\\lim_{x \\to 6} \\frac{x^2 - 36}{x - 6}$.",
+  "choices": [
+   "$12$",
+   "$36$",
+   "$6$",
+   "$0$"
+  ],
+  "correctIndex": 0,
+  "solution": "Factor the numerator: $\\frac{(x-6)(x+6)}{x-6} = x + 6$ for $x \\neq 6$. The limit is $6 + 6 = 12$.",
+  "tags": [
+   "calculus",
+   "limits"
+  ]
+ },
+ {
+  "id": "ap-gen-004",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Power Rule",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 5x^{5} + 7x$.",
+  "choices": [
+   "$25x^{5} + 7$",
+   "$25x^{4} + 7$",
+   "$5x^{4} + 7$",
+   "$25x^{4}$"
+  ],
+  "correctIndex": 1,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(5x^{5}\\right) = 25x^{4}$ and $\\frac{d}{dx}(7x) = 7$. So $\\frac{dy}{dx} = 25x^{4} + 7$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ap-gen-005",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Power Rule",
+  "year": 2021,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 3x^{3} + 2x$.",
+  "choices": [
+   "$9x^{3} + 2$",
+   "$9x^{2} + 2$",
+   "$3x^{2} + 2$",
+   "$9x^{2}$"
+  ],
+  "correctIndex": 1,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(3x^{3}\\right) = 9x^{2}$ and $\\frac{d}{dx}(2x) = 2$. So $\\frac{dy}{dx} = 9x^{2} + 2$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ap-gen-006",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Power Rule",
+  "year": 2022,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\frac{dy}{dx}$ if $y = 5x^{2} + 5x$.",
+  "choices": [
+   "$10x$",
+   "$10x^{2} + 5$",
+   "$5x + 5$",
+   "$10x + 5$"
+  ],
+  "correctIndex": 3,
+  "solution": "Using the power rule, $\\frac{d}{dx}\\left(5x^{2}\\right) = 10x$ and $\\frac{d}{dx}(5x) = 5$. So $\\frac{dy}{dx} = 10x + 5$.",
+  "tags": [
+   "calculus",
+   "differentiation"
+  ]
+ },
+ {
+  "id": "ap-gen-007",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Chain Rule",
+  "year": 2023,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (5x + 5)^{2}$.",
+  "choices": [
+   "$5(5x + 5)$",
+   "$2(5x + 5)$",
+   "$10(5x + 5)^{2}$",
+   "$10(5x + 5)$"
+  ],
+  "correctIndex": 3,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 2(5x + 5) \\cdot 5 = 10(5x + 5)$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "ap-gen-008",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Chain Rule",
+  "year": 2024,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (5x + 3)^{4}$.",
+  "choices": [
+   "$5(5x + 3)^{3}$",
+   "$20(5x + 3)^{3}$",
+   "$4(5x + 3)^{3}$",
+   "$20(5x + 3)^{4}$"
+  ],
+  "correctIndex": 1,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 4(5x + 3)^{3} \\cdot 5 = 20(5x + 3)^{3}$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "ap-gen-009",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Derivatives",
+  "subtopic": "Chain Rule",
+  "year": 2025,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Differentiate $y = (5x + 1)^{4}$.",
+  "choices": [
+   "$20(5x + 1)^{3}$",
+   "$4(5x + 1)^{3}$",
+   "$5(5x + 1)^{3}$",
+   "$20(5x + 1)^{4}$"
+  ],
+  "correctIndex": 0,
+  "solution": "By the chain rule, $\\frac{dy}{dx} = 4(5x + 1)^{3} \\cdot 5 = 20(5x + 1)^{3}$.",
+  "tags": [
+   "calculus",
+   "chain rule"
+  ]
+ },
+ {
+  "id": "ap-gen-010",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Stationary Points",
+  "year": 2016,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Let $f(x) = x^3 - 12x$. Find the stationary points of $f$ and determine their nature.",
+  "solution": "$f'(x) = 3x^2 - 12 = 3(x^2 - 4)$, so stationary points occur at $x = \\pm 2$. $f''(x) = 6x$: at $x = 2$, $f''(2) = 12 > 0$, a local minimum with $f(2) = -16$; at $x = -2$, $f''(-2) = -12 < 0$, a local maximum with $f(-2) = 16$.",
+  "tags": [
+   "calculus",
+   "stationary points",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-gen-011",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Stationary Points",
+  "year": 2017,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "Let $f(x) = x^3 - 12x$. Find the stationary points of $f$ and determine their nature.",
+  "solution": "$f'(x) = 3x^2 - 12 = 3(x^2 - 4)$, so stationary points occur at $x = \\pm 2$. $f''(x) = 6x$: at $x = 2$, $f''(2) = 12 > 0$, a local minimum with $f(2) = -16$; at $x = -2$, $f''(-2) = -12 < 0$, a local maximum with $f(-2) = 16$.",
+  "tags": [
+   "calculus",
+   "stationary points",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-gen-012",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Tangent Lines",
+  "year": 2018,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the slope of the tangent line to $y = x^2$ at the point where $x = 3$.",
+  "choices": [
+   "$6$",
+   "$7$",
+   "$3$",
+   "$9$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\frac{dy}{dx} = 2x$. At $x = 3$ the slope is $2 \\times 3 = 6$.",
+  "tags": [
+   "calculus",
+   "tangent line"
+  ]
+ },
+ {
+  "id": "ap-gen-013",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Derivatives",
+  "subtopic": "Tangent Lines",
+  "year": 2019,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the slope of the tangent line to $y = x^2$ at the point where $x = 5$.",
+  "choices": [
+   "$10$",
+   "$5$",
+   "$25$",
+   "$11$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\frac{dy}{dx} = 2x$. At $x = 5$ the slope is $2 \\times 5 = 10$.",
+  "tags": [
+   "calculus",
+   "tangent line"
+  ]
+ },
+ {
+  "id": "ap-gen-014",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Antiderivatives",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int 5x^{4} \\, dx$.",
+  "choices": [
+   "$x^{5} + C$",
+   "$x^{4} + C$",
+   "$5x^{5} + C$",
+   "$20x^{3} + C$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\int 5x^{4}\\,dx = \\frac{5}{5}x^{5} + C = x^{5} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "ap-gen-015",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Antiderivatives",
+  "year": 2021,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int 12x^{3} \\, dx$.",
+  "choices": [
+   "$3x^{3} + C$",
+   "$36x^{2} + C$",
+   "$12x^{4} + C$",
+   "$3x^{4} + C$"
+  ],
+  "correctIndex": 3,
+  "solution": "$\\int 12x^{3}\\,dx = \\frac{12}{4}x^{4} + C = 3x^{4} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "ap-gen-016",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Antiderivatives",
+  "year": 2022,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find $\\int 6x^{2} \\, dx$.",
+  "choices": [
+   "$12x + C$",
+   "$6x^{3} + C$",
+   "$2x^{2} + C$",
+   "$2x^{3} + C$"
+  ],
+  "correctIndex": 3,
+  "solution": "$\\int 6x^{2}\\,dx = \\frac{6}{3}x^{3} + C = 2x^{3} + C$.",
+  "tags": [
+   "calculus",
+   "integration"
+  ]
+ },
+ {
+  "id": "ap-gen-017",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Definite Integrals",
+  "year": 2023,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{5} 4x \\, dx$.",
+  "choices": [
+   "$20$",
+   "$54$",
+   "$50$",
+   "$100$"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\int_0^{5} 4x\\,dx = \\left[2x^2\\right]_0^{5} = 2 \\times 5^2 = 50$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ap-gen-018",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Definite Integrals",
+  "year": 2024,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{3} 4x \\, dx$.",
+  "choices": [
+   "$12$",
+   "$36$",
+   "$18$",
+   "$22$"
+  ],
+  "correctIndex": 2,
+  "solution": "$\\int_0^{3} 4x\\,dx = \\left[2x^2\\right]_0^{3} = 2 \\times 3^2 = 18$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ap-gen-019",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Integrals",
+  "subtopic": "Definite Integrals",
+  "year": 2025,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{2} 2x \\, dx$.",
+  "choices": [
+   "$4$",
+   "$6$",
+   "$8$",
+   "None of these"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\int_0^{2} 2x\\,dx = \\left[x^2\\right]_0^{2} = 1 \\times 2^2 = 4$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ap-gen-020",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Integrals",
+  "subtopic": "Area Under Curve",
+  "year": 2016,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the area enclosed between the curve $y = 6x^2$, the $x$-axis, and the lines $x = 0$ and $x = 3$.",
+  "solution": "Area $= \\int_0^{3} 6x^2\\,dx = \\left[2x^3\\right]_0^{3} = 2 \\times 27 = 54$ square units.",
+  "tags": [
+   "calculus",
+   "area under curve",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-gen-021",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Integrals",
+  "subtopic": "Area Under Curve",
+  "year": 2017,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the area enclosed between the curve $y = 6x^2$, the $x$-axis, and the lines $x = 0$ and $x = 2$.",
+  "solution": "Area $= \\int_0^{2} 6x^2\\,dx = \\left[2x^3\\right]_0^{2} = 2 \\times 8 = 16$ square units.",
+  "tags": [
+   "calculus",
+   "area under curve",
+   "long answer"
+  ]
+ },
+ {
+  "id": "ap-gen-022",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Integrals",
+  "subtopic": "Area Calculations",
+  "year": 2018,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{4} 2x \\, dx$.",
+  "choices": [
+   "$16$",
+   "$8$",
+   "$32$",
+   "$18$"
+  ],
+  "correctIndex": 0,
+  "solution": "$\\int_0^{4} 2x\\,dx = \\left[x^2\\right]_0^{4} = 1 \\times 4^2 = 16$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ap-gen-023",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Applications of Integrals",
+  "subtopic": "Area Calculations",
+  "year": 2019,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Evaluate $\\int_0^{4} 6x \\, dx$.",
+  "choices": [
+   "$24$",
+   "$48$",
+   "$54$",
+   "$96$"
+  ],
+  "correctIndex": 1,
+  "solution": "$\\int_0^{4} 6x\\,dx = \\left[3x^2\\right]_0^{4} = 3 \\times 4^2 = 48$.",
+  "tags": [
+   "calculus",
+   "definite integral"
+  ]
+ },
+ {
+  "id": "ap-gen-024",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Differential Equations",
+  "subtopic": "Separable Equations",
+  "year": 2020,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Which of the following is the general solution of the differential equation $\\frac{dy}{dx} = 4y$?",
+  "choices": [
+   "$y = Cx^{4}$",
+   "$y = Ce^{4x}$",
+   "$y = Ce^{-4x}$",
+   "$y = 4x + C$"
+  ],
+  "correctIndex": 1,
+  "solution": "Separating variables: $\\frac{dy}{y} = 4\\,dx$, so $\\ln|y| = 4x + c$, giving $y = Ce^{4x}$.",
+  "tags": [
+   "calculus",
+   "differential equations"
+  ]
+ },
+ {
+  "id": "ap-gen-025",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Differential Equations",
+  "subtopic": "Separable Equations",
+  "year": 2021,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Which of the following is the general solution of the differential equation $\\frac{dy}{dx} = 3y$?",
+  "choices": [
+   "$y = Cx^{3}$",
+   "$y = Ce^{3x}$",
+   "$y = Ce^{-3x}$",
+   "$y = 3x + C$"
+  ],
+  "correctIndex": 1,
+  "solution": "Separating variables: $\\frac{dy}{y} = 3\\,dx$, so $\\ln|y| = 3x + c$, giving $y = Ce^{3x}$.",
+  "tags": [
+   "calculus",
+   "differential equations"
+  ]
+ },
+ {
+  "id": "ap-gen-026",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Differential Equations",
+  "subtopic": "Separable Equations",
+  "year": 2022,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Which of the following is the general solution of the differential equation $\\frac{dy}{dx} = 2y$?",
+  "choices": [
+   "$y = Cx^{2}$",
+   "$y = 2x + C$",
+   "$y = Ce^{2x}$",
+   "$y = Ce^{-2x}$"
+  ],
+  "correctIndex": 2,
+  "solution": "Separating variables: $\\frac{dy}{y} = 2\\,dx$, so $\\ln|y| = 2x + c$, giving $y = Ce^{2x}$.",
+  "tags": [
+   "calculus",
+   "differential equations"
+  ]
+ },
+ {
+  "id": "ap-gen-027",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Series and Parametric/Polar Functions",
+  "subtopic": "Geometric Series",
+  "year": 2023,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the sum to infinity of the geometric series with first term $3$ and common ratio $\\frac{1}{2}$.",
+  "choices": [
+   "$9$",
+   "$6$",
+   "$12$",
+   "$3$"
+  ],
+  "correctIndex": 1,
+  "solution": "$S_\\infty = \\frac{a}{1 - r} = \\frac{3}{1 - \\frac{1}{2}} = 6$.",
+  "tags": [
+   "series",
+   "sum to infinity"
+  ]
+ },
+ {
+  "id": "ap-gen-028",
+  "curriculum": "AP",
+  "stream": "calculus",
+  "topic": "Series and Parametric/Polar Functions",
+  "subtopic": "Geometric Series",
+  "year": 2024,
+  "examSource": "AP Calculus AB",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Find the sum to infinity of the geometric series with first term $2$ and common ratio $\\frac{1}{3}$.",
+  "choices": [
+   "$2$",
+   "$3$",
+   "$5$",
+   "$6$"
+  ],
+  "correctIndex": 1,
+  "solution": "$S_\\infty = \\frac{a}{1 - r} = \\frac{2}{1 - \\frac{1}{3}} = 3$.",
+  "tags": [
+   "series",
+   "sum to infinity"
+  ]
+ },
+ {
+  "id": "ap-gen-029",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Exploring Data",
+  "subtopic": "Mean and Median",
+  "year": 2025,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the mean of the data set: $8,\\ 10,\\ 12,\\ 14,\\ 16$.",
+  "choices": [
+   "$12$",
+   "$11$",
+   "$16$",
+   "$13$"
+  ],
+  "correctIndex": 0,
+  "solution": "Mean $= \\frac{8 + 10 + 12 + 14 + 16}{5} = \\frac{60}{5} = 12$.",
+  "tags": [
+   "statistics",
+   "mean"
+  ]
+ },
+ {
+  "id": "ap-gen-030",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Exploring Data",
+  "subtopic": "Mean and Median",
+  "year": 2016,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the mean of the data set: $6,\\ 8,\\ 10,\\ 12,\\ 14$.",
+  "choices": [
+   "$10$",
+   "$14$",
+   "$11$",
+   "$9$"
+  ],
+  "correctIndex": 0,
+  "solution": "Mean $= \\frac{6 + 8 + 10 + 12 + 14}{5} = \\frac{50}{5} = 10$.",
+  "tags": [
+   "statistics",
+   "mean"
+  ]
+ },
+ {
+  "id": "ap-gen-031",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Exploring Data",
+  "subtopic": "Mean and Median",
+  "year": 2017,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Find the median of the data set: $1,\\ 5,\\ 12,\\ 13,\\ 19$.",
+  "choices": [
+   "$12$",
+   "$9$",
+   "$13$",
+   "$5$"
+  ],
+  "correctIndex": 0,
+  "solution": "The data is already ordered; the median is the middle (3rd) value, which is $12$.",
+  "tags": [
+   "statistics",
+   "median"
+  ]
+ },
+ {
+  "id": "ap-gen-032",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Sampling and Experimental Design",
+  "subtopic": "Sampling Methods",
+  "year": 2018,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A researcher divides a school's students by year group and randomly selects 10 students from each year. Which sampling method is this?",
+  "choices": [
+   "Stratified random sampling",
+   "Simple random sampling",
+   "Cluster sampling",
+   "Convenience sampling"
+  ],
+  "correctIndex": 0,
+  "solution": "Dividing the population into subgroups (strata) and sampling randomly from each subgroup is stratified random sampling.",
+  "tags": [
+   "sampling",
+   "study design"
+  ]
+ },
+ {
+  "id": "ap-gen-033",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Sampling and Experimental Design",
+  "subtopic": "Experiments",
+  "year": 2019,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Which feature of a well-designed experiment allows researchers to attribute differences in outcomes to the treatment?",
+  "choices": [
+   "Random assignment of subjects to treatments",
+   "A large sample size",
+   "Using a survey",
+   "Measuring more variables"
+  ],
+  "correctIndex": 0,
+  "solution": "Random assignment balances confounding variables between groups, so observed differences can be attributed to the treatment.",
+  "tags": [
+   "experimental design"
+  ]
+ },
+ {
+  "id": "ap-gen-034",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2020,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 2 red, 4 blue and 3 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{2}{9}$",
+   "$\\frac{2}{7}$",
+   "$\\frac{4}{9}$",
+   "$\\frac{1}{3}$"
+  ],
+  "correctIndex": 0,
+  "solution": "There are $9$ marbles in total, of which $2$ are red. $P(\\text{red}) = \\frac{2}{9}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "ap-gen-035",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Probability",
+  "subtopic": "Basic Probability",
+  "year": 2021,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "A bag contains 4 red, 3 blue and 6 green marbles. One marble is drawn at random. What is the probability it is red?",
+  "choices": [
+   "$\\frac{4}{9}$",
+   "$\\frac{6}{13}$",
+   "$\\frac{3}{13}$",
+   "$\\frac{4}{13}$"
+  ],
+  "correctIndex": 3,
+  "solution": "There are $13$ marbles in total, of which $4$ are red. $P(\\text{red}) = \\frac{4}{13}$.",
+  "tags": [
+   "probability"
+  ]
+ },
+ {
+  "id": "ap-gen-036",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Probability",
+  "subtopic": "Dice Problems",
+  "year": 2022,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 6?",
+  "choices": [
+   "$\\frac{1}{9}$",
+   "$\\frac{1}{6}$",
+   "$\\frac{5}{36}$",
+   "$\\frac{5}{18}$"
+  ],
+  "correctIndex": 2,
+  "solution": "There are $36$ equally likely outcomes and $5$ of them sum to 6, so the probability is $\\frac{5}{36}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "ap-gen-037",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Probability",
+  "subtopic": "Dice Problems",
+  "year": 2023,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Two fair six-sided dice are rolled. What is the probability that the sum of the two dice is 9?",
+  "choices": [
+   "$\\frac{1}{12}$",
+   "$\\frac{1}{4}$",
+   "$\\frac{1}{9}$",
+   "$\\frac{5}{36}$"
+  ],
+  "correctIndex": 2,
+  "solution": "There are $36$ equally likely outcomes and $4$ of them sum to 9, so the probability is $\\frac{1}{9}$.",
+  "tags": [
+   "probability",
+   "dice"
+  ]
+ },
+ {
+  "id": "ap-gen-038",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Random Variables and Distributions",
+  "subtopic": "Binomial Probability",
+  "year": 2024,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A fair coin is tossed 6 times. What is the probability of getting exactly 2 heads?",
+  "choices": [
+   "$\\frac{15}{128}$",
+   "$\\frac{17}{64}$",
+   "$\\frac{1}{3}$",
+   "$\\frac{15}{64}$"
+  ],
+  "correctIndex": 3,
+  "solution": "$P(X = 2) = \\binom{6}{2} \\left(\\frac{1}{2}\\right)^{6} = \\frac{15}{64} = \\frac{15}{64}$.",
+  "tags": [
+   "probability",
+   "binomial"
+  ]
+ },
+ {
+  "id": "ap-gen-039",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Random Variables and Distributions",
+  "subtopic": "Binomial Probability",
+  "year": 2025,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A fair coin is tossed 5 times. What is the probability of getting exactly 3 heads?",
+  "choices": [
+   "$\\frac{3}{5}$",
+   "$\\frac{5}{32}$",
+   "$\\frac{3}{8}$",
+   "$\\frac{5}{16}$"
+  ],
+  "correctIndex": 3,
+  "solution": "$P(X = 3) = \\binom{5}{3} \\left(\\frac{1}{2}\\right)^{5} = \\frac{10}{32} = \\frac{5}{16}$.",
+  "tags": [
+   "probability",
+   "binomial"
+  ]
+ },
+ {
+  "id": "ap-gen-040",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Random Variables and Distributions",
+  "subtopic": "Expected Value",
+  "year": 2016,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A discrete random variable $X$ takes the value $0$ with probability $0.1$, $1$ with probability $0.4$, and $2$ with probability $0.5$. Find $E(X)$.",
+  "choices": [
+   "$1.4$",
+   "$1$",
+   "$1.3$",
+   "$1.5$"
+  ],
+  "correctIndex": 0,
+  "solution": "$E(X) = 0(0.1) + 1(0.4) + 2(0.5) = 1.4$.",
+  "tags": [
+   "statistics",
+   "expected value"
+  ]
+ },
+ {
+  "id": "ap-gen-041",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Random Variables and Distributions",
+  "subtopic": "Expected Value",
+  "year": 2017,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A discrete random variable $X$ takes the value $0$ with probability $0.1$, $1$ with probability $0.5$, and $2$ with probability $0.4$. Find $E(X)$.",
+  "choices": [
+   "$1.2$",
+   "$1.3$",
+   "$1.4$",
+   "$1$"
+  ],
+  "correctIndex": 1,
+  "solution": "$E(X) = 0(0.1) + 1(0.5) + 2(0.4) = 1.3$.",
+  "tags": [
+   "statistics",
+   "expected value"
+  ]
+ },
+ {
+  "id": "ap-gen-042",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Sampling Distributions",
+  "subtopic": "Z-Scores",
+  "year": 2018,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Scores are normally distributed with mean $70$ and standard deviation $10$. What is the $z$-score of a value of $50$?",
+  "choices": [
+   "$2$",
+   "$-1$",
+   "$-2$",
+   "$-3$"
+  ],
+  "correctIndex": 2,
+  "solution": "$z = \\frac{x - \\mu}{\\sigma} = \\frac{50 - 70}{10} = -2$.",
+  "tags": [
+   "statistics",
+   "normal distribution",
+   "z-score"
+  ]
+ },
+ {
+  "id": "ap-gen-043",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Sampling Distributions",
+  "subtopic": "Z-Scores",
+  "year": 2019,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Scores are normally distributed with mean $50$ and standard deviation $10$. What is the $z$-score of a value of $60$?",
+  "choices": [
+   "$-1$",
+   "$0$",
+   "$2$",
+   "$1$"
+  ],
+  "correctIndex": 3,
+  "solution": "$z = \\frac{x - \\mu}{\\sigma} = \\frac{60 - 50}{10} = 1$.",
+  "tags": [
+   "statistics",
+   "normal distribution",
+   "z-score"
+  ]
+ },
+ {
+  "id": "ap-gen-044",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Sampling Distributions",
+  "subtopic": "Z-Scores",
+  "year": 2020,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "Scores are normally distributed with mean $70$ and standard deviation $15$. What is the $z$-score of a value of $115$?",
+  "choices": [
+   "$4$",
+   "$-3$",
+   "$3$",
+   "$2$"
+  ],
+  "correctIndex": 2,
+  "solution": "$z = \\frac{x - \\mu}{\\sigma} = \\frac{115 - 70}{15} = 3$.",
+  "tags": [
+   "statistics",
+   "normal distribution",
+   "z-score"
+  ]
+ },
+ {
+  "id": "ap-gen-045",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Statistical Inference",
+  "subtopic": "Confidence Intervals",
+  "year": 2021,
+  "examSource": "AP Statistics",
+  "difficulty": "Hard",
+  "image": "none",
+  "questionText": "A 95% confidence interval for a population mean is $(12.4, 15.6)$. Which interpretation is correct?",
+  "choices": [
+   "We are 95% confident the population mean lies between 12.4 and 15.6",
+   "95% of the data lies between 12.4 and 15.6",
+   "The population mean is 14.0 with probability 0.95",
+   "95% of samples have a mean between 12.4 and 15.6"
+  ],
+  "correctIndex": 0,
+  "solution": "A confidence interval expresses confidence in the method of capturing the population mean: we are 95% confident the interval $(12.4, 15.6)$ contains the true mean.",
+  "tags": [
+   "inference",
+   "confidence interval"
+  ]
+ },
+ {
+  "id": "ap-gen-046",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Statistical Inference",
+  "subtopic": "Hypothesis Testing",
+  "year": 2022,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "In a hypothesis test, the p-value is $0.03$. Using a significance level of $\\alpha = 0.05$, what is the correct decision?",
+  "choices": [
+   "Reject the null hypothesis",
+   "Accept the null hypothesis as true",
+   "Fail to reject the null hypothesis",
+   "Increase the sample size"
+  ],
+  "correctIndex": 0,
+  "solution": "Since $p = 0.03 < \\alpha = 0.05$, the result is statistically significant and we reject the null hypothesis.",
+  "tags": [
+   "inference",
+   "hypothesis test"
+  ]
+ },
+ {
+  "id": "ap-gen-047",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Regression and Correlation",
+  "subtopic": "Slope Interpretation",
+  "year": 2023,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "A least-squares regression line is $\\hat{y} = 3.2 + 1.5x$. Which is the correct interpretation of the slope?",
+  "choices": [
+   "For each 1-unit increase in $x$, $\\hat{y}$ increases by 1.5 on average",
+   "When $x = 0$, $y = 1.5$",
+   "For each 1-unit increase in $y$, $x$ increases by 1.5",
+   "The correlation between $x$ and $y$ is 1.5"
+  ],
+  "correctIndex": 0,
+  "solution": "The slope of a regression line gives the average change in the predicted response per 1-unit increase in the explanatory variable: 1.5.",
+  "tags": [
+   "regression",
+   "slope"
+  ]
+ },
+ {
+  "id": "ap-gen-048",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Regression and Correlation",
+  "subtopic": "Correlation",
+  "year": 2024,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Which value of the correlation coefficient $r$ indicates the strongest linear relationship?",
+  "choices": [
+   "$r = -0.92$",
+   "$r = 0.85$",
+   "$r = 0.10$",
+   "$r = -0.45$"
+  ],
+  "correctIndex": 0,
+  "solution": "Strength depends on $|r|$. $|-0.92| = 0.92$ is the largest, so $r = -0.92$ is the strongest linear relationship.",
+  "tags": [
+   "regression",
+   "correlation"
+  ]
+ },
+ {
+  "id": "ap-gen-049",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Regression and Correlation",
+  "subtopic": "Residuals",
+  "year": 2025,
+  "examSource": "AP Statistics",
+  "difficulty": "Medium",
+  "image": "none",
+  "questionText": "For a point with observed value $y = 20$ and predicted value $\\hat{y} = 17$, what is the residual?",
+  "choices": [
+   "$3$",
+   "$-3$",
+   "$37$",
+   "$0.85$"
+  ],
+  "correctIndex": 0,
+  "solution": "Residual $= y - \\hat{y} = 20 - 17 = 3$.",
+  "tags": [
+   "regression",
+   "residuals"
+  ]
+ },
+ {
+  "id": "ap-gen-050",
+  "curriculum": "AP",
+  "stream": "statistics",
+  "topic": "Regression and Correlation",
+  "subtopic": "Extrapolation",
+  "year": 2016,
+  "examSource": "AP Statistics",
+  "difficulty": "Easy",
+  "image": "none",
+  "questionText": "Using a regression line to predict $y$ for an $x$-value far outside the range of the observed data is called:",
+  "choices": [
+   "Extrapolation",
+   "Interpolation",
+   "Correlation",
+   "Standardisation"
+  ],
+  "correctIndex": 0,
+  "solution": "Prediction outside the observed range of the explanatory variable is extrapolation, and it is unreliable.",
+  "tags": [
+   "regression",
+   "extrapolation"
+  ]
+ }
 ]

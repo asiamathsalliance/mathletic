@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { DashboardClient } from "./DashboardClient";
 
 export default function DashboardPage() {
-  redirect("/play");
+  return <DashboardClient />;
 }

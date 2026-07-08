@@ -9,6 +9,22 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: appDir,
   },
+  async redirects() {
+    return [
+      { source: "/play", destination: "/challenge", permanent: false },
+      { source: "/play/profile", destination: "/dashboard", permanent: false },
+      {
+        source: "/play/:category/setup",
+        destination: "/challenge/:category/setup",
+        permanent: false,
+      },
+      {
+        source: "/play/:category/run",
+        destination: "/challenge/:category/run",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

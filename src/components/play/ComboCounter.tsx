@@ -1,5 +1,7 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
 interface ComboCounterProps {
   combo: number;
   milestone?: boolean;
@@ -8,10 +10,13 @@ interface ComboCounterProps {
 export function ComboCounter({ combo, milestone }: ComboCounterProps) {
   return (
     <div
-      className={`relative inline-flex items-center gap-2 rounded-full border-[3px] border-[var(--game-forest)] bg-[var(--game-sage)] px-4 py-2 font-bold text-[var(--game-forest)] ${milestone ? "game-burst" : ""}`}
+      className={cn(
+        "inline-flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-1.5 text-sm font-medium",
+        milestone && "border-primary/50 text-primary"
+      )}
     >
-      <span className="text-xs uppercase tracking-wide">Combo</span>
-      <span className="text-lg tabular-nums">{combo.toFixed(1)}x</span>
+      <span className="text-meta normal-case tracking-normal">Combo</span>
+      <span className="tabular-nums">{combo.toFixed(1)}x</span>
     </div>
   );
 }

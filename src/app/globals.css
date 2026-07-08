@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -48,179 +48,153 @@
 }
 
 :root {
-  --background: oklch(0.99 0.005 250);
-  --foreground: oklch(0.2 0.02 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.45 0.2 250);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.96 0.02 250);
-  --secondary-foreground: oklch(0.25 0.05 250);
-  --muted: oklch(0.96 0.01 250);
-  --muted-foreground: oklch(0.5 0.02 250);
-  --accent: oklch(0.94 0.04 250);
-  --accent-foreground: oklch(0.25 0.05 250);
-  --destructive: oklch(0.58 0.22 27);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #F8F3E6;
+  --foreground: #22341A;
+  --card: #FFFDF7;
+  --card-foreground: #22341A;
+  --popover: #FFFDF7;
+  --popover-foreground: #22341A;
+  --primary: #B8D444;
+  --primary-foreground: #22341A;
+  --secondary: #F1EAD6;
+  --secondary-foreground: #22341A;
+  --muted: #F1EAD6;
+  --muted-foreground: #5C6650;
+  --accent: #E8F0C4;
+  --accent-foreground: #22341A;
+  --destructive: #C94A3D;
+  --border: #E3DAC2;
+  --input: #E3DAC2;
+  --ring: #B8D444;
+  --chart-1: #B8D444;
+  --chart-2: #2F7D4F;
+  --chart-3: #2E6DA4;
+  --chart-4: #C9941F;
+  --chart-5: #C94A3D;
+  --radius: 0.5rem;
+  --sidebar: #FFFDF7;
+  --sidebar-foreground: #22341A;
+  --sidebar-primary: #B8D444;
+  --sidebar-primary-foreground: #22341A;
+  --sidebar-accent: #F1EAD6;
+  --sidebar-accent-foreground: #22341A;
+  --sidebar-border: #E3DAC2;
+  --sidebar-ring: #B8D444;
+
+  /* Accent palette — role-mapped, flat fills only */
+  --accent-chartreuse: #B8D444;      /* medium / primary action */
+  --accent-chartreuse-tint: #E8F0C4;
+  --accent-chartreuse-deep: #8FA82F;
+  --accent-green: #2F7D4F;           /* solved / easy (forest) */
+  --accent-green-deep: #24603D;
+  --accent-yellow: #F7C548;
+  --accent-yellow-deep: #C9941F;
+  --accent-blue: #2E6DA4;            /* info / links */
+  --accent-blue-deep: #235682;
+  --accent-red: #C94A3D;             /* hard / error */
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.87 0.00 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+/* Typography scale */
+.text-page-title {
+  font-family: var(--font-heading), "Space Grotesk", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--foreground);
 }
 
-/* Design system — Mathletic */
-:root {
-  --cream: #F6F1E2;
-  --ink: #22341A;
-  --ink-muted: #54533f;
-  --green: #92C064;
-  --green-2: #B9DD8C;
-  --green-deep: #52792F;
-  --green-tint: #E3EFCF;
-  --yellow: #F7C548;
-  --yellow-deep: #C9941F;
-  --yellow-tint: #FCEBB8;
-  --blue: #5BA3E8;
-  --blue-deep: #2563A8;
-  --blue-tint: #D6E9FA;
-  --neon: #7EF29A;
-  --neon-deep: #16A34A;
-  --neon-tint: #E4FFE8;
-  --red: #E6584A;
-  --white: #FFFDF7;
-  --shadow-offset: 6px;
-  /* legacy aliases used by play components */
-  --game-cream: var(--cream);
-  --game-sage: var(--green);
-  --game-forest: var(--ink);
-  --game-shadow-offset: 5px;
+.text-section-header {
+  font-family: var(--font-heading), "Space Grotesk", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
 }
 
-.play-subpage {
-  padding-top: 2.5rem;
-  padding-bottom: 1.5rem;
+.text-meta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
 
-.play-section-head {
-  padding-top: 0.75rem;
-}
-
-.play-card-head {
-  padding-top: 0.85rem;
-}
-
-.play-mcq-section {
-  margin-top: 2.75rem;
-  padding-top: 2.25rem;
-}
-
-@media (min-width: 768px) {
-  .play-subpage {
-    padding-top: 3rem;
-  }
-}
-
-/* Layout & components */
 .app-wrap {
-  max-width: 1180px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 1.25rem;
   width: 100%;
 }
 
 .app-header {
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding-bottom: 18px;
-  border-bottom: 3px solid var(--ink);
+  gap: 1rem;
+  padding: 0.75rem 0 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .logo {
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-size: 23px;
-  font-weight: 800;
+  font-family: var(--font-heading), "Space Grotesk", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: var(--ink);
+  gap: 0.5rem;
+  color: var(--foreground);
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .logo-mark {
-  width: 34px;
-  height: 34px;
-  background: var(--green);
-  border: 3px solid var(--ink);
-  border-radius: 9px;
+  width: 28px;
+  height: 28px;
+  background: var(--accent-chartreuse);
+  border: 1px solid var(--accent-chartreuse-deep);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-foreground);
 }
 
-.app-header nav a {
-  font-weight: 800;
-  color: var(--ink);
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
   text-decoration: none;
-  margin-left: 26px;
-  font-size: 15px;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-link:hover {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.nav-link-active {
+  color: var(--foreground);
+  background: var(--muted);
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   flex: 1;
   justify-content: flex-end;
   min-width: 0;
@@ -231,29 +205,28 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  background: var(--white);
-  border: 3px solid var(--ink);
-  border-radius: 13px;
+  max-width: 360px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 .search-input {
   flex: 1;
   min-width: 0;
-  width: 100%;
   background: transparent;
   border: none;
-  border-radius: 0;
-  padding: 10px 52px 10px 14px;
-  font-family: var(--font-body), "Nunito", sans-serif;
-  font-weight: 700;
-  color: var(--ink);
-  font-size: 14px;
+  padding: 0.5rem 2.75rem 0.5rem 0.75rem;
+  font-family: var(--font-body), "Plus Jakarta Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
   outline: none;
 }
 
 .search-input::placeholder {
-  color: #9b9a86;
+  color: var(--muted-foreground);
 }
 
 .search-btn {
@@ -261,626 +234,72 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 46px;
-  flex: none;
-  background: var(--ink);
+  width: 2.5rem;
+  background: transparent;
   border: none;
-  border-left: 3px solid var(--ink);
-  border-radius: 0;
+  border-left: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: var(--muted-foreground);
 }
 
-.search-btn:active {
-  opacity: 0.92;
+.search-btn:hover {
+  color: var(--foreground);
+  background: var(--accent);
 }
 
 .search-dropdown {
-  background: var(--white);
-  border: 3px solid var(--ink);
-  border-radius: 13px;
-  box-shadow: 5px 5px 0 var(--green-deep);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .search-dropdown-item {
-  border-bottom: 2px solid var(--green-tint);
-  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
   cursor: pointer;
   transition: background 0.12s ease;
 }
 
 .search-dropdown-item-active,
 .search-dropdown-item:hover {
-  background: var(--green-tint);
-}
-
-.avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-weight: 700;
-  border: 3px solid var(--ink);
-  flex: none;
-  font-size: 15px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.stats {
-  margin-top: 22px;
-  background: var(--green-tint);
-  border: 3px solid var(--ink);
-  border-radius: 20px;
-  box-shadow: 6px 6px 0 var(--green-deep);
-  padding: 16px 22px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.stats-skeleton {
-  min-height: 64px;
-}
-
-.pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--white);
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  padding: 8px 16px;
-  white-space: nowrap;
-}
-
-.pill-link {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.pill-link:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0 var(--green-deep);
-}
-
-.pill .label {
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: #73715f;
-  text-transform: uppercase;
-  font-weight: 800;
-}
-
-.pill .value {
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.level-group {
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
-  flex-wrap: wrap;
-}
-
-.level {
-  background: var(--white);
-  border: 3px solid var(--ink);
-  border-radius: 13px;
-  padding: 7px 13px;
-  min-width: 110px;
-}
-
-.level-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  margin-bottom: 5px;
-  color: var(--ink);
-}
-
-.level-bar {
-  height: 7px;
-  background: var(--green-tint);
-  border: 2px solid var(--ink);
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.level-bar > span {
-  display: block;
-  height: 100%;
-  background: var(--yellow);
-  transition: width 0.3s ease;
-}
-
-.all-badges {
-  font-weight: 800;
-  color: var(--ink);
-  text-decoration: underline;
-  font-size: 14px;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: transform 0.12s ease, opacity 0.12s ease;
-}
-
-.all-badges:hover {
-  transform: translate(-1px, -1px);
-  opacity: 0.85;
-}
-
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin: 54px 0 6px;
-}
-
-.hero-text {
-  text-align: center;
-}
-
-.hero h1 {
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-size: clamp(2rem, 5vw, 52px);
-  font-weight: 800;
-  line-height: 1;
-  color: var(--ink);
-}
-
-.hero p {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--ink-muted);
-  max-width: 480px;
-  margin: 14px auto 0;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-  margin-top: 50px;
-}
-
-.cards-browse {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 26px;
-}
-
-@media (max-width: 880px) {
-  .cards-browse {
-    grid-template-columns: 1fr;
-  }
-}
-
-.card {
-  position: relative;
-  border: 3px solid var(--ink);
-  border-radius: 22px;
-  padding: 26px 24px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translate(-3px, -3px);
-}
-
-.card-hsc:hover {
-  box-shadow: 10px 10px 0 var(--green-deep);
-}
-
-.card-alevel:hover {
-  box-shadow: 10px 10px 0 var(--green-deep);
-}
-
-.card-ib:hover {
-  box-shadow: 10px 10px 0 var(--yellow-deep);
-}
-
-.card-ap:hover {
-  box-shadow: 10px 10px 0 var(--blue-deep);
-}
-
-.card-neon:hover {
-  box-shadow: 10px 10px 0 var(--neon-deep);
-}
-
-.card:active {
-  transform: translate(4px, 4px);
-}
-
-.card-hsc {
-  background: var(--green-tint);
-  box-shadow: 7px 7px 0 var(--green-deep);
-}
-
-.card-alevel {
-  background: var(--green-2);
-  box-shadow: 7px 7px 0 var(--green-deep);
-}
-
-.card-ib {
-  background: var(--yellow-tint);
-  box-shadow: 7px 7px 0 var(--yellow-deep);
-  border-width: 4px;
-}
-
-.card-ap {
-  background: var(--blue-tint);
-  box-shadow: 7px 7px 0 var(--blue-deep);
-}
-
-.card-neon {
-  background: var(--neon-tint);
-  box-shadow: 7px 7px 0 var(--neon-deep);
-}
-
-.badge-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  border: 3px solid var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--white);
-}
-
-.card-title {
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--ink);
-}
-
-.card-desc {
-  font-weight: 700;
-  color: #4d4c3c;
-  font-size: 14.5px;
-  line-height: 1.45;
-  flex: 1;
-}
-
-.card-sub {
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--green-deep);
-}
-
-.card-ib .card-sub {
-  color: var(--yellow-deep);
-}
-
-.card-ap .card-sub {
-  color: var(--blue-deep);
-}
-
-.card-neon .card-sub {
-  color: var(--neon-deep);
-}
-
-.card-alevel .card-sub {
-  color: var(--green-deep);
-}
-
-.ribbon {
-  position: absolute;
-  top: -14px;
-  right: 18px;
-  background: var(--ink);
-  color: var(--yellow);
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 6px 13px;
-  border-radius: 8px;
-}
-
-.card-cta {
-  margin-top: 4px;
-  align-self: flex-start;
-  background: var(--white);
-  color: var(--ink);
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  border: 3px solid var(--ink);
-  border-radius: 12px;
-  padding: 9px 17px;
-  pointer-events: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.card-hsc .card-cta {
-  box-shadow: 4px 4px 0 var(--green-deep);
-}
-
-.card-alevel .card-cta {
-  box-shadow: 4px 4px 0 var(--green-deep);
-}
-
-.card-ib .card-cta {
-  box-shadow: 4px 4px 0 var(--yellow-deep);
-}
-
-.card-ap .card-cta {
-  box-shadow: 4px 4px 0 var(--blue-deep);
-}
-
-.card-neon .card-cta {
-  box-shadow: 4px 4px 0 var(--neon-deep);
-}
-
-.card:hover .card-cta {
-  transform: translate(-2px, -2px);
-}
-
-.card-hsc:hover .card-cta {
-  box-shadow: 6px 6px 0 var(--green-deep);
-}
-
-.card-alevel:hover .card-cta {
-  box-shadow: 6px 6px 0 var(--green-deep);
-}
-
-.card-ib:hover .card-cta {
-  box-shadow: 6px 6px 0 var(--yellow-deep);
-}
-
-.card-ap:hover .card-cta {
-  box-shadow: 6px 6px 0 var(--blue-deep);
-}
-
-.card-neon:hover .card-cta {
-  box-shadow: 6px 6px 0 var(--neon-deep);
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 44px;
-  flex-wrap: wrap;
-  padding-bottom: 24px;
-}
-
-.btn {
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  border: 3px solid var(--ink);
-  border-radius: 13px;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-  padding: 13px 24px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btn-outline:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--ink);
-}
-
-.btn-fill:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--yellow-deep);
-}
-
-.btn-outline {
-  background: var(--white);
-  color: var(--ink);
-  box-shadow: 4px 4px 0 var(--ink);
-}
-
-.btn-outline:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--ink);
-}
-
-.btn-fill {
-  background: var(--yellow);
-  color: var(--ink);
-  box-shadow: 4px 4px 0 var(--yellow-deep);
-}
-
-.btn-fill:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--yellow-deep);
-}
-
-.app-fab {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--yellow);
-  border: 3px solid var(--ink);
-  box-shadow: 4px 4px 0 var(--yellow-deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--ink);
-  z-index: 40;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.app-fab:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--yellow-deep);
-}
-
-.app-fab:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--yellow-deep);
+  background: var(--muted);
 }
 
 .app-footer {
-  margin-top: 60px;
-  border-top: 3px solid var(--ink);
-  padding-top: 16px;
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding: 1rem 0 1.5rem;
   text-align: center;
-  font-family: var(--font-heading), "Baloo 2", sans-serif;
-  font-weight: 700;
-  color: var(--ink-muted);
-  font-size: 14px;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+.page-main {
+  padding: 1.5rem 0 2.5rem;
 }
 
-@media (max-width: 880px) {
-  .cards {
-    grid-template-columns: 1fr;
-  }
-  .stats {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .level-group {
-    margin-left: 0;
-  }
-  .app-wrap {
-    padding: 0 16px;
-  }
+/* Subtle single-direction card depth (no offset brutalist shadows) */
+[data-slot="card"] {
+  box-shadow: 0 1px 2px rgba(34, 52, 26, 0.07);
 }
 
-@keyframes game-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.08); }
-  100% { transform: scale(1); }
+.problem-table-row {
+  transition: background 0.12s ease;
 }
 
-@keyframes game-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
-}
-
-@keyframes game-burst {
-  0% { opacity: 1; transform: scale(0.5); }
-  100% { opacity: 0; transform: scale(1.5); }
+.problem-table-row:hover {
+  background: var(--muted);
 }
 
 @keyframes points-float {
   0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-24px); }
-}
-
-.game-shadow {
-  box-shadow: var(--game-shadow-offset) var(--game-shadow-offset) 0 0 var(--ink);
-}
-
-.game-shadow-primary {
-  box-shadow: var(--game-shadow-offset) var(--game-shadow-offset) 0 0 var(--ink);
-}
-
-.game-shadow-secondary {
-  box-shadow: var(--game-shadow-offset) var(--game-shadow-offset) 0 0 var(--ink);
-}
-
-.game-shadow-sage {
-  box-shadow: var(--game-shadow-offset) var(--game-shadow-offset) 0 0 var(--green-deep);
-}
-
-.game-press {
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.game-press:hover:not(:disabled),
-.game-press-primary:hover:not(:disabled),
-.game-press-secondary:hover:not(:disabled),
-.game-press-sage:hover:not(:disabled) {
-  transform: translate(-2px, -2px);
-}
-
-.game-press-primary:hover:not(:disabled) {
-  box-shadow: calc(var(--game-shadow-offset) + 2px) calc(var(--game-shadow-offset) + 2px) 0 0 var(--ink);
-}
-
-.game-press-secondary:hover:not(:disabled) {
-  box-shadow: calc(var(--game-shadow-offset) + 2px) calc(var(--game-shadow-offset) + 2px) 0 0 var(--ink);
-}
-
-.game-press-sage:hover:not(:disabled) {
-  box-shadow: calc(var(--game-shadow-offset) + 2px) calc(var(--game-shadow-offset) + 2px) 0 0 var(--green-deep);
-}
-
-.game-press:active:not(:disabled),
-.game-press-primary:active:not(:disabled),
-.game-press-secondary:active:not(:disabled),
-.game-press-sage:active:not(:disabled) {
-  transform: translate(var(--game-shadow-offset), var(--game-shadow-offset));
-  box-shadow: 0 0 0 0 var(--ink);
-}
-
-.game-press-sage:active:not(:disabled) {
-  box-shadow: 0 0 0 0 var(--green-deep);
-}
-
-.game-pop {
-  animation: game-pop 200ms ease-out;
-}
-
-.game-shake {
-  animation: game-shake 250ms ease-in-out;
-}
-
-.game-burst::after {
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 3px solid var(--game-sage);
-  animation: game-burst 280ms ease-out forwards;
-  pointer-events: none;
+  100% { opacity: 0; transform: translateY(-16px); }
 }
 
 .points-popup {
@@ -892,15 +311,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: var(--font-body), "Nunito", sans-serif;
-    padding: 32px 0 64px;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body), "Plus Jakarta Sans", sans-serif;
+    font-size: 0.875rem;
   }
   html {
-    font-family: var(--font-body), "Nunito", sans-serif;
+    font-family: var(--font-body), "Plus Jakarta Sans", sans-serif;
   }
   h1, h2, h3 {
-    font-family: var(--font-heading), "Baloo 2", sans-serif;
+    font-family: var(--font-heading), "Space Grotesk", sans-serif;
   }
 }

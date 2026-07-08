@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { GameCard } from "./GameCard";
-import { GameButton } from "./GameButton";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { PlayCategory } from "@/lib/playConfig";
 import { PLAY_CATEGORY_SLUG } from "@/lib/playConfig";
 
@@ -28,45 +28,48 @@ function formatTime(ms: number): string {
 
 export function SessionResults({ data }: { data: SessionResultsData }) {
   const slug = PLAY_CATEGORY_SLUG[data.category];
+  const totalPoints = data.mcqScore + data.bossScore + data.bossTimeBonus;
 
   return (
-    <GameCard accent className="space-y-6 max-w-lg mx-auto text-center play-card-head">
-      <h2 className="text-3xl font-bold text-[var(--game-forest)] font-[family-name:var(--font-game-heading)] pt-2">
-        Run Complete!
-      </h2>
+    <Card className="max-w-lg mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="text-page-title">Challenge complete</CardTitle>
+        <p className="text-2xl font-semibold text-foreground mt-2">{totalPoints} pts</p>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-2 gap-3 text-left">
+          <Stat label="Speed round" value={`${data.mcqScore} pts`} />
+          <Stat label="Boss check" value={`${data.bossScore + data.bossTimeBonus} pts`} />
+          <Stat label="Max combo" value={`${data.maxCombo.toFixed(1)}x`} />
+          <Stat label="Accuracy" value={`${data.accuracy}%`} />
+          <Stat label="MCQ correct" value={`${data.mcqCorrect}/${data.mcqTotal}`} />
+          <Stat label="Time used" value={formatTime(data.totalTimeMs)} />
+        </div>
 
-      <div className="text-5xl font-bold text-[var(--game-forest)]">+{data.totalXp} XP</div>
-
-      <div className="grid grid-cols-2 gap-4 text-left">
-        <Stat label="Speed round" value={`${data.mcqScore} pts`} />
-        <Stat label="Boss check" value={`${data.bossScore + data.bossTimeBonus} pts`} />
-        <Stat label="Max combo" value={`${data.maxCombo.toFixed(1)}x`} />
-        <Stat label="Accuracy" value={`${data.accuracy}%`} />
-        <Stat label="MCQ correct" value={`${data.mcqCorrect}/${data.mcqTotal}`} />
-        <Stat label="Time used" value={formatTime(data.totalTimeMs)} />
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <Link href={`/play/${slug}/setup`}>
-          <GameButton variant="secondary" className="w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href={`/challenge/${slug}/setup`}
+            className={buttonVariants({ variant: "outline", className: "w-full sm:w-auto" })}
+          >
             Play again
-          </GameButton>
-        </Link>
-        <Link href="/play/profile">
-          <GameButton variant="secondary" className="w-full sm:w-auto">
-            View profile
-          </GameButton>
-        </Link>
-      </div>
-    </GameCard>
+          </Link>
+          <Link
+            href="/dashboard"
+            className={buttonVariants({ variant: "outline", className: "w-full sm:w-auto" })}
+          >
+            View dashboard
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border-[3px] border-[var(--game-forest)] bg-[var(--game-cream)] p-3">
-      <p className="text-xs font-bold uppercase text-[var(--game-forest)]/70">{label}</p>
-      <p className="text-lg font-bold text-[var(--game-forest)]">{value}</p>
+    <div className="rounded-md border border-border bg-muted/50 p-3">
+      <p className="text-meta">{label}</p>
+      <p className="text-sm font-medium mt-1">{value}</p>
     </div>
   );
 }

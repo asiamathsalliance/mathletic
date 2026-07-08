@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { LatexText } from "@/components/LatexText";
+import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ClientBossQuestion } from "@/lib/playSessionToken";
 import type { BossSelfMark } from "@/lib/playConfig";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
 import { isAiUnavailableError } from "@/lib/aiErrors";
-import { GameCard } from "./GameCard";
-import { GameButton } from "./GameButton";
+import { cn } from "@/lib/utils";
 import { CountdownRing } from "./CountdownRing";
 
 interface BossQuestionProps {
@@ -102,80 +104,79 @@ export function BossQuestion({ question, token, onComplete }: BossQuestionProps)
 
   return (
     <>
-    <GameCard accent className="space-y-5 play-card-head">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold text-[var(--game-forest)] font-[family-name:var(--font-game-heading)]">
-          Boss Check
-        </h2>
-        <CountdownRing timeLeftMs={timeLeft} timeLimitMs={question.timeLimitMs} size={80} />
-      </div>
+      <Card>
+        <CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <CardTitle className="text-section-header">Boss check</CardTitle>
+            <CountdownRing timeLeftMs={timeLeft} timeLimitMs={question.timeLimitMs} size={80} />
+          </div>
+        </CardHeader>
 
-      <div className="flex flex-wrap gap-2 text-sm font-bold">
-        <span className="rounded-full border-2 border-[var(--game-forest)] px-3 py-1 bg-[var(--game-cream)]">
-          {question.difficulty}
-        </span>
-        <span className="rounded-full border-2 border-[var(--game-forest)] px-3 py-1 bg-[var(--game-cream)]">
-          {question.topic}
-        </span>
-      </div>
+        <CardContent className="space-y-5">
+          <div className="flex flex-wrap gap-2">
+            <DifficultyBadge difficulty={question.difficulty} />
+            <span className="text-meta rounded-md border border-border px-2 py-1">{question.topic}</span>
+          </div>
 
-      <div className="text-lg font-semibold text-[var(--game-forest)]">
-        <LatexText>{question.questionText}</LatexText>
-      </div>
+          <div className="text-sm leading-relaxed">
+            <LatexText>{question.questionText}</LatexText>
+          </div>
 
-      {imagePath && (
-        <div className="relative w-full max-w-md aspect-video rounded-xl border-[3px] border-[var(--game-forest)] overflow-hidden">
-          <Image src={imagePath} alt="Question diagram" fill className="object-contain" />
-        </div>
-      )}
+          {imagePath && (
+            <div className="relative w-full max-w-md aspect-video rounded-md border border-border overflow-hidden">
+              <Image src={imagePath} alt="Question diagram" fill className="object-contain" />
+            </div>
+          )}
 
-      <textarea
-        value={answer}
-        onChange={(e) => setAnswer(e.target.value)}
-        placeholder="Write your working and answer here..."
-        rows={6}
-        disabled={scoreLocked}
-        className="w-full rounded-2xl border-[3px] border-[var(--game-forest)] bg-[var(--game-cream)] p-4 font-semibold text-[var(--game-forest)] resize-y focus:outline-none focus:ring-2 focus:ring-[var(--game-forest)]"
-      />
+          <textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder="Write your working and answer here..."
+            rows={6}
+            disabled={scoreLocked}
+            className={cn(
+              "w-full rounded-md border bg-muted/30 p-4 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-ring",
+              verdict === "correct" && "border-green-600 bg-green-50 text-green-900",
+              verdict === "incorrect" && "border-red-600 bg-red-50 text-red-900",
+              verdict === "partial" && "border-amber-600 bg-amber-50 text-amber-900"
+            )}
+          />
 
-      <GameButton
-        variant="secondary"
-        className="w-full"
-        disabled={!answer.trim() || checking || scoreLocked}
-        onClick={handleCheckAnswer}
-      >
-        {checking ? "Checking..." : "Check answer"}
-      </GameButton>
+          <Button
+            variant="outline"
+            className="w-full"
+            disabled={!answer.trim() || checking || scoreLocked}
+            onClick={handleCheckAnswer}
+          >
+            {checking ? "Checking..." : "Check answer"}
+          </Button>
 
-      {checkError && <p className="text-sm font-bold text-red-700">{checkError}</p>}
-      {verdict && (
-        <InlineAnswerFeedback
-          verdict={verdict}
-          analysis={analysis || "Answer checked."}
-          gameStyle
-        />
-      )}
+          {checkError && <p className="text-sm text-red-700">{checkError}</p>}
+          {verdict && (
+            <InlineAnswerFeedback
+              verdict={verdict}
+              analysis={analysis || "Answer checked."}
+            />
+          )}
 
-      <p className="text-sm font-bold text-[var(--game-forest)]">
-        Self-mark against the markscheme (honor system). Score is locked when you submit.
-      </p>
+          <p className="text-sm text-muted-foreground">
+            Self-mark against the markscheme (honor system). Score is locked when you submit.
+          </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <GameButton variant="secondary" disabled={submitting || scoreLocked} onClick={() => submitBoss("incorrect")}>
-          Incorrect
-        </GameButton>
-        <GameButton variant="sage" disabled={submitting || scoreLocked} onClick={() => submitBoss("partial")}>
-          Partial
-        </GameButton>
-        <GameButton disabled={submitting || scoreLocked} onClick={() => submitBoss("correct")}>
-          Correct
-        </GameButton>
-      </div>
-    </GameCard>
-    <AiUnavailableModal
-      open={showAiUnavailable}
-      onClose={() => setShowAiUnavailable(false)}
-    />
-  </>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <Button variant="outline" disabled={submitting || scoreLocked} onClick={() => submitBoss("incorrect")}>
+              Incorrect
+            </Button>
+            <Button variant="secondary" disabled={submitting || scoreLocked} onClick={() => submitBoss("partial")}>
+              Partial
+            </Button>
+            <Button disabled={submitting || scoreLocked} onClick={() => submitBoss("correct")}>
+              Correct
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      <AiUnavailableModal open={showAiUnavailable} onClose={() => setShowAiUnavailable(false)} />
+    </>
   );
 }
