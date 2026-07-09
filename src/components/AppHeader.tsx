@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchBar } from "@/components/SearchBar";
+import { AuthMenu } from "@/components/auth/AuthMenu";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/challenge", label: "Play" },
+  { href: "/", label: "Practice" },
+  { href: "/sprint", label: "Sprint" },
+  { href: "/leaderboard", label: "Leaderboard" },
   { href: "/browse", label: "Browse" },
 ] as const;
 
@@ -43,13 +44,7 @@ export function AppHeader() {
 
       <div className="header-right">
         <SearchBar />
-        <Link
-          href="/dashboard"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-sm font-semibold text-foreground hover:bg-accent"
-          title="Progress dashboard"
-        >
-          P
-        </Link>
+        <AuthMenu />
       </div>
     </header>
   );

@@ -37,7 +37,7 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 
   const filters = await searchParams;
   const typeFilter = filters.type === "mcq" || filters.type === "long" ? filters.type : null;
-  const allQuestions = getAllQuestions();
+  const allQuestions = await getAllQuestions();
   const questions = allQuestions.filter(
     (q) =>
       q.curriculum === curriculum &&

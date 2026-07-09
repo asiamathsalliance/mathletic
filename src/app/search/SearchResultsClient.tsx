@@ -6,8 +6,8 @@ import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
 import { CurriculumTag } from "@/components/ui/CurriculumTag";
 import { LatexText } from "@/components/LatexText";
 import { stripLatexPreview } from "@/lib/questionTable";
-import { isQuestionSolved } from "@/lib/progress";
-import { isMcqQuestion } from "@/lib/questions";
+import { useSolvedIds } from "@/lib/useProgress";
+import { isMcqQuestion } from "@/lib/questionUtils";
 import type { Question } from "@/types/question";
 
 interface SearchResultsClientProps {
@@ -16,6 +16,8 @@ interface SearchResultsClientProps {
 }
 
 export function SearchResultsClient({ query, results }: SearchResultsClientProps) {
+  const { solvedIds } = useSolvedIds();
+
   if (!query.trim()) {
     return (
       <p className="text-muted-foreground py-4">
@@ -59,7 +61,7 @@ export function SearchResultsClient({ query, results }: SearchResultsClientProps
           </thead>
           <tbody>
             {results.map((q) => {
-              const solved = isQuestionSolved(q.id);
+              const solved = solvedIds.has(q.id);
               const type = isMcqQuestion(q) ? "MCQ" : "Long";
               return (
                 <tr key={q.id} className="problem-table-row border-b border-border last:border-0">
@@ -71,7 +73,7 @@ export function SearchResultsClient({ query, results }: SearchResultsClientProps
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <Link href={`/questions/${q.id}`} className="hover:text-primary line-clamp-1">
+                    <Link href={`/questions/${q.id}`} className="text-foreground line-clamp-1">
                       {stripLatexPreview(q.questionText)}
                     </Link>
                   </td>
@@ -92,7 +94,7 @@ export function SearchResultsClient({ query, results }: SearchResultsClientProps
 
       <ul className="md:hidden space-y-2">
         {results.map((q) => {
-          const solved = isQuestionSolved(q.id);
+          const solved = solvedIds.has(q.id);
           const type = isMcqQuestion(q) ? "MCQ" : "Long";
           return (
             <li key={q.id}>

@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { AppHeader } from "@/components/AppHeader";
 import { BackgroundShapes } from "@/components/BackgroundShapes";
 import { Fab } from "@/components/Fab";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -31,15 +32,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} ${plusJakarta.variable} antialiased min-h-screen flex flex-col`}>
-        <BackgroundShapes />
-        <div className="app-wrap flex flex-col flex-1">
-          <AppHeader />
-          <main className="flex-1 w-full page-main">{children}</main>
-          <footer className="app-footer">
-            Mathletic — HSC, IB, AP & A-Level practice
-          </footer>
-        </div>
-        <Fab />
+        <ThemeProvider>
+          <BackgroundShapes />
+          <div className="app-wrap flex flex-col flex-1">
+            <AppHeader />
+            <main className="flex-1 w-full page-main">{children}</main>
+            <footer className="app-footer">
+              Mathletic — HSC, IB, AP & A-Level practice
+            </footer>
+          </div>
+          <Fab />
+        </ThemeProvider>
       </body>
     </html>
   );

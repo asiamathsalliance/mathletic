@@ -1,138 +1,294 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useMemo, type ReactNode } from "react";
+import { Trophy, Zap, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAllQuestions } from "@/lib/questions";
-import {
-  getSolvedCountsByDifficulty,
-  getCurriculumProgress,
-} from "@/lib/progress";
-import {
-  getActivityByDay,
-  getRecentActivity,
-  getAggregateAccuracy,
-  getMaxStreak,
-  getSolvedByDifficulty,
-} from "@/lib/progressStats";
-import { getGameProfile, BADGE_LABELS, type BadgeId } from "@/lib/gameProfile";
-import { PLAY_CATEGORIES } from "@/lib/playConfig";
+import type { Question } from "@/types/question";
+import { getSolvedMap } from "@/lib/progress";
+import { getGameProfile } from "@/lib/gameProfile";
+import { useProgress } from "@/lib/useProgress";
+import type { DashboardLeaderboardStats } from "@/lib/dashboardStats";
 import { ActivityHeatmap } from "@/components/dashboard/ActivityHeatmap";
+import { SolvedStatsCard } from "@/components/dashboard/SolvedStatsCard";
+import { useAchievementStats } from "@/lib/profile/useAchievementStats";
+import { ACHIEVEMENTS } from "@/lib/profile/constants";
 
-export function DashboardClient() {
-  const allQuestions = useMemo(() => getAllQuestions(), []);
-  const solvedStats = useMemo(() => getSolvedCountsByDifficulty(allQuestions), [allQuestions]);
-  const curriculumProgress = useMemo(() => getCurriculumProgress(allQuestions), [allQuestions]);
-  const activity = useMemo(() => getActivityByDay(365), []);
-  const recent = useMemo(() => getRecentActivity(12), []);
-  const accuracy = useMemo(() => getAggregateAccuracy(), []);
-  const streak = useMemo(() => getMaxStreak(), []);
-  const byDiff = useMemo(() => getSolvedByDifficulty(), []);
+const COMPETITION_GROUPS = [
+  { key: "AMC 10", match: (q: Question) => q.competition === "AMC10" },
+  { key: "AMC 12", match: (q: Question) => q.competition === "AMC12" },
+  {
+    key: "Other",
+    match: (q: Question) => q.competition !== "AMC10" && q.competition !== "AMC12",
+  },
+] as const;
+
+function dayKey(ts: number): string {
+  const d = new Date(ts);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+export function DashboardClient({
+  questions,
+  leaderboardStats,
+  fromProfile = false,
+}: {
+  questions: Question[];
+  leaderboardStats: DashboardLeaderboardStats | null;
+  fromProfile?: boolean;
+}) {
+  const allQuestions = questions;
+  const { signedIn, attempts, solvedIds } = useProgress();
+
+  const solvedEntries = useMemo(() => {
+    if (signedIn) {
+      return attempts
+        .filter((a) => a.status === "solved" && a.solved_at)
+        .map((a) => ({ id: a.question_id, solvedAt: new Date(a.solved_at as string).getTime() }));
+    }
+    return Object.entries(getSolvedMap()).map(([id, e]) => ({ id, solvedAt: e.solvedAt }));
+  }, [signedIn, attempts]);
+
+  const difficultyById = useMemo(
+    () => new Map(allQuestions.map((q) => [q.id, q.difficulty])),
+    [allQuestions]
+  );
+
+  const solvedStats = useMemo(() => {
+    const byDifficulty = {
+      Easy: { total: 0, solved: 0 },
+      Medium: { total: 0, solved: 0 },
+      Hard: { total: 0, solved: 0 },
+    };
+    let solvedTotal = 0;
+    for (const q of allQuestions) {
+      const bucket = byDifficulty[q.difficulty];
+      if (!bucket) continue;
+      bucket.total += 1;
+      if (solvedIds.has(q.id)) {
+        bucket.solved += 1;
+        solvedTotal += 1;
+      }
+    }
+    return { total: allQuestions.length, solvedTotal, byDifficulty };
+  }, [allQuestions, solvedIds]);
+
+  const attemptingCount = useMemo(() => {
+    if (!signedIn) return 0;
+    return attempts.filter((a) => a.status === "attempted").length;
+  }, [signedIn, attempts]);
+
+  const competitionProgress = useMemo(() => {
+    return COMPETITION_GROUPS.map(({ key, match }) => {
+      let total = 0;
+      let solved = 0;
+      for (const q of allQuestions) {
+        if (!match(q)) continue;
+        total += 1;
+        if (solvedIds.has(q.id)) solved += 1;
+      }
+      return {
+        key,
+        total,
+        solved,
+        percent: total > 0 ? Math.round((solved / total) * 100) : 0,
+      };
+    });
+  }, [allQuestions, solvedIds]);
+
   const profile = useMemo(() => getGameProfile(), []);
-  const [selectedDate, setSelectedDate] = useState<string>(
-    new Date().toISOString().slice(0, 10)
+
+  const activity = useMemo(() => {
+    type DayBucket = { count: number; Easy: number; Medium: number; Hard: number };
+    const buckets: Record<string, DayBucket> = {};
+
+    const addSolve = (dateKey: string, questionId: string) => {
+      if (!buckets[dateKey]) buckets[dateKey] = { count: 0, Easy: 0, Medium: 0, Hard: 0 };
+      buckets[dateKey].count += 1;
+      const diff = difficultyById.get(questionId);
+      if (diff === "Easy" || diff === "Medium" || diff === "Hard") {
+        buckets[dateKey][diff] += 1;
+      }
+    };
+
+    for (const e of solvedEntries) {
+      addSolve(dayKey(e.solvedAt), e.id);
+    }
+    if (!signedIn) {
+      for (const run of profile.runHistory ?? []) {
+        const key = dayKey(run.completedAt);
+        if (!buckets[key]) buckets[key] = { count: 0, Easy: 0, Medium: 0, Hard: 0 };
+        buckets[key].count += 1;
+      }
+    }
+
+    const result: {
+      date: string;
+      count: number;
+      byDifficulty?: { Easy: number; Medium: number; Hard: number };
+    }[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const yearStart = new Date(today.getFullYear(), 0, 1);
+    const cursor = new Date(yearStart);
+    while (cursor <= today) {
+      const key = dayKey(cursor.getTime());
+      const bucket = buckets[key];
+      result.push({
+        date: key,
+        count: bucket?.count ?? 0,
+        byDifficulty: bucket
+          ? { Easy: bucket.Easy, Medium: bucket.Medium, Hard: bucket.Hard }
+          : undefined,
+      });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return result;
+  }, [solvedEntries, signedIn, profile, difficultyById]);
+
+  const recent = useMemo(
+    () =>
+      [...solvedEntries]
+        .sort((a, b) => b.solvedAt - a.solvedAt)
+        .slice(0, 12)
+        .map((e) => ({
+          id: `solved-${e.id}`,
+          label: `Solved ${e.id}`,
+          meta: difficultyById.get(e.id) ?? "",
+          timestamp: e.solvedAt,
+        })),
+    [solvedEntries, difficultyById]
   );
 
-  const allBadges = new Set<BadgeId>(
-    PLAY_CATEGORIES.flatMap((c) => profile.categories[c].badges)
-  );
+  const streak = useMemo(() => {
+    const days = new Set(solvedEntries.map((e) => dayKey(e.solvedAt)));
+    let count = 0;
+    const cursor = new Date();
+    if (!days.has(dayKey(cursor.getTime()))) cursor.setDate(cursor.getDate() - 1);
+    while (days.has(dayKey(cursor.getTime()))) {
+      count += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    return count;
+  }, [solvedEntries]);
+
+  const { earned: achievementsEarned } = useAchievementStats();
+
+  const streakLabel = streak === 1 ? "1 day" : `${streak} days`;
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-page-title">Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Your practice progress</p>
+        {fromProfile ? (
+          <div className="flex items-start gap-3">
+            <Link
+              href="/profile"
+              className="mt-1 flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Back to profile"
+            >
+              <ArrowLeft className="size-4" strokeWidth={2.25} />
+            </Link>
+            <div>
+              <h1 className="text-page-title">Progress</h1>
+              <p className="mt-1 text-muted-foreground">Stats, activity, and how you&apos;re improving</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h1 className="text-page-title">Progress</h1>
+            <p className="text-muted-foreground mt-1">Stats, activity, and how you&apos;re improving</p>
+          </>
+        )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="Solved" value={`${solvedStats.solvedTotal}/${solvedStats.total}`} />
-        <StatCard label="Accuracy" value={accuracy > 0 ? `${accuracy}%` : "—"} />
-        <StatCard label="Streak" value={`${streak}d`} />
-        <StatCard label="Challenges" value={String(profile.runHistory.length)} />
+        <StatCard
+          label="Progress"
+          value={
+            solvedStats.total > 0
+              ? `${Math.round((solvedStats.solvedTotal / solvedStats.total) * 100)}%`
+              : "—"
+          }
+        />
+        <StatCard label="Streak" value={streakLabel} />
+        <StatCard
+          label="Achievements"
+          value={`${achievementsEarned}/${ACHIEVEMENTS.length}`}
+        />
       </div>
 
-      <Card className="border-2 border-border">
-        <CardHeader className="pb-2">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <CardTitle className="text-section-header">Activity</CardTitle>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="h-8 rounded-md border border-border bg-background px-2 text-xs text-muted-foreground"
-            />
-          </div>
+      <SolvedStatsCard
+        solvedTotal={solvedStats.solvedTotal}
+        total={solvedStats.total}
+        attempting={attemptingCount}
+        byDifficulty={solvedStats.byDifficulty}
+        byCompetition={competitionProgress}
+      />
+
+      <ActivityHeatmap data={activity} title="Activity" />
+
+      <Card className="mt-14 border-2 border-border">
+        <CardHeader className="flex flex-row items-center justify-between gap-2">
+          <CardTitle className="text-section-header">Leaderboard highlights</CardTitle>
+          <Link
+            href="/leaderboard"
+            className="text-xs font-medium text-muted-foreground hover:text-foreground hover:underline"
+          >
+            View leaderboard →
+          </Link>
         </CardHeader>
         <CardContent>
-          <ActivityHeatmap data={activity} />
+          {!signedIn ? (
+            <p className="text-sm text-muted-foreground">
+              Sign in to track sprint scores and your rank on the leaderboard.
+            </p>
+          ) : !leaderboardStats ? (
+            <p className="text-sm text-muted-foreground">Loading leaderboard stats…</p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <HighlightStat
+                icon={<Zap className="size-4 text-[#8FA82F]" />}
+                label="Best sprint score"
+                value={leaderboardStats.bestSprintScore > 0 ? String(leaderboardStats.bestSprintScore) : "—"}
+              />
+              <HighlightStat
+                icon={<Zap className="size-4 text-[#C9941F]" />}
+                label="Sprint runs"
+                value={String(leaderboardStats.sprintRuns)}
+              />
+              <HighlightStat
+                icon={<Trophy className="size-4 text-[#C9941F]" />}
+                label="Most solved rank"
+                value={
+                  leaderboardStats.solvedRank != null
+                    ? `#${leaderboardStats.solvedRank}`
+                    : "—"
+                }
+                detail={
+                  leaderboardStats.totalRankedUsers > 0
+                    ? `of ${leaderboardStats.totalRankedUsers} users`
+                    : undefined
+                }
+              />
+              <HighlightStat
+                icon={<Trophy className="size-4 text-[#2F7D4F]" />}
+                label="Best sprint rank"
+                value={
+                  leaderboardStats.sprintRank != null
+                    ? `#${leaderboardStats.sprintRank}`
+                    : "—"
+                }
+                detail={
+                  leaderboardStats.bestSprintAccuracy != null
+                    ? `${leaderboardStats.bestSprintCorrect}/${leaderboardStats.bestSprintAnswered} correct (${leaderboardStats.bestSprintAccuracy}%)`
+                    : undefined
+                }
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card className="border-2 border-border">
-          <CardHeader>
-            <CardTitle className="text-section-header">Solved by difficulty</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {(["Easy", "Medium", "Hard"] as const).map((d) => (
-              <div key={d} className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{d}</span>
-                <span className="font-medium">
-                  {byDiff[d]} / {solvedStats.byDifficulty[d].total}
-                </span>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 border-border">
-          <CardHeader>
-            <CardTitle className="text-section-header">Solved by curriculum</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {Object.entries(curriculumProgress).map(([cur, p]) => (
-              <div key={cur} className="space-y-1.5">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{cur}</span>
-                  <span className="font-medium">
-                    {p.solved}/{p.total}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-primary"
-                      style={{ width: `${Math.min(100, p.percent)}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground tabular-nums w-9 text-right">
-                    {p.percent}%
-                  </span>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
-
-      {allBadges.size > 0 && (
-        <Card className="border-2 border-border">
-          <CardHeader>
-            <CardTitle className="text-section-header">Milestones</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {[...allBadges].map((id) => (
-                <span
-                  key={id}
-                  className="inline-flex items-center rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
-                >
-                  {BADGE_LABELS[id]}
-                </span>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       <Card className="border-2 border-border">
         <CardHeader>
@@ -164,11 +320,34 @@ export function DashboardClient() {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <Card className="border-2 border-border">
-      <CardContent className="pt-2">
-        <p className="text-meta">{label}</p>
-        <p className="text-2xl font-semibold mt-0.5">{value}</p>
+    <Card className="border-2 border-border gap-1 py-4">
+      <CardContent className="pt-1.5 pb-1">
+        <p className="text-meta leading-none">{label}</p>
+        <p className="mt-2 text-2xl font-semibold">{value}</p>
       </CardContent>
     </Card>
+  );
+}
+
+function HighlightStat({
+  icon,
+  label,
+  value,
+  detail,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+  detail?: string;
+}) {
+  return (
+    <div className="rounded-lg border border-border bg-muted/30 px-4 py-3">
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        {icon}
+        {label}
+      </div>
+      <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
+      {detail && <p className="mt-0.5 text-xs text-muted-foreground">{detail}</p>}
+    </div>
   );
 }

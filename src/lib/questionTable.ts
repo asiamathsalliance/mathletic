@@ -1,20 +1,15 @@
-import type { Question, Curriculum, Difficulty } from "@/types/question";
-import {
-  getAllQuestions,
-  getQuestionsByFilters,
-  isMcqQuestion,
-} from "@/lib/questions";
-import { isQuestionSolved } from "@/lib/progress";
+import type { Question, Competition, Difficulty } from "@/types/question";
+import { filterQuestionList, isMcqQuestion } from "@/lib/questionUtils";
 
 export type QuestionTypeFilter = "all" | "mcq" | "long";
-export type StatusFilter = "all" | "solved" | "unsolved";
+export type StatusOption = "solved" | "unsolved";
 
 export interface TableFilters {
-  curriculum?: Curriculum | "";
+  competitions?: Competition[];
   topic?: string;
   difficulties?: Difficulty[];
   type?: QuestionTypeFilter;
-  status?: StatusFilter;
+  statuses?: StatusOption[];
   keyword?: string;
 }
 
@@ -26,12 +21,17 @@ export interface QuestionTableRow {
 
 export function filterQuestionsForTable(
   filters: TableFilters,
-  allQuestions: Question[] = getAllQuestions()
+  allQuestions: Question[],
+  isSolved: (id: string) => boolean
 ): QuestionTableRow[] {
-  let pool = getQuestionsByFilters({
-    curriculum: filters.curriculum || undefined,
+  let pool = filterQuestionList(allQuestions, {
     keyword: filters.keyword || undefined,
   });
+
+  if (filters.competitions && filters.competitions.length > 0) {
+    const allowed = new Set(filters.competitions);
+    pool = pool.filter((q) => q.competition && allowed.has(q.competition));
+  }
 
   if (filters.difficulties && filters.difficulties.length > 0) {
     const allowed = new Set(filters.difficulties);
@@ -48,15 +48,17 @@ export function filterQuestionsForTable(
     pool = pool.filter((q) => !isMcqQuestion(q));
   }
 
-  if (filters.status === "solved") {
-    pool = pool.filter((q) => isQuestionSolved(q.id));
-  } else if (filters.status === "unsolved") {
-    pool = pool.filter((q) => !isQuestionSolved(q.id));
+  if (filters.statuses?.length === 1) {
+    if (filters.statuses[0] === "solved") {
+      pool = pool.filter((q) => isSolved(q.id));
+    } else {
+      pool = pool.filter((q) => !isSolved(q.id));
+    }
   }
 
   return pool.map((question) => ({
     question,
-    solved: isQuestionSolved(question.id),
+    solved: isSolved(question.id),
     type: isMcqQuestion(question) ? "MCQ" : "Long",
   }));
 }
@@ -91,7 +93,7 @@ export function stripLatexPreview(text: string, maxLen = 80): string {
   return `${plain.slice(0, maxLen - 1)}…`;
 }
 
-export function getUniqueTopics(questions: Question[] = getAllQuestions()): string[] {
+export function getUniqueTopics(questions: Question[]): string[] {
   return [...new Set(questions.map((q) => q.topic))].sort();
 }
 
@@ -154,7 +156,7 @@ export function getSimpleTopic(topic: string): string {
 }
 
 /** Unique simple topics present in the question bank, in a fixed sensible order. */
-export function getSimpleTopics(questions: Question[] = getAllQuestions()): string[] {
+export function getSimpleTopics(questions: Question[]): string[] {
   const present = new Set(questions.map((q) => getSimpleTopic(q.topic)));
   const ordered = SIMPLE_TOPIC_ORDER.filter((t) => present.has(t));
   const extras = [...present].filter((t) => !SIMPLE_TOPIC_ORDER.includes(t)).sort();

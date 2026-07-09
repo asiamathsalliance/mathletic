@@ -30,7 +30,7 @@ export default async function PracticeExamPage({ params }: PageProps) {
   const curriculum = SLUG_TO_CURRICULUM[curriculumSlug?.toLowerCase() ?? ""] as Curriculum | undefined;
   if (!curriculum || !MOCK_IDS.includes(mockId as (typeof MOCK_IDS)[number])) notFound();
 
-  const questions = getMockQuestions(curriculum, mockId, 3);
+  const questions = await getMockQuestions(curriculum, mockId, 3);
   const title = `${CURRICULUM_TITLE[curriculum]} · ${mockId === "mock-1" ? "Mock 1" : "Mock 2"}`;
 
   return (

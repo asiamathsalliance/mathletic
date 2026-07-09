@@ -10,7 +10,7 @@ interface PageProps {
 export default async function QuestionPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { from } = await searchParams;
-  const question = getQuestionById(id);
+  const question = await getQuestionById(id);
 
   if (!question) notFound();
 

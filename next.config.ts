@@ -11,18 +11,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/play", destination: "/challenge", permanent: false },
+      // Challenge mode was replaced by Sprint.
+      { source: "/challenge", destination: "/sprint", permanent: false },
+      { source: "/challenge/:path*", destination: "/sprint", permanent: false },
+      { source: "/play", destination: "/sprint", permanent: false },
       { source: "/play/profile", destination: "/dashboard", permanent: false },
-      {
-        source: "/play/:category/setup",
-        destination: "/challenge/:category/setup",
-        permanent: false,
-      },
-      {
-        source: "/play/:category/run",
-        destination: "/challenge/:category/run",
-        permanent: false,
-      },
+      { source: "/play/:path*", destination: "/sprint", permanent: false },
     ];
   },
 };

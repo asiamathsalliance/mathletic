@@ -2,12 +2,25 @@ import { getSolvedMap } from "@/lib/progress";
 import { getGameProfile } from "@/lib/gameProfile";
 import type { Difficulty } from "@/types/question";
 
+export interface ActivityDayBreakdown {
+  Easy: number;
+  Medium: number;
+  Hard: number;
+}
+
 export interface ActivityDay {
   date: string;
   count: number;
+  byDifficulty?: ActivityDayBreakdown;
 }
 
-export function getActivityByDay(days = 365): ActivityDay[] {
+/** Local calendar date key (YYYY-MM-DD) — avoids UTC shift from toISOString(). */
+export function localDayKey(d: Date | number): string {
+  const date = typeof d === "number" ? new Date(d) : d;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+export function getActivityByDay(): ActivityDay[] {
   const counts: Record<string, number> = {};
 
   const addDay = (ts: number) => {
@@ -21,17 +34,19 @@ export function getActivityByDay(days = 365): ActivityDay[] {
   }
 
   const profile = getGameProfile();
-  for (const run of profile.runHistory) {
+  for (const run of profile.runHistory ?? []) {
     addDay(run.completedAt);
   }
 
   const result: ActivityDay[] = [];
   const today = new Date();
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  today.setHours(0, 0, 0, 0);
+  const start = new Date(today.getFullYear(), 0, 1);
+  const cursor = new Date(start);
+  while (cursor <= today) {
+    const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(cursor.getDate()).padStart(2, "0")}`;
     result.push({ date: key, count: counts[key] ?? 0 });
+    cursor.setDate(cursor.getDate() + 1);
   }
 
   return result;
@@ -59,7 +74,7 @@ export function getRecentActivity(limit = 15): RecentActivityItem[] {
   }
 
   const profile = getGameProfile();
-  for (const run of profile.runHistory) {
+  for (const run of profile.runHistory ?? []) {
     items.push({
       id: run.id,
       type: "run",

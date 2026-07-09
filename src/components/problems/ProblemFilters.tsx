@@ -3,10 +3,19 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Circle, Filter, Search, X } from "lucide-react";
-import { getSimpleTopics } from "@/lib/questionTable";
-import { getAllQuestions } from "@/lib/questions";
-import { isQuestionSolved } from "@/lib/progress";
-import { CURRICULA, DIFFICULTIES } from "@/types/question";
+import {
+  filterQuestionsForTable,
+  getSimpleTopics,
+  type TableFilters,
+} from "@/lib/questionTable";
+import { useSolvedIds } from "@/lib/useProgress";
+import {
+  COMPETITION_FILTER_OPTIONS,
+  competitionsFromParams,
+  DEFAULT_COMPETITION_FILTERS,
+  type CompetitionFilter,
+} from "@/lib/competitions";
+import { DIFFICULTIES, type Difficulty, type Question } from "@/types/question";
 import { cn } from "@/lib/utils";
 
 interface FilterRow {
@@ -15,19 +24,45 @@ interface FilterRow {
   options: { value: string; label: string }[];
 }
 
-export function ProblemFilters() {
+export { competitionsFromParams };
+
+const FILTER_PANEL_KEY = "mathletic-filters-panel-open";
+
+export function ProblemFilters({ questions }: { questions: Question[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [panelOpen, setPanelOpenState] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [solvedCount, setSolvedCount] = useState(0);
 
-  const allQuestions = useMemo(() => getAllQuestions(), []);
-  const topics = useMemo(() => getSimpleTopics(allQuestions), [allQuestions]);
+  const setPanelOpen = useCallback((open: boolean | ((prev: boolean) => boolean)) => {
+    setPanelOpenState((prev) => {
+      const next = typeof open === "function" ? open(prev) : open;
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(FILTER_PANEL_KEY, next ? "1" : "0");
+      }
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
-    setSolvedCount(allQuestions.filter((q) => isQuestionSolved(q.id)).length);
-  }, [allQuestions]);
+    if (sessionStorage.getItem(FILTER_PANEL_KEY) === "1") {
+      setPanelOpenState(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    function onPointerDown(e: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        setPanelOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [panelOpen, setPanelOpen]);
+  const { solvedIds } = useSolvedIds();
+
+  const topics = useMemo(() => getSimpleTopics(questions), [questions]);
 
   const updateFilter = useCallback(
     (key: string, value: string) => {
@@ -44,43 +79,89 @@ export function ProblemFilters() {
 
   const clearFilters = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
-    for (const key of ["status", "difficulty", "topic", "curriculum", "type"]) {
+    for (const key of ["status", "difficulty", "topic", "competition", "type"]) {
       params.delete(key);
     }
     router.replace(`/?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
   const selectedDifficulties = searchParams.getAll("difficulty");
-  const selectedStatus = searchParams.get("status") ?? "all";
+  const selectedStatuses = searchParams
+    .getAll("status")
+    .filter((s): s is "solved" | "unsolved" => s === "solved" || s === "unsolved");
+  const urlParams = useMemo(
+    () => new URLSearchParams(searchParams.toString()),
+    [searchParams]
+  );
+  const selectedCompetitionFilters = useMemo(() => {
+    const fromUrl = searchParams
+      .getAll("competition")
+      .filter((c): c is CompetitionFilter =>
+        COMPETITION_FILTER_OPTIONS.some((o) => o.id === c)
+      );
+    if (fromUrl.length > 0) return fromUrl;
+    if (searchParams.get("competition") === "all") return [];
+    return DEFAULT_COMPETITION_FILTERS;
+  }, [searchParams]);
+  const explicitCompetitionFilters = searchParams
+    .getAll("competition")
+    .filter((c) => c !== "all" && COMPETITION_FILTER_OPTIONS.some((o) => o.id === c));
 
-  const toggleDifficulty = useCallback(
-    (difficulty: string) => {
+  const toggleMulti = useCallback(
+    (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
-      const current = new Set(params.getAll("difficulty"));
-      if (current.has(difficulty)) {
-        current.delete(difficulty);
+      const current = new Set(params.getAll(key).filter((v) => v !== "all"));
+      if (current.has(value)) {
+        current.delete(value);
       } else {
-        current.add(difficulty);
+        current.add(value);
       }
-      params.delete("difficulty");
-      [...current].forEach((d) => params.append("difficulty", d));
+      params.delete(key);
+      [...current].forEach((v) => params.append(key, v));
       router.replace(`/?${params.toString()}`, { scroll: false });
     },
     [router, searchParams]
   );
 
-  const toggleStatus = useCallback(
-    (status: "solved" | "unsolved") => {
+  const toggleCompetitionFilter = useCallback(
+    (filter: CompetitionFilter) => {
       const params = new URLSearchParams(searchParams.toString());
-      const current = params.get("status");
-      if (current === status) {
-        params.delete("status");
+      const current = new Set(
+        params
+          .getAll("competition")
+          .filter((c): c is CompetitionFilter =>
+            COMPETITION_FILTER_OPTIONS.some((o) => o.id === c)
+          )
+      );
+      if (current.size === 0 && DEFAULT_COMPETITION_FILTERS.length > 0) {
+        DEFAULT_COMPETITION_FILTERS.forEach((c) => current.add(c));
+      }
+      if (current.has(filter)) {
+        current.delete(filter);
       } else {
-        params.set("status", status);
+        current.add(filter);
+      }
+      params.delete("competition");
+      if (current.size === 0) {
+        if (DEFAULT_COMPETITION_FILTERS.length > 0) params.set("competition", "all");
+      } else {
+        [...current].forEach((c) => params.append("competition", c));
       }
       router.replace(`/?${params.toString()}`, { scroll: false });
     },
     [router, searchParams]
+  );
+
+  const showAllSubjects = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("competition");
+    if (DEFAULT_COMPETITION_FILTERS.length > 0) params.set("competition", "all");
+    router.replace(`/?${params.toString()}`, { scroll: false });
+  }, [router, searchParams]);
+
+  const toggleStatus = useCallback(
+    (status: "solved" | "unsolved") => toggleMulti("status", status),
+    [toggleMulti]
   );
 
   const rows: FilterRow[] = [
@@ -90,14 +171,6 @@ export function ProblemFilters() {
       options: [
         { value: "all", label: "All" },
         ...topics.map((t) => ({ value: t, label: t })),
-      ],
-    },
-    {
-      key: "curriculum",
-      label: "Curriculum",
-      options: [
-        { value: "all", label: "All" },
-        ...CURRICULA.map((c) => ({ value: c, label: c })),
       ],
     },
     {
@@ -113,14 +186,35 @@ export function ProblemFilters() {
 
   const activeCount =
     (selectedDifficulties.length > 0 ? 1 : 0) +
+    (explicitCompetitionFilters.length > 0 ? 1 : 0) +
+    (selectedStatuses.length > 0 ? 1 : 0) +
     rows.filter((r) => {
-    const v = searchParams.get(r.key);
-    return v && v !== "all";
+      const v = searchParams.get(r.key);
+      return v && v !== "all";
     }).length;
+
+  const hasAnyFilter =
+    activeCount > 0 ||
+    Boolean(searchParams.get("q")) ||
+    selectedCompetitionFilters.length > 0;
+
+  const filters: TableFilters = {
+    competitions: competitionsFromParams(urlParams),
+    topic: searchParams.get("topic") ?? "",
+    difficulties: selectedDifficulties as Difficulty[],
+    type: (searchParams.get("type") as TableFilters["type"]) ?? "all",
+    statuses: selectedStatuses,
+    keyword: searchParams.get("q") ?? "",
+  };
+  const filteredRows = filterQuestionsForTable(
+    { ...filters, statuses: [] },
+    questions,
+    (id) => solvedIds.has(id)
+  );
+  const filteredSolved = filteredRows.filter((r) => r.solved).length;
 
   return (
     <div className="flex items-center gap-3">
-      {/* Search — left */}
       <div className="relative w-full max-w-xs">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
         <input
@@ -137,7 +231,6 @@ export function ProblemFilters() {
         />
       </div>
 
-      {/* Filter funnel button + dropdown panel */}
       <div className="relative" ref={panelRef}>
         <button
           type="button"
@@ -182,10 +275,43 @@ export function ProblemFilters() {
 
             <div className="space-y-3">
               <div className="grid grid-cols-[5rem_1fr] items-start gap-2">
+                <span className="text-sm text-muted-foreground pt-1.5">Subject</span>
+                <div className="flex flex-wrap gap-2">
+                  {COMPETITION_FILTER_OPTIONS.map(({ id, label }) => {
+                    const checked = selectedCompetitionFilters.includes(id);
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => toggleCompetitionFilter(id)}
+                        className={cn(
+                          "h-8 rounded-md border px-3 text-sm",
+                          checked
+                            ? "border-primary bg-primary/15 text-foreground"
+                            : "border-border bg-background text-muted-foreground"
+                        )}
+                      >
+                        {checked ? "✓ " : ""}
+                        {label}
+                      </button>
+                    );
+                  })}
+                  {selectedCompetitionFilters.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={showAllSubjects}
+                      className="h-8 rounded-md px-2 text-xs text-muted-foreground underline hover:text-foreground"
+                    >
+                      Show all
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-[5rem_1fr] items-start gap-2">
                 <span className="text-sm text-muted-foreground pt-1.5">Status</span>
                 <div className="flex flex-wrap gap-2">
                   {(["solved", "unsolved"] as const).map((s) => {
-                    const checked = selectedStatus === s;
+                    const checked = selectedStatuses.includes(s);
                     return (
                       <button
                         key={s}
@@ -214,7 +340,7 @@ export function ProblemFilters() {
                       <button
                         key={d}
                         type="button"
-                        onClick={() => toggleDifficulty(d)}
+                        onClick={() => toggleMulti("difficulty", d)}
                         className={cn(
                           "h-8 rounded-md border px-3 text-sm",
                           checked
@@ -250,11 +376,12 @@ export function ProblemFilters() {
         )}
       </div>
 
-      {/* Solved counter — right */}
       <div className="ml-auto flex items-center gap-1.5 text-sm text-muted-foreground shrink-0">
         <Circle className="size-4" />
         <span>
-          {solvedCount}/{allQuestions.length} Solved
+          {hasAnyFilter
+            ? `${filteredSolved}/${filteredRows.length} solved (filtered)`
+            : `${filteredSolved}/${questions.length} solved`}
         </span>
       </div>
     </div>

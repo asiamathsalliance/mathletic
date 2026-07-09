@@ -11,18 +11,18 @@ export default async function SearchPage({ searchParams }: PageProps) {
   const { q = "", curriculum, topic, difficulty } = params;
 
   const hasExplicitFilters = Boolean(curriculum || topic || difficulty);
-  const byId = q.trim() ? getQuestionById(q.trim()) : undefined;
+  const byId = q.trim() ? await getQuestionById(q.trim()) : undefined;
   const results = byId
     ? [byId]
     : hasExplicitFilters
-      ? getQuestionsByFilters({
+      ? await getQuestionsByFilters({
           curriculum,
           topic,
           difficulty,
           keyword: q.trim() || undefined,
         })
       : q.trim()
-        ? searchQuestionsAI(q.trim())
+        ? await searchQuestionsAI(q.trim())
         : [];
 
   return (

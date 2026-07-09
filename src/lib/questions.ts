@@ -1,44 +1,151 @@
-import type { Question } from "@/types/question";
+/**
+ * Server-side question data access. All getters are async and cached per
+ * request. Questions come from Supabase Postgres when configured; the bundled
+ * JSON files remain as a source-of-record fallback for local dev without env
+ * vars (and as a backup of the original bank).
+ *
+ * Pure helpers shared with client components live in src/lib/questionUtils.ts.
+ */
+import { cache } from "react";
+import type { Competition, Question } from "@/types/question";
+import { COMPETITION_TO_LABEL } from "@/types/question";
 import questionsHsc from "@/data/questions-hsc.json";
 import questionsIb from "@/data/questions-ib.json";
 import questionsAp from "@/data/questions-ap.json";
 import questionsAlevel from "@/data/questions-alevel.json";
-import { getTopicNamesForCanonical } from "@/lib/curriculumStreams";
-import { interpretSearchQuery } from "@/lib/searchInterpret";
-import type { PlayCategory } from "@/lib/playConfig";
-import { playCategoryToCurriculum } from "@/lib/playConfig";
+import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import {
+  filterQuestionList,
+  isMcqQuestion,
+  searchQuestionListAI,
+  seededRandom,
+} from "@/lib/questionUtils";
 
-const questions: Question[] = [
+export { isMcqQuestion, isLongAnswerQuestion, shuffleQuestions } from "@/lib/questionUtils";
+
+const LABEL_FROM_CURRICULUM: Record<string, Competition> = {
+  HSC: "HSC",
+  IB: "IB",
+  AP: "AP",
+  "A-Level": "A_LEVEL",
+};
+
+const jsonQuestions: Question[] = [
   ...(questionsHsc as Question[]),
   ...(questionsIb as Question[]),
   ...(questionsAp as Question[]),
   ...(questionsAlevel as Question[]),
-];
+].map((q) => ({ ...q, competition: LABEL_FROM_CURRICULUM[q.curriculum] }));
 
-export function getAllQuestions(): Question[] {
-  return questions;
+interface QuestionRow {
+  id: string;
+  competition: Competition;
+  stream: string | null;
+  topic: string;
+  subtopic: string | null;
+  year: number | null;
+  exam_source: string | null;
+  difficulty: Question["difficulty"];
+  amc_year: number | null;
+  amc_variant: "A" | "B" | null;
+  problem_number: number | null;
+  difficulty_bucket: string | null;
+  question_text: string;
+  image_url: string | null;
+  choices: string[] | null;
+  correct_index: number | null;
+  solution: string | null;
+  solution_image_url: string | null;
+  tags: string[] | null;
 }
 
-/** Get all questions for a curriculum (for practice exams). */
-export function getQuestionsByCurriculum(curriculum: string): Question[] {
-  return questions.filter((q) => q.curriculum === curriculum);
-}
-
-/** Simple seeded RNG for deterministic "random" mock selection. */
-function seededRandom(seed: number): () => number {
-  return () => {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-    return seed / 0x7fffffff;
+function rowToQuestion(row: QuestionRow): Question {
+  return {
+    id: row.id,
+    curriculum: COMPETITION_TO_LABEL[row.competition] ?? row.competition,
+    competition: row.competition,
+    stream: (row.stream as Question["stream"]) ?? undefined,
+    topic: row.topic,
+    subtopic: row.subtopic ?? "",
+    year: row.year ?? row.amc_year ?? 0,
+    examSource: row.exam_source ?? "",
+    difficulty: row.difficulty,
+    amcYear: row.amc_year ?? undefined,
+    amcVariant: row.amc_variant ?? undefined,
+    problemNumber: row.problem_number ?? undefined,
+    difficultyBucket: row.difficulty_bucket ?? undefined,
+    questionText: row.question_text,
+    image: row.image_url ?? undefined,
+    choices: row.choices ?? undefined,
+    correctIndex: row.correct_index ?? undefined,
+    solution: row.solution ?? "",
+    solutionImage: row.solution_image_url ?? undefined,
+    tags: row.tags ?? [],
   };
 }
 
-/** Get up to `count` questions for a curriculum mock, deterministically selected by mockId. */
-export function getMockQuestions(
+/**
+ * All questions, cached per request. Reads from Supabase when configured and
+ * non-empty; falls back to the bundled JSON otherwise.
+ */
+export const getAllQuestions = cache(async (): Promise<Question[]> => {
+  if (!isSupabaseConfigured()) return jsonQuestions;
+
+  try {
+    const supabase = createAnonClient();
+    const rows: QuestionRow[] = [];
+    const PAGE = 1000;
+    for (let from = 0; ; from += PAGE) {
+      const { data, error } = await supabase
+        .from("questions")
+        .select("*")
+        .order("id")
+        .range(from, from + PAGE - 1);
+      if (error) throw error;
+      rows.push(...((data ?? []) as QuestionRow[]));
+      if (!data || data.length < PAGE) break;
+    }
+    if (rows.length === 0) return jsonQuestions;
+    return rows.map(rowToQuestion);
+  } catch (err) {
+    console.error("Supabase questions fetch failed, using JSON fallback:", err);
+    return jsonQuestions;
+  }
+});
+
+export const getQuestionById = cache(async (id: string): Promise<Question | undefined> => {
+  if (!isSupabaseConfigured()) {
+    return jsonQuestions.find((q) => q.id === id);
+  }
+  try {
+    const supabase = createAnonClient();
+    const { data, error } = await supabase
+      .from("questions")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    if (data) return rowToQuestion(data as QuestionRow);
+    return jsonQuestions.find((q) => q.id === id);
+  } catch (err) {
+    console.error("Supabase question fetch failed, using JSON fallback:", err);
+    return jsonQuestions.find((q) => q.id === id);
+  }
+});
+
+/** All questions for a curriculum label (e.g. "HSC", "AMC 10"). */
+export async function getQuestionsByCurriculum(curriculum: string): Promise<Question[]> {
+  const questions = await getAllQuestions();
+  return questions.filter((q) => q.curriculum === curriculum);
+}
+
+/** Up to `count` questions for a curriculum mock, deterministically selected by mockId. */
+export async function getMockQuestions(
   curriculum: string,
   mockId: string,
   count: number = 3
-): Question[] {
-  const pool = getQuestionsByCurriculum(curriculum);
+): Promise<Question[]> {
+  const pool = await getQuestionsByCurriculum(curriculum);
   if (pool.length === 0) return [];
   const seed = mockId.split("").reduce((s, c) => s + c.charCodeAt(0), 0);
   const rng = seededRandom(seed);
@@ -50,168 +157,19 @@ export function getMockQuestions(
   return indices.slice(0, Math.min(count, pool.length)).map((i) => pool[i]);
 }
 
-/** Keyword-only search (all terms must match). */
-export function searchQuestions(query: string): Question[] {
-  const q = query.trim().toLowerCase();
-  if (!q) return [];
-
-  const terms = q.split(/\s+/).filter(Boolean);
-  return questions.filter((question) => {
-    const searchable = [
-      question.curriculum,
-      question.topic,
-      question.subtopic,
-      question.examSource,
-      question.difficulty,
-      question.questionText,
-      question.solution,
-      ...question.tags,
-      String(question.year),
-    ]
-      .join(" ")
-      .toLowerCase();
-    return terms.every((term) => searchable.includes(term));
-  });
+/** AI-style natural language search across the whole bank. */
+export async function searchQuestionsAI(query: string): Promise<Question[]> {
+  const questions = await getAllQuestions();
+  return searchQuestionListAI(questions, query);
 }
 
-/**
- * AI-style search: interprets natural language (e.g. "IB trig questions")
- * into curriculum, topic, difficulty and filters questions accordingly.
- * Also applies keyword matching on remaining words for content/tags.
- */
-export function searchQuestionsAI(query: string): Question[] {
-  const q = query.trim();
-  if (!q) return [];
-
-  const { curriculum, topic, difficulty, keywords } = interpretSearchQuery(q);
-  const hasInterpreted =
-    curriculum != null || topic != null || difficulty != null || keywords.length > 0;
-
-  if (!hasInterpreted) {
-    return searchQuestions(q);
-  }
-
-  let result = questions;
-
-  if (curriculum) {
-    result = result.filter((question) => question.curriculum === curriculum);
-  }
-  if (topic) {
-    const topicNames = getTopicNamesForCanonical(topic) ?? [topic];
-    result = result.filter((question) => topicNames.includes(question.topic));
-  }
-  if (difficulty) {
-    result = result.filter((question) => question.difficulty === difficulty);
-  }
-
-  if (keywords.length > 0) {
-    const searchableText = (question: Question) =>
-      [
-        question.questionText,
-        question.solution,
-        question.topic,
-        question.subtopic,
-        ...question.tags,
-      ]
-        .join(" ")
-        .toLowerCase();
-    result = result.filter((question) => {
-      const text = searchableText(question);
-      return keywords.some((kw) => text.includes(kw));
-    });
-  }
-
-  return result;
-}
-
-/**
- * Filter questions by explicit curriculum, topic, difficulty and optional keyword.
- * Used when the search page receives these from the URL (e.g. from AI search).
- */
-export function getQuestionsByFilters(filters: {
+/** Filter questions by explicit curriculum, topic, difficulty and optional keyword. */
+export async function getQuestionsByFilters(filters: {
   curriculum?: string;
   topic?: string;
   difficulty?: string;
   keyword?: string;
-}): Question[] {
-  let result = questions;
-
-  if (filters.curriculum) {
-    result = result.filter((q) => q.curriculum === filters.curriculum);
-  }
-  if (filters.topic) {
-    const topicNames = getTopicNamesForCanonical(filters.topic) ?? [filters.topic];
-    result = result.filter((q) => topicNames.includes(q.topic));
-  }
-  if (filters.difficulty) {
-    result = result.filter((q) => q.difficulty === filters.difficulty);
-  }
-
-  if (filters.keyword?.trim()) {
-    const k = filters.keyword.trim().toLowerCase();
-    result = result.filter((q) => {
-      const text = [
-        q.questionText,
-        q.solution,
-        q.topic,
-        q.subtopic,
-        ...q.tags,
-      ]
-        .join(" ")
-        .toLowerCase();
-      return text.includes(k) || k.split(/\s+/).some((w) => text.includes(w));
-    });
-  }
-
-  return result;
-}
-
-export function isMcqQuestion(q: Question): boolean {
-  return Boolean(q.choices && q.choices.length >= 4 && typeof q.correctIndex === "number");
-}
-
-export function isLongAnswerQuestion(q: Question): boolean {
-  return !isMcqQuestion(q);
-}
-
-export function getQuestionById(id: string): Question | undefined {
-  return questions.find((q) => q.id === id);
-}
-
-export function getPlayQuestionPool(
-  category: PlayCategory,
-  filters: { topic?: string; difficulty?: string }
-): { mcq: Question[]; long: Question[] } {
-  const curriculum = playCategoryToCurriculum(category);
-  const pool = getQuestionsByFilters({ curriculum, ...filters });
-  return {
-    mcq: pool.filter(isMcqQuestion),
-    long: pool.filter(isLongAnswerQuestion),
-  };
-}
-
-/** Fisher-Yates shuffle with optional seed for reproducibility. */
-export function shuffleQuestions<T>(items: T[], seed?: number): T[] {
-  const arr = [...items];
-  const rng = seed != null ? seededRandom(seed) : () => Math.random();
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-export function pickSessionQuestions(
-  category: PlayCategory,
-  filters: { topic?: string; difficulty?: string },
-  mcqCount: number,
-  seed: number
-): { mcq: Question[]; boss: Question | null } {
-  const { mcq, long } = getPlayQuestionPool(category, filters);
-  const shuffledMcq = shuffleQuestions(mcq, seed);
-  const shuffledLong = shuffleQuestions(long, seed + 1);
-  return {
-    mcq: shuffledMcq.slice(0, mcqCount),
-    boss: shuffledLong[0] ?? null,
-  };
+}): Promise<Question[]> {
+  const questions = await getAllQuestions();
+  return filterQuestionList(questions, filters);
 }

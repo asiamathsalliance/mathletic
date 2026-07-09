@@ -5,14 +5,36 @@ import Link from "next/link";
 import { CURRICULA } from "@/types/question";
 import { CURRICULUM_STREAMS, topicToSlug } from "@/lib/curriculumStreams";
 import { CURRICULUM_INFO } from "@/lib/curriculumCards";
+import { AMC_BROWSE_TOPICS } from "@/lib/competitions";
 import { getSimpleTopic } from "@/lib/questionTable";
-import { ChevronRight, Calculator, Sigma, BarChart3, Waypoints, FunctionSquare } from "lucide-react";
+import {
+  ChevronRight,
+  Calculator,
+  Sigma,
+  BarChart3,
+  Waypoints,
+  FunctionSquare,
+  Shapes,
+  Hash,
+} from "lucide-react";
 
-const OLYMPIAD_ITEMS = [
-  { label: "AMC 8", slug: "amc-8" },
-  { label: "AMC 10", slug: "amc-10" },
-  { label: "AMC 12", slug: "amc-12" },
-  { label: "AIME", slug: "aime" },
+const AMC_COMPETITIONS = [
+  {
+    id: "AMC10" as const,
+    label: "AMC 10",
+    titleClass: "text-[#5D3A80]",
+    accentClass: "text-[#5D3A80]",
+    cardHover: "hover:border-[#7B4FA6] hover:bg-[#F3EDF8]",
+    iconBg: "bg-[#EDE4F4]",
+  },
+  {
+    id: "AMC12" as const,
+    label: "AMC 12",
+    titleClass: "text-[#803D3A]",
+    accentClass: "text-[#803D3A]",
+    cardHover: "hover:border-[#A6524F] hover:bg-[#F8EDEC]",
+    iconBg: "bg-[#F5E4E3]",
+  },
 ];
 
 const curriculumTitleClass: Record<(typeof CURRICULA)[number], string> = {
@@ -23,6 +45,9 @@ const curriculumTitleClass: Record<(typeof CURRICULA)[number], string> = {
 };
 
 function TopicIcon({ topic }: { topic: string }) {
+  if (topic === "Geometry") return <Shapes className="size-4" />;
+  if (topic === "Number Theory") return <Hash className="size-4" />;
+  if (topic === "Counting & Probability") return <BarChart3 className="size-4" />;
   const simple = getSimpleTopic(topic);
   if (simple.includes("Calculus")) return <Calculator className="size-4" />;
   if (simple.includes("Probability") || simple.includes("Statistics")) return <BarChart3 className="size-4" />;
@@ -43,12 +68,50 @@ export default function BrowsePage() {
   const [activeStreamByCurriculum, setActiveStreamByCurriculum] = useState<Record<string, string>>(initial);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-page-title">Curricula</h1>
-      </div>
-
+    <div className="space-y-10">
+      {/* Competition */}
       <section className="space-y-5">
+        <h1 className="text-page-title">Competition</h1>
+
+        {AMC_COMPETITIONS.map((comp) => (
+          <div key={comp.id} className="rounded-2xl border-2 border-border bg-card p-6">
+            <div className="mb-5">
+              <h2 className={`text-2xl font-semibold ${comp.titleClass}`}>{comp.label}</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Past AMC problems by topic — 25 questions per exam, multiple choice.
+              </p>
+            </div>
+
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {AMC_BROWSE_TOPICS.length} topics
+            </p>
+
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {AMC_BROWSE_TOPICS.map((topic) => (
+                <li key={topic}>
+                  <Link
+                    href={`/?competition=${comp.id}&topic=${encodeURIComponent(topic)}`}
+                    className={`flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-[#FCFBF7] px-4 py-3 text-sm text-foreground transition-colors ${comp.cardHover}`}
+                  >
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${comp.iconBg} ${comp.accentClass}`}
+                    >
+                      <TopicIcon topic={topic} />
+                    </span>
+                    <span className="flex-1 min-w-0">{topic}</span>
+                    <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      {/* Curricula */}
+      <section className="space-y-5">
+        <h1 className="text-page-title">Curricula</h1>
+
         {CURRICULA.map((curriculum) => {
           const info = CURRICULUM_INFO[curriculum];
           const streams = CURRICULUM_STREAMS[curriculum];
@@ -115,22 +178,6 @@ export default function BrowsePage() {
             </div>
           );
         })}
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-section-header">Olympiad</h2>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {OLYMPIAD_ITEMS.map((item) => (
-            <Link key={item.slug} href={`/olympiad/${item.slug}`}>
-              <div className="rounded-xl border-2 border-border bg-card px-4 py-4 transition-colors hover:bg-muted/50">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">{item.label}</span>
-                  <ChevronRight className="size-4 text-muted-foreground" />
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );

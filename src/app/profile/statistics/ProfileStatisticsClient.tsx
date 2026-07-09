@@ -1,0 +1,65 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { Loader2 } from "lucide-react";
+import { useProfile } from "@/lib/profile/useProfile";
+import { useProgress } from "@/lib/useProgress";
+import { ProfileLayout } from "@/components/profile/ProfileNav";
+import { ProfileCard } from "@/components/profile/ProfileCard";
+import { useProfileStatsFromAttempts } from "@/components/profile/ProfileHeader";
+import { localDayKey } from "@/lib/progressStats";
+
+export default function ProfileStatisticsClient() {
+  const router = useRouter();
+  const { loading, signedIn, profile } = useProfile();
+  const { solvedIds, attempts } = useProgress();
+
+  useEffect(() => {
+    if (!loading && !signedIn) router.replace("/");
+  }, [loading, signedIn, router]);
+
+  const activity = useMemo(() => {
+    const buckets: Record<string, number> = {};
+    for (const a of attempts.filter((x) => x.status === "solved" && x.solved_at)) {
+      const key = localDayKey(new Date(a.solved_at as string));
+      buckets[key] = (buckets[key] ?? 0) + 1;
+    }
+    return Object.entries(buckets).map(([date, count]) => ({ date, count }));
+  }, [attempts]);
+
+  const stats = useProfileStatsFromAttempts(solvedIds.size, activity);
+  stats.solved = solvedIds.size;
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[40vh] items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <ProfileLayout>
+      <ProfileCard title="Statistics">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Stat label="Total Solved" value={stats.solved} />
+          <Stat label="Active Days" value={activity.filter((d) => d.count > 0).length} />
+          <Stat label="Current Streak" value={`${stats.currentStreak} days`} />
+          <Stat label="Longest Streak" value={`${stats.longestStreak} days`} />
+          <Stat label="Difficulty Pref." value={profile?.difficultyPreference ?? "—"} />
+          <Stat label="Topics Selected" value={profile?.topics.length ?? 0} />
+        </div>
+      </ProfileCard>
+    </ProfileLayout>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-2xl border border-border bg-muted/30 p-5">
+      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className="mt-1 text-2xl font-bold tabular-nums">{value}</p>
+    </div>
+  );
+}

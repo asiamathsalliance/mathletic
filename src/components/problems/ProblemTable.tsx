@@ -1,47 +1,115 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
-import { CheckCircle2 } from "lucide-react";
-import { LatexText } from "@/components/LatexText";
-import { CurriculumTag } from "@/components/ui/CurriculumTag";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { filterQuestionsForTable, type TableFilters } from "@/lib/questionTable";
+import { competitionsFromParams } from "@/lib/competitions";
 import {
-  filterQuestionsForTable,
-  truncateLatex,
-  getSimpleTopic,
-  type TableFilters,
-} from "@/lib/questionTable";
-import { getAllQuestions } from "@/lib/questions";
-import { cn } from "@/lib/utils";
-import type { Difficulty } from "@/types/question";
+  pageSlice,
+  parsePage,
+  parsePageSize,
+  type PageSizeOption,
+} from "@/lib/pagination";
+import { useSolvedIds } from "@/lib/useProgress";
+import type { Difficulty, Question } from "@/types/question";
+import { ProblemTableHeader, ProblemTableRows } from "@/components/problems/ProblemTableRows";
+import { TablePagination } from "@/components/problems/TablePagination";
 
-const DIFFICULTY_TEXT: Record<Difficulty, { label: string; className: string }> = {
-  Easy: { label: "Easy", className: "text-[#2F7D4F]" },
-  Medium: { label: "Med.", className: "text-[#C9941F]" },
-  Hard: { label: "Hard", className: "text-[#C94A3D]" },
-};
+function buildFilters(searchParams: URLSearchParams): TableFilters {
+  return {
+    competitions: competitionsFromParams(searchParams),
+    topic: searchParams.get("topic") ?? "",
+    difficulties: searchParams.getAll("difficulty") as Difficulty[],
+    type: (searchParams.get("type") as TableFilters["type"]) ?? "all",
+    statuses: searchParams
+      .getAll("status")
+      .filter((s): s is "solved" | "unsolved" => s === "solved" || s === "unsolved"),
+    keyword: searchParams.get("q") ?? "",
+  };
+}
 
-export function ProblemTable() {
+function filterKeyFromParams(searchParams: URLSearchParams): string {
+  const p = new URLSearchParams(searchParams.toString());
+  p.delete("page");
+  p.delete("pageSize");
+  return p.toString();
+}
+
+export function ProblemTable({ questions }: { questions: Question[] }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const allQuestions = useMemo(() => getAllQuestions(), []);
+  const { solvedIds } = useSolvedIds();
+  const tableRef = useRef<HTMLDivElement>(null);
+  const prevFilterKey = useRef<string>("");
+  const skipScrollRef = useRef(true);
 
-  const filters: TableFilters = useMemo(
-    () => ({
-      curriculum: (searchParams.get("curriculum") as TableFilters["curriculum"]) ?? "",
-      topic: searchParams.get("topic") ?? "",
-      difficulties: searchParams.getAll("difficulty") as Difficulty[],
-      type: (searchParams.get("type") as TableFilters["type"]) ?? "all",
-      status: (searchParams.get("status") as TableFilters["status"]) ?? "all",
-      keyword: searchParams.get("q") ?? "",
-    }),
+  const filters = useMemo(
+    () => buildFilters(new URLSearchParams(searchParams.toString())),
+    [searchParams]
+  );
+
+  const filterKey = useMemo(
+    () => filterKeyFromParams(new URLSearchParams(searchParams.toString())),
     [searchParams]
   );
 
   const rows = useMemo(
-    () => filterQuestionsForTable(filters, allQuestions),
-    [filters, allQuestions]
+    () => filterQuestionsForTable(filters, questions, (id) => solvedIds.has(id)),
+    [filters, questions, solvedIds]
   );
+
+  const pageSize = parsePageSize(searchParams.get("pageSize"));
+  const totalPages = Math.max(1, Math.ceil(rows.length / pageSize) || 1);
+  const page = parsePage(searchParams.get("page"), totalPages);
+
+  const pageRows = useMemo(
+    () => pageSlice(rows, page, pageSize),
+    [rows, page, pageSize]
+  );
+
+  const startIndex = (page - 1) * pageSize;
+
+  const updateUrl = useCallback(
+    (updates: { page?: number; pageSize?: PageSizeOption }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (updates.pageSize !== undefined) {
+        params.set("pageSize", String(updates.pageSize));
+        params.set("page", "1");
+      } else if (updates.page !== undefined) {
+        params.set("page", String(updates.page));
+      }
+      router.replace(`/?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams]
+  );
+
+  // Reset to page 1 when filters/search change.
+  useEffect(() => {
+    if (prevFilterKey.current && prevFilterKey.current !== filterKey) {
+      const current = parseInt(searchParams.get("page") ?? "1", 10);
+      if (current !== 1) {
+        updateUrl({ page: 1 });
+      }
+    }
+    prevFilterKey.current = filterKey;
+  }, [filterKey, searchParams, updateUrl]);
+
+  // Clamp page when result count shrinks.
+  useEffect(() => {
+    const raw = parseInt(searchParams.get("page") ?? "1", 10);
+    if (raw > totalPages) {
+      updateUrl({ page: totalPages });
+    }
+  }, [totalPages, searchParams, updateUrl]);
+
+  // Scroll to table top when page or page size changes.
+  useEffect(() => {
+    if (skipScrollRef.current) {
+      skipScrollRef.current = false;
+      return;
+    }
+    tableRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [page, pageSize]);
 
   if (rows.length === 0) {
     return (
@@ -52,50 +120,23 @@ export function ProblemTable() {
   }
 
   return (
-    <ul className="rounded-lg border border-border bg-card overflow-hidden">
-      <li className="hidden md:grid md:grid-cols-[1.25rem_minmax(0,1fr)_3.5rem_10rem_7rem] items-center gap-3 px-4 py-2 border-b border-border bg-muted/40 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-        <span />
-        <span>Question</span>
-        <span className="text-right">Difficulty</span>
-        <span className="text-right">Topic</span>
-        <span className="text-right">Curriculum</span>
-      </li>
-      {rows.map(({ question, solved }, i) => {
-        const diff = DIFFICULTY_TEXT[question.difficulty];
-        return (
-          <li key={question.id} className="border-b border-border last:border-0">
-            <Link
-              href={`/questions/${question.id}`}
-              className="problem-table-row grid grid-cols-[1.25rem_minmax(0,1fr)_3.5rem_10rem_7rem] items-center gap-3 px-4 py-3"
-            >
-              <span className="w-5 shrink-0 flex justify-center">
-                {solved && (
-                  <CheckCircle2 className="size-4 text-[#2F7D4F]" aria-label="Solved" />
-                )}
-              </span>
-
-              <span className="min-w-0 text-sm font-medium text-foreground">
-                <span className="block truncate [mask-image:linear-gradient(to_right,black_82%,transparent)]">
-                  <span className="text-muted-foreground">{i + 1}.&nbsp;</span>
-                  <LatexText>{truncateLatex(question.questionText, 90)}</LatexText>
-                </span>
-              </span>
-
-              <span className={cn("text-sm font-medium text-right", diff.className)}>
-                {diff.label}
-              </span>
-
-              <span className="hidden md:block truncate text-xs text-muted-foreground text-right">
-                {getSimpleTopic(question.topic)}
-              </span>
-
-              <span className="hidden sm:inline-flex justify-end">
-                <CurriculumTag curriculum={question.curriculum} />
-              </span>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+    <div ref={tableRef} className="scroll-mt-4">
+      <div
+        key={`${page}-${pageSize}`}
+        className="rounded-lg border border-border bg-card overflow-hidden problem-table-page-in"
+      >
+        <ul>
+          <ProblemTableHeader />
+          <ProblemTableRows rows={pageRows} startIndex={startIndex} />
+        </ul>
+        <TablePagination
+          page={page}
+          pageSize={pageSize}
+          totalItems={rows.length}
+          onPageChange={(p) => updateUrl({ page: p })}
+          onPageSizeChange={(size) => updateUrl({ pageSize: size })}
+        />
+      </div>
+    </div>
   );
 }

@@ -79,7 +79,7 @@ export function getGameProfile(): GameProfile {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultProfile();
-    const parsed = JSON.parse(raw) as GameProfile;
+    const parsed = JSON.parse(raw) as Partial<GameProfile>;
     return {
       ...defaultProfile(),
       ...parsed,
@@ -87,6 +87,7 @@ export function getGameProfile(): GameProfile {
         ...defaultProfile().categories,
         ...parsed.categories,
       },
+      runHistory: Array.isArray(parsed.runHistory) ? parsed.runHistory : [],
     };
   } catch {
     return defaultProfile();

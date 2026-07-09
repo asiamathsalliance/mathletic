@@ -13,7 +13,7 @@ import { LatexText } from "@/components/LatexText";
 import { Check, Sparkles, X } from "lucide-react";
 import type { Question } from "@/types/question";
 import { AIHelpModal } from "@/components/AIHelpModal";
-import { isQuestionSolved, markQuestionSolved } from "@/lib/progress";
+import { reportAttempt, useProgress } from "@/lib/useProgress";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
@@ -35,9 +35,11 @@ export function QuestionCard({ question }: QuestionCardProps) {
   const [isSolved, setIsSolved] = useState(false);
   const [showAiUnavailable, setShowAiUnavailable] = useState(false);
 
+  const { solvedIds } = useProgress();
+
   useEffect(() => {
-    setIsSolved(isQuestionSolved(question.id));
-  }, [question.id]);
+    if (solvedIds.has(question.id)) setIsSolved(true);
+  }, [solvedIds, question.id]);
 
   const imagePath =
     question.image && question.image !== "none"
@@ -186,7 +188,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                     variant="ghost"
                     onClick={() => {
                       if (!isSolved) {
-                        markQuestionSolved(question);
+                        reportAttempt(question, true);
                         setIsSolved(true);
                       }
                     }}
@@ -235,8 +237,9 @@ export function QuestionCard({ question }: QuestionCardProps) {
                   onClick={() => {
                     if (disabled) return;
                     setSelectedChoice(index);
-                    if (!isSolved && index === question.correctIndex) {
-                      markQuestionSolved(question);
+                    const correctAnswer = index === question.correctIndex;
+                    reportAttempt(question, correctAnswer);
+                    if (!isSolved && correctAnswer) {
                       setIsSolved(true);
                     }
                   }}

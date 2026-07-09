@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import type { Question } from "@/types/question";
-import { isQuestionSolved } from "@/lib/progress";
+import { useSolvedIds } from "@/lib/useProgress";
 
 interface TopicPageClientProps {
   curriculum: string;
@@ -65,6 +65,7 @@ export function TopicPageClient({
   const difficultyRef = useRef<HTMLDivElement>(null);
   const [completionOpen, setCompletionOpen] = useState(false);
   const completionRef = useRef<HTMLDivElement>(null);
+  const { solvedIds } = useSolvedIds();
 
   const selectedDifficulties = parseDifficultyFilter(currentFilters.difficulty);
   const selectedCompletion = parseCompletionFilter(currentFilters.completion);
@@ -144,12 +145,12 @@ export function TopicPageClient({
     const wantNonComplete = selectedCompletion.has("non-complete");
     const wantComplete = selectedCompletion.has("complete");
     return questions.filter((q) => {
-      const solved = isQuestionSolved(q.id);
+      const solved = solvedIds.has(q.id);
       if (solved && wantComplete) return true;
       if (!solved && wantNonComplete) return true;
       return false;
     });
-  }, [questions, selectedCompletion]);
+  }, [questions, selectedCompletion, solvedIds]);
 
   return (
     <div className="space-y-6">

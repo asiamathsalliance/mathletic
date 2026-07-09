@@ -1,5 +1,4 @@
 import type { Question } from "@/types/question";
-import { searchQuestionsAI } from "@/lib/questions";
 
 /** Truncate question text for dropdown while keeping LaTeX fragments intact when possible. */
 export function questionPreviewForDropdown(text: string, maxLen = 120): string {
@@ -15,8 +14,16 @@ export function questionPreviewForDropdown(text: string, maxLen = 120): string {
   return `${cut.trim()}…`;
 }
 
-export function filterQuestionsForDropdown(query: string, limit = 8): Question[] {
+/** Fetch dropdown matches from the search API (questions now live in the DB). */
+export async function fetchQuestionsForDropdown(
+  query: string,
+  limit = 8,
+  signal?: AbortSignal
+): Promise<Question[]> {
   const q = query.trim();
   if (!q) return [];
-  return searchQuestionsAI(q).slice(0, limit);
+  const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, { signal });
+  if (!res.ok) return [];
+  const data = (await res.json()) as { results?: Question[] };
+  return (data.results ?? []).slice(0, limit);
 }

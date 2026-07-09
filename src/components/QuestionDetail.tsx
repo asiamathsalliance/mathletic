@@ -9,7 +9,7 @@ import { LatexText } from "@/components/LatexText";
 import { Check, ChevronLeft, Sparkles, X } from "lucide-react";
 import type { Question } from "@/types/question";
 import { AIHelpModal } from "@/components/AIHelpModal";
-import { isQuestionSolved, markQuestionSolved } from "@/lib/progress";
+import { reportAttempt, useProgress } from "@/lib/useProgress";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
@@ -35,14 +35,22 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
   const [isSolved, setIsSolved] = useState(false);
   const [showAiUnavailable, setShowAiUnavailable] = useState(false);
 
+  const { solvedIds } = useProgress();
+
   useEffect(() => {
-    setIsSolved(isQuestionSolved(question.id));
+    setIsSolved(false);
     setSelectedChoice(null);
     setShowSolution(false);
     setStudentAnswer("");
     setAnswerVerdict(null);
     setAnswerAnalysis(null);
   }, [question.id]);
+
+  // Solved state comes from the account-aware progress store (DB when signed
+  // in, localStorage otherwise). Never un-solve after a local solve.
+  useEffect(() => {
+    if (solvedIds.has(question.id)) setIsSolved(true);
+  }, [solvedIds, question.id]);
 
   const imagePath =
     question.image && question.image !== "none" ? question.image : question.questionImage;
@@ -157,8 +165,9 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                     onClick={() => {
                       if (locked) return;
                       setSelectedChoice(index);
-                      if (!isSolved && index === question.correctIndex) {
-                        markQuestionSolved(question);
+                      const correct = index === question.correctIndex;
+                      reportAttempt(question, correct);
+                      if (!isSolved && correct) {
                         setIsSolved(true);
                       }
                     }}
@@ -210,7 +219,7 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    markQuestionSolved(question);
+                    reportAttempt(question, true);
                     setIsSolved(true);
                   }}
                 >
