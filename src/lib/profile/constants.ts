@@ -53,6 +53,12 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: "algebra", title: "Algebra Master", description: "Solve 50 algebra problems", icon: "🔢", target: 50, category: "topic" },
   { id: "combo", title: "Combinatorics Expert", description: "Solve 50 counting problems", icon: "🎲", target: 50, category: "topic" },
   { id: "speed", title: "Speed Solver", description: "Score 500+ in a sprint", icon: "⏱️", target: 500, category: "speed" },
+  { id: "first_sprint", title: "First Sprint", description: "Complete any sprint session", icon: "🏁", target: 1, category: "sprint" },
+  { id: "century_multiplication", title: "Century Club", description: "Solve 100 multiplication problems total", icon: "💯", target: 100, category: "sprint" },
+  { id: "streak_10", title: "On Fire", description: "Hit a 10-correct streak in one multiplication sprint", icon: "🔥", target: 10, category: "sprint" },
+  { id: "speed_demon", title: "Speed Demon", description: "Solve 30+ in a multiplication sprint", icon: "⚡", target: 30, category: "sprint" },
+  { id: "sharp_shooter", title: "Sharp Shooter", description: "100% accuracy with 10+ attempts in problem sprint", icon: "🎯", target: 1, category: "sprint" },
+  { id: "easy_grinder", title: "Easy Grinder", description: "Solve 15+ in a problem sprint", icon: "📚", target: 15, category: "sprint" },
   { id: "top_10", title: "Leaderboard Top 10", description: "Reach top 10 on the leaderboard", icon: "🏆", target: 10, category: "leaderboard" },
   { id: "top_1", title: "Leaderboard #1", description: "Reach #1 on the leaderboard", icon: "🥇", target: 1, category: "leaderboard" },
 ];

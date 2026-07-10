@@ -227,7 +227,7 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
             }
           }}
           onBlur={(e) => updateFilter("q", e.target.value)}
-          className="w-full rounded-full border border-border bg-muted py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-ring"
+          className="w-full rounded-full border border-border bg-muted py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-ring focus:bg-[color-mix(in_srgb,var(--card)_72%,var(--muted))]"
         />
       </div>
 

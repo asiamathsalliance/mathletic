@@ -1,6 +1,7 @@
 import { computeAchievements } from "@/lib/achievementStats";
 import { countryByCode } from "@/lib/profile/constants";
 import { getDashboardLeaderboardStats } from "@/lib/dashboardStats";
+import { getUserSprintAchievements } from "@/lib/sprintAchievements";
 import { dayKeysFromAttempts, longestStreakFromDayKeys } from "@/lib/achievementStats";
 import { localDayKey } from "@/lib/progressStats";
 import { getAllQuestions } from "@/lib/questions";
@@ -322,23 +323,28 @@ export async function getPublicProfile(
   const bestSprint = leaderboardStats?.bestSprintScore ?? 0;
   const xp = solved * 10 + bestSprint;
 
+  const sprintUnlocked = admin
+    ? await getUserSprintAchievements(admin, userRow.id)
+    : new Set<string>();
+
   const achievementInputs = {
     solved,
     longestStreak,
     rank: leaderboardStats?.solvedRank ?? null,
     bestSprint,
     totalRankedUsers: leaderboardStats?.totalRankedUsers ?? 0,
+    sprintUnlocked,
   };
 
   const { data: bestSprintRow } = await supabase
     .from("sprint_sessions")
-    .select("finished_at")
+    .select("ended_at")
     .eq("user_id", userRow.id)
-    .not("finished_at", "is", null)
+    .eq("is_complete", true)
     .order("score", { ascending: false })
     .limit(1);
 
-  const bestSprintDate = bestSprintRow?.[0]?.finished_at ?? null;
+  const bestSprintDate = bestSprintRow?.[0]?.ended_at ?? null;
 
   const achievements = computeAchievements(achievementInputs)
     .filter((a) => a.unlocked)

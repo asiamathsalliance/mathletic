@@ -9,13 +9,14 @@ import {
   type AchievementInputs,
 } from "@/lib/achievementStats";
 
-type ExtraStats = Pick<AchievementInputs, "rank" | "bestSprint" | "totalRankedUsers">;
+type ExtraStats = Pick<AchievementInputs, "rank" | "bestSprint" | "totalRankedUsers" | "sprintUnlocked">;
 type ApiStats = {
   rank?: number | null;
   bestSprint?: number;
   totalRankedUsers?: number;
   solvedRank?: number | null;
   bestSprintScore?: number;
+  sprintUnlocked?: string[];
 };
 
 export function useAchievementStats() {
@@ -37,6 +38,7 @@ export function useAchievementStats() {
           rank: data.rank ?? data.solvedRank ?? null,
           bestSprint: data.bestSprint ?? data.bestSprintScore ?? 0,
           totalRankedUsers: data.totalRankedUsers ?? 0,
+          sprintUnlocked: new Set(data.sprintUnlocked ?? []),
         });
       })
       .catch(() => {});
@@ -54,6 +56,7 @@ export function useAchievementStats() {
       rank: fetched?.rank ?? null,
       bestSprint: fetched?.bestSprint ?? 0,
       totalRankedUsers: fetched?.totalRankedUsers ?? 0,
+      sprintUnlocked: fetched?.sprintUnlocked,
     };
   }, [attempts, solvedIds.size, fetched]);
 

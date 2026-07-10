@@ -25,7 +25,7 @@ export async function StatsStrip() {
         .from("sprint_sessions")
         .select("score")
         .eq("user_id", user.id)
-        .not("finished_at", "is", null)
+        .eq("is_complete", true)
         .order("score", { ascending: false })
         .limit(1),
       supabase

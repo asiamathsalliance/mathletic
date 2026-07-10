@@ -6,6 +6,8 @@ export interface DashboardLeaderboardStats {
   bestSprintAccuracy: number | null;
   bestSprintCorrect: number;
   bestSprintAnswered: number;
+  bestMultiplicationSolved: number;
+  bestProblemPoolSolved: number;
   solvedRank: number | null;
   sprintRank: number | null;
   totalRankedUsers: number;
@@ -22,9 +24,9 @@ export async function getDashboardLeaderboardStats(
     await Promise.all([
       supabase
         .from("sprint_sessions")
-        .select("score, questions_correct, questions_answered")
+        .select("score, problems_solved, attempts_count, mode_type")
         .eq("user_id", userId)
-        .not("finished_at", "is", null)
+        .eq("is_complete", true)
         .order("score", { ascending: false }),
       supabase
         .from("question_attempts")
@@ -35,15 +37,20 @@ export async function getDashboardLeaderboardStats(
       supabase
         .from("sprint_sessions")
         .select("user_id, score")
-        .not("finished_at", "is", null),
+        .eq("is_complete", true),
     ]);
 
   const runs = sprints ?? [];
   const best = runs[0];
   const bestAccuracy =
-    best && best.questions_answered > 0
-      ? Math.round((best.questions_correct / best.questions_answered) * 100)
+    best && best.attempts_count > 0
+      ? Math.round((best.problems_solved / best.attempts_count) * 100)
       : null;
+
+  const multRuns = runs.filter((r) => r.mode_type === "MULTIPLICATION");
+  const problemRuns = runs.filter((r) => r.mode_type === "PROBLEM_POOL");
+  const bestMult = multRuns.sort((a, b) => b.problems_solved - a.problems_solved)[0];
+  const bestProblem = problemRuns.sort((a, b) => b.problems_solved - a.problems_solved)[0];
 
   const mySolved = myAttempts?.length ?? 0;
   const countsByUser = new Map<string, number>();
@@ -64,8 +71,10 @@ export async function getDashboardLeaderboardStats(
     bestSprintScore: myBestSprint,
     sprintRuns: runs.length,
     bestSprintAccuracy: bestAccuracy,
-    bestSprintCorrect: best?.questions_correct ?? 0,
-    bestSprintAnswered: best?.questions_answered ?? 0,
+    bestSprintCorrect: best?.problems_solved ?? 0,
+    bestSprintAnswered: best?.attempts_count ?? 0,
+    bestMultiplicationSolved: bestMult?.problems_solved ?? 0,
+    bestProblemPoolSolved: bestProblem?.problems_solved ?? 0,
     solvedRank: countsByUser.size > 0 ? betterSolved + 1 : null,
     sprintRank: bestSprintByUser.size > 0 && myBestSprint > 0 ? betterSprint + 1 : null,
     totalRankedUsers: countsByUser.size,

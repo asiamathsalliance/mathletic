@@ -1,9 +1,14 @@
 import { NextRequest } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
-import { pickSprintQuestion } from "@/lib/sprintServer";
-import { SPRINT_DAILY_LIMIT, SPRINT_DURATION_SECONDS, type SprintMode } from "@/lib/sprint";
+import { generateOperandPair } from "@/lib/sprintMultiplication";
+import { pickProblemPoolQuestion } from "@/lib/sprintProblemPool";
+import {
+  SPRINT_DAILY_LIMIT,
+  sprintDurationForMode,
+  type SprintModeType,
+} from "@/lib/sprint";
 
-const MODES: SprintMode[] = ["easy", "medium", "hard", "mixed"];
+const MODES: SprintModeType[] = ["MULTIPLICATION", "PROBLEM_POOL"];
 
 export async function POST(request: NextRequest) {
   if (!isSupabaseConfigured()) {
@@ -21,53 +26,50 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Sign in with Google to play Sprint." }, { status: 401 });
   }
 
-  let body: { mode?: string; topic?: string | null };
+  let body: { modeType?: string };
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  const mode = (body.mode ?? "mixed") as SprintMode;
-  if (!MODES.includes(mode)) {
-    return Response.json({ error: "Invalid mode" }, { status: 400 });
+  const modeType = body.modeType as SprintModeType;
+  if (!MODES.includes(modeType)) {
+    return Response.json({ error: "Invalid modeType" }, { status: 400 });
   }
-  const topic = typeof body.topic === "string" && body.topic ? body.topic : null;
 
-  // Rate limit: sessions started today.
   const dayStart = new Date();
   dayStart.setHours(0, 0, 0, 0);
   const { count } = await supabase
     .from("sprint_sessions")
     .select("*", { count: "exact", head: true })
     .eq("user_id", user.id)
+    .eq("mode_type", modeType)
     .gte("started_at", dayStart.toISOString());
   if ((count ?? 0) >= SPRINT_DAILY_LIMIT) {
     return Response.json(
-      { error: `Daily sprint limit reached (${SPRINT_DAILY_LIMIT}). Come back tomorrow!` },
+      { error: `Daily ${modeType === "MULTIPLICATION" ? "multiplication" : "problem"} sprint limit reached (${SPRINT_DAILY_LIMIT}). Come back tomorrow!` },
       { status: 429 }
     );
   }
 
-  const picked = await pickSprintQuestion({
-    mode,
-    topic,
-    excludeIds: new Set(),
-    elapsedFraction: 0,
-  });
-  if (!picked) {
-    return Response.json(
-      { error: "No questions available for that mode/topic." },
-      { status: 404 }
-    );
+  if (modeType === "PROBLEM_POOL") {
+    const picked = await pickProblemPoolQuestion(new Set());
+    if (!picked) {
+      return Response.json(
+        { error: "No easy problems available in the question bank." },
+        { status: 404 }
+      );
+    }
   }
+
+  const durationSeconds = sprintDurationForMode(modeType);
 
   const { data: session, error } = await supabase
     .from("sprint_sessions")
     .insert({
       user_id: user.id,
-      mode,
-      topic,
-      duration_seconds: SPRINT_DURATION_SECONDS,
+      mode_type: modeType,
+      duration_seconds: durationSeconds,
     })
     .select("id, started_at")
     .single();
@@ -75,10 +77,23 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: error?.message ?? "Failed to start" }, { status: 500 });
   }
 
+  if (modeType === "MULTIPLICATION") {
+    const problem = generateOperandPair();
+    return Response.json({
+      sessionId: session.id,
+      startedAt: session.started_at,
+      durationSeconds,
+      modeType,
+      problem,
+    });
+  }
+
+  const picked = await pickProblemPoolQuestion(new Set());
   return Response.json({
     sessionId: session.id,
     startedAt: session.started_at,
-    durationSeconds: SPRINT_DURATION_SECONDS,
-    question: picked.question,
+    durationSeconds,
+    modeType,
+    question: picked!.question,
   });
 }

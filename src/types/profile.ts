@@ -64,7 +64,7 @@ export interface AchievementDef {
   description: string;
   icon: string;
   target: number;
-  category: "solved" | "streak" | "topic" | "speed" | "leaderboard";
+  category: "solved" | "streak" | "topic" | "speed" | "leaderboard" | "sprint";
 }
 
 export interface AchievementProgress extends AchievementDef {

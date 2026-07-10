@@ -145,18 +145,11 @@
   flex-shrink: 0;
 }
 
-.logo-mark {
-  width: 28px;
-  height: 28px;
-  background: var(--accent-chartreuse);
-  border: 1px solid var(--accent-chartreuse-deep);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary-foreground);
+.logo-image {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -210,6 +203,12 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.search-field:focus-within {
+  background: color-mix(in srgb, var(--card) 72%, var(--muted));
+  border-color: color-mix(in srgb, var(--border) 60%, var(--foreground));
 }
 
 .search-input {
@@ -269,7 +268,7 @@
 
 .search-dropdown-item-active,
 .search-dropdown-item:hover {
-  background: var(--muted);
+  background: color-mix(in srgb, var(--card) 55%, var(--muted));
 }
 
 .app-footer {
@@ -550,6 +549,185 @@
 
 .btn-secondary:hover {
   background: var(--accent);
+}
+
+@keyframes sprint-card-float {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(34, 52, 26, 0.08);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(34, 52, 26, 0.12);
+  }
+}
+
+.sprint-card-float {
+  animation: sprint-card-float 3s ease-in-out infinite;
+}
+
+.sprint-card-float-delay {
+  animation-delay: 0.6s;
+}
+
+.sprint-card-press {
+  transition: transform 0.15s ease;
+}
+
+@keyframes sprint-bounce-correct {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.sprint-bounce-correct {
+  animation: sprint-bounce-correct 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes sprint-flash-correct {
+  0%,
+  100% {
+    background-color: var(--card);
+  }
+  30% {
+    background-color: rgba(47, 125, 79, 0.12);
+  }
+}
+
+.sprint-flash-correct {
+  animation: sprint-flash-correct 0.38s ease-out;
+}
+
+@keyframes sprint-shake-wrong {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.sprint-shake-wrong {
+  animation: sprint-shake-wrong 0.22s ease-in-out both;
+}
+
+.sprint-particles::before,
+.sprint-particles::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 40%, #8FA82F 2px, transparent 2px),
+    radial-gradient(circle at 70% 35%, #C9941F 2px, transparent 2px),
+    radial-gradient(circle at 50% 65%, #2F7D4F 2px, transparent 2px),
+    radial-gradient(circle at 20% 70%, #B8D444 2px, transparent 2px),
+    radial-gradient(circle at 80% 60%, #8FA82F 2px, transparent 2px);
+  animation: sprint-particle-burst 0.38s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes sprint-particle-burst {
+  0% {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes sprint-achievement-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sprint-achievement-reveal {
+  animation: sprint-achievement-reveal 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes sprint-session-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.sprint-session-exit {
+  animation: sprint-session-exit 200ms ease-out forwards;
+}
+
+.sprint-results-enter {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.sprint-results-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 250ms ease-out,
+    transform 250ms ease-out;
+}
+
+@keyframes sprint-held-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+    box-shadow: 0 0 8px rgba(143, 168, 47, 0.25);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 16px rgba(143, 168, 47, 0.55);
+  }
+}
+
+.sprint-held-beat {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #8fa82f;
+  animation: sprint-held-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes sprint-timer-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+.sprint-timer-urgent svg circle:last-of-type {
+  animation: sprint-timer-pulse 0.9s ease-in-out infinite;
 }
 
 .dark {

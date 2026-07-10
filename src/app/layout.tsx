@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   title: "Mathletic | Practice Platform",
   description:
     "HSC, IB, AP, and A-Level mathematics practice with AI help and timed challenges.",
+  icons: {
+    icon: "/mathletic-logo.png",
+    apple: "/mathletic-logo.png",
+  },
 };
 
 export default function RootLayout({

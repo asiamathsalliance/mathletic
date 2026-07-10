@@ -5,8 +5,8 @@ A LeetCode-style practice platform for **AMC 10/12** competition math plus **HSC
 ## Features
 
 - **Practice** — Filterable problem table (subject/competition, AMC variant, difficulty, topic, status, type) with solved status and a personal stats strip
-- **Sprint** — 5-minute timed run: answer as many MCQs as you can; harder problems and faster answers score more (base 10/20/35 × speed multiplier 0.5–1.5); Mixed mode ramps difficulty as the clock runs
-- **Leaderboard** — Most Solved / Best Sprint / By Topic, each with Daily / Weekly / All-Time windows; your row is highlighted and pinned when off-screen
+- **Sprint** — Two 5-minute modes: **Multiplication Sprint** (times tables 1–20, streak bonuses) and **Problem Sprint** (random Easy MCQs from the full bank); personal bests and mode-specific leaderboards
+- **Leaderboard** — Most Solved / Best Sprint / By Topic, each with Daily / Weekly / All-Time windows; sprint board filters by multiplication or problem mode
 - **Question detail** — Vertical MCQ layout, long-answer checking, AI step help, solution reveal
 - **Dashboard** — Solved counts, activity heatmap, recent activity
 - **Search** — Keyword and AI-powered natural language search
@@ -84,7 +84,7 @@ scripts/
 src/
   app/
     page.tsx                       # Practice — problem table
-    sprint/                        # 5-minute sprint mode
+    sprint/                        # Sprint entry + /multiplication + /problem play routes
     leaderboard/                   # Public leaderboards
     dashboard/                     # Progress & stats
     browse/                        # Curriculum / olympiad tree
@@ -96,7 +96,8 @@ src/
   lib/
     questions.ts                   # Async DB queries (JSON fallback)
     questionUtils.ts               # Pure helpers (client-safe)
-    sprint.ts / sprintServer.ts    # Sprint scoring + question curve
+    sprint.ts                      # Sprint types, scoring, streak helpers
+    sprintMultiplication.ts / sprintProblemPool.ts / sprintAchievements.ts
     competitions.ts                # DEFAULT_COMPETITIONS and labels
     useProgress.ts                 # Progress facade (DB + localStorage)
     supabase/{client,server}.ts
@@ -108,11 +109,15 @@ src/
 |------|---------|
 | `/` | Problem table (landing) |
 | `/questions/[id]` | Single problem view |
-| `/sprint` | 5-minute timed sprint |
+| `/sprint` | Choose multiplication or problem sprint |
+| `/sprint/multiplication` | 5-minute multiplication tables sprint |
+| `/sprint/problem` | 5-minute easy problem sprint |
 | `/leaderboard` | Most Solved / Best Sprint / By Topic |
 | `/browse` | Topic explorer |
 | `/dashboard` | Progress & stats |
 | `/search?q=...` | Search results |
+
+Run `supabase/migrations/002_sprint_redesign.sql` after `001_init.sql` to enable the two sprint modes and achievement tables.
 
 Legacy `/challenge/*` and `/play/*` URLs redirect to `/sprint`.
 

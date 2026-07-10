@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchBar } from "@/components/SearchBar";
@@ -24,9 +25,14 @@ export function AppHeader() {
   return (
     <header className="app-header">
       <Link href="/" className="logo">
-        <span className="logo-mark" aria-hidden>
-          Σ
-        </span>
+        <Image
+          src="/mathletic-logo.png"
+          alt=""
+          width={32}
+          height={32}
+          className="logo-image"
+          priority
+        />
         Mathletic
       </Link>
 

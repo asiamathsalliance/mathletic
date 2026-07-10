@@ -9,6 +9,8 @@ export interface AchievementInputs {
   bestSprint: number;
   /** Users on the solved leaderboard — required for rank-based badges. */
   totalRankedUsers?: number;
+  /** Sprint achievement keys unlocked in DB (user_achievements). */
+  sprintUnlocked?: Set<string>;
 }
 
 export function computeAchievements(stats: AchievementInputs): AchievementProgress[] {
@@ -19,6 +21,7 @@ export function computeAchievements(stats: AchievementInputs): AchievementProgre
     else if (a.category === "speed") progress = stats.bestSprint;
     else if (a.category === "leaderboard") progress = stats.rank ? stats.rank : 999;
     else if (a.category === "topic") progress = 0;
+    else if (a.category === "sprint") progress = stats.sprintUnlocked?.has(a.id) ? 1 : 0;
 
     let unlocked = false;
     if (a.category === "leaderboard") {
@@ -30,6 +33,8 @@ export function computeAchievements(stats: AchievementInputs): AchievementProgre
         competitors >= minCompetitors;
     } else if (a.category === "topic") {
       unlocked = false;
+    } else if (a.category === "sprint") {
+      unlocked = stats.sprintUnlocked?.has(a.id) ?? false;
     } else {
       unlocked = progress >= a.target;
     }
