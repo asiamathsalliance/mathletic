@@ -41,7 +41,7 @@ export function ProblemTable({ questions }: { questions: Question[] }) {
   const { solvedIds } = useSolvedIds();
   const tableRef = useRef<HTMLDivElement>(null);
   const prevFilterKey = useRef<string>("");
-  const skipScrollRef = useRef(true);
+  const scrollAfterPaginateRef = useRef(false);
 
   const filters = useMemo(
     () => buildFilters(new URLSearchParams(searchParams.toString())),
@@ -70,7 +70,8 @@ export function ProblemTable({ questions }: { questions: Question[] }) {
   const startIndex = (page - 1) * pageSize;
 
   const updateUrl = useCallback(
-    (updates: { page?: number; pageSize?: PageSizeOption }) => {
+    (updates: { page?: number; pageSize?: PageSizeOption }, scrollToTable = false) => {
+      if (scrollToTable) scrollAfterPaginateRef.current = true;
       const params = new URLSearchParams(searchParams.toString());
       if (updates.pageSize !== undefined) {
         params.set("pageSize", String(updates.pageSize));
@@ -102,12 +103,10 @@ export function ProblemTable({ questions }: { questions: Question[] }) {
     }
   }, [totalPages, searchParams, updateUrl]);
 
-  // Scroll to table top when page or page size changes.
+  // Scroll to table only after the user changes page or page size via pagination controls.
   useEffect(() => {
-    if (skipScrollRef.current) {
-      skipScrollRef.current = false;
-      return;
-    }
+    if (!scrollAfterPaginateRef.current) return;
+    scrollAfterPaginateRef.current = false;
     tableRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [page, pageSize]);
 
@@ -133,8 +132,8 @@ export function ProblemTable({ questions }: { questions: Question[] }) {
           page={page}
           pageSize={pageSize}
           totalItems={rows.length}
-          onPageChange={(p) => updateUrl({ page: p })}
-          onPageSizeChange={(size) => updateUrl({ pageSize: size })}
+          onPageChange={(p) => updateUrl({ page: p }, true)}
+          onPageSizeChange={(size) => updateUrl({ pageSize: size }, true)}
         />
       </div>
     </div>

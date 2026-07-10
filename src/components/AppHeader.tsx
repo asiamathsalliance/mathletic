@@ -22,9 +22,13 @@ export function AppHeader() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  };
+
   return (
     <header className="app-header">
-      <Link href="/" className="logo">
+      <Link href="/" className="logo" onClick={scrollToTop}>
         <Image
           src="/mathletic-logo.png"
           alt=""
@@ -41,6 +45,8 @@ export function AppHeader() {
           <Link
             key={href}
             href={href}
+            scroll={href === "/" ? false : undefined}
+            onClick={href === "/" ? scrollToTop : undefined}
             className={cn("nav-link", isActive(href) && "nav-link-active")}
           >
             {label}
