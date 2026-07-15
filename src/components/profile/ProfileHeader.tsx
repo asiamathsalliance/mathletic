@@ -75,7 +75,7 @@ export function ProfileHeader({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-5">
+      <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-6">
         <Link href="/settings?from=profile" className="btn-secondary text-sm">
           Edit Profile
         </Link>
