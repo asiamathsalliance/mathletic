@@ -3,40 +3,54 @@
 import Link from "next/link";
 import { profileInitial } from "@/lib/profile/avatar";
 import { countryByCode } from "@/lib/profile/constants";
+import { UserAvatar } from "@/components/profile/UserAvatar";
 import type { ProfileStats, UserProfile } from "@/types/profile";
 
 interface ProfileHeaderProps {
   profile: UserProfile;
   email?: string | null;
   memberSince?: string | null;
+  avatarUrl?: string | null;
   stats: ProfileStats;
 }
 
-export function ProfileHeader({ profile, email, memberSince, stats }: ProfileHeaderProps) {
+export function ProfileHeader({
+  profile,
+  email,
+  memberSince,
+  avatarUrl,
+  stats,
+}: ProfileHeaderProps) {
   const country = profile.countryCode ? countryByCode(profile.countryCode) : null;
   const display = profile.displayName || "Your Name";
   const initial = profileInitial(profile, email);
   const since = memberSince
     ? new Date(memberSince).toLocaleDateString(undefined, { month: "long", year: "numeric" })
     : null;
+  const showSchool = Boolean(profile.school && profile.privacy.showSchool);
+  const showCountry = Boolean(country && profile.privacy.showCountry);
+  const schoolCountryLine = [
+    showSchool ? profile.school : null,
+    showCountry && country ? `${country.flag} ${country.name}` : null,
+  ]
+    .filter(Boolean)
+    .join(" | ");
 
   return (
     <div className="rounded-[24px] border border-border/60 bg-card p-6 sm:p-8 shadow-[0_8px_28px_rgba(34,52,26,0.05)]">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-        <div className="flex gap-5">
-          <div className="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-border bg-muted text-3xl font-bold sm:size-24">
-            {initial}
-          </div>
+      <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+        <div className="flex items-end gap-5">
+          <UserAvatar
+            src={avatarUrl}
+            alt=""
+            fallback={initial}
+            className="size-28 shrink-0 rounded-2xl border-2 border-border text-4xl font-bold text-foreground sm:size-32 sm:text-5xl"
+          />
           <div>
             <h1 className="text-2xl font-bold text-foreground sm:text-3xl">{display}</h1>
             <p className="text-muted-foreground">@{profile.username}</p>
-            {country && profile.privacy.showCountry && (
-              <p className="mt-2 text-sm text-muted-foreground">
-                {country.flag} {country.name}
-              </p>
-            )}
-            {profile.school && profile.privacy.showSchool && (
-              <p className="text-sm text-muted-foreground">{profile.school}</p>
+            {schoolCountryLine && (
+              <p className="mt-2 text-sm text-muted-foreground">{schoolCountryLine}</p>
             )}
             {profile.grade && (
               <p className="text-sm text-muted-foreground">{profile.grade}</p>
@@ -47,7 +61,7 @@ export function ProfileHeader({ profile, email, memberSince, stats }: ProfileHea
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:gap-6">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-2.5 lg:gap-x-6 lg:gap-y-3">
           <QuickStat label="Problems Solved" value={stats.solved} />
           <QuickStat label="Current Streak" value={stats.currentStreak} suffix=" days" />
           <QuickStat label="Longest Streak" value={stats.longestStreak} suffix=" days" />
@@ -61,7 +75,7 @@ export function ProfileHeader({ profile, email, memberSince, stats }: ProfileHea
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-6">
+      <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-5">
         <Link href="/settings?from=profile" className="btn-secondary text-sm">
           Edit Profile
         </Link>
@@ -85,9 +99,9 @@ function QuickStat({
   suffix?: string;
 }) {
   return (
-    <div className="rounded-xl bg-muted/40 px-4 py-3">
+    <div className="rounded-xl bg-muted/40 px-3 py-2">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="mt-0.5 text-xl font-bold tabular-nums text-foreground">
+      <p className="mt-0.5 text-lg font-bold tabular-nums text-foreground sm:text-xl">
         {prefix}
         {typeof value === "number" ? value.toLocaleString() : value}
         {suffix}

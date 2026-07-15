@@ -24,6 +24,7 @@ export interface PublicProfilePayload {
   userId: string;
   username: string;
   displayName: string | null;
+  avatarUrl: string | null;
   country: string | null;
   countryCode: string | null;
   school: string | null;
@@ -103,12 +104,17 @@ function estimateUnlockedAt(
 
 async function findUserRowByUsername(
   normalized: string
-): Promise<{ id: string; display_name: string | null; created_at: string } | null> {
+): Promise<{
+  id: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  created_at: string;
+} | null> {
   const supabase = createAnonClient();
 
   const { data: byDisplayName } = await supabase
     .from("users")
-    .select("id, display_name, created_at")
+    .select("id, display_name, avatar_url, created_at")
     .ilike("display_name", normalized)
     .maybeSingle();
   if (byDisplayName) return byDisplayName;
@@ -132,7 +138,7 @@ async function findUserRowByUsername(
     if (hit) {
       const { data: row } = await supabase
         .from("users")
-        .select("id, display_name, created_at")
+        .select("id, display_name, avatar_url, created_at")
         .eq("id", hit.id)
         .maybeSingle();
       if (row) return row;
@@ -151,21 +157,25 @@ function rankAmong(peers: { id: string; score: number }[], userId: string): numb
 
 export async function resolvePublicUserLabels(
   userIds: string[]
-): Promise<Map<string, { displayLabel: string; profileSlug: string | null }>> {
-  const result = new Map<string, { displayLabel: string; profileSlug: string | null }>();
+): Promise<Map<string, { displayLabel: string; profileSlug: string | null; avatarUrl: string | null }>> {
+  const result = new Map<
+    string,
+    { displayLabel: string; profileSlug: string | null; avatarUrl: string | null }
+  >();
   if (userIds.length === 0) return result;
 
   const supabase = createAnonClient();
   const admin = createAdminClient();
   const { data: rows } = await supabase
     .from("users")
-    .select("id, display_name")
+    .select("id, display_name, avatar_url")
     .in("id", userIds);
 
   for (const id of userIds) {
     const row = rows?.find((r) => r.id === id);
     let displayLabel = row?.display_name ?? "anonymous";
     let profileSlug: string | null = null;
+    let avatarUrl: string | null = row?.avatar_url ?? null;
 
     if (row?.display_name && isValidUsername(row.display_name)) {
       profileSlug = normalizeUsername(row.display_name);
@@ -184,9 +194,14 @@ export async function resolvePublicUserLabels(
       } else if (profile?.displayName?.trim()) {
         displayLabel = profile.displayName.trim();
       }
+      const metaAvatar =
+        (typeof meta.avatar_url === "string" && meta.avatar_url) ||
+        (typeof meta.picture === "string" && meta.picture) ||
+        null;
+      if (metaAvatar) avatarUrl = metaAvatar;
     }
 
-    result.set(id, { displayLabel, profileSlug });
+    result.set(id, { displayLabel, profileSlug, avatarUrl });
   }
 
   return result;
@@ -203,11 +218,18 @@ export async function getPublicProfile(
 
   const admin = createAdminClient();
   let profileMeta: Partial<UserProfile> = {};
+  let avatarUrl: string | null = userRow.avatar_url;
   if (admin) {
     const { data: authData } = await admin.auth.admin.getUserById(userRow.id);
     profileMeta = (authData.user?.user_metadata?.profile as Partial<UserProfile>) ?? {};
     const visibility = profileMeta.privacy?.visibility ?? "public";
     if (visibility === "private") return "private";
+    const meta = authData.user?.user_metadata ?? {};
+    const metaAvatar =
+      (typeof meta.avatar_url === "string" && meta.avatar_url) ||
+      (typeof meta.picture === "string" && meta.picture) ||
+      null;
+    if (metaAvatar) avatarUrl = metaAvatar;
   }
 
   const privacy = profileMeta.privacy;
@@ -431,6 +453,7 @@ export async function getPublicProfile(
     userId: userRow.id,
     username: canonicalUsername,
     displayName: profileMeta.displayName?.trim() || null,
+    avatarUrl,
     country: showCountry ? country : null,
     countryCode: showCountry ? targetCountry || null : null,
     school: showSchool ? profileMeta.school || null : null,

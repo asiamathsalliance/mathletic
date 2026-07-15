@@ -52,6 +52,7 @@ export interface LeaderboardParams {
 export interface LeaderboardUserInfo {
   displayLabel: string;
   profileSlug: string | null;
+  avatarUrl: string | null;
 }
 
 export interface LeaderboardData {

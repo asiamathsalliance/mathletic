@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { socialInitial } from "@/lib/profile/avatar";
+import { UserAvatar } from "@/components/profile/UserAvatar";
 import {
   ROW_GAP,
   ROW_GRID,
@@ -45,9 +46,12 @@ export function LeaderboardRow({
     >
       <span className={cn("text-sm font-semibold tabular-nums", rankColor)}>{rank}</span>
       <span className="flex min-w-0 items-center gap-2">
-        <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
-          {initial}
-        </span>
+        <UserAvatar
+          src={info?.avatarUrl}
+          alt=""
+          fallback={initial}
+          className="size-6 rounded-full text-[10px]"
+        />
         {profileSlug ? (
           <Link
             href={`/u/${profileSlug}`}

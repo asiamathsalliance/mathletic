@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Check, Copy, GitCompare, Trophy } from "lucide-react";
 import { countryByCode } from "@/lib/profile/constants";
 import { socialInitial } from "@/lib/profile/avatar";
+import { UserAvatar } from "@/components/profile/UserAvatar";
 import type { PublicProfilePayload } from "@/lib/publicProfile";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,12 @@ export function PublicProfileHeader({ profile, isViewer }: PublicProfileHeaderPr
     month: "long",
     year: "numeric",
   });
+  const schoolCountryLine = [
+    profile.school || null,
+    country && profile.country ? `${country.flag} ${profile.country}` : null,
+  ]
+    .filter(Boolean)
+    .join(" | ");
 
   const copyLink = useCallback(async () => {
     const url = `${window.location.origin}/u/${profile.username}`;
@@ -67,22 +74,20 @@ export function PublicProfileHeader({ profile, isViewer }: PublicProfileHeaderPr
         </div>
       </div>
 
-      <div className="flex gap-5">
-        <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl border-2 border-border bg-muted text-3xl font-bold sm:size-24">
-          {initial}
-        </div>
+      <div className="flex items-end gap-5">
+        <UserAvatar
+          src={profile.avatarUrl}
+          alt=""
+          fallback={initial}
+          className="size-28 shrink-0 rounded-2xl border-2 border-border text-4xl font-bold text-foreground sm:size-32 sm:text-5xl"
+        />
         <div>
           <h1 className="text-2xl font-bold text-foreground sm:text-3xl">{profile.username}</h1>
           {profile.displayName && (
             <p className="mt-0.5 text-muted-foreground">{profile.displayName}</p>
           )}
-          {country && profile.country && (
-            <p className="mt-2 text-sm text-muted-foreground">
-              {country.flag} {profile.country}
-            </p>
-          )}
-          {profile.school && (
-            <p className="text-sm text-muted-foreground">{profile.school}</p>
+          {schoolCountryLine && (
+            <p className="mt-2 text-sm text-muted-foreground">{schoolCountryLine}</p>
           )}
           {profile.grade && <p className="text-sm text-muted-foreground">{profile.grade}</p>}
           <p className="mt-2 text-xs text-muted-foreground">Member since {since}</p>

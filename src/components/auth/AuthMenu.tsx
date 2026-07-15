@@ -6,7 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { LogOut, BarChart3, Trophy, UserCircle, Settings } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { profileInitial } from "@/lib/profile/avatar";
+import { googleAvatarUrl, profileInitial } from "@/lib/profile/avatar";
+import { UserAvatar } from "@/components/profile/UserAvatar";
 import { importLocalProgressOnce } from "@/lib/progressSync";
 import type { UserProfile } from "@/types/profile";
 import { cn } from "@/lib/utils";
@@ -47,7 +48,7 @@ export function AuthMenu() {
       if (session?.user) void importLocalProgressOnce();
     });
     return () => sub.subscription.unsubscribe();
-  }, [configured]);
+  }, [configured, router]);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -105,6 +106,7 @@ export function AuthMenu() {
     { displayName: profile?.displayName, username: profile?.username },
     user.email
   );
+  const avatarSrc = googleAvatarUrl(meta);
 
   return (
     <div className="relative" ref={rootRef}>
@@ -114,11 +116,16 @@ export function AuthMenu() {
         aria-expanded={open}
         aria-label="Account menu"
         className={cn(
-          "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-muted text-sm font-semibold text-foreground hover:bg-accent",
+          "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border p-0 hover:bg-accent",
           open && "ring-2 ring-ring"
         )}
       >
-        {initial}
+        <UserAvatar
+          src={avatarSrc}
+          alt=""
+          fallback={initial}
+          className="size-full rounded-full text-sm text-foreground"
+        />
       </button>
 
       {open && (

@@ -54,7 +54,7 @@ export default function SettingsClient() {
 
   async function handleSave(): Promise<boolean> {
     if (!form) return false;
-    const result = await save({ ...form, avatarType: "initials", avatarUrl: "" });
+    const result = await save(form);
     return result !== null;
   }
 

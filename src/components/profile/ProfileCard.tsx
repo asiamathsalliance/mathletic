@@ -3,14 +3,16 @@
 import { cn } from "@/lib/utils";
 import { profileInitial } from "@/lib/profile/avatar";
 import { countryByCode } from "@/lib/profile/constants";
+import { UserAvatar } from "@/components/profile/UserAvatar";
 import type { UserProfile } from "@/types/profile";
 
 interface ProfilePreviewCardProps {
   profile: Partial<UserProfile>;
   email?: string | null;
+  avatarUrl?: string | null;
 }
 
-export function ProfilePreviewCard({ profile, email }: ProfilePreviewCardProps) {
+export function ProfilePreviewCard({ profile, email, avatarUrl }: ProfilePreviewCardProps) {
   const country = profile.countryCode ? countryByCode(profile.countryCode) : null;
   const display = profile.displayName || profile.username || "Your Name";
   const initial = profileInitial(profile, email);
@@ -21,9 +23,12 @@ export function ProfilePreviewCard({ profile, email }: ProfilePreviewCardProps) 
         Preview
       </p>
       <div className="flex items-start gap-4">
-        <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted text-2xl font-bold">
-          {initial}
-        </div>
+        <UserAvatar
+          src={avatarUrl}
+          alt=""
+          fallback={initial}
+          className="size-16 rounded-2xl border border-border text-2xl font-bold text-foreground"
+        />
         <div className="min-w-0 flex-1">
           <p className="truncate text-lg font-bold text-foreground">{display}</p>
           {profile.username && (

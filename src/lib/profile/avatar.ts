@@ -1,4 +1,18 @@
-/** First letter of a person's display name (dashboard, profile, settings). */
+/** Resolve Google OAuth avatar URL from auth metadata or stored row. */
+export function googleAvatarUrl(
+  meta?: Record<string, unknown> | null,
+  stored?: string | null
+): string | null {
+  if (stored?.trim()) return stored.trim();
+  if (!meta) return null;
+  const fromMeta =
+    (typeof meta.avatar_url === "string" && meta.avatar_url) ||
+    (typeof meta.picture === "string" && meta.picture) ||
+    "";
+  return fromMeta.trim() || null;
+}
+
+/** First letter fallback when a Google photo is unavailable. */
 export function profileInitial(
   profile: { displayName?: string; username?: string },
   email?: string | null

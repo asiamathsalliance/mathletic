@@ -37,8 +37,6 @@ export interface UserProfile {
   grade: string;
   language: string;
   bio: string;
-  avatarUrl: string;
-  avatarType: "upload" | "default" | "initials";
   topics: string[];
   difficultyPreference: DifficultyPreference;
   notifications: NotificationPrefs;

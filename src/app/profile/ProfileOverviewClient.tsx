@@ -16,7 +16,7 @@ import { useAchievementStats } from "@/lib/profile/useAchievementStats";
 
 export function ProfileOverviewClient() {
   const router = useRouter();
-  const { loading, signedIn, profile, email, memberSince } = useProfile();
+  const { loading, signedIn, profile, email, memberSince, avatarUrl } = useProfile();
   const { solvedIds, attempts } = useProgress();
 
   useEffect(() => {
@@ -64,6 +64,7 @@ export function ProfileOverviewClient() {
           profile={profile}
           email={email}
           memberSince={memberSince}
+          avatarUrl={avatarUrl}
           stats={stats}
         />
 

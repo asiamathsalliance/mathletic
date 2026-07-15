@@ -20,7 +20,7 @@ export function WelcomeClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/dashboard";
-  const { loading, signedIn, profile, email, save } = useProfile();
+  const { loading, signedIn, profile, email, avatarUrl, save } = useProfile();
   const { setTheme } = useTheme();
 
   const [step, setStep] = useState(1);
@@ -68,8 +68,6 @@ export function WelcomeClient() {
     setSaving(true);
     const saved = await save({
       ...form,
-      avatarType: "initials",
-      avatarUrl: "",
       onboardingComplete: true,
     } as UserProfile);
     setSaving(false);
@@ -355,7 +353,7 @@ export function WelcomeClient() {
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <ProfilePreviewCard profile={merged} email={email} />
+          <ProfilePreviewCard profile={merged} email={email} avatarUrl={avatarUrl} />
         </div>
       </div>
     </div>

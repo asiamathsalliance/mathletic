@@ -74,8 +74,6 @@ export function defaultProfile(email?: string): UserProfile {
     grade: "",
     language: "English",
     bio: "",
-    avatarUrl: "",
-    avatarType: "initials",
     topics: [],
     difficultyPreference: "Mixed",
     notifications: {

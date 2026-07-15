@@ -1,14 +1,21 @@
 import { NextRequest } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { defaultProfile } from "@/lib/profile/constants";
+import { googleAvatarUrl } from "@/lib/profile/avatar";
 import type { UserProfile } from "@/types/profile";
 
 function profileFromMetadata(meta: Record<string, unknown>, email?: string): UserProfile {
   const base = defaultProfile(email);
+  const raw = { ...(meta.profile as Partial<UserProfile> | undefined) };
+  // Avatar is always the Google photo — drop legacy customization fields.
+  delete (raw as { avatarUrl?: string }).avatarUrl;
+  delete (raw as { avatarType?: string }).avatarType;
   return {
     ...base,
-    ...(meta.profile as Partial<UserProfile> | undefined),
-    onboardingComplete: Boolean(meta.onboarding_complete ?? (meta.profile as UserProfile | undefined)?.onboardingComplete),
+    ...raw,
+    onboardingComplete: Boolean(
+      meta.onboarding_complete ?? (meta.profile as UserProfile | undefined)?.onboardingComplete
+    ),
   };
 }
 
@@ -31,13 +38,19 @@ export async function GET() {
     .maybeSingle();
 
   const profile = profileFromMetadata(user.user_metadata ?? {}, user.email);
-  // display_name in public.users stores username (social); displayName lives in metadata only.
+  const avatarUrl = googleAvatarUrl(user.user_metadata ?? {}, row?.avatar_url);
+
+  // Keep public.users.avatar_url in sync with Google if it was wiped previously.
+  if (avatarUrl && avatarUrl !== row?.avatar_url) {
+    await supabase.from("users").update({ avatar_url: avatarUrl }).eq("id", user.id);
+  }
 
   return Response.json({
     signedIn: true,
     userId: user.id,
     email: user.email,
     memberSince: row?.created_at ?? user.created_at,
+    avatarUrl,
     profile,
   });
 }
@@ -61,17 +74,24 @@ export async function PATCH(request: NextRequest) {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
+  // Ignore any client attempts to customize avatar.
+  const { avatarUrl: _a, avatarType: _t, ...safeBody } = body as Partial<UserProfile> & {
+    avatarUrl?: string;
+    avatarType?: string;
+    onboardingComplete?: boolean;
+  };
+
   const current = profileFromMetadata(user.user_metadata ?? {}, user.email);
   const merged: UserProfile = {
     ...current,
-    ...body,
-    notifications: { ...current.notifications, ...body.notifications },
-    privacy: { ...current.privacy, ...body.privacy },
-    appearance: { ...current.appearance, ...body.appearance },
+    ...safeBody,
+    notifications: { ...current.notifications, ...safeBody.notifications },
+    privacy: { ...current.privacy, ...safeBody.privacy },
+    appearance: { ...current.appearance, ...safeBody.appearance },
   };
 
-  if (body.onboardingComplete !== undefined) {
-    merged.onboardingComplete = body.onboardingComplete;
+  if (safeBody.onboardingComplete !== undefined) {
+    merged.onboardingComplete = safeBody.onboardingComplete;
   }
 
   await supabase.auth.updateUser({
@@ -82,16 +102,18 @@ export async function PATCH(request: NextRequest) {
     },
   });
 
+  const avatarUrl = googleAvatarUrl(user.user_metadata ?? {}, null);
+
   // public.users.display_name = username for leaderboard / social appearance.
   await supabase
     .from("users")
     .update({
       display_name: merged.username,
-      avatar_url: null,
+      ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
     })
     .eq("id", user.id);
 
-  return Response.json({ profile: merged });
+  return Response.json({ profile: merged, avatarUrl });
 }
 
 /** POST /api/profile/check-username — body: { username } */

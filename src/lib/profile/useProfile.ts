@@ -10,6 +10,7 @@ interface ProfileState {
   userId: string | null;
   email: string | null;
   memberSince: string | null;
+  avatarUrl: string | null;
   refresh: () => void;
   save: (patch: Partial<UserProfile> & { onboardingComplete?: boolean }) => Promise<UserProfile | null>;
 }
@@ -21,6 +22,7 @@ export function useProfile(): ProfileState {
   const [userId, setUserId] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [memberSince, setMemberSince] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [version, setVersion] = useState(0);
 
   const refresh = useCallback(() => setVersion((v) => v + 1), []);
@@ -36,6 +38,7 @@ export function useProfile(): ProfileState {
         setUserId(data.userId ?? null);
         setEmail(data.email ?? null);
         setMemberSince(data.memberSince ?? null);
+        setAvatarUrl(data.avatarUrl ?? null);
         setLoading(false);
       })
       .catch(() => {
@@ -56,12 +59,13 @@ export function useProfile(): ProfileState {
       if (!res.ok) return null;
       const data = await res.json();
       setProfile(data.profile);
+      if (data.avatarUrl !== undefined) setAvatarUrl(data.avatarUrl ?? null);
       return data.profile as UserProfile;
     },
     []
   );
 
-  return { loading, signedIn, profile, userId, email, memberSince, refresh, save };
+  return { loading, signedIn, profile, userId, email, memberSince, avatarUrl, refresh, save };
 }
 
 export async function checkUsername(username: string): Promise<boolean> {
