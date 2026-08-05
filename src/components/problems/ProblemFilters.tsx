@@ -3,11 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Circle, Filter, Search, X } from "lucide-react";
-import {
-  filterQuestionsForTable,
-  getSimpleTopics,
-  type TableFilters,
-} from "@/lib/questionTable";
 import { useSolvedIds } from "@/lib/useProgress";
 import {
   COMPETITION_FILTER_OPTIONS,
@@ -15,7 +10,7 @@ import {
   DEFAULT_COMPETITION_FILTERS,
   type CompetitionFilter,
 } from "@/lib/competitions";
-import { DIFFICULTIES, type Difficulty, type Question } from "@/types/question";
+import { DIFFICULTIES, type Difficulty } from "@/types/question";
 import { cn } from "@/lib/utils";
 
 interface FilterRow {
@@ -28,11 +23,22 @@ export { competitionsFromParams };
 
 const FILTER_PANEL_KEY = "mathletic-filters-panel-open";
 
-export function ProblemFilters({ questions }: { questions: Question[] }) {
+export function ProblemFilters({
+  topics,
+  bankTotal,
+  initialFilteredTotal,
+}: {
+  topics: string[];
+  bankTotal: number;
+  initialFilteredTotal: number;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [panelOpen, setPanelOpenState] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const { solvedIds, loaded: progressLoaded } = useSolvedIds();
+  const [matchIds, setMatchIds] = useState<string[]>([]);
+  const [filteredTotal, setFilteredTotal] = useState(initialFilteredTotal);
 
   const setPanelOpen = useCallback((open: boolean | ((prev: boolean) => boolean)) => {
     setPanelOpenState((prev) => {
@@ -44,6 +50,7 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     });
   }, []);
 
+  // Restore panel open state after mount only (avoids hydration mismatch).
   useEffect(() => {
     if (sessionStorage.getItem(FILTER_PANEL_KEY) === "1") {
       setPanelOpenState(true);
@@ -60,9 +67,36 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     document.addEventListener("mousedown", onPointerDown);
     return () => document.removeEventListener("mousedown", onPointerDown);
   }, [panelOpen, setPanelOpen]);
-  const { solvedIds } = useSolvedIds();
 
-  const topics = useMemo(() => getSimpleTopics(questions), [questions]);
+  const queryKey = searchParams.toString();
+
+  // Load match ids for solved counts after mount / when filters change.
+  useEffect(() => {
+    let cancelled = false;
+    const params = new URLSearchParams(queryKey);
+    params.set("page", "1");
+    params.set("includeIds", "1");
+    const statuses = params.getAll("status");
+    if (statuses.includes("solved") || statuses.includes("unsolved")) {
+      if (!progressLoaded) return;
+      params.set("solved", [...solvedIds].join(","));
+    }
+    fetch(`/api/questions/list?${params.toString()}`)
+      .then((r) => r.json())
+      .then((data: { ids?: string[]; total?: number }) => {
+        if (cancelled) return;
+        if (Array.isArray(data.ids)) setMatchIds(data.ids);
+        if (typeof data.total === "number") setFilteredTotal(data.total);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [queryKey, progressLoaded, solvedIds]);
+
+  useEffect(() => {
+    setFilteredTotal(initialFilteredTotal);
+  }, [initialFilteredTotal]);
 
   const updateFilter = useCallback(
     (key: string, value: string) => {
@@ -72,6 +106,7 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
       } else {
         params.set(key, value);
       }
+      params.set("page", "1");
       router.replace(`/?${params.toString()}`, { scroll: false });
     },
     [router, searchParams]
@@ -82,6 +117,7 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     for (const key of ["status", "difficulty", "topic", "competition", "type"]) {
       params.delete(key);
     }
+    params.set("page", "1");
     router.replace(`/?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
@@ -89,10 +125,6 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
   const selectedStatuses = searchParams
     .getAll("status")
     .filter((s): s is "solved" | "unsolved" => s === "solved" || s === "unsolved");
-  const urlParams = useMemo(
-    () => new URLSearchParams(searchParams.toString()),
-    [searchParams]
-  );
   const selectedCompetitionFilters = useMemo(() => {
     const fromUrl = searchParams
       .getAll("competition")
@@ -111,13 +143,11 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
       const current = new Set(params.getAll(key).filter((v) => v !== "all"));
-      if (current.has(value)) {
-        current.delete(value);
-      } else {
-        current.add(value);
-      }
+      if (current.has(value)) current.delete(value);
+      else current.add(value);
       params.delete(key);
       [...current].forEach((v) => params.append(key, v));
+      params.set("page", "1");
       router.replace(`/?${params.toString()}`, { scroll: false });
     },
     [router, searchParams]
@@ -136,17 +166,15 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
       if (current.size === 0 && DEFAULT_COMPETITION_FILTERS.length > 0) {
         DEFAULT_COMPETITION_FILTERS.forEach((c) => current.add(c));
       }
-      if (current.has(filter)) {
-        current.delete(filter);
-      } else {
-        current.add(filter);
-      }
+      if (current.has(filter)) current.delete(filter);
+      else current.add(filter);
       params.delete("competition");
       if (current.size === 0) {
         if (DEFAULT_COMPETITION_FILTERS.length > 0) params.set("competition", "all");
       } else {
         [...current].forEach((c) => params.append("competition", c));
       }
+      params.set("page", "1");
       router.replace(`/?${params.toString()}`, { scroll: false });
     },
     [router, searchParams]
@@ -156,6 +184,7 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("competition");
     if (DEFAULT_COMPETITION_FILTERS.length > 0) params.set("competition", "all");
+    params.set("page", "1");
     router.replace(`/?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
@@ -198,20 +227,10 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
     Boolean(searchParams.get("q")) ||
     selectedCompetitionFilters.length > 0;
 
-  const filters: TableFilters = {
-    competitions: competitionsFromParams(urlParams),
-    topic: searchParams.get("topic") ?? "",
-    difficulties: selectedDifficulties as Difficulty[],
-    type: (searchParams.get("type") as TableFilters["type"]) ?? "all",
-    statuses: selectedStatuses,
-    keyword: searchParams.get("q") ?? "",
-  };
-  const filteredRows = filterQuestionsForTable(
-    { ...filters, statuses: [] },
-    questions,
-    (id) => solvedIds.has(id)
-  );
-  const filteredSolved = filteredRows.filter((r) => r.solved).length;
+  const filteredSolved = progressLoaded
+    ? matchIds.reduce((n, id) => n + (solvedIds.has(id) ? 1 : 0), 0)
+    : 0;
+  const displayTotal = hasAnyFilter ? filteredTotal : bankTotal;
 
   return (
     <div className="flex items-center gap-3">
@@ -378,10 +397,12 @@ export function ProblemFilters({ questions }: { questions: Question[] }) {
 
       <div className="ml-auto flex items-center gap-1.5 text-sm text-muted-foreground shrink-0">
         <Circle className="size-4" />
-        <span>
-          {hasAnyFilter
-            ? `${filteredSolved}/${filteredRows.length} solved (filtered)`
-            : `${filteredSolved}/${questions.length} solved`}
+        <span suppressHydrationWarning>
+          {progressLoaded
+            ? hasAnyFilter
+              ? `${filteredSolved}/${filteredTotal} solved (filtered)`
+              : `${filteredSolved}/${displayTotal} solved`
+            : `${displayTotal.toLocaleString()} questions`}
         </span>
       </div>
     </div>

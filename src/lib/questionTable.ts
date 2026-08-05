@@ -14,9 +14,74 @@ export interface TableFilters {
 }
 
 export interface QuestionTableRow {
-  question: Question;
+  question: {
+    id: string;
+    curriculum: Question["curriculum"];
+    competition?: Competition;
+    topic: string;
+    difficulty: Difficulty;
+    /** Preview or full stem — table only renders a truncated preview. */
+    questionText: string;
+  };
   solved: boolean;
   type: "MCQ" | "Long";
+}
+
+export function filterSummariesForTable(
+  filters: TableFilters,
+  summaries: import("@/lib/questionSummary").QuestionSummary[],
+  isSolved: (id: string) => boolean
+): QuestionTableRow[] {
+  let pool = summaries;
+
+  if (filters.competitions && filters.competitions.length > 0) {
+    const allowed = new Set(filters.competitions);
+    pool = pool.filter((q) => q.competition && allowed.has(q.competition));
+  }
+
+  if (filters.difficulties && filters.difficulties.length > 0) {
+    const allowed = new Set(filters.difficulties);
+    pool = pool.filter((q) => allowed.has(q.difficulty));
+  }
+
+  if (filters.topic) {
+    pool = pool.filter((q) => getSimpleTopic(q.topic) === filters.topic);
+  }
+
+  if (filters.type === "mcq") {
+    pool = pool.filter((q) => q.isMcq);
+  } else if (filters.type === "long") {
+    pool = pool.filter((q) => !q.isMcq);
+  }
+
+  if (filters.keyword?.trim()) {
+    const terms = filters.keyword.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    pool = pool.filter((q) => {
+      const hay = `${q.preview} ${q.topic} ${q.examSource} ${q.curriculum} ${q.id}`.toLowerCase();
+      return terms.every((t) => hay.includes(t));
+    });
+  }
+
+  if (filters.statuses?.length === 1) {
+    if (filters.statuses[0] === "solved") {
+      pool = pool.filter((q) => isSolved(q.id));
+    } else {
+      pool = pool.filter((q) => !isSolved(q.id));
+    }
+  }
+
+  return pool.map((q) => ({
+    question: {
+      id: q.id,
+      curriculum: q.curriculum,
+      competition: q.competition,
+      topic: q.topic,
+      difficulty: q.difficulty,
+      questionText: q.preview,
+    },
+    solved: isSolved(q.id),
+    type: q.isMcq ? "MCQ" : "Long",
+  }));
 }
 
 export function filterQuestionsForTable(
@@ -130,6 +195,9 @@ const TOPIC_TO_SIMPLE: Record<string, string> = {
   "Sequences and Series": "Sequences & Series",
   "Financial Mathematics": "Financial Maths",
   "Measurement and Geometry": "Geometry",
+  Geometry: "Geometry",
+  "Number Theory": "Number Theory",
+  "Counting & Probability": "Counting & Probability",
   "Networks and Time Series": "Networks",
   "Mathematical Reasoning": "Proof",
   Proof: "Proof",
@@ -138,6 +206,9 @@ const TOPIC_TO_SIMPLE: Record<string, string> = {
 
 const SIMPLE_TOPIC_ORDER = [
   "Algebra",
+  "Geometry",
+  "Number Theory",
+  "Counting & Probability",
   "Functions",
   "Calculus",
   "Trigonometry",
@@ -145,7 +216,6 @@ const SIMPLE_TOPIC_ORDER = [
   "Vectors",
   "Sequences & Series",
   "Financial Maths",
-  "Geometry",
   "Networks",
   "Modelling",
   "Proof",
@@ -156,7 +226,9 @@ export function getSimpleTopic(topic: string): string {
 }
 
 /** Unique simple topics present in the question bank, in a fixed sensible order. */
-export function getSimpleTopics(questions: Question[]): string[] {
+export function getSimpleTopics(
+  questions: Array<{ topic: string }>
+): string[] {
   const present = new Set(questions.map((q) => getSimpleTopic(q.topic)));
   const ordered = SIMPLE_TOPIC_ORDER.filter((t) => present.has(t));
   const extras = [...present].filter((t) => !SIMPLE_TOPIC_ORDER.includes(t)).sort();

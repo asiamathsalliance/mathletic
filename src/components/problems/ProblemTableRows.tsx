@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { LatexText } from "@/components/LatexText";
 import { CurriculumTag } from "@/components/ui/CurriculumTag";
-import { truncateLatex, getSimpleTopic, type QuestionTableRow } from "@/lib/questionTable";
+import { getSimpleTopic, type QuestionTableRow } from "@/lib/questionTable";
 import { cn } from "@/lib/utils";
 import type { Difficulty } from "@/types/question";
 
@@ -46,15 +46,15 @@ export function ProblemTableRows({
               className="problem-table-row grid grid-cols-[1.25rem_minmax(0,1fr)_3.5rem_10rem_7rem] items-center gap-3 px-4 py-3"
             >
               <span className="w-5 shrink-0 flex justify-center">
-                {solved && (
+                {solved ? (
                   <CheckCircle2 className="size-4 text-[#2F7D4F]" aria-label="Solved" />
-                )}
+                ) : null}
               </span>
 
               <span className="min-w-0 text-sm font-medium text-foreground">
                 <span className="block truncate [mask-image:linear-gradient(to_right,black_82%,transparent)]">
                   <span className="text-muted-foreground">{num}.&nbsp;</span>
-                  <LatexText>{truncateLatex(question.questionText, 90)}</LatexText>
+                  <LatexText>{question.questionText}</LatexText>
                 </span>
               </span>
 

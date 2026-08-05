@@ -49,12 +49,15 @@ const CURRICULUM_TO_COMPETITION = {
   IB: "IB",
   AP: "AP",
   "A-Level": "A_LEVEL",
+  "AMC 10": "AMC10",
+  "AMC 12": "AMC12",
 };
 
 function mapQuestion(q) {
-  const competition = CURRICULUM_TO_COMPETITION[q.curriculum];
+  const competition = q.competition ?? CURRICULUM_TO_COMPETITION[q.curriculum];
   if (!competition) throw new Error(`Unknown curriculum "${q.curriculum}" on ${q.id}`);
   const isMcq = Array.isArray(q.choices) && q.choices.length >= 4 && typeof q.correctIndex === "number";
+  const isAmc = competition === "AMC10" || competition === "AMC12";
   return {
     id: q.id,
     competition,
@@ -64,10 +67,10 @@ function mapQuestion(q) {
     year: q.year ?? null,
     exam_source: q.examSource ?? null,
     difficulty: q.difficulty,
-    amc_year: null,
-    amc_variant: null,
-    problem_number: null,
-    difficulty_bucket: null,
+    amc_year: isAmc ? q.amcYear ?? q.year ?? null : null,
+    amc_variant: isAmc ? q.amcVariant ?? null : null,
+    problem_number: isAmc ? q.problemNumber ?? null : null,
+    difficulty_bucket: isAmc ? q.difficultyBucket ?? null : null,
     question_text: q.questionText,
     image_url:
       q.image && q.image !== "none" ? q.image : q.questionImage ?? null,
@@ -80,6 +83,7 @@ function mapQuestion(q) {
 }
 
 const files = [
+  "questions-amc.json",
   "questions-hsc.json",
   "questions-ib.json",
   "questions-ap.json",
@@ -119,7 +123,4 @@ if (countError) {
   process.exit(1);
 }
 console.log(`Done. questions table now has ${count} rows (imported ${all.length}).`);
-console.log(
-  "\nNote: once you import real AMC problems (scripts/import-amc.mjs), flip\n" +
-    "DEFAULT_COMPETITIONS in src/lib/competitions.ts to ['AMC10', 'AMC12']."
-);
+

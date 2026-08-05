@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
+import { normalizeLatexContent } from "@/lib/latexNormalize";
 
 interface LatexTextProps {
   /** Text with optional LaTeX: use $...$ for inline, $$...$$ for display math */
@@ -10,15 +11,26 @@ interface LatexTextProps {
   className?: string;
   /** Render as block (paragraph) or inline */
   block?: boolean;
+  /** Skip normalizeLatexContent (already cleaned). */
+  raw?: boolean;
 }
 
-const KATEX_OPTS = { throwOnError: false };
+const KATEX_OPTS = {
+  throwOnError: false,
+  trust: false,
+  strict: "ignore" as const,
+};
 
 function renderLatex(latex: string, displayMode: boolean): string | null {
   try {
     return katex.renderToString(latex.trim(), {
       ...KATEX_OPTS,
       displayMode,
+      // Common contest macros
+      macros: {
+        "\\dfrac": "\\frac",
+        "\\tfrac": "\\frac",
+      },
     });
   } catch {
     return null;
@@ -29,11 +41,18 @@ function renderLatex(latex: string, displayMode: boolean): string | null {
  * Renders text with LaTeX. Supports:
  * - $...$ and $$...$$ (inline and display; can span lines)
  * - \(...\) and \[...\] (inline and display)
+ * - Bare \begin{align*}...\end{align*} (auto-promoted to display)
  */
-export function LatexText({ children, className = "", block = false }: LatexTextProps) {
+export function LatexText({
+  children,
+  className = "",
+  block = false,
+  raw = false,
+}: LatexTextProps) {
   const parsed = useMemo(() => {
+    const source = raw ? String(children ?? "") : normalizeLatexContent(children);
     const parts: { type: "text" | "inline" | "display"; content: string }[] = [];
-    let remaining = children;
+    let remaining = source;
 
     while (remaining.length > 0) {
       // Display: $$...$$ or \[...\]
@@ -53,8 +72,22 @@ export function LatexText({ children, className = "", block = false }: LatexText
         continue;
       }
 
-      // Inline: $...$ (non-greedy, may span lines; \$ inside math is not a
-      // delimiter) or \(...\)
+      // Bare display environments (AoPS solutions often omit $$)
+      const envMatch = remaining.match(
+        /^(\\begin\{(?:align|equation|gather|multline|eqnarray)\*?\}[\s\S]*?\\end\{(?:align|equation|gather|multline|eqnarray)\*?\})/
+      );
+      if (envMatch) {
+        const html = renderLatex(envMatch[1], true);
+        if (html) {
+          parts.push({ type: "display", content: html });
+        } else {
+          parts.push({ type: "text", content: envMatch[0] });
+        }
+        remaining = remaining.slice(envMatch[0].length);
+        continue;
+      }
+
+      // Inline: $...$ or \(...\)
       const inlineDollar = remaining.match(/^\$((?:\\.|[^$\\])*?)\$/);
       const inlineParen = remaining.match(/^\\\(\s*([\s\S]*?)\s*\\\)/);
       const inlineMatch = inlineDollar ?? inlineParen;
@@ -71,11 +104,11 @@ export function LatexText({ children, className = "", block = false }: LatexText
         continue;
       }
 
-      // No math at current position: advance to next $ or \( or \[ or end
       const candidates = [
         remaining.indexOf("$"),
         remaining.indexOf("\\("),
         remaining.indexOf("\\["),
+        remaining.search(/\\begin\{(?:align|equation|gather|multline|eqnarray)\*?\}/),
       ].filter((i) => i >= 0);
       const next = candidates.length > 0 ? Math.min(...candidates) : -1;
 
@@ -84,8 +117,6 @@ export function LatexText({ children, className = "", block = false }: LatexText
         break;
       }
       if (next === 0) {
-        // Unmatched delimiter at the current position (e.g. a lone "$"):
-        // emit it as text and advance one char to guarantee progress.
         parts.push({ type: "text", content: remaining[0] });
         remaining = remaining.slice(1);
         continue;
@@ -95,7 +126,7 @@ export function LatexText({ children, className = "", block = false }: LatexText
     }
 
     return parts;
-  }, [children]);
+  }, [children, raw]);
 
   const Wrapper = block ? "div" : "span";
 
@@ -103,9 +134,21 @@ export function LatexText({ children, className = "", block = false }: LatexText
     <Wrapper className={className}>
       {parsed.map((part, i) => {
         if (part.type === "text") {
+          // Render lightweight markdown bold used for Remark headers
+          const chunks = part.content.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
           return (
             <span key={i} className="whitespace-pre-wrap">
-              {part.content}
+              {chunks.map((chunk, j) => {
+                const bold = chunk.match(/^\*\*([^*]+)\*\*$/);
+                if (bold) {
+                  return (
+                    <strong key={j} className="font-semibold text-foreground">
+                      {bold[1]}
+                    </strong>
+                  );
+                }
+                return <span key={j}>{chunk}</span>;
+              })}
             </span>
           );
         }
@@ -113,7 +156,7 @@ export function LatexText({ children, className = "", block = false }: LatexText
           return (
             <div
               key={i}
-              className="my-2 overflow-x-auto"
+              className="my-3 overflow-x-auto text-[1.05em]"
               dangerouslySetInnerHTML={{ __html: part.content }}
             />
           );

@@ -40,15 +40,18 @@ Without these vars the app still runs — it falls back to the bundled JSON ques
 node scripts/import-questions.mjs
 ```
 
-Upserts all HSC/IB/AP/A-Level JSON questions into the `questions` table (safe to re-run).
+Upserts all bundled JSON questions (AMC 10/12, HSC, IB, AP, A-Level) into the `questions` table (safe to re-run).
 
-### 3. Import AMC problems (when you have them)
+### 3. Rebuild / re-import AMC problems
+
+AMC 10/12 problems are bundled in `src/data/questions-amc.json` (sourced from AoPS wiki mirrors). Rebuild from the public datasets with:
 
 ```bash
-node scripts/import-amc.mjs path/to/amc-problems.json
+node scripts/build-amc-bank.mjs
+node scripts/import-amc.mjs scripts/tmp-amc/amc-import.json
 ```
 
-The expected JSON format is documented at the top of `scripts/import-amc.mjs` (5 choices A–E, answer letter, problem number 1–25; difficulty bucket is derived). After importing, flip `DEFAULT_COMPETITIONS` in `src/lib/competitions.ts` to `["AMC10", "AMC12"]` so the home list defaults to AMC.
+The home practice list defaults to AMC 10/12 via `DEFAULT_COMPETITION_FILTERS` in `src/lib/competitions.ts`.
 
 ### 4. Google OAuth
 

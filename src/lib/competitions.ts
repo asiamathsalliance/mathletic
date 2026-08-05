@@ -32,9 +32,8 @@ export const AMC_BROWSE_TOPICS = [
 
 /**
  * Default competition filters on the home list (empty = show all).
- * Set to ["AMC10", "AMC12"] once the AMC bank has content.
  */
-export const DEFAULT_COMPETITION_FILTERS: CompetitionFilter[] = [];
+export const DEFAULT_COMPETITION_FILTERS: CompetitionFilter[] = ["AMC10", "AMC12"];
 
 const FILTER_IDS = new Set<string>(COMPETITION_FILTER_OPTIONS.map((o) => o.id));
 

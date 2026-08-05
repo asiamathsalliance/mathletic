@@ -18,6 +18,7 @@ import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
 import { isAiUnavailableError } from "@/lib/aiErrors";
+import { formatQuestionSourceLabel } from "@/lib/questionUtils";
 
 interface QuestionCardProps {
   question: Question;
@@ -98,9 +99,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
             <div className="flex flex-wrap gap-2 text-xs text-muted-foreground items-center">
               <span className="font-medium text-foreground">{question.curriculum}</span>
               <span>·</span>
-              <span>{question.year}</span>
-              <span>·</span>
-              <span>{question.examSource}</span>
+              <span>{formatQuestionSourceLabel(question)}</span>
               <span>·</span>
               <span
                 className={
@@ -286,7 +285,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
               </div>
             )}
             {question.solution && (
-              <div className="text-sm leading-relaxed">
+              <div className="text-[15px] leading-7 text-foreground">
                 <LatexText block>{question.solution}</LatexText>
               </div>
             )}

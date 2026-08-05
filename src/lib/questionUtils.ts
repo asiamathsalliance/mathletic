@@ -14,6 +14,29 @@ export function isLongAnswerQuestion(q: Question): boolean {
   return !isMcqQuestion(q);
 }
 
+/**
+ * Display label like "2004 · AMC 10B" (never "2004 · AMC 10B 2004").
+ * Strips a trailing year from examSource when it matches question.year.
+ */
+export function formatQuestionSourceLabel(question: {
+  year: number;
+  examSource?: string | null;
+}): string {
+  const year = question.year;
+  let source = (question.examSource ?? "").trim();
+  if (!source) return year ? String(year) : "";
+
+  if (year) {
+    source = source.replace(new RegExp(`\\s+${year}\\s*$`), "").trim();
+  }
+  // Fallback: strip any trailing 4-digit year (e.g. mismatched amcYear)
+  source = source.replace(/\s+(19|20)\d{2}\s*$/, "").trim();
+
+  if (!source) return year ? String(year) : "";
+  if (!year) return source;
+  return `${year} · ${source}`;
+}
+
 /** Simple seeded RNG for deterministic "random" selection. */
 export function seededRandom(seed: number): () => number {
   return () => {

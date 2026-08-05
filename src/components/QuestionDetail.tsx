@@ -17,6 +17,7 @@ import { isAiUnavailableError } from "@/lib/aiErrors";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
 import { CurriculumTag } from "@/components/ui/CurriculumTag";
 import { cn } from "@/lib/utils";
+import { formatQuestionSourceLabel } from "@/lib/questionUtils";
 
 interface QuestionDetailProps {
   question: Question;
@@ -110,7 +111,7 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
             <CurriculumTag curriculum={question.curriculum} />
             <DifficultyBadge difficulty={question.difficulty} />
             <span className="text-xs text-muted-foreground">
-              {question.year} · {question.examSource}
+              {formatQuestionSourceLabel(question)}
             </span>
             {isSolved && (
               <span className="text-xs font-medium text-[#24603D]">Solved</span>
@@ -252,7 +253,9 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                   />
                 </div>
               )}
-              <LatexText block>{question.solution}</LatexText>
+              <LatexText block className="text-[15px] leading-7 text-foreground">
+                {question.solution}
+              </LatexText>
             </div>
           </CardContent>
         )}
