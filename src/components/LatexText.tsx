@@ -13,6 +13,11 @@ interface LatexTextProps {
   block?: boolean;
   /** Skip normalizeLatexContent (already cleaned). */
   raw?: boolean;
+  /**
+   * Force a single visual line (problem-bank previews).
+   * Collapses newlines and renders display math inline.
+   */
+  singleLine?: boolean;
 }
 
 const KATEX_OPTS = {
@@ -48,9 +53,14 @@ export function LatexText({
   className = "",
   block = false,
   raw = false,
+  singleLine = false,
 }: LatexTextProps) {
   const parsed = useMemo(() => {
-    const source = raw ? String(children ?? "") : normalizeLatexContent(children);
+    let source = raw ? String(children ?? "") : normalizeLatexContent(children);
+    if (singleLine) {
+      // Collapse to one line for table/list previews.
+      source = source.replace(/\s+/g, " ").trim();
+    }
     const parts: { type: "text" | "inline" | "display"; content: string }[] = [];
     let remaining = source;
 
@@ -62,9 +72,10 @@ export function LatexText({
       const displayContent = displayMatch ? displayMatch[1] : null;
 
       if (displayContent !== null && displayMatch) {
-        const html = renderLatex(displayContent, true);
+        // In single-line previews, force inline so the row never wraps.
+        const html = renderLatex(displayContent, singleLine ? false : true);
         if (html) {
-          parts.push({ type: "display", content: html });
+          parts.push({ type: singleLine ? "inline" : "display", content: html });
         } else {
           parts.push({ type: "text", content: displayMatch[0] });
         }
@@ -77,9 +88,9 @@ export function LatexText({
         /^(\\begin\{(?:align|equation|gather|multline|eqnarray)\*?\}[\s\S]*?\\end\{(?:align|equation|gather|multline|eqnarray)\*?\})/
       );
       if (envMatch) {
-        const html = renderLatex(envMatch[1], true);
+        const html = renderLatex(envMatch[1], singleLine ? false : true);
         if (html) {
-          parts.push({ type: "display", content: html });
+          parts.push({ type: singleLine ? "inline" : "display", content: html });
         } else {
           parts.push({ type: "text", content: envMatch[0] });
         }
@@ -126,18 +137,17 @@ export function LatexText({
     }
 
     return parts;
-  }, [children, raw]);
+  }, [children, raw, singleLine]);
 
-  const Wrapper = block ? "div" : "span";
+  const Wrapper = block && !singleLine ? "div" : "span";
 
   return (
     <Wrapper className={className}>
       {parsed.map((part, i) => {
         if (part.type === "text") {
-          // Render lightweight markdown bold used for Remark headers
           const chunks = part.content.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
           return (
-            <span key={i} className="whitespace-pre-wrap">
+            <span key={i} className={singleLine ? "whitespace-nowrap" : "whitespace-pre-wrap"}>
               {chunks.map((chunk, j) => {
                 const bold = chunk.match(/^\*\*([^*]+)\*\*$/);
                 if (bold) {

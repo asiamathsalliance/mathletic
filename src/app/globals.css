@@ -297,6 +297,33 @@
   background: var(--muted);
 }
 
+/* One-line question previews with a shared right-edge fade for every row. */
+.problem-preview {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.5;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 calc(100% - 2.75rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 calc(100% - 2.75rem),
+    transparent 100%
+  );
+}
+
+.problem-preview .katex,
+.problem-preview .katex-inline {
+  white-space: nowrap;
+  display: inline;
+  vertical-align: middle;
+}
+
 @keyframes problem-table-page-in {
   from {
     opacity: 0;
