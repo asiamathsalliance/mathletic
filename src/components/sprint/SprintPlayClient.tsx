@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Zap } from "lucide-react";
+import { ChevronLeft, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MultiplicationPlay } from "@/components/sprint/MultiplicationPlay";
 import { ProblemPlay } from "@/components/sprint/ProblemPlay";
@@ -29,6 +30,59 @@ interface RunState {
   bestStreak: number;
   multiplicationProblem?: MultiplicationProblem;
   question?: SprintQuestion;
+  prefetch?: SprintQuestion[];
+  answerKey?: Record<string, number>;
+}
+
+function LeaveSprintModal({
+  open,
+  onGoBack,
+  onLeave,
+}: {
+  open: boolean;
+  onGoBack: () => void;
+  onLeave: () => void;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onGoBack();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onGoBack]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="leave-sprint-title"
+      onClick={onGoBack}
+    >
+      <div
+        className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 id="leave-sprint-title" className="text-section-header">
+          Leave sprint?
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Your sprint progress won&apos;t be saved.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-end gap-2">
+          <Button variant="outline" onClick={onGoBack}>
+            Go Back
+          </Button>
+          <Button variant="default" onClick={onLeave}>
+            Continue
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function SprintPlayClient({
@@ -42,17 +96,20 @@ export function SprintPlayClient({
   signedIn: boolean;
   configured: boolean;
 }) {
+  const router = useRouter();
   const [phase, setPhase] = useState<Phase>("loading");
   const [error, setError] = useState<string | null>(null);
   const [run, setRun] = useState<RunState | null>(null);
   const [results, setResults] = useState<SprintResultData | null>(null);
   const [frozen, setFrozen] = useState(false);
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const finishing = useRef(false);
   const started = useRef(false);
 
   const finishSprint = useCallback(async (sessionId: string) => {
     if (finishing.current) return;
     finishing.current = true;
+    setShowLeaveConfirm(false);
     setFrozen(true);
     setPhase("exiting");
 
@@ -108,6 +165,11 @@ export function SprintPlayClient({
           bestStreak: 0,
           multiplicationProblem: data.problem,
           question: data.question,
+          prefetch: Array.isArray(data.prefetch) ? data.prefetch : [],
+          answerKey:
+            data.answerKey && typeof data.answerKey === "object"
+              ? (data.answerKey as Record<string, number>)
+              : {},
         });
         setPhase("running");
       } catch {
@@ -133,6 +195,11 @@ export function SprintPlayClient({
     },
     []
   );
+
+  const leaveWithoutSaving = useCallback(() => {
+    setShowLeaveConfirm(false);
+    router.push(backHref);
+  }, [router, backHref]);
 
   if (!configured) {
     return (
@@ -180,6 +247,7 @@ export function SprintPlayClient({
   if (!run) return null;
 
   const sessionEnding = phase === "exiting" || phase === "held";
+  const isProblemSprint = modeType === "PROBLEM_POOL";
 
   return (
     <>
@@ -197,18 +265,41 @@ export function SprintPlayClient({
             phase === "exiting" && "sprint-session-exit"
           )}
         >
-          <div className="text-sm">
-            <span className="font-semibold">{run.problemsSolved}</span>
-            <span className="text-muted-foreground"> solved</span>
-            {modeType === "PROBLEM_POOL" && (
+          {isProblemSprint ? (
+            <div className="flex w-14 shrink-0 items-center justify-start">
+              <button
+                type="button"
+                disabled={sessionEnding}
+                onClick={() => setShowLeaveConfirm(true)}
+                className={cn(
+                  "-ml-1 inline-flex items-center justify-center p-1 text-muted-foreground transition-colors hover:text-foreground",
+                  "disabled:pointer-events-none disabled:opacity-40"
+                )}
+                aria-label="Leave sprint"
+              >
+                <ChevronLeft className="size-6" strokeWidth={2.25} />
+              </button>
+            </div>
+          ) : (
+            <div className="text-sm">
+              <span className="font-semibold">{run.problemsSolved}</span>
+              <span className="text-muted-foreground"> solved</span>
+            </div>
+          )}
+
+          {isProblemSprint && (
+            <div className="min-w-0 flex-1 text-center text-sm">
+              <span className="font-semibold">{run.problemsSolved}</span>
+              <span className="text-muted-foreground"> solved</span>
               <span className="ml-4 inline-flex items-center gap-1 font-semibold">
                 <Zap className="size-4 text-[#8FA82F]" />
                 {run.score}
               </span>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            {!sessionEnding && (
+            </div>
+          )}
+
+          <div className="flex shrink-0 items-center gap-3">
+            {!isProblemSprint && !sessionEnding && (
               <button
                 type="button"
                 onClick={() => void finishSprint(run.sessionId)}
@@ -225,7 +316,7 @@ export function SprintPlayClient({
           </div>
         </div>
 
-        <div className={cn(phase === "exiting" && "sprint-session-exit")}>
+        <div className={cn("relative z-10", phase === "exiting" && "sprint-session-exit")}>
           {modeType === "MULTIPLICATION" && run.multiplicationProblem && (
             <MultiplicationPlay
               sessionId={run.sessionId}
@@ -240,6 +331,8 @@ export function SprintPlayClient({
             <ProblemPlay
               sessionId={run.sessionId}
               initialQuestion={run.question}
+              initialPrefetch={run.prefetch}
+              initialAnswerKey={run.answerKey}
               onAnswered={handleAnswered}
               onTimeUp={() => void finishSprint(run.sessionId)}
               onPoolExhausted={() => void finishSprint(run.sessionId)}
@@ -248,6 +341,14 @@ export function SprintPlayClient({
           )}
         </div>
       </div>
+
+      {isProblemSprint && (
+        <LeaveSprintModal
+          open={showLeaveConfirm}
+          onGoBack={() => setShowLeaveConfirm(false)}
+          onLeave={leaveWithoutSaving}
+        />
+      )}
     </>
   );
 }

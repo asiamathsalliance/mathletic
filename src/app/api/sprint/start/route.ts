@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { generateOperandPair } from "@/lib/sprintMultiplication";
-import { pickProblemPoolQuestion } from "@/lib/sprintProblemPool";
+import { pickProblemPoolBatch, answerKeyFromBatch } from "@/lib/sprintProblemPool";
 import {
   SPRINT_DAILY_LIMIT,
   sprintDurationForMode,
@@ -9,6 +9,7 @@ import {
 } from "@/lib/sprint";
 
 const MODES: SprintModeType[] = ["MULTIPLICATION", "PROBLEM_POOL"];
+const PROBLEM_PREFETCH = 4;
 
 export async function POST(request: NextRequest) {
   if (!isSupabaseConfigured()) {
@@ -52,17 +53,38 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (modeType === "PROBLEM_POOL") {
-    const picked = await pickProblemPoolQuestion(new Set());
-    if (!picked) {
-      return Response.json(
-        { error: "No easy problems available in the question bank." },
-        { status: 404 }
-      );
+  const durationSeconds = sprintDurationForMode(modeType);
+
+  if (modeType === "MULTIPLICATION") {
+    const { data: session, error } = await supabase
+      .from("sprint_sessions")
+      .insert({
+        user_id: user.id,
+        mode_type: modeType,
+        duration_seconds: durationSeconds,
+      })
+      .select("id, started_at")
+      .single();
+    if (error || !session) {
+      return Response.json({ error: error?.message ?? "Failed to start" }, { status: 500 });
     }
+
+    return Response.json({
+      sessionId: session.id,
+      startedAt: session.started_at,
+      durationSeconds,
+      modeType,
+      problem: generateOperandPair(),
+    });
   }
 
-  const durationSeconds = sprintDurationForMode(modeType);
+  const batch = await pickProblemPoolBatch(PROBLEM_PREFETCH);
+  if (batch.length === 0) {
+    return Response.json(
+      { error: "No easy problems available in the question bank." },
+      { status: 404 }
+    );
+  }
 
   const { data: session, error } = await supabase
     .from("sprint_sessions")
@@ -77,23 +99,14 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: error?.message ?? "Failed to start" }, { status: 500 });
   }
 
-  if (modeType === "MULTIPLICATION") {
-    const problem = generateOperandPair();
-    return Response.json({
-      sessionId: session.id,
-      startedAt: session.started_at,
-      durationSeconds,
-      modeType,
-      problem,
-    });
-  }
-
-  const picked = await pickProblemPoolQuestion(new Set());
   return Response.json({
     sessionId: session.id,
     startedAt: session.started_at,
     durationSeconds,
     modeType,
-    question: picked!.question,
+    question: batch[0].question,
+    prefetch: batch.slice(1).map((item) => item.question),
+    // Preloaded keys so the client can flash correct/incorrect immediately.
+    answerKey: answerKeyFromBatch(batch),
   });
 }

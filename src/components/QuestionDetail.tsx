@@ -6,9 +6,8 @@ import Link from "next/link";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LatexText } from "@/components/LatexText";
-import { Check, ChevronLeft, Sparkles, X } from "lucide-react";
+import { Check, ChevronLeft, X } from "lucide-react";
 import type { Question } from "@/types/question";
-import { AIHelpModal } from "@/components/AIHelpModal";
 import { reportAttempt, useProgress } from "@/lib/useProgress";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
@@ -28,7 +27,6 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
   const [showSolution, setShowSolution] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [studentAnswer, setStudentAnswer] = useState("");
-  const [showAIHelp, setShowAIHelp] = useState(false);
   const [answerAnalysis, setAnswerAnalysis] = useState<string | null>(null);
   const [answerVerdict, setAnswerVerdict] = useState<AnswerVerdict | null>(null);
   const [answerError, setAnswerError] = useState<string | null>(null);
@@ -115,18 +113,6 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
             </span>
             {isSolved && (
               <span className="text-xs font-medium text-[#24603D]">Solved</span>
-            )}
-            {isMultipleChoice && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="ml-auto"
-                onClick={() => setShowAIHelp(true)}
-              >
-                <Sparkles className="size-4 mr-1" />
-                AI help
-              </Button>
             )}
           </div>
 
@@ -269,14 +255,6 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
         )}
       </Card>
 
-      {isMultipleChoice && (
-        <AIHelpModal
-          open={showAIHelp}
-          onClose={() => setShowAIHelp(false)}
-          questionText={question.questionText}
-          mode="stepHelp"
-        />
-      )}
       <AiUnavailableModal open={showAiUnavailable} onClose={() => setShowAiUnavailable(false)} />
     </>
   );

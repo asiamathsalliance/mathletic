@@ -1,7 +1,9 @@
 import { NextRequest } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
-import { getQuestionById } from "@/lib/questions";
-import { pickProblemPoolQuestion } from "@/lib/sprintProblemPool";
+import {
+  getSprintPoolItem,
+  pickProblemPoolQuestion,
+} from "@/lib/sprintProblemPool";
 import {
   generateOperandPair,
   validateAnswer,
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Session already finished" }, { status: 409 });
   }
 
-  const { elapsedMs, timeUp } = await getSessionElapsed(
+  const { timeUp } = await getSessionElapsed(
     session.started_at,
     session.duration_seconds
   );
@@ -91,11 +93,14 @@ export async function POST(request: NextRequest) {
   }
 
   const modeType = session.mode_type as SprintModeType;
-  const orderIndex = await getAttemptOrderIndex(supabase, session.id);
-  const priorCorrect = await getPriorCorrectFlags(supabase, session.id);
-  const streakBefore = currentStreakBefore(priorCorrect);
 
   if (modeType === "MULTIPLICATION") {
+    const [orderIndex, priorCorrect] = await Promise.all([
+      getAttemptOrderIndex(supabase, session.id),
+      getPriorCorrectFlags(supabase, session.id),
+    ]);
+    const streakBefore = currentStreakBefore(priorCorrect);
+
     const operandA = Number(body.operandA);
     const operandB = Number(body.operandB);
     const userAnswerValue = Number(body.userAnswerValue);
@@ -133,17 +138,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newStreak = correct ? streakBefore + 1 : 0;
-    const nextProblem = generateOperandPair();
 
     return Response.json({
       correct,
       points,
       currentStreak: newStreak,
-      nextProblem,
+      // Client generates the next problem optimistically; keep for compatibility.
+      nextProblem: generateOperandPair(),
     });
   }
 
-  // PROBLEM_POOL
+  // PROBLEM_POOL — grade from cached pool (no full bank reload).
   const questionId = body.questionId as string | undefined;
   const answerIndex =
     typeof body.answerIndex === "number" && body.answerIndex >= 0
@@ -153,53 +158,58 @@ export async function POST(request: NextRequest) {
     0,
     Math.min(session.duration_seconds, Number(body.timeTakenSeconds) || 0)
   );
+  const seenIds = Array.isArray(body.seenIds)
+    ? (body.seenIds as unknown[]).filter((id): id is string => typeof id === "string")
+    : [];
 
   if (!questionId) {
     return Response.json({ error: "Missing questionId" }, { status: 400 });
   }
 
-  const question = await getQuestionById(questionId);
-  if (!question || typeof question.correctIndex !== "number") {
+  const [poolItem, orderIndex] = await Promise.all([
+    getSprintPoolItem(questionId),
+    getAttemptOrderIndex(supabase, session.id),
+  ]);
+
+  if (!poolItem) {
     return Response.json({ error: "Unknown question" }, { status: 400 });
   }
 
-  const correct = answerIndex !== null && answerIndex === question.correctIndex;
+  const correct = answerIndex !== null && answerIndex === poolItem.correctIndex;
   const points = problemPoolPoints(correct, timeTakenSeconds);
   const timeMs = Math.round(timeTakenSeconds * 1000);
   const selectedAnswer = answerIndex !== null ? answerLetter(answerIndex) : null;
 
-  const { error: insertError } = await supabase.from("sprint_attempts").insert({
-    session_id: session.id,
-    question_id: question.id,
-    operand_a: null,
-    operand_b: null,
-    user_answer_value: null,
-    answer_index: answerIndex,
-    selected_answer: selectedAnswer,
-    correct,
-    time_ms: timeMs,
-    time_taken_seconds: timeTakenSeconds,
-    points,
-    order_index: orderIndex,
-  });
-  if (insertError) {
-    return Response.json({ error: insertError.message }, { status: 500 });
+  const excludeIds = new Set(seenIds);
+  excludeIds.add(questionId);
+
+  const [insertResult, next] = await Promise.all([
+    supabase.from("sprint_attempts").insert({
+      session_id: session.id,
+      question_id: poolItem.question.id,
+      operand_a: null,
+      operand_b: null,
+      user_answer_value: null,
+      answer_index: answerIndex,
+      selected_answer: selectedAnswer,
+      correct,
+      time_ms: timeMs,
+      time_taken_seconds: timeTakenSeconds,
+      points,
+      order_index: orderIndex,
+    }),
+    pickProblemPoolQuestion(excludeIds),
+  ]);
+
+  if (insertResult.error) {
+    return Response.json({ error: insertResult.error.message }, { status: 500 });
   }
-
-  const { data: attempted } = await supabase
-    .from("sprint_attempts")
-    .select("question_id")
-    .eq("session_id", session.id);
-  const excludeIds = new Set(
-    (attempted ?? []).map((a) => a.question_id).filter(Boolean) as string[]
-  );
-
-  const next = await pickProblemPoolQuestion(excludeIds);
 
   return Response.json({
     correct,
-    correctIndex: question.correctIndex,
+    correctIndex: poolItem.correctIndex,
     points,
     question: next?.question ?? null,
+    nextCorrectIndex: next?.correctIndex ?? null,
   });
 }

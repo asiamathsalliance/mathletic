@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Flame } from "lucide-react";
-import type { MultiplicationProblem } from "@/lib/sprint";
+import { multiplicationPoints, type MultiplicationProblem } from "@/lib/sprint";
+import { generateOperandPair } from "@/lib/sprintMultiplication";
 import { cn } from "@/lib/utils";
 
-const MIN_FEEDBACK_MS = 200;
-const CORRECT_EXTRA_MS = 60;
-const WRONG_EXTRA_MS = 40;
+/** Hold feedback briefly before advancing (~250ms). */
+const MIN_FEEDBACK_MS = 250;
+const CORRECT_EXTRA_MS = 0;
+const WRONG_EXTRA_MS = 0;
 const MAX_DIGITS = 4;
 
 function sanitizeNumericInput(raw: string): string {
@@ -39,6 +41,11 @@ export function MultiplicationPlay({
   const [animTick, setAnimTick] = useState(0);
   const shownAt = useRef(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
+  const streakRef = useRef(0);
+
+  useEffect(() => {
+    streakRef.current = streak;
+  }, [streak]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -48,74 +55,69 @@ export function MultiplicationPlay({
     async (value: number) => {
       if (submitting || frozen || feedback) return;
       setSubmitting(true);
+
       const timeTakenSeconds = (Date.now() - shownAt.current) / 1000;
+      const streakBefore = streakRef.current;
       const locallyCorrect = problem.operandA * problem.operandB === value;
+      const points = multiplicationPoints(locallyCorrect, streakBefore);
+      const nextStreak = locallyCorrect ? streakBefore + 1 : 0;
+      const nextProblem = generateOperandPair();
       const feedbackStartedAt = Date.now();
+
       setAnimTick((t) => t + 1);
       setFeedback(locallyCorrect ? "correct" : "wrong");
 
-      const advanceAfterFeedback = (
-        wasCorrect: boolean,
-        nextProblem: MultiplicationProblem,
-        apiStreak: number,
-        points: number
-      ) => {
-        const minHold = wasCorrect ? MIN_FEEDBACK_MS + CORRECT_EXTRA_MS : MIN_FEEDBACK_MS + WRONG_EXTRA_MS;
-        const waitMs = Math.max(0, minHold - (Date.now() - feedbackStartedAt));
-        setTimeout(() => {
-          setFeedback(null);
-          setInput("");
-          setProblem(nextProblem);
-          shownAt.current = Date.now();
-          setSubmitting(false);
-          inputRef.current?.focus();
-        }, waitMs);
-        setStreak(apiStreak);
-        onAnswered({
-          correct: wasCorrect,
-          points,
-          currentStreak: apiStreak,
-        });
-      };
+      // Persist in the background — don't block advancing to the next question.
+      const persist = fetch("/api/sprint/answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          operandA: problem.operandA,
+          operandB: problem.operandB,
+          userAnswerValue: value,
+          timeTakenSeconds,
+        }),
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          return { ok: res.ok, data };
+        })
+        .catch(() => ({ ok: false, data: {} as Record<string, unknown> }));
 
-      try {
-        const res = await fetch("/api/sprint/answer", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            sessionId,
-            operandA: problem.operandA,
-            operandB: problem.operandB,
-            userAnswerValue: value,
-            timeTakenSeconds,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          if (data.timeUp) {
-            onTimeUp?.();
-            return;
-          }
-          setFeedback(null);
-          setSubmitting(false);
-          return;
-        }
+      const minHold = locallyCorrect
+        ? MIN_FEEDBACK_MS + CORRECT_EXTRA_MS
+        : MIN_FEEDBACK_MS + WRONG_EXTRA_MS;
+      const waitMs = Math.max(0, minHold - (Date.now() - feedbackStartedAt));
+      await new Promise((r) => setTimeout(r, waitMs));
 
-        const wasCorrect = data.correct as boolean;
-        if (wasCorrect !== locallyCorrect) {
-          setAnimTick((t) => t + 1);
-          setFeedback(wasCorrect ? "correct" : "wrong");
-        }
-
-        advanceAfterFeedback(
-          wasCorrect,
-          data.nextProblem as MultiplicationProblem,
-          data.currentStreak ?? 0,
-          data.points
-        );
-      } catch {
-        setFeedback(null);
+      if (frozen) {
         setSubmitting(false);
+        return;
+      }
+
+      setFeedback(null);
+      setInput("");
+      setProblem(nextProblem);
+      setStreak(nextStreak);
+      streakRef.current = nextStreak;
+      shownAt.current = Date.now();
+      setSubmitting(false);
+      onAnswered({
+        correct: locallyCorrect,
+        points,
+        currentStreak: nextStreak,
+      });
+      inputRef.current?.focus();
+
+      const { ok, data } = await persist;
+      if (!ok && data.timeUp) {
+        onTimeUp?.();
+        return;
+      }
+      if (ok && typeof data.currentStreak === "number" && data.currentStreak !== nextStreak) {
+        setStreak(data.currentStreak);
+        streakRef.current = data.currentStreak;
       }
     },
     [submitting, frozen, feedback, sessionId, problem, onAnswered, onTimeUp]
@@ -181,43 +183,43 @@ export function MultiplicationPlay({
             feedback === "correct" && "sprint-flash-correct"
           )}
         >
-        {feedback === "correct" && (
-          <div className="sprint-particles pointer-events-none absolute inset-0 overflow-hidden rounded-2xl" />
-        )}
-
-        <div
-          key={animTick}
-          className={cn(
-            feedback === "correct" && "sprint-bounce-correct",
-            feedback === "wrong" && "sprint-shake-wrong"
+          {feedback === "correct" && (
+            <div className="sprint-particles pointer-events-none absolute inset-0 overflow-hidden rounded-2xl" />
           )}
-        >
-          <p className="text-5xl font-bold tracking-tight tabular-nums">
-            {problem.operandA}
-            <span className="mx-2 text-[#8FA82F]">×</span>
-            {problem.operandB}
-          </p>
-          <div className="mt-6 border-t border-border pt-5">
-            <input
-              ref={inputRef}
-              type="text"
-              inputMode="numeric"
-              autoComplete="off"
-              value={input}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Answer"
-              className={cn(
-                "w-full bg-transparent text-center text-4xl font-bold tabular-nums outline-none placeholder:text-xl placeholder:font-normal placeholder:text-muted-foreground",
-                feedback === "correct" && "text-[#2F7D4F]",
-                feedback === "wrong" && "text-[#C94A3D]"
-              )}
-              disabled={disabled}
-              aria-label={`Answer for ${problem.operandA} times ${problem.operandB}`}
-            />
+
+          <div
+            key={animTick}
+            className={cn(
+              feedback === "correct" && "sprint-bounce-correct",
+              feedback === "wrong" && "sprint-shake-wrong"
+            )}
+          >
+            <p className="text-5xl font-bold tracking-tight tabular-nums">
+              {problem.operandA}
+              <span className="mx-2 text-[#8FA82F]">×</span>
+              {problem.operandB}
+            </p>
+            <div className="mt-6 border-t border-border pt-5">
+              <input
+                ref={inputRef}
+                type="text"
+                inputMode="numeric"
+                autoComplete="off"
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Answer"
+                className={cn(
+                  "w-full bg-transparent text-center text-4xl font-bold tabular-nums outline-none placeholder:text-xl placeholder:font-normal placeholder:text-muted-foreground",
+                  feedback === "correct" && "text-[#2F7D4F]",
+                  feedback === "wrong" && "text-[#C94A3D]"
+                )}
+                disabled={disabled}
+                aria-label={`Answer for ${problem.operandA} times ${problem.operandB}`}
+              />
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div className="grid grid-cols-3 gap-2">

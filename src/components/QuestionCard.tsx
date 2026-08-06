@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LatexText } from "@/components/LatexText";
-import { Check, Sparkles, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import type { Question } from "@/types/question";
-import { AIHelpModal } from "@/components/AIHelpModal";
 import { reportAttempt, useProgress } from "@/lib/useProgress";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
@@ -28,7 +27,6 @@ export function QuestionCard({ question }: QuestionCardProps) {
   const [showSolution, setShowSolution] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [studentAnswer, setStudentAnswer] = useState("");
-  const [showAIHelp, setShowAIHelp] = useState(false);
   const [answerAnalysis, setAnswerAnalysis] = useState<string | null>(null);
   const [answerVerdict, setAnswerVerdict] = useState<AnswerVerdict | null>(null);
   const [answerError, setAnswerError] = useState<string | null>(null);
@@ -95,41 +93,30 @@ export function QuestionCard({ question }: QuestionCardProps) {
     <>
       <Card className="overflow-hidden">
         <CardHeader className="space-y-2 pb-2">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground items-center">
-              <span className="font-medium text-foreground">{question.curriculum}</span>
-              <span>·</span>
-              <span>{formatQuestionSourceLabel(question)}</span>
-              <span>·</span>
-              <span
-                className={
-                  question.difficulty === "Hard"
-                    ? "text-red-600"
-                    : question.difficulty === "Medium"
-                      ? "text-amber-600"
-                      : "text-green-600"
-                }
-              >
-                {question.difficulty}
-              </span>
-              {isSolved && (
-                <>
-                  <span>·</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
-                    Solved
-                  </span>
-                </>
-              )}
-            </div>
-            <button
-              type="button"
-              onClick={() => isMultipleChoice && setShowAIHelp(true)}
-              className={`inline-flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background text-xs text-muted-foreground hover:border-primary/60 hover:text-primary transition-colors ${!isMultipleChoice ? "invisible" : ""}`}
-              aria-label="Open AI step help"
-              tabIndex={isMultipleChoice ? 0 : -1}
+          <div className="flex flex-wrap gap-2 text-xs text-muted-foreground items-center">
+            <span className="font-medium text-foreground">{question.curriculum}</span>
+            <span>·</span>
+            <span>{formatQuestionSourceLabel(question)}</span>
+            <span>·</span>
+            <span
+              className={
+                question.difficulty === "Hard"
+                  ? "text-red-600"
+                  : question.difficulty === "Medium"
+                    ? "text-amber-600"
+                    : "text-green-600"
+              }
             >
-              <Sparkles className="h-3.5 w-3.5" />
-            </button>
+              {question.difficulty}
+            </span>
+            {isSolved && (
+              <>
+                <span>·</span>
+                <span className="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                  Solved
+                </span>
+              </>
+            )}
           </div>
         {hasQuestionImage && (
           <div className="relative w-full min-h-[200px] rounded-lg border border-border overflow-hidden bg-muted/30">
@@ -304,14 +291,6 @@ export function QuestionCard({ question }: QuestionCardProps) {
           </CardFooter>
         )}
       </Card>
-      {isMultipleChoice && (
-        <AIHelpModal
-          open={showAIHelp}
-          onClose={() => setShowAIHelp(false)}
-          questionText={question.questionText}
-          mode="stepHelp"
-        />
-      )}
       <AiUnavailableModal
         open={showAiUnavailable}
         onClose={() => setShowAiUnavailable(false)}

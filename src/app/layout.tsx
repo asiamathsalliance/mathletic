@@ -21,7 +21,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Mathletic | Practice Platform",
   description:
-    "HSC, IB, AP, and A-Level mathematics practice with AI help and timed challenges.",
+    "HSC, IB, AP, and A-Level mathematics practice with timed challenges.",
 };
 
 export default function RootLayout({
