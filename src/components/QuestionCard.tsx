@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { LatexText } from "@/components/LatexText";
 import { Check, X } from "lucide-react";
 import type { Question } from "@/types/question";
-import { reportAttempt, useProgress } from "@/lib/useProgress";
+import { useProgress } from "@/lib/useProgress";
 import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer";
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
@@ -34,7 +34,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
   const [isSolved, setIsSolved] = useState(false);
   const [showAiUnavailable, setShowAiUnavailable] = useState(false);
 
-  const { solvedIds } = useProgress();
+  const { solvedIds, reportAttempt } = useProgress();
 
   useEffect(() => {
     if (solvedIds.has(question.id)) setIsSolved(true);

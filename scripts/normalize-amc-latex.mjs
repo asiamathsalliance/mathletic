@@ -13,9 +13,24 @@ import { spawnSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-// Inline copy of normalize helpers (script runs without TS path aliases).
-const CREDIT_LINE =
-  /^(?:solution\s+by|solutions?\s+by|posted\s+by|edited\s+by|~|—|-)\s*[\w.\-]+.*$/gim;
+function extractBalanced(s, start) {
+  let depth = 0;
+  let i = start;
+  while (i < s.length) {
+    const ch = s[i];
+    if (ch === "\\") {
+      i += 2;
+      continue;
+    }
+    if (ch === "{") depth += 1;
+    else if (ch === "}") {
+      depth -= 1;
+      if (depth === 0) return { inner: s.slice(start + 1, i), end: i + 1 };
+    }
+    i += 1;
+  }
+  return { inner: s.slice(start + 1), end: s.length };
+}
 
 function convertChoose(tex) {
   return tex
@@ -23,31 +38,103 @@ function convertChoose(tex) {
     .replace(/(\d+)\s*\\choose\s*(\d+)/g, "\\binom{$1}{$2}");
 }
 
-function cleanBoxed(tex) {
-  return tex.replace(/\\boxed\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, (_m, inner) => {
-    let body = String(inner)
-      .replace(/\\textbf\{\s*\(([A-E])\)\s*\}/gi, "")
-      .replace(/\\text\{\s*\(([A-E])\)\s*\}/gi, "")
-      .replace(/\\mathrm\{\s*\(([A-E])\)\s*\}/gi, "")
-      .replace(/^\s*\(([A-E])\)\s*/i, "")
-      .replace(/\\textbf\{/g, "")
-      .replace(/\\text\{/g, "")
-      .replace(/\\mathrm\{/g, "")
-      .trim();
+function cleanBoxedBody(inner) {
+  let body = String(inner)
+    .replace(/\\textbf\s*\{\s*\(([A-E])\)\s*\}/gi, "")
+    .replace(/\\text\s*\{\s*\(([A-E])\)\s*\}/gi, "")
+    .replace(/\\mathrm\s*\{\s*\(([A-E])\)\s*\}/gi, "")
+    .replace(/^\s*\(([A-E])\)\s*/i, "");
 
-    const opens = (body.match(/\{/g) || []).length;
-    const closes = (body.match(/\}/g) || []).length;
-    if (closes > opens) {
-      let extra = closes - opens;
-      while (extra > 0 && body.endsWith("}")) {
-        body = body.slice(0, -1);
-        extra -= 1;
-      }
+  while (true) {
+    const m = body.match(/\\(?:textbf|text|mathrm)\s*\{/);
+    if (!m || m.index === undefined) break;
+    const openAt = m.index + m[0].length - 1;
+    const { inner: unwrapped, end } = extractBalanced(body, openAt);
+    body = body.slice(0, m.index) + unwrapped + body.slice(end);
+  }
+
+  body = body.replace(/[.,;:]+$/g, "").trim();
+  return body.replace(/\$+$/g, "").trim();
+}
+
+function replaceBoxed(text) {
+  text = text.replace(/\\boxed\s*\{/g, "\\boxed{");
+  let out = "";
+  let i = 0;
+  while (true) {
+    const j = text.indexOf("\\boxed{", i);
+    if (j < 0) {
+      out += text.slice(i);
+      break;
     }
-    body = body.replace(/^\{\s*/, "").replace(/\s*\}$/, "").trim();
-    if (!body) return "\\boxed{?}";
-    return `\\boxed{${body}}`;
-  });
+    out += text.slice(i, j);
+    const { inner, end } = extractBalanced(text, j + "\\boxed".length);
+    const cleaned = cleanBoxedBody(inner);
+    out += `\\boxed{${cleaned || "?"}}`;
+    i = end;
+  }
+  return out;
+}
+
+function wrapBareBoxed(text) {
+  let out = "";
+  let i = 0;
+  let inInline = false;
+  let inDisplay = false;
+
+  while (i < text.length) {
+    if (!inInline && text.startsWith("$$", i)) {
+      inDisplay = !inDisplay;
+      out += "$$";
+      i += 2;
+      continue;
+    }
+    if (!inDisplay && text[i] === "\\" && (text[i + 1] === "[" || text[i + 1] === "(")) {
+      const close = text[i + 1] === "[" ? "\\]" : "\\)";
+      const end = text.indexOf(close, i + 2);
+      if (end < 0) {
+        out += text[i];
+        i += 1;
+        continue;
+      }
+      out += text.slice(i, end + close.length);
+      i = end + close.length;
+      continue;
+    }
+    if (!inDisplay && text[i] === "$") {
+      inInline = !inInline;
+      out += "$";
+      i += 1;
+      continue;
+    }
+    if (!inInline && !inDisplay && text.startsWith("\\boxed{", i)) {
+      const { end } = extractBalanced(text, i + "\\boxed".length);
+      let j = end;
+      if (text[j] === "$") j += 1;
+      out += `$${text.slice(i, end)}$`;
+      i = j;
+      continue;
+    }
+    out += text[i];
+    i += 1;
+  }
+  return out;
+}
+
+function repairDollarBalance(text) {
+  let dollars = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "\\") {
+      i += 1;
+      continue;
+    }
+    if (text[i] === "$") dollars += 1;
+  }
+  if (dollars % 2 === 1) {
+    const trimmed = text.replace(/\s+$/, "");
+    return `${trimmed}$`;
+  }
+  return text;
 }
 
 function wrapDisplayEnvs(text) {
@@ -65,12 +152,17 @@ function wrapDisplayEnvs(text) {
 
 function tidyMathSpacing(text) {
   return text
-    .replace(/\s+\$/g, " $")
-    .replace(/\$\s+/g, "$ ")
+    .replace(/\$\s+([.,;:!?])/g, "$$1")
+    .replace(/([(\[])\s+\$/g, "$1$")
+    .replace(/\$\s+([)\]])/g, "$$1")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
+    .replace(/ {2,}/g, " ")
     .trim();
 }
+
+const CREDIT_LINE =
+  /^(?:solution\s+by|solutions?\s+by|posted\s+by|edited\s+by|~|—|-)\s*[\w.\-]+.*$/gim;
 
 function stripCredits(text) {
   let t = text.replace(CREDIT_LINE, "");
@@ -87,15 +179,18 @@ function normalizeLatexContent(input) {
   text = text.replace(/\[asy\][\s\S]*?\[\/asy\]/gi, "");
   text = stripCredits(text);
   text = convertChoose(text);
-  text = cleanBoxed(text);
+  text = replaceBoxed(text);
+  text = wrapBareBoxed(text);
   text = wrapDisplayEnvs(text);
+  text = text.replace(/\$?\\textbf\s*\{\s*\(([A-E])\)\s*\}\\?\$?/g, "($1)");
+  text = text.replace(/\\textbf\s*\{\s*\(([A-E])\)\s*\}/g, "($1)");
   text = text.replace(/(?:^|\n)\s*Remark\.?\s*\n?/gi, "\n\n**Remark.** ");
   text = text.replace(/\\qquad/g, " ");
   text = text.replace(/\\quad/g, " ");
   text = text.replace(/~/g, " ");
   text = text.replace(/([.!?])\s*(\$\\boxed\{)/g, "$1\n\n$2");
-  text = tidyMathSpacing(text);
-  return text;
+  text = repairDollarBalance(text);
+  return tidyMathSpacing(text);
 }
 
 function normalizeChoice(choice) {
@@ -139,14 +234,11 @@ const out = questions.map((q) => {
 writeFileSync(path, JSON.stringify(out, null, 1));
 console.log(`Updated ${changed}/${questions.length} questions → ${path}`);
 
-// Show a couple samples
-for (const id of ["amc10-2024a-1", "amc10-2024a-2", "amc12-2020a-15"]) {
+for (const id of ["amc10-2024a-16", "amc10-2023a-2", "amc10-2023b-3", "amc12-2023a-10"]) {
   const q = out.find((x) => x.id === id);
   if (!q) continue;
   console.log(`\n=== ${id} ===`);
-  console.log("Q:", q.questionText.slice(0, 120));
-  console.log("S:", q.solution.slice(0, 280));
-  console.log("C:", q.choices);
+  console.log("S:", q.solution.slice(-200));
 }
 
 if (process.argv.includes("--import")) {

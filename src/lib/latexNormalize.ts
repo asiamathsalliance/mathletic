@@ -45,6 +45,8 @@ function cleanBoxedBody(inner: string): string {
     body = body.slice(0, m.index) + unwrapped + body.slice(end);
   }
 
+  // AoPS often leaves trailing punctuation inside \boxed{…}.
+  body = body.replace(/[.,;:]+$/g, "").trim();
   return body.replace(/\$+$/g, "").trim();
 }
 
@@ -65,6 +67,83 @@ function replaceBoxed(text: string): string {
     i = end;
   }
   return out;
+}
+
+/** Ensure every \boxed{…} sits inside math delimiters so KaTeX renders it. */
+function wrapBareBoxed(text: string): string {
+  let out = "";
+  let i = 0;
+  let inInline = false;
+  let inDisplay = false;
+
+  while (i < text.length) {
+    if (!inInline && text.startsWith("$$", i)) {
+      inDisplay = !inDisplay;
+      out += "$$";
+      i += 2;
+      continue;
+    }
+    if (!inDisplay && text[i] === "\\" && (text[i + 1] === "[" || text[i + 1] === "(")) {
+      const close = text[i + 1] === "[" ? "\\]" : "\\)";
+      const open = text.slice(i, i + 2);
+      const end = text.indexOf(close, i + 2);
+      if (end < 0) {
+        out += text[i];
+        i += 1;
+        continue;
+      }
+      out += text.slice(i, end + close.length);
+      i = end + close.length;
+      continue;
+    }
+    if (!inDisplay && text[i] === "$") {
+      inInline = !inInline;
+      out += "$";
+      i += 1;
+      continue;
+    }
+    if (text[i] === "\\" && text[i + 1] !== undefined) {
+      // skip escaped char in non-boxed path
+    }
+
+    if (!inInline && !inDisplay && text.startsWith("\\boxed{", i)) {
+      const { end } = extractBalanced(text, i + "\\boxed".length);
+      const block = text.slice(i, end);
+      // AoPS often writes \boxed{…}$ with a dangling closer and no opener.
+      let j = end;
+      if (text[j] === "$") j += 1;
+      out += `$${block}$`;
+      i = j;
+      continue;
+    }
+
+    out += text[i];
+    i += 1;
+  }
+  return out;
+}
+
+/**
+ * Close dangling `$` / repair truncated finals like `$\boxed{…}` without trailing `$`.
+ */
+function repairDollarBalance(text: string): string {
+  let dollars = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "\\") {
+      i += 1;
+      continue;
+    }
+    if (text[i] === "$") dollars += 1;
+  }
+  if (dollars % 2 === 1) {
+    // Prefer closing after a boxed group at the end.
+    const trimmed = text.replace(/\s+$/, "");
+    if (/\\boxed\{[\s\S]*\}$/.test(trimmed) && !trimmed.endsWith("$")) {
+      return `${trimmed}$`;
+    }
+    return `${trimmed}$`;
+  }
+  return text;
 }
 
 function wrapDisplayEnvs(text: string): string {
@@ -234,6 +313,7 @@ export function normalizeLatexContent(input: string | null | undefined): string 
   text = stripCredits(text);
   text = convertChoose(text);
   text = replaceBoxed(text);
+  text = wrapBareBoxed(text);
   text = wrapDisplayEnvs(text);
 
   // Answer-choice callouts → plain (C)
@@ -257,6 +337,7 @@ export function normalizeLatexContent(input: string | null | undefined): string 
   );
 
   text = restoreBackslashesInMathFields(text);
+  text = repairDollarBalance(text);
 
   return tidyMathSpacing(text);
 }

@@ -98,6 +98,39 @@ export function LatexText({
         continue;
       }
 
+      // Bare \boxed{...} (AoPS often omits surrounding $)
+      if (remaining.startsWith("\\boxed{")) {
+        const openAt = "\\boxed".length;
+        // balanced extract inline
+        let depth = 0;
+        let k = openAt;
+        let end = -1;
+        while (k < remaining.length) {
+          if (remaining[k] === "\\") {
+            k += 2;
+            continue;
+          }
+          if (remaining[k] === "{") depth += 1;
+          else if (remaining[k] === "}") {
+            depth -= 1;
+            if (depth === 0) {
+              end = k + 1;
+              break;
+            }
+          }
+          k += 1;
+        }
+        if (end > 0) {
+          const block = remaining.slice(0, end);
+          const html = renderLatex(block, false);
+          if (html) {
+            parts.push({ type: "inline", content: html });
+            remaining = remaining.slice(end);
+            continue;
+          }
+        }
+      }
+
       // Inline: $...$ or \(...\)
       const inlineDollar = remaining.match(/^\$((?:\\.|[^$\\])*?)\$/);
       const inlineParen = remaining.match(/^\\\(\s*([\s\S]*?)\s*\\\)/);
@@ -119,6 +152,7 @@ export function LatexText({
         remaining.indexOf("$"),
         remaining.indexOf("\\("),
         remaining.indexOf("\\["),
+        remaining.indexOf("\\boxed{"),
         remaining.search(/\\begin\{(?:align|equation|gather|multline|eqnarray)\*?\}/),
       ].filter((i) => i >= 0);
       const next = candidates.length > 0 ? Math.min(...candidates) : -1;

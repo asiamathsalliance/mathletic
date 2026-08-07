@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CURRICULA } from "@/types/question";
 import { CURRICULUM_STREAMS, topicToSlug } from "@/lib/curriculumStreams";
@@ -21,6 +21,8 @@ import {
 const AMC_COMPETITIONS = [
   {
     id: "AMC10" as const,
+    variant: "10",
+    sectionId: "amc-10",
     label: "AMC 10",
     titleClass: "text-[#5D3A80]",
     accentClass: "text-[#5D3A80]",
@@ -29,6 +31,8 @@ const AMC_COMPETITIONS = [
   },
   {
     id: "AMC12" as const,
+    variant: "12",
+    sectionId: "amc-12",
     label: "AMC 12",
     titleClass: "text-[#803D3A]",
     accentClass: "text-[#803D3A]",
@@ -56,6 +60,13 @@ function TopicIcon({ topic }: { topic: string }) {
   return <Sigma className="size-4" />;
 }
 
+/** Topic page URL that returns to this browse section via Back. */
+function topicHref(path: string, sectionId: string) {
+  const from = `/browse#${sectionId}`;
+  const sep = path.includes("?") ? "&" : "?";
+  return `${path}${sep}from=${encodeURIComponent(from)}`;
+}
+
 export default function BrowsePage() {
   const initial = useMemo(() => {
     const obj: Record<string, string> = {};
@@ -65,7 +76,36 @@ export default function BrowsePage() {
     return obj;
   }, []);
 
-  const [activeStreamByCurriculum, setActiveStreamByCurriculum] = useState<Record<string, string>>(initial);
+  const [activeStreamByCurriculum, setActiveStreamByCurriculum] =
+    useState<Record<string, string>>(initial);
+
+  // Restore stream tabs + scroll position when returning from a topic.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("browse-streams");
+      if (raw) {
+        const saved = JSON.parse(raw) as Record<string, string>;
+        setActiveStreamByCurriculum((prev) => ({ ...prev, ...saved }));
+      }
+    } catch {
+      /* ignore */
+    }
+
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+    const id = window.setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ block: "start", behavior: "auto" });
+    }, 50);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  const rememberBrowseState = () => {
+    try {
+      sessionStorage.setItem("browse-streams", JSON.stringify(activeStreamByCurriculum));
+    } catch {
+      /* ignore */
+    }
+  };
 
   return (
     <div className="space-y-10">
@@ -74,7 +114,11 @@ export default function BrowsePage() {
         <h1 className="text-page-title">Competition</h1>
 
         {AMC_COMPETITIONS.map((comp) => (
-          <div key={comp.id} className="rounded-2xl border-2 border-border bg-card p-6">
+          <div
+            key={comp.id}
+            id={comp.sectionId}
+            className="scroll-mt-24 rounded-2xl border-2 border-border bg-card p-6"
+          >
             <div className="mb-5">
               <h2 className={`text-2xl font-semibold ${comp.titleClass}`}>{comp.label}</h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -90,7 +134,8 @@ export default function BrowsePage() {
               {AMC_BROWSE_TOPICS.map((topic) => (
                 <li key={topic}>
                   <Link
-                    href={`/?competition=${comp.id}&topic=${encodeURIComponent(topic)}`}
+                    href={topicHref(`/amc/${comp.variant}/${topicToSlug(topic)}`, comp.sectionId)}
+                    onClick={rememberBrowseState}
                     className={`flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-[#FCFBF7] px-4 py-3 text-sm text-foreground transition-colors ${comp.cardHover}`}
                   >
                     <span
@@ -116,14 +161,21 @@ export default function BrowsePage() {
           const info = CURRICULUM_INFO[curriculum];
           const streams = CURRICULUM_STREAMS[curriculum];
           const slug = info.slug;
+          const sectionId = `curriculum-${slug}`;
           const activeId = activeStreamByCurriculum[curriculum] || streams[0]?.id;
           const activeStream = streams.find((s) => s.id === activeId) ?? streams[0];
 
           return (
-            <div key={curriculum} className="rounded-2xl border-2 border-border bg-card p-6">
+            <div
+              key={curriculum}
+              id={sectionId}
+              className="scroll-mt-24 rounded-2xl border-2 border-border bg-card p-6"
+            >
               <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
                 <div>
-                  <h2 className={`text-2xl font-semibold ${curriculumTitleClass[curriculum]}`}>{info.label}</h2>
+                  <h2 className={`text-2xl font-semibold ${curriculumTitleClass[curriculum]}`}>
+                    {info.label}
+                  </h2>
                   <p className="text-sm text-muted-foreground">{info.description}</p>
                 </div>
 
@@ -163,7 +215,11 @@ export default function BrowsePage() {
                 {activeStream.topics.map((topic) => (
                   <li key={topic}>
                     <Link
-                      href={`/${slug}/${activeStream.id}/${topicToSlug(topic)}`}
+                      href={topicHref(
+                        `/${slug}/${activeStream.id}/${topicToSlug(topic)}`,
+                        sectionId
+                      )}
+                      onClick={rememberBrowseState}
                       className="flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-[#FCFBF7] px-4 py-3 text-sm text-foreground transition-colors hover:border-[#1C4B3B] hover:bg-[#E7EFE9]"
                     >
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E7EFE9] text-[#1C4B3B]">
