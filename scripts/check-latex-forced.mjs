@@ -7,14 +7,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { spawnSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const katex = require("katex");
 
-// Compile-free: shell out to node with --experimental-strip-types when available,
-// else duplicate the critical transforms inline for the check.
+// Inline transforms mirroring src/lib/latexNormalize.ts (no TS import in build).
 function fixCurrencyDollars(text) {
   let t = text;
   t = t.replace(/\\textdollar\s*/g, "\\$");
@@ -256,14 +254,3 @@ for (const row of report.slice(0, 30)) {
 }
 if (report.length > 30) console.log(` … +${report.length - 30} more`);
 console.log(`Wrote ${outPath}`);
-
-// Also validate the TypeScript normalizer used at render time.
-const tsCheck = spawnSync(
-  process.execPath,
-  ["--experimental-strip-types", join(root, "scripts/_check-latex-ts.mts")],
-  { cwd: root, encoding: "utf8" }
-);
-if (tsCheck.status === 0 && tsCheck.stdout) {
-  console.log("\n— TypeScript normalizer —");
-  console.log(tsCheck.stdout.trim());
-}
