@@ -4,22 +4,22 @@ import Link from "next/link";
 import { useMemo, type ReactNode } from "react";
 import { Trophy, Zap, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Question } from "@/types/question";
 import { getSolvedMap } from "@/lib/progress";
 import { getGameProfile } from "@/lib/gameProfile";
 import { useProgress } from "@/lib/useProgress";
 import type { DashboardLeaderboardStats } from "@/lib/dashboardStats";
+import type { QuestionSummary } from "@/lib/questionSummary";
 import { ActivityHeatmap } from "@/components/dashboard/ActivityHeatmap";
 import { SolvedStatsCard } from "@/components/dashboard/SolvedStatsCard";
 import { useAchievementStats } from "@/lib/profile/useAchievementStats";
 import { ACHIEVEMENTS } from "@/lib/profile/constants";
 
 const COMPETITION_GROUPS = [
-  { key: "AMC 10", match: (q: Question) => q.competition === "AMC10" },
-  { key: "AMC 12", match: (q: Question) => q.competition === "AMC12" },
+  { key: "AMC 10", match: (q: QuestionSummary) => q.competition === "AMC10" },
+  { key: "AMC 12", match: (q: QuestionSummary) => q.competition === "AMC12" },
   {
     key: "Other",
-    match: (q: Question) => q.competition !== "AMC10" && q.competition !== "AMC12",
+    match: (q: QuestionSummary) => q.competition !== "AMC10" && q.competition !== "AMC12",
   },
 ] as const;
 
@@ -33,7 +33,7 @@ export function DashboardClient({
   leaderboardStats,
   fromProfile = false,
 }: {
-  questions: Question[];
+  questions: QuestionSummary[];
   leaderboardStats: DashboardLeaderboardStats | null;
   fromProfile?: boolean;
 }) {

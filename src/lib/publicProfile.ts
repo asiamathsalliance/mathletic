@@ -1,10 +1,11 @@
+import { unstable_cache } from "next/cache";
 import { computeAchievements } from "@/lib/achievementStats";
 import { countryByCode } from "@/lib/profile/constants";
 import { getDashboardLeaderboardStats } from "@/lib/dashboardStats";
 import { getUserSprintAchievements } from "@/lib/sprintAchievements";
 import { dayKeysFromAttempts, longestStreakFromDayKeys } from "@/lib/achievementStats";
 import { localDayKey } from "@/lib/progressStats";
-import { getAllQuestions } from "@/lib/questions";
+import { getQuestionSummaries } from "@/lib/questions";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createAnonClient } from "@/lib/supabase/server";
 import { isValidUsername, normalizeUsername } from "@/lib/profile/username";
@@ -207,7 +208,7 @@ export async function resolvePublicUserLabels(
   return result;
 }
 
-export async function getPublicProfile(
+async function loadPublicProfile(
   username: string
 ): Promise<PublicProfilePayload | "not_found" | "private"> {
   const normalized = normalizeUsername(username);
@@ -242,7 +243,7 @@ export async function getPublicProfile(
 
   const [questions, { data: attempts }, leaderboardStats, { data: allSolved }] =
     await Promise.all([
-      getAllQuestions(),
+      getQuestionSummaries(),
       supabase
         .from("question_attempts")
         .select("question_id, status, solved_at, attempt_count")
@@ -487,4 +488,17 @@ export async function getPublicProfile(
     showActivity,
     showLeaderboardRank,
   };
+}
+
+/** Public profiles of other users — ~60s cache. */
+export async function getPublicProfile(
+  username: string
+): Promise<PublicProfilePayload | "not_found" | "private"> {
+  const normalized = normalizeUsername(username);
+  if (!normalized || !isValidUsername(normalized)) return "not_found";
+  return unstable_cache(
+    () => loadPublicProfile(normalized),
+    ["public-profile-v1", normalized],
+    { revalidate: 60 }
+  )();
 }

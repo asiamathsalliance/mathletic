@@ -3,7 +3,7 @@ import { TopicPageClient } from "@/app/[curriculum]/[topic]/TopicPageClient";
 import { DIFFICULTIES, FILTER_YEARS } from "@/types/question";
 import { AMC_BROWSE_TOPICS } from "@/lib/competitions";
 import { topicToSlug, slugToTopicName } from "@/lib/curriculumStreams";
-import { getAllQuestions } from "@/lib/questions";
+import { getQuestionsByTopic } from "@/lib/questions";
 
 const VARIANT_META = {
   "10": { competition: "AMC10" as const, label: "AMC 10" },
@@ -51,11 +51,12 @@ export default async function AmcTopicPage({ params, searchParams }: PageProps) 
   const yearFrom = filters.year ? parseInt(filters.year, 10) : null;
   const typeFilter = filters.type === "mcq" || filters.type === "long" ? filters.type : null;
 
-  const allQuestions = await getAllQuestions();
-  const questions = allQuestions.filter(
+  const topicQuestions = await getQuestionsByTopic({
+    topic: topicName,
+    competition: meta.competition,
+  });
+  const questions = topicQuestions.filter(
     (q) =>
-      (q.competition === meta.competition || q.curriculum === meta.label) &&
-      q.topic === topicName &&
       (difficultySet === null || difficultySet.size === 0 || difficultySet.has(q.difficulty)) &&
       (yearFrom == null || Number.isNaN(yearFrom) || q.year >= yearFrom) &&
       (typeFilter === null ||

@@ -31,10 +31,12 @@ function renderLatex(latex: string, displayMode: boolean): string | null {
     return katex.renderToString(latex.trim(), {
       ...KATEX_OPTS,
       displayMode,
-      // Common contest macros
+      // Common contest macros (AoPS \textdollar is not native KaTeX)
       macros: {
         "\\dfrac": "\\frac",
         "\\tfrac": "\\frac",
+        "\\textdollar": "\\$",
+        "\\cent": "\\text{¢}",
       },
     });
   } catch {

@@ -35,6 +35,8 @@ yarn-error.log*
 
 # AMC scrape/build scratch (keep src/data/questions-amc.json)
 /scripts/tmp-amc/
+/scripts/tmp-format-issues.json
+/scripts/tmp-latex-forced-issues.json
 
 # vercel
 .vercel

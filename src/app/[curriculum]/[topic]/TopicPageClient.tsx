@@ -66,10 +66,17 @@ export function TopicPageClient({
   const [completionOpen, setCompletionOpen] = useState(false);
   const completionRef = useRef<HTMLDivElement>(null);
   const { solvedIds } = useSolvedIds();
+  /** Keep just-solved cards on screen (default filter is non-complete). */
+  const [retainedSolvedIds, setRetainedSolvedIds] = useState<Set<string>>(() => new Set());
 
   const selectedDifficulties = parseDifficultyFilter(currentFilters.difficulty);
   const selectedCompletion = parseCompletionFilter(currentFilters.completion);
   const hasExplicitCompletion = Boolean(currentFilters.completion && currentFilters.completion.trim());
+
+  useEffect(() => {
+    // Drop retention when the completion filter changes.
+    setRetainedSolvedIds(new Set());
+  }, [currentFilters.completion]);
 
   const updateFilter = useCallback(
     (key: "difficulty" | "year" | "type" | "completion", value: string) => {
@@ -145,12 +152,22 @@ export function TopicPageClient({
     const wantNonComplete = selectedCompletion.has("non-complete");
     const wantComplete = selectedCompletion.has("complete");
     return questions.filter((q) => {
+      if (retainedSolvedIds.has(q.id)) return true;
       const solved = solvedIds.has(q.id);
       if (solved && wantComplete) return true;
       if (!solved && wantNonComplete) return true;
       return false;
     });
-  }, [questions, selectedCompletion, solvedIds]);
+  }, [questions, selectedCompletion, solvedIds, retainedSolvedIds]);
+
+  const handleCardSolved = useCallback((questionId: string) => {
+    setRetainedSolvedIds((prev) => {
+      if (prev.has(questionId)) return prev;
+      const next = new Set(prev);
+      next.add(questionId);
+      return next;
+    });
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -285,7 +302,9 @@ export function TopicPageClient({
             check back later for more content.
           </p>
         ) : (
-          visibleQuestions.map((q) => <QuestionCard key={q.id} question={q} />)
+          visibleQuestions.map((q) => (
+            <QuestionCard key={q.id} question={q} onSolved={handleCardSolved} />
+          ))
         )}
       </div>
     </div>

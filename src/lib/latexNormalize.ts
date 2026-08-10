@@ -47,7 +47,53 @@ function cleanBoxedBody(inner: string): string {
 
   // AoPS often leaves trailing punctuation inside \boxed{…}.
   body = body.replace(/[.,;:]+$/g, "").trim();
-  return body.replace(/\$+$/g, "").trim();
+  // `\boxed{$28}` / `\boxed{$ 87.50}` → strip currency delimiters for KaTeX
+  body = body.replace(/^\$\s*/, "").replace(/\$+$/g, "").trim();
+  return body;
+}
+
+/**
+ * Extract `\boxed{…}` body.
+ * - `\boxed{2000^{2001}$` (missing `}`) must stop before `$`, or it swallows the solution.
+ * - `\boxed{$28}` keeps the leading `$` as currency content until the real `}`.
+ */
+function extractBoxed(s: string, openBraceAt: number): { inner: string; end: number } {
+  let depth = 0;
+  let i = openBraceAt;
+  let seenContent = false;
+  let startedWithDollar = false;
+
+  while (i < s.length) {
+    const ch = s[i];
+    if (ch === "\\") {
+      seenContent = true;
+      i += 2;
+      continue;
+    }
+    if (ch === "$" && depth === 1) {
+      if (!seenContent) {
+        startedWithDollar = true;
+        seenContent = true;
+        i += 1;
+        continue;
+      }
+      if (!startedWithDollar) {
+        // Premature math closer — author forgot `}` before `$`.
+        return { inner: s.slice(openBraceAt + 1, i), end: i };
+      }
+      i += 1;
+      continue;
+    }
+    if (ch === "{") depth += 1;
+    else if (ch === "}") {
+      depth -= 1;
+      if (depth === 0) return { inner: s.slice(openBraceAt + 1, i), end: i + 1 };
+    } else if (!/\s/.test(ch)) {
+      seenContent = true;
+    }
+    i += 1;
+  }
+  return { inner: s.slice(openBraceAt + 1), end: s.length };
 }
 
 function replaceBoxed(text: string): string {
@@ -61,7 +107,7 @@ function replaceBoxed(text: string): string {
       break;
     }
     out += text.slice(i, j);
-    const { inner, end } = extractBalanced(text, j + "\\boxed".length);
+    const { inner, end } = extractBoxed(text, j + "\\boxed".length);
     const cleaned = cleanBoxedBody(inner);
     out += `\\boxed{${cleaned || "?"}}`;
     i = end;
@@ -107,7 +153,7 @@ function wrapBareBoxed(text: string): string {
     }
 
     if (!inInline && !inDisplay && text.startsWith("\\boxed{", i)) {
-      const { end } = extractBalanced(text, i + "\\boxed".length);
+      const { end } = extractBoxed(text, i + "\\boxed".length);
       const block = text.slice(i, end);
       // AoPS often writes \boxed{…}$ with a dangling closer and no opener.
       let j = end;
@@ -170,6 +216,204 @@ function tidyMathSpacing(text: string): string {
     .trim();
 }
 
+/**
+ * AoPS uses \textdollar (unsupported by KaTeX). Currency `$12` was often
+ * ingested as `$$12$` / `$$$$12$`, which breaks delimiter parsing and
+ * swallows following prose into math (missing spaces / weird line breaks).
+ */
+function fixCurrencyDollars(text: string): string {
+  let t = text;
+
+  // \textdollar / bare textdollar → \$
+  t = t.replace(/\\textdollar\s*/g, "\\$");
+  t = t.replace(/(?<![\\a-zA-Z])textdollar\s*/gi, "\\$");
+  // AoPS \cent (cents) — not a KaTeX symbol
+  t = t.replace(/\\cent\b/g, "\\text{¢}");
+
+  // Currency mistaken for nested display: $$$$12.50$ or $$12$ → $\$12.50$
+  t = t.replace(/\$\$\$\$(\d+(?:\.\d+)?)\$/g, "$\\$$$1$");
+  t = t.replace(/\$\$(\d+(?:\.\d+)?)\$/g, "$\\$$$1$");
+
+  // Extra $$ before a real display environment: $$$$\begin{...}
+  t = t.replace(/\$\$\$\$(?=\\begin\{)/g, "$$");
+
+  // Leftover empty quadruple dollars
+  t = t.replace(/\$\$\$\$/g, "$$");
+
+  return t;
+}
+
+/**
+ * Fix cramped `\mathrm` (units/prose) and unwrap plain-English MCQ choices
+ * like `$\mathrm{even}$` / `$\mathrm{divisible by }3$` / `$\mathrm{\prime}$`.
+ */
+function fixMathrmSpacing(text: string): string {
+  let t = text;
+
+  // AoPS sometimes writes "prime" as \mathrm{\prime}
+  t = t.replace(/\\mathrm\{\s*\\prime\s*\}/g, "\\mathrm{prime}");
+
+  // Whole-choice prose: $\mathrm{even}$ → even
+  t = t.replace(/^\$\\mathrm\{([^{}]*)\}\$$/g, (_m, inner: string) => {
+    const plain = inner
+      .replace(/\\prime/g, "prime")
+      .replace(/\\,/g, " ")
+      .replace(/\\ /g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (/^[A-Za-z][A-Za-z0-9\s.,;:'"()\-]*$/.test(plain)) return plain;
+    return `$\\mathrm{${inner}}$`;
+  });
+
+  // $\mathrm{divisible by }3$ → divisible by 3
+  t = t.replace(/^\$\\mathrm\{([^{}]*)\}(\d+)\$$/g, (_m, words: string, num: string) => {
+    const plain = words
+      .replace(/\\,/g, " ")
+      .replace(/\\ /g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (/^[A-Za-z][A-Za-z0-9\s.,;:'"()\-]*$/.test(plain)) return `${plain} ${num}`;
+    return `$\\mathrm{${words}}${num}$`;
+  });
+
+  // 12\mathrm{cm} → 12\,\mathrm{cm}
+  t = t.replace(/(\d)\s*\\mathrm\b/g, "$1\\,\\mathrm");
+
+  // Glue words: ...}\mathrm{if} → ...}\ \mathrm{if}
+  t = t.replace(
+    /([^\\\s$])\\mathrm\{(if|and|or|otherwise|when|where)\b/gi,
+    "$1\\ \\mathrm{$2"
+  );
+
+  return t;
+}
+
+/**
+ * KaTeX forbids most math commands inside \text{…}. Flatten common AoPS cases.
+ * Also repair set literals written as `${1, 2\}$` (missing open \{).
+ */
+function sanitizeTextModeAndSets(text: string): string {
+  let t = text;
+
+  // `${-1, 0\}$` → `$\{-1, 0\}$`
+  t = t.replace(/\$\{([-+0-9.,\s]+)\\?\}\$/g, "$\\{$1\\}$");
+
+  t = t.replace(/\\text\s*\{\s*\\gcd\s*\}/g, "\\gcd");
+  t = t.replace(/\\text\s*\{\s*\\lcm\s*\}/g, "\\operatorname{lcm}");
+
+  t = t.replace(/\\text\s*\{([^{}]*)\}/g, (_m, inner: string) => {
+    let s = inner;
+    s = s.replace(/\\parallel/g, "parallel");
+    s = s.replace(/\\triangle/g, "triangle");
+    s = s.replace(/\\prime/g, "prime");
+    s = s.replace(/\\angle/g, "angle");
+    s = s.replace(/\\circ/g, "°");
+    s = s.replace(/\\gcd/g, "gcd");
+    s = s.replace(/\\lcm/g, "lcm");
+    return `\\text{${s}}`;
+  });
+
+  return t;
+}
+
+/** Strip / unwrap centering wrappers; KaTeX display math is already centered. */
+function normalizeCentering(text: string): string {
+  let t = text.replace(
+    /\\begin\{center\}\s*([\s\S]*?)\s*\\end\{center\}/gi,
+    "\n\n$1\n\n"
+  );
+  t = t.replace(/\\centering\b/g, "");
+  t = t.replace(/\\centerline\s*\{([^{}]*)\}/g, "\n\n$$$1$$\n\n");
+  return t;
+}
+
+/** Drop a trailing orphan `$` left after bad AoPS currency ingestion. */
+function stripOrphanTrailingDollar(text: string): string {
+  let dollars = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "\\") {
+      i += 1;
+      continue;
+    }
+    if (text[i] === "$") dollars += 1;
+  }
+  if (dollars % 2 === 1 && /[.!?]\$\s*$/.test(text)) {
+    return text.replace(/([.!?])\$\s*$/, "$1");
+  }
+  return text;
+}
+
+/**
+ * Wrap bare `\$12.50` (outside math) as `$\$12.50$` so KaTeX shows a dollar amount.
+ * Also repair choice artifacts: trailing `\$$` / unwrapped `\text{…}$$`.
+ */
+function wrapBareDollarAmounts(text: string): string {
+  let t = text;
+
+  // `\text{…}$$` with no opener
+  if (/^\\text\s*\{/.test(t.trim()) && /\$\$\s*$/.test(t)) {
+    t = `$${t.trim().replace(/\$\$\s*$/, "")}$`;
+  }
+
+  // Dangling choice closers: `… \$$` / `…$$` after an opened inline span
+  t = t.replace(/(\$[^$]*?)\s*\\\$\$\s*$/g, "$1$");
+  t = t.replace(/(\$[^$]*?)\s*\$\$\s*$/g, "$1$");
+  t = t.replace(/\s*\\\$\$\s*$/g, "");
+
+  let out = "";
+  let i = 0;
+  let inInline = false;
+  let inDisplay = false;
+
+  while (i < t.length) {
+    if (!inInline && t.startsWith("$$", i)) {
+      inDisplay = !inDisplay;
+      out += "$$";
+      i += 2;
+      continue;
+    }
+    if (!inDisplay && t[i] === "$") {
+      // Escaped \$ handled below; plain $ toggles inline.
+      inInline = !inInline;
+      out += "$";
+      i += 1;
+      continue;
+    }
+    if (!inInline && !inDisplay && t.startsWith("\\$", i)) {
+      const m = t.slice(i).match(/^\\\$\s*(\d+(?:\.\d+)?)/);
+      if (m) {
+        out += `$\\$${m[1]}$`;
+        i += m[0].length;
+        continue;
+      }
+    }
+    if (t[i] === "\\" && t[i + 1] !== undefined) {
+      out += t[i] + t[i + 1];
+      i += 2;
+      continue;
+    }
+    out += t[i];
+    i += 1;
+  }
+  return out;
+}
+
+/** Repair choice-only artifacts like trailing `\$$` / unwrapped `\text{…}`. */
+function fixChoiceWrappers(choice: string): string {
+  let c = wrapBareDollarAmounts(choice.trim());
+  c = c.replace(/\s*\\\\\$\s*$/g, "");
+  c = c.replace(/\s*\\\$\$\s*$/g, "");
+  c = c.replace(/\s*\\\$\s*$/g, "");
+  c = c.replace(/\s*\$\$\s*$/g, "");
+  if (/^\\text\s*\{/.test(c) && !c.includes("$")) {
+    c = `$${c}$`;
+  }
+  if (/^\\\$\s*\d/.test(c) && !/\$[^$]/.test(c.slice(1))) {
+    c = `$${c.replace(/\s+/g, "")}$`;
+  }
+  return c;
+}
+
 function stripCredits(text: string): string {
   let t = text.replace(
     /^(?:solution\s+by|solutions?\s+by|posted\s+by|edited\s+by|~|—|-)\s*[\w.\-]+.*$/gim,
@@ -177,7 +421,12 @@ function stripCredits(text: string): string {
   );
   t = t.replace(/(?:\n|^)\s*~+\s*[\w.\-]+\s*$/gim, "");
   t = t.replace(/(?:\n|^)\s*[-—]+\s*[A-Za-z][\w.\-]{2,40}\s*$/gim, "");
-  t = t.replace(/\s*Solution by\s+[\w.\-]+\s*\.?\s*$/i, "");
+  // "Solution by: name" / "Solution edited by a and b" (sometimes a stray `}`)
+  t = t.replace(
+    /\s*Solution\s+(?:edited\s+)?by:?\s+[\w.\-]+(?:\s+and\s+[\w.\-]+)*\}?\.?\s*$/gim,
+    ""
+  );
+  t = t.replace(/\s*Solutions?\s+by:?\s+[\w.\-]+(?:\s+and\s+[\w.\-]+)*\}?\.?\s*$/gim, "");
   t = t.replace(/\\color\{[^}]+\}\s*[\w.\-]+/g, "");
   return t.trim();
 }
@@ -311,6 +560,10 @@ export function normalizeLatexContent(input: string | null | undefined): string 
 
   text = text.replace(/\[asy\][\s\S]*?\[\/asy\]/gi, "");
   text = stripCredits(text);
+  text = fixCurrencyDollars(text);
+  text = fixMathrmSpacing(text);
+  text = wrapBareDollarAmounts(text);
+  text = normalizeCentering(text);
   text = convertChoose(text);
   text = replaceBoxed(text);
   text = wrapBareBoxed(text);
@@ -337,6 +590,13 @@ export function normalizeLatexContent(input: string | null | undefined): string 
   );
 
   text = restoreBackslashesInMathFields(text);
+  // After restoring bare commands, flatten illegal math cmds inside \text{…}
+  // (restore would otherwise turn "parallel" back into \parallel).
+  text = sanitizeTextModeAndSets(text);
+  text = stripOrphanTrailingDollar(text);
+  // Choice artifacts sometimes leak into stems too: trailing `\\$` / `\$$`
+  text = text.replace(/\s*\\\\\$\s*$/g, "");
+  text = text.replace(/\s*\\\$\$\s*$/g, "");
   text = repairDollarBalance(text);
 
   return tidyMathSpacing(text);
@@ -345,8 +605,12 @@ export function normalizeLatexContent(input: string | null | undefined): string 
 /** Wrap a short choice in $...$ when it is clearly math. */
 export function normalizeChoice(choice: string | null | undefined): string {
   if (!choice) return "";
-  let c = String(choice).trim();
+  let c = fixMathrmSpacing(
+    fixChoiceWrappers(fixCurrencyDollars(String(choice).trim()))
+  );
   if (!c) return c;
+  // Pure prose after \mathrm unwrap — no need to wrap in math.
+  if (!/[\\$^_]/.test(c) && /[A-Za-z]/.test(c)) return c;
   if (c.includes("$")) return normalizeLatexContent(c);
   if (/^[-+]?\d+(\.\d+)?$/.test(c)) return `$${c}$`;
   if (/^[-+]?\d+\/\d+$/.test(c)) return `$${c}$`;

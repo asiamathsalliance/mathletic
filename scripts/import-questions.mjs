@@ -9,16 +9,20 @@
  *   SUPABASE_SERVICE_ROLE_KEY
  *
  * Safe to re-run: rows are upserted by id.
+ * Runs format validation before upsert; sets verified / format_issues.
  */
 
 import { createClient } from "@supabase/supabase-js";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  deriveAnswerFields,
+  validateSolutionFormat,
+} from "./lib/validate-question-format.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-// Minimal .env.local loader (avoids a dotenv dependency).
 function loadEnvLocal() {
   try {
     const raw = readFileSync(join(root, ".env.local"), "utf8");
@@ -27,7 +31,7 @@ function loadEnvLocal() {
       if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
     }
   } catch {
-    // no .env.local — rely on environment
+    /* no .env.local */
   }
 }
 loadEnvLocal();
@@ -56,8 +60,13 @@ const CURRICULUM_TO_COMPETITION = {
 function mapQuestion(q) {
   const competition = q.competition ?? CURRICULUM_TO_COMPETITION[q.curriculum];
   if (!competition) throw new Error(`Unknown curriculum "${q.curriculum}" on ${q.id}`);
-  const isMcq = Array.isArray(q.choices) && q.choices.length >= 4 && typeof q.correctIndex === "number";
+  const isMcq =
+    Array.isArray(q.choices) &&
+    q.choices.length >= 4 &&
+    typeof q.correctIndex === "number";
   const isAmc = competition === "AMC10" || competition === "AMC12";
+  const { ok, issues } = validateSolutionFormat(q.solution);
+  const answers = deriveAnswerFields(q);
   return {
     id: q.id,
     competition,
@@ -72,13 +81,16 @@ function mapQuestion(q) {
     problem_number: isAmc ? q.problemNumber ?? null : null,
     difficulty_bucket: isAmc ? q.difficultyBucket ?? null : null,
     question_text: q.questionText,
-    image_url:
-      q.image && q.image !== "none" ? q.image : q.questionImage ?? null,
+    image_url: q.image && q.image !== "none" ? q.image : q.questionImage ?? null,
     choices: isMcq ? q.choices : null,
     correct_index: isMcq ? q.correctIndex : null,
     solution: q.solution ?? null,
     solution_image_url: q.solutionImage ?? null,
     tags: q.tags ?? [],
+    verified: ok,
+    format_issues: ok ? null : issues.join("; "),
+    answer_value: answers.answer_value,
+    answer_type: answers.answer_type,
   };
 }
 
@@ -91,10 +103,17 @@ const files = [
 ];
 
 const all = [];
+const report = [];
 for (const file of files) {
   const data = JSON.parse(readFileSync(join(root, "src/data", file), "utf8"));
   console.log(`${file}: ${data.length} questions`);
-  all.push(...data.map(mapQuestion));
+  for (const q of data) {
+    const row = mapQuestion(q);
+    all.push(row);
+    if (!row.verified) {
+      report.push({ id: row.id, file, issues: row.format_issues });
+    }
+  }
 }
 
 const ids = new Set();
@@ -102,6 +121,12 @@ for (const row of all) {
   if (ids.has(row.id)) throw new Error(`Duplicate id: ${row.id}`);
   ids.add(row.id);
 }
+
+const reportPath = join(root, "scripts/tmp-format-issues.json");
+writeFileSync(reportPath, JSON.stringify(report, null, 2));
+console.log(
+  `Format check: ${all.length - report.length} verified, ${report.length} failing → ${reportPath}`
+);
 
 console.log(`Upserting ${all.length} questions…`);
 const CHUNK = 100;
@@ -123,4 +148,3 @@ if (countError) {
   process.exit(1);
 }
 console.log(`Done. questions table now has ${count} rows (imported ${all.length}).`);
-

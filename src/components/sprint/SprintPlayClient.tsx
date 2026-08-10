@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MultiplicationPlay } from "@/components/sprint/MultiplicationPlay";
 import { ProblemPlay } from "@/components/sprint/ProblemPlay";
 import { SprintHeldBeat } from "@/components/sprint/SprintHeldBeat";
+import { SprintPlaySkeleton } from "@/components/sprint/SprintPlaySkeleton";
 import { SprintResults, type SprintResultData } from "@/components/sprint/SprintResults";
 import { SprintRingTimer } from "@/components/sprint/SprintRingTimer";
 import {
@@ -221,12 +222,7 @@ export function SprintPlayClient({
   }
 
   if (phase === "loading") {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
-        <Zap className="size-8 animate-pulse text-[#8FA82F]" />
-        <p className="text-muted-foreground text-sm">Starting sprint…</p>
-      </div>
-    );
+    return <SprintPlaySkeleton mode={modeType} />;
   }
 
   if (phase === "results" && results) {
@@ -272,7 +268,7 @@ export function SprintPlayClient({
                 disabled={sessionEnding}
                 onClick={() => setShowLeaveConfirm(true)}
                 className={cn(
-                  "-ml-1 inline-flex items-center justify-center p-1 text-muted-foreground transition-colors hover:text-foreground",
+                  "-ml-1 inline-flex cursor-pointer items-center justify-center p-1 text-muted-foreground transition-colors hover:text-foreground",
                   "disabled:pointer-events-none disabled:opacity-40"
                 )}
                 aria-label="Leave sprint"

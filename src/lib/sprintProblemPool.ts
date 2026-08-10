@@ -49,6 +49,9 @@ function fromJsonBank(): SprintPoolItem[] {
     }));
 }
 
+/** null = unknown; false after probing a DB without migration 004. */
+let sprintVerifiedColumnAvailable: boolean | null = null;
+
 async function loadEasyMcqPool(): Promise<SprintPoolItem[]> {
   if (!isSupabaseConfigured()) return fromJsonBank();
 
@@ -63,15 +66,33 @@ async function loadEasyMcqPool(): Promise<SprintPoolItem[]> {
       image_url: string | null;
     }[] = [];
     const PAGE = 1000;
+    let useVerified = sprintVerifiedColumnAvailable !== false;
+
     for (let from = 0; ; from += PAGE) {
-      const { data, error } = await supabase
+      let query = supabase
         .from("questions")
         .select("id, question_text, choices, correct_index, difficulty, image_url")
         .eq("difficulty", "Easy")
         .not("correct_index", "is", null)
         .order("id")
         .range(from, from + PAGE - 1);
-      if (error) throw error;
+      if (useVerified) query = query.eq("verified", true);
+
+      const { data, error } = await query;
+      if (error) {
+        if (
+          useVerified &&
+          (error.code === "42703" ||
+            (typeof error.message === "string" && error.message.includes("verified")))
+        ) {
+          sprintVerifiedColumnAvailable = false;
+          useVerified = false;
+          from -= PAGE;
+          continue;
+        }
+        throw error;
+      }
+      if (useVerified) sprintVerifiedColumnAvailable = true;
       rows.push(...(data ?? []));
       if (!data || data.length < PAGE) break;
     }
@@ -104,7 +125,7 @@ async function loadEasyMcqPool(): Promise<SprintPoolItem[]> {
 /** Easy MCQ pool for problem sprint — cached across requests. */
 export const getCachedEasySprintPool = unstable_cache(
   loadEasyMcqPool,
-  ["easy-sprint-pool-v2"],
+  ["easy-sprint-pool-v3-verified"],
   { revalidate: 300 }
 );
 

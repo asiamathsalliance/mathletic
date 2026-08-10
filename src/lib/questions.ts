@@ -5,7 +5,9 @@
  * vars (and as a backup of the original bank).
  *
  * Prefer getQuestionSummaries() for list pages and getQuestionById() for detail.
- * getAllQuestions() still loads full rows (solutions/choices) — avoid on home.
+ *
+ * Note: `verified` filtering is applied only when the column exists (migration 004).
+ * Until then, all DB rows are served — same as before that migration.
  */
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
@@ -19,7 +21,6 @@ import questionsAmc from "@/data/questions-amc.json";
 import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import {
   filterQuestionList,
-  isMcqQuestion,
   searchQuestionListAI,
   seededRandom,
 } from "@/lib/questionUtils";
@@ -52,6 +53,7 @@ const jsonQuestions: Question[] = [
 ].map((q) => ({
   ...q,
   competition: q.competition ?? LABEL_FROM_CURRICULUM[q.curriculum],
+  verified: true,
 }));
 
 const jsonSummaries: QuestionSummary[] = jsonQuestions.map(questionToSummary);
@@ -76,6 +78,7 @@ interface QuestionRow {
   solution: string | null;
   solution_image_url: string | null;
   tags: string[] | null;
+  verified?: boolean | null;
 }
 
 interface SummaryRow {
@@ -90,6 +93,21 @@ interface SummaryRow {
   problem_number: number | null;
   question_text: string;
   correct_index: number | null;
+  verified?: boolean | null;
+}
+
+/** null = unknown, true/false = probed against this Supabase project. */
+let verifiedColumnAvailable: boolean | null = null;
+
+function isMissingVerifiedColumn(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const e = err as { code?: string; message?: string };
+  return (
+    e.code === "42703" ||
+    (typeof e.message === "string" &&
+      e.message.includes("verified") &&
+      e.message.includes("does not exist"))
+  );
 }
 
 function rowToQuestion(row: QuestionRow): Question {
@@ -114,10 +132,11 @@ function rowToQuestion(row: QuestionRow): Question {
     solution: row.solution ?? "",
     solutionImage: row.solution_image_url ?? undefined,
     tags: row.tags ?? [],
+    verified: row.verified !== false,
   };
 }
 
-const SUMMARY_SELECT =
+const SUMMARY_SELECT_BASE =
   "id, competition, topic, year, exam_source, difficulty, amc_year, amc_variant, problem_number, question_text, correct_index";
 
 async function fetchSummariesFromDb(): Promise<QuestionSummary[] | null> {
@@ -126,18 +145,40 @@ async function fetchSummariesFromDb(): Promise<QuestionSummary[] | null> {
     const supabase = createAnonClient();
     const rows: SummaryRow[] = [];
     const PAGE = 1000;
+    let useVerified = verifiedColumnAvailable !== false;
+
     for (let from = 0; ; from += PAGE) {
-      const { data, error } = await supabase
-        .from("questions")
-        .select(SUMMARY_SELECT)
-        .order("id")
-        .range(from, from + PAGE - 1);
-      if (error) throw error;
-      rows.push(...((data ?? []) as SummaryRow[]));
+      const query = useVerified
+        ? supabase
+            .from("questions")
+            .select(`${SUMMARY_SELECT_BASE}, verified`)
+            .eq("verified", true)
+            .order("id")
+            .range(from, from + PAGE - 1)
+        : supabase
+            .from("questions")
+            .select(SUMMARY_SELECT_BASE)
+            .order("id")
+            .range(from, from + PAGE - 1);
+
+      const { data, error } = await query;
+      if (error) {
+        if (useVerified && isMissingVerifiedColumn(error)) {
+          verifiedColumnAvailable = false;
+          useVerified = false;
+          console.warn(
+            "questions.verified missing — run supabase/migrations/004_verified_and_typed_answers.sql. Serving all rows for now."
+          );
+          from -= PAGE; // retry this page without verified
+          continue;
+        }
+        throw error;
+      }
+      if (useVerified) verifiedColumnAvailable = true;
+      rows.push(...((data ?? []) as unknown as SummaryRow[]));
       if (!data || data.length < PAGE) break;
     }
     if (rows.length === 0) return null;
-    // Truncate text in summaries; drop full body from returned objects via rowToSummary.
     return rows.map((row) =>
       rowToSummary({
         id: row.id,
@@ -159,77 +200,224 @@ async function fetchSummariesFromDb(): Promise<QuestionSummary[] | null> {
   }
 }
 
+/** Question bank is static — cache for minutes, not seconds. */
+const BANK_REVALIDATE_SECONDS = 600;
+
 const getCachedSummaries = unstable_cache(
   async () => {
     const fromDb = await fetchSummariesFromDb();
     return fromDb ?? jsonSummaries;
   },
-  ["question-summaries-v4"],
-  { revalidate: 60 }
+  ["question-summaries-v8"],
+  { revalidate: BANK_REVALIDATE_SECONDS }
 );
 
-/** Lightweight list for practice table / filters (no solutions). Cached 60s. */
 export const getQuestionSummaries = cache(async (): Promise<QuestionSummary[]> => {
   if (!isSupabaseConfigured()) return jsonSummaries;
   return getCachedSummaries();
 });
 
-/**
- * All questions, cached per request. Prefer getQuestionSummaries / getQuestionById
- * on list and detail pages. Still used by dashboard/search/sprint.
- */
+async function loadAllQuestionsFromDb(): Promise<Question[]> {
+  const supabase = createAnonClient();
+  const rows: QuestionRow[] = [];
+  const PAGE = 1000;
+  let useVerified = verifiedColumnAvailable !== false;
+
+  for (let from = 0; ; from += PAGE) {
+    let query = supabase.from("questions").select("*").order("id").range(from, from + PAGE - 1);
+    if (useVerified) query = query.eq("verified", true);
+
+    const { data, error } = await query;
+    if (error) {
+      if (useVerified && isMissingVerifiedColumn(error)) {
+        verifiedColumnAvailable = false;
+        useVerified = false;
+        console.warn(
+          "questions.verified missing — run migration 004. Serving all rows for now."
+        );
+        from -= PAGE;
+        continue;
+      }
+      throw error;
+    }
+    if (useVerified) verifiedColumnAvailable = true;
+    rows.push(...((data ?? []) as QuestionRow[]));
+    if (!data || data.length < PAGE) break;
+  }
+  return rows.length > 0 ? rows.map(rowToQuestion) : jsonQuestions;
+}
+
+const getCachedAllQuestions = unstable_cache(
+  async () => {
+    try {
+      return await loadAllQuestionsFromDb();
+    } catch (err) {
+      console.error("Supabase questions fetch failed, using JSON fallback:", err);
+      return jsonQuestions;
+    }
+  },
+  ["all-questions-v2"],
+  { revalidate: BANK_REVALIDATE_SECONDS }
+);
+
+/** Full bank — prefer getQuestionSummaries / getQuestionsByTopic on list pages. */
 export const getAllQuestions = cache(async (): Promise<Question[]> => {
   if (!isSupabaseConfigured()) return jsonQuestions;
-
-  try {
-    const supabase = createAnonClient();
-    const rows: QuestionRow[] = [];
-    const PAGE = 1000;
-    for (let from = 0; ; from += PAGE) {
-      const { data, error } = await supabase
-        .from("questions")
-        .select("*")
-        .order("id")
-        .range(from, from + PAGE - 1);
-      if (error) throw error;
-      rows.push(...((data ?? []) as QuestionRow[]));
-      if (!data || data.length < PAGE) break;
-    }
-    if (rows.length === 0) return jsonQuestions;
-    return rows.map(rowToQuestion);
-  } catch (err) {
-    console.error("Supabase questions fetch failed, using JSON fallback:", err);
-    return jsonQuestions;
-  }
+  return getCachedAllQuestions();
 });
+
+async function fetchQuestionByIdFromDb(id: string): Promise<Question | undefined> {
+  const supabase = createAnonClient();
+  let useVerified = verifiedColumnAvailable !== false;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    let query = supabase.from("questions").select("*").eq("id", id);
+    if (useVerified) query = query.eq("verified", true);
+    const { data, error } = await query.maybeSingle();
+    if (error) {
+      if (useVerified && isMissingVerifiedColumn(error)) {
+        verifiedColumnAvailable = false;
+        useVerified = false;
+        console.warn(
+          "questions.verified missing — run migration 004. Serving all rows for now."
+        );
+        continue;
+      }
+      throw error;
+    }
+    if (useVerified) verifiedColumnAvailable = true;
+    if (data) return rowToQuestion(data as QuestionRow);
+    return undefined;
+  }
+  return undefined;
+}
 
 export const getQuestionById = cache(async (id: string): Promise<Question | undefined> => {
   if (!isSupabaseConfigured()) {
     return jsonQuestions.find((q) => q.id === id);
   }
   try {
-    const supabase = createAnonClient();
-    const { data, error } = await supabase
-      .from("questions")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-    if (error) throw error;
-    if (data) return rowToQuestion(data as QuestionRow);
-    return jsonQuestions.find((q) => q.id === id);
+    const cached = await unstable_cache(
+      () => fetchQuestionByIdFromDb(id),
+      ["question-by-id-v2", id],
+      { revalidate: BANK_REVALIDATE_SECONDS, tags: [`question:${id}`] }
+    )();
+    return cached ?? jsonQuestions.find((q) => q.id === id);
   } catch (err) {
     console.error("Supabase question fetch failed, using JSON fallback:", err);
     return jsonQuestions.find((q) => q.id === id);
   }
 });
 
-/** All questions for a curriculum label (e.g. "HSC", "AMC 10"). */
+export interface TopicQuestionFilter {
+  topic: string;
+  /** DB competition id, e.g. AMC10 */
+  competition?: Competition;
+  /** Display curriculum label, e.g. HSC */
+  curriculum?: string;
+  stream?: string;
+}
+
+/**
+ * Topic-scoped full questions for TopicPageClient (needs choices for MCQ cards).
+ * Does not load the entire bank — filters in DB / JSON by topic.
+ */
+export const getQuestionsByTopic = cache(
+  async (filter: TopicQuestionFilter): Promise<Question[]> => {
+    const key = [
+      "topic-questions-v1",
+      filter.topic,
+      filter.competition ?? "",
+      filter.curriculum ?? "",
+      filter.stream ?? "",
+    ];
+
+    const load = async (): Promise<Question[]> => {
+      if (!isSupabaseConfigured()) {
+        return jsonQuestions.filter(
+          (q) =>
+            q.topic === filter.topic &&
+            (filter.competition
+              ? q.competition === filter.competition
+              : filter.curriculum
+                ? q.curriculum === filter.curriculum
+                : true) &&
+            (filter.stream ? q.stream === undefined || q.stream === filter.stream : true)
+        );
+      }
+
+      try {
+        const supabase = createAnonClient();
+        let useVerified = verifiedColumnAvailable !== false;
+        const rows: QuestionRow[] = [];
+        const PAGE = 1000;
+
+        for (let from = 0; ; from += PAGE) {
+          let query = supabase
+            .from("questions")
+            .select("*")
+            .eq("topic", filter.topic)
+            .order("id")
+            .range(from, from + PAGE - 1);
+          if (filter.competition) query = query.eq("competition", filter.competition);
+          if (filter.stream) query = query.eq("stream", filter.stream);
+          if (useVerified) query = query.eq("verified", true);
+
+          const { data, error } = await query;
+          if (error) {
+            if (useVerified && isMissingVerifiedColumn(error)) {
+              verifiedColumnAvailable = false;
+              useVerified = false;
+              from -= PAGE;
+              continue;
+            }
+            throw error;
+          }
+          if (useVerified) verifiedColumnAvailable = true;
+          rows.push(...((data ?? []) as QuestionRow[]));
+          if (!data || data.length < PAGE) break;
+        }
+
+        let result = rows.map(rowToQuestion);
+        if (filter.curriculum) {
+          result = result.filter((q) => q.curriculum === filter.curriculum);
+        }
+        if (result.length > 0) return result;
+
+        return jsonQuestions.filter(
+          (q) =>
+            q.topic === filter.topic &&
+            (filter.competition
+              ? q.competition === filter.competition
+              : filter.curriculum
+                ? q.curriculum === filter.curriculum
+                : true) &&
+            (filter.stream ? q.stream === undefined || q.stream === filter.stream : true)
+        );
+      } catch (err) {
+        console.error("Supabase topic fetch failed, using JSON fallback:", err);
+        return jsonQuestions.filter(
+          (q) =>
+            q.topic === filter.topic &&
+            (filter.competition
+              ? q.competition === filter.competition
+              : filter.curriculum
+                ? q.curriculum === filter.curriculum
+                : true) &&
+            (filter.stream ? q.stream === undefined || q.stream === filter.stream : true)
+        );
+      }
+    };
+
+    return unstable_cache(load, key, { revalidate: BANK_REVALIDATE_SECONDS })();
+  }
+);
+
 export async function getQuestionsByCurriculum(curriculum: string): Promise<Question[]> {
   const questions = await getAllQuestions();
   return questions.filter((q) => q.curriculum === curriculum);
 }
 
-/** Up to `count` questions for a curriculum mock, deterministically selected by mockId. */
 export async function getMockQuestions(
   curriculum: string,
   mockId: string,
@@ -247,13 +435,11 @@ export async function getMockQuestions(
   return indices.slice(0, Math.min(count, pool.length)).map((i) => pool[i]);
 }
 
-/** AI-style natural language search across the whole bank. */
 export async function searchQuestionsAI(query: string): Promise<Question[]> {
   const questions = await getAllQuestions();
   return searchQuestionListAI(questions, query);
 }
 
-/** Filter questions by explicit curriculum, topic, difficulty and optional keyword. */
 export async function getQuestionsByFilters(filters: {
   curriculum?: string;
   topic?: string;

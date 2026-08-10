@@ -109,7 +109,34 @@ export function makeLeaderboardHref(
   return `/leaderboard?${p.toString()}`;
 }
 
-async function fetchLeaderboardRows(params: LeaderboardParams): Promise<LeaderboardData> {
+async function fetchFromCache(params: LeaderboardParams): Promise<LeaderboardRow[] | null> {
+  const supabase = createAnonClient();
+  const mode = params.board === "sprint" ? params.mode : "";
+  const topic = params.board === "topic" ? params.topic : "";
+  const { data, error } = await supabase
+    .from("leaderboard_cache")
+    .select("user_id, value, rank")
+    .eq("board", params.board)
+    .eq("time_window", params.window)
+    .eq("mode", mode)
+    .eq("topic", topic)
+    .order("rank", { ascending: true })
+    .limit(TOP_N);
+  if (error || !data || data.length === 0) return null;
+
+  const modeLabel = params.board === "sprint" ? SPRINT_MODE_LABEL[params.mode] : undefined;
+  return data.map((r) => ({
+    userId: r.user_id as string,
+    value: Number(r.value),
+    modeLabel,
+    detail:
+      params.board === "sprint"
+        ? `${Number(r.value)} ${params.mode === "MULTIPLICATION" ? "solved" : "pts"}`
+        : undefined,
+  }));
+}
+
+async function fetchLeaderboardRowsLive(params: LeaderboardParams): Promise<LeaderboardData> {
   const supabase = createAnonClient();
   const since = windowStart(params.window);
 
@@ -132,7 +159,8 @@ async function fetchLeaderboardRows(params: LeaderboardParams): Promise<Leaderbo
     }
     const rows = [...counts.entries()]
       .map(([userId, value]) => ({ userId, value }))
-      .sort((a, b) => b.value - a.value);
+      .sort((a, b) => b.value - a.value)
+      .slice(0, TOP_N);
     return { rows, valueLabel: "Solved" };
   }
 
@@ -159,12 +187,24 @@ async function fetchLeaderboardRows(params: LeaderboardParams): Promise<Leaderbo
       modeLabel,
       detail: `${value} ${params.mode === "MULTIPLICATION" ? "solved" : "pts"}`,
     }))
-    .sort((a, b) => b.value - a.value);
+    .sort((a, b) => b.value - a.value)
+    .slice(0, TOP_N);
 
   return {
     rows,
     valueLabel: params.mode === "MULTIPLICATION" ? "Solved" : "Score",
   };
+}
+
+async function fetchLeaderboardRows(params: LeaderboardParams): Promise<LeaderboardData> {
+  const cached = await fetchFromCache(params);
+  if (cached) {
+    return {
+      rows: cached,
+      valueLabel: valueLabelFor(params),
+    };
+  }
+  return fetchLeaderboardRowsLive(params);
 }
 
 export const getCachedLeaderboardRows = unstable_cache(

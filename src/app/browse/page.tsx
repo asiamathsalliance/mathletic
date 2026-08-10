@@ -9,6 +9,7 @@ import { AMC_BROWSE_TOPICS } from "@/lib/competitions";
 import { getSimpleTopic } from "@/lib/questionTable";
 import {
   ChevronRight,
+  ChevronDown,
   Calculator,
   Sigma,
   BarChart3,
@@ -17,35 +18,75 @@ import {
   Shapes,
   Hash,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
+/** AMC 10 ↔ HSC greens; AMC 12 ↔ IB golds (swapped from prior browse themes). */
 const AMC_COMPETITIONS = [
   {
     id: "AMC10" as const,
     variant: "10",
     sectionId: "amc-10",
     label: "AMC 10",
-    titleClass: "text-[#5D3A80]",
-    accentClass: "text-[#5D3A80]",
-    cardHover: "hover:border-[#7B4FA6] hover:bg-[#F3EDF8]",
-    iconBg: "bg-[#EDE4F4]",
+    titleClass: "text-[#1C4B3B]",
+    accentClass: "text-[#1C4B3B]",
+    cardHover: "hover:border-[#1C4B3B] hover:bg-[#E7EFE9]",
+    iconBg: "bg-[#E7EFE9]",
   },
   {
     id: "AMC12" as const,
     variant: "12",
     sectionId: "amc-12",
     label: "AMC 12",
-    titleClass: "text-[#803D3A]",
-    accentClass: "text-[#803D3A]",
-    cardHover: "hover:border-[#A6524F] hover:bg-[#F8EDEC]",
-    iconBg: "bg-[#F5E4E3]",
+    titleClass: "text-[#8A6410]",
+    accentClass: "text-[#8A6410]",
+    cardHover: "hover:border-[#8A6410] hover:bg-[#F7F0DE]",
+    iconBg: "bg-[#F3EBD4]",
   },
 ];
 
-const curriculumTitleClass: Record<(typeof CURRICULA)[number], string> = {
-  HSC: "text-[#1C4B3B]",
-  IB: "text-[#8A6410]",
-  AP: "text-[#235682]",
-  "A-Level": "text-[#55661A]",
+const curriculumTheme: Record<
+  (typeof CURRICULA)[number],
+  {
+    titleClass: string;
+    accentClass: string;
+    iconBg: string;
+    cardHover: string;
+    pillActive: string;
+    pillInactive: string;
+  }
+> = {
+  HSC: {
+    titleClass: "text-[#5D3A80]",
+    accentClass: "text-[#5D3A80]",
+    iconBg: "bg-[#EDE4F4]",
+    cardHover: "hover:border-[#7B4FA6] hover:bg-[#F3EDF8]",
+    pillActive: "bg-[#5D3A80] text-white",
+    pillInactive: "text-[#5D3A80] hover:bg-background",
+  },
+  IB: {
+    titleClass: "text-[#803D3A]",
+    accentClass: "text-[#803D3A]",
+    iconBg: "bg-[#F5E4E3]",
+    cardHover: "hover:border-[#A6524F] hover:bg-[#F8EDEC]",
+    pillActive: "bg-[#803D3A] text-white",
+    pillInactive: "text-[#803D3A] hover:bg-background",
+  },
+  AP: {
+    titleClass: "text-[#235682]",
+    accentClass: "text-[#235682]",
+    iconBg: "bg-[#E4EEF5]",
+    cardHover: "hover:border-[#235682] hover:bg-[#EAF2F8]",
+    pillActive: "bg-[#235682] text-white",
+    pillInactive: "text-[#235682] hover:bg-background",
+  },
+  "A-Level": {
+    titleClass: "text-[#55661A]",
+    accentClass: "text-[#55661A]",
+    iconBg: "bg-[#EEF1E3]",
+    cardHover: "hover:border-[#55661A] hover:bg-[#F2F4E8]",
+    pillActive: "bg-[#55661A] text-white",
+    pillInactive: "text-[#55661A] hover:bg-background",
+  },
 };
 
 function TopicIcon({ topic }: { topic: string }) {
@@ -78,8 +119,8 @@ export default function BrowsePage() {
 
   const [activeStreamByCurriculum, setActiveStreamByCurriculum] =
     useState<Record<string, string>>(initial);
+  const [curriculaOpen, setCurriculaOpen] = useState(false);
 
-  // Restore stream tabs + scroll position when returning from a topic.
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("browse-streams");
@@ -87,12 +128,18 @@ export default function BrowsePage() {
         const saved = JSON.parse(raw) as Record<string, string>;
         setActiveStreamByCurriculum((prev) => ({ ...prev, ...saved }));
       }
+      if (sessionStorage.getItem("browse-curricula-open") === "1") {
+        setCurriculaOpen(true);
+      }
     } catch {
       /* ignore */
     }
 
     const hash = window.location.hash.replace(/^#/, "");
     if (!hash) return;
+    if (hash.startsWith("curriculum-")) {
+      setCurriculaOpen(true);
+    }
     const id = window.setTimeout(() => {
       document.getElementById(hash)?.scrollIntoView({ block: "start", behavior: "auto" });
     }, 50);
@@ -102,14 +149,26 @@ export default function BrowsePage() {
   const rememberBrowseState = () => {
     try {
       sessionStorage.setItem("browse-streams", JSON.stringify(activeStreamByCurriculum));
+      sessionStorage.setItem("browse-curricula-open", curriculaOpen ? "1" : "0");
     } catch {
       /* ignore */
     }
   };
 
+  const toggleCurricula = () => {
+    setCurriculaOpen((open) => {
+      const next = !open;
+      try {
+        sessionStorage.setItem("browse-curricula-open", next ? "1" : "0");
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="space-y-10">
-      {/* Competition */}
       <section className="space-y-5">
         <h1 className="text-page-title">Competition</h1>
 
@@ -153,88 +212,120 @@ export default function BrowsePage() {
         ))}
       </section>
 
-      {/* Curricula */}
-      <section className="space-y-5">
-        <h1 className="text-page-title">Curricula</h1>
+      {/* Curricula — collapsed by default */}
+      <div className="space-y-4">
+        <button
+          type="button"
+          onClick={toggleCurricula}
+          className="mx-auto flex w-full max-w-sm cursor-pointer flex-col items-center gap-1.5 rounded-xl px-4 py-3 text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-expanded={curriculaOpen}
+          aria-controls="browse-curricula-panel"
+        >
+          <ChevronDown
+            className={cn(
+              "size-6 transition-transform duration-200",
+              curriculaOpen && "rotate-180"
+            )}
+            strokeWidth={2}
+          />
+          <span className="text-sm font-medium">
+            {curriculaOpen ? "Hide school curricula" : "Show school curricula"}
+          </span>
+        </button>
 
-        {CURRICULA.map((curriculum) => {
-          const info = CURRICULUM_INFO[curriculum];
-          const streams = CURRICULUM_STREAMS[curriculum];
-          const slug = info.slug;
-          const sectionId = `curriculum-${slug}`;
-          const activeId = activeStreamByCurriculum[curriculum] || streams[0]?.id;
-          const activeStream = streams.find((s) => s.id === activeId) ?? streams[0];
+        <div
+          id="browse-curricula-panel"
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+            curriculaOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          )}
+        >
+          <div className="overflow-hidden">
+            <section className="space-y-5 pt-1">
+              <h1 className="text-page-title">Curricula</h1>
 
-          return (
-            <div
-              key={curriculum}
-              id={sectionId}
-              className="scroll-mt-24 rounded-2xl border-2 border-border bg-card p-6"
-            >
-              <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
-                <div>
-                  <h2 className={`text-2xl font-semibold ${curriculumTitleClass[curriculum]}`}>
-                    {info.label}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">{info.description}</p>
-                </div>
+              {CURRICULA.map((curriculum) => {
+                const info = CURRICULUM_INFO[curriculum];
+                const streams = CURRICULUM_STREAMS[curriculum];
+                const slug = info.slug;
+                const sectionId = `curriculum-${slug}`;
+                const activeId = activeStreamByCurriculum[curriculum] || streams[0]?.id;
+                const activeStream = streams.find((s) => s.id === activeId) ?? streams[0];
+                const theme = curriculumTheme[curriculum];
 
-                {streams.length > 1 && (
-                  <div className="inline-flex rounded-full border border-border bg-muted/70 p-1">
-                    {streams.map((stream) => {
-                      const active = stream.id === activeId;
-                      return (
-                        <button
-                          key={stream.id}
-                          type="button"
-                          onClick={() =>
-                            setActiveStreamByCurriculum((prev) => ({
-                              ...prev,
-                              [curriculum]: stream.id,
-                            }))
-                          }
-                          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                            active
-                              ? "bg-[#1C4B3B] text-white"
-                              : "text-[#1C4B3B] hover:bg-background"
-                          }`}
-                        >
-                          {stream.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+                return (
+                  <div
+                    key={curriculum}
+                    id={sectionId}
+                    className="scroll-mt-24 rounded-2xl border-2 border-border bg-card p-6"
+                  >
+                    <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
+                      <div>
+                        <h2 className={`text-2xl font-semibold ${theme.titleClass}`}>
+                          {info.label}
+                        </h2>
+                        <p className="text-sm text-muted-foreground">{info.description}</p>
+                      </div>
 
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {activeStream.topics.length} topics
-              </p>
-
-              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {activeStream.topics.map((topic) => (
-                  <li key={topic}>
-                    <Link
-                      href={topicHref(
-                        `/${slug}/${activeStream.id}/${topicToSlug(topic)}`,
-                        sectionId
+                      {streams.length > 1 && (
+                        <div className="inline-flex rounded-full border border-border bg-muted/70 p-1">
+                          {streams.map((stream) => {
+                            const active = stream.id === activeId;
+                            return (
+                              <button
+                                key={stream.id}
+                                type="button"
+                                onClick={() =>
+                                  setActiveStreamByCurriculum((prev) => ({
+                                    ...prev,
+                                    [curriculum]: stream.id,
+                                  }))
+                                }
+                                className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                                  active ? theme.pillActive : theme.pillInactive
+                                }`}
+                              >
+                                {stream.label}
+                              </button>
+                            );
+                          })}
+                        </div>
                       )}
-                      onClick={rememberBrowseState}
-                      className="flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-[#FCFBF7] px-4 py-3 text-sm text-foreground transition-colors hover:border-[#1C4B3B] hover:bg-[#E7EFE9]"
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E7EFE9] text-[#1C4B3B]">
-                        <TopicIcon topic={topic} />
-                      </span>
-                      <span className="flex-1 min-w-0 truncate">{topic}</span>
-                      <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </section>
+                    </div>
+
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {activeStream.topics.length} topics
+                    </p>
+
+                    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {activeStream.topics.map((topic) => (
+                        <li key={topic}>
+                          <Link
+                            href={topicHref(
+                              `/${slug}/${activeStream.id}/${topicToSlug(topic)}`,
+                              sectionId
+                            )}
+                            onClick={rememberBrowseState}
+                            className={`flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-[#FCFBF7] px-4 py-3 text-sm text-foreground transition-colors ${theme.cardHover}`}
+                          >
+                            <span
+                              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${theme.iconBg} ${theme.accentClass}`}
+                            >
+                              <TopicIcon topic={topic} />
+                            </span>
+                            <span className="flex-1 min-w-0 truncate">{topic}</span>
+                            <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

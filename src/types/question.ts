@@ -72,6 +72,10 @@ export interface Question {
   /** Optional image URL or path for the solution */
   solutionImage?: string;
   tags: string[];
+  /** False when format validation failed; never served to clients. */
+  verified?: boolean;
+  /** Server grading hint — never include answer_value on client payloads. */
+  answerType?: "numeric" | "symbolic" | "expression";
 }
 
 export const CURRICULA: Curriculum[] = ["HSC", "IB", "AP", "A-Level"];

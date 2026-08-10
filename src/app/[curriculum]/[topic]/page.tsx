@@ -6,8 +6,7 @@ import {
   FILTER_YEARS,
   type Curriculum,
 } from "@/types/question";
-import { getAllQuestions } from "@/lib/questions";
-import type { Question } from "@/types/question";
+import { getQuestionsByTopic } from "@/lib/questions";
 
 const SLUG_TO_CURRICULUM: Record<string, Curriculum> = {
   hsc: "HSC",
@@ -37,11 +36,9 @@ export default async function TopicPage({ params, searchParams }: PageProps) {
 
   const filters = await searchParams;
   const typeFilter = filters.type === "mcq" || filters.type === "long" ? filters.type : null;
-  const allQuestions = await getAllQuestions();
-  const questions = allQuestions.filter(
+  const topicQuestions = await getQuestionsByTopic({ topic: topicName, curriculum });
+  const questions = topicQuestions.filter(
     (q) =>
-      q.curriculum === curriculum &&
-      q.topic === topicName &&
       (filters.difficulty ? q.difficulty === filters.difficulty : true) &&
       (filters.year ? String(q.year) === filters.year : true) &&
       (filters.source ? q.examSource === filters.source : true) &&

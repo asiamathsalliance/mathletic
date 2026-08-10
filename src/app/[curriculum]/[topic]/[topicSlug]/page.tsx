@@ -6,8 +6,7 @@ import {
   type Curriculum,
 } from "@/types/question";
 import { getStreamBySlug, slugToTopicName } from "@/lib/curriculumStreams";
-import { getAllQuestions } from "@/lib/questions";
-import type { Question } from "@/types/question";
+import { getQuestionsByTopic } from "@/lib/questions";
 
 const SLUG_TO_CURRICULUM: Record<string, Curriculum> = {
   hsc: "HSC",
@@ -45,12 +44,13 @@ export default async function StreamTopicPage({ params, searchParams }: PageProp
   const yearFrom = filters.year ? parseInt(filters.year, 10) : null;
   const typeFilter = filters.type === "mcq" || filters.type === "long" ? filters.type : null;
 
-  const allQuestions = await getAllQuestions();
-  const questions = allQuestions.filter(
+  const topicQuestions = await getQuestionsByTopic({
+    topic: topicName,
+    curriculum,
+    stream: stream.id,
+  });
+  const questions = topicQuestions.filter(
     (q) =>
-      q.curriculum === curriculum &&
-      q.topic === topicName &&
-      (q.stream === undefined || q.stream === stream.id) &&
       (difficultySet === null || difficultySet.size === 0 || difficultySet.has(q.difficulty)) &&
       (yearFrom == null || Number.isNaN(yearFrom) || q.year >= yearFrom) &&
       (typeFilter === null ||

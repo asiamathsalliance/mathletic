@@ -257,7 +257,7 @@ export function ProblemFilters({
           aria-expanded={panelOpen}
           aria-label="Filters"
           className={cn(
-            "relative flex size-9 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors hover:text-foreground",
+            "relative flex size-9 cursor-pointer items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors hover:text-foreground",
             panelOpen && "text-foreground bg-accent"
           )}
         >
@@ -276,7 +276,7 @@ export function ProblemFilters({
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="text-xs text-muted-foreground hover:text-foreground"
+                    className="cursor-pointer text-xs text-muted-foreground hover:text-foreground"
                   >
                     Clear all
                   </button>
@@ -285,7 +285,7 @@ export function ProblemFilters({
                   type="button"
                   onClick={() => setPanelOpen(false)}
                   aria-label="Close filters"
-                  className="text-muted-foreground hover:text-foreground"
+                  className="cursor-pointer text-muted-foreground hover:text-foreground"
                 >
                   <X className="size-4" />
                 </button>
@@ -304,7 +304,7 @@ export function ProblemFilters({
                         type="button"
                         onClick={() => toggleCompetitionFilter(id)}
                         className={cn(
-                          "h-8 rounded-md border px-3 text-sm",
+                          "h-8 cursor-pointer rounded-md border px-3 text-sm",
                           checked
                             ? "border-primary bg-primary/15 text-foreground"
                             : "border-border bg-background text-muted-foreground"
@@ -319,7 +319,7 @@ export function ProblemFilters({
                     <button
                       type="button"
                       onClick={showAllSubjects}
-                      className="h-8 rounded-md px-2 text-xs text-muted-foreground underline hover:text-foreground"
+                      className="h-8 cursor-pointer rounded-md px-2 text-xs text-muted-foreground underline hover:text-foreground"
                     >
                       Show all
                     </button>
@@ -337,7 +337,7 @@ export function ProblemFilters({
                         type="button"
                         onClick={() => toggleStatus(s)}
                         className={cn(
-                          "h-8 rounded-md border px-3 text-sm capitalize",
+                          "h-8 cursor-pointer rounded-md border px-3 text-sm capitalize",
                           checked
                             ? "border-primary bg-primary/15 text-foreground"
                             : "border-border bg-background text-muted-foreground"
@@ -361,7 +361,7 @@ export function ProblemFilters({
                         type="button"
                         onClick={() => toggleMulti("difficulty", d)}
                         className={cn(
-                          "h-8 rounded-md border px-3 text-sm",
+                          "h-8 cursor-pointer rounded-md border px-3 text-sm",
                           checked
                             ? "border-primary bg-primary/15 text-foreground"
                             : "border-border bg-background text-muted-foreground"

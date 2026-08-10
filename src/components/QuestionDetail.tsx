@@ -23,9 +23,13 @@ interface QuestionDetailProps {
   backHref?: string;
 }
 
+const WRONGS_BEFORE_SOLUTION = 3;
+
 export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps) {
   const [showSolution, setShowSolution] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [wrongSelected, setWrongSelected] = useState<Set<number>>(() => new Set());
+  const [wrongCount, setWrongCount] = useState(0);
   const [studentAnswer, setStudentAnswer] = useState("");
   const [answerAnalysis, setAnswerAnalysis] = useState<string | null>(null);
   const [answerVerdict, setAnswerVerdict] = useState<AnswerVerdict | null>(null);
@@ -35,10 +39,13 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
   const [showAiUnavailable, setShowAiUnavailable] = useState(false);
 
   const { solvedIds, reportAttempt } = useProgress();
+  const correctIndex = question.correctIndex;
 
   useEffect(() => {
     setIsSolved(false);
     setSelectedChoice(null);
+    setWrongSelected(new Set());
+    setWrongCount(0);
     setShowSolution(false);
     setStudentAnswer("");
     setAnswerVerdict(null);
@@ -57,9 +64,13 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
   const isMultipleChoice =
     question.choices &&
     question.choices.length >= 4 &&
-    typeof question.correctIndex === "number";
+    typeof correctIndex === "number";
 
-  const hasTried = isMultipleChoice ? selectedChoice !== null : studentAnswer.trim().length > 0;
+  const answeredCorrect =
+    isMultipleChoice && selectedChoice !== null && selectedChoice === correctIndex;
+
+  const solutionUnlocked =
+    !isMultipleChoice || wrongCount >= WRONGS_BEFORE_SOLUTION || answeredCorrect;
 
   const handleCheckAnswer = async () => {
     if (!studentAnswer.trim()) {
@@ -138,11 +149,11 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
           <CardContent className="border-t border-border pt-6">
             <div className="flex flex-col gap-2 mt-1">
               {question.choices.map((choice, index) => {
-                const chosen = selectedChoice === index;
-                const correct = index === question.correctIndex;
-                const showCorrect = chosen && correct;
-                const showWrong = chosen && !correct;
-                const locked = selectedChoice === question.correctIndex;
+                const isCorrectChoice = index === correctIndex;
+                const showCorrect = answeredCorrect && isCorrectChoice;
+                const showWrong =
+                  wrongSelected.has(index) || (selectedChoice === index && !isCorrectChoice);
+                const locked = answeredCorrect;
 
                 return (
                   <button
@@ -150,17 +161,28 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                     type="button"
                     disabled={locked}
                     onClick={() => {
-                      if (locked) return;
+                      if (locked || typeof correctIndex !== "number") return;
+                      const correct = index === correctIndex;
                       setSelectedChoice(index);
-                      const correct = index === question.correctIndex;
-                      reportAttempt(question, correct);
-                      if (!isSolved && correct) {
+                      if (correct) {
                         setIsSolved(true);
+                      } else {
+                        setWrongSelected((prev) => {
+                          if (prev.has(index)) return prev;
+                          const next = new Set(prev);
+                          next.add(index);
+                          return next;
+                        });
+                        setWrongCount((c) => c + 1);
                       }
+                      queueMicrotask(() => {
+                        reportAttempt(question, correct);
+                      });
                     }}
                     className={cn(
-                      "flex items-center gap-3 w-full rounded-md border px-4 py-3 text-left transition-colors",
+                      "flex cursor-pointer items-center gap-3 w-full rounded-md border px-4 py-3 text-left transition-colors",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      "disabled:cursor-default",
                       showCorrect && "border-l-4 border-l-[#2F7D4F] bg-[#2F7D4F]/10 border-border",
                       showWrong && "border-l-4 border-l-[#C94A3D] bg-[#C94A3D]/10 border-border",
                       !showCorrect && !showWrong && "border-border hover:bg-muted/50"
@@ -173,11 +195,18 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                       <LatexText>{choice}</LatexText>
                     </span>
                     {showCorrect && <Check className="size-4 text-[#24603D] shrink-0" />}
-                    {showWrong && <X className="size-4 text-[#A03328] shrink-0" />}
+                    {showWrong && !showCorrect && <X className="size-4 text-[#A03328] shrink-0" />}
                   </button>
                 );
               })}
             </div>
+            {!solutionUnlocked && wrongCount > 0 && (
+              <p className="mt-3 text-xs text-muted-foreground">
+                {WRONGS_BEFORE_SOLUTION - wrongCount} more wrong{" "}
+                {WRONGS_BEFORE_SOLUTION - wrongCount === 1 ? "try" : "tries"} to unlock the
+                solution
+              </p>
+            )}
           </CardContent>
         )}
 
@@ -224,7 +253,7 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
           </CardContent>
         )}
 
-        {showSolution && (
+        {showSolution && solutionUnlocked && (
           <CardContent className="border-t border-border pt-4">
             <div className="rounded-md bg-muted/50 border border-border p-4 space-y-3">
               <p className="text-sm font-medium text-muted-foreground">Solution</p>
@@ -246,9 +275,14 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
           </CardContent>
         )}
 
-        {hasTried && (
+        {solutionUnlocked && (
           <CardFooter className="border-t border-border">
-            <Button variant="outline" size="sm" onClick={() => setShowSolution((s) => !s)}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="cursor-pointer"
+              onClick={() => setShowSolution((s) => !s)}
+            >
               {showSolution ? "Hide solution" : "Show solution"}
             </Button>
           </CardFooter>

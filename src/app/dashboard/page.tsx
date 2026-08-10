@@ -1,6 +1,6 @@
 import { DashboardClient } from "./DashboardClient";
 import { getDashboardLeaderboardStats } from "@/lib/dashboardStats";
-import { getAllQuestions } from "@/lib/questions";
+import { getQuestionSummaries } from "@/lib/questions";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,8 @@ type PageProps = {
 
 export default async function DashboardPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const questions = await getAllQuestions();
+  // Summaries only — dashboard needs id/difficulty/competition, not solutions/choices.
+  const questions = await getQuestionSummaries();
 
   let leaderboardStats = null;
   if (isSupabaseConfigured()) {

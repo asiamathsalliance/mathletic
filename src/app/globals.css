@@ -324,6 +324,14 @@
   vertical-align: middle;
 }
 
+/* Display math ($$…$$ / \[…\]) — keep centered like contest printouts */
+.katex-display {
+  margin: 0.75rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 @keyframes problem-table-page-in {
   from {
     opacity: 0;

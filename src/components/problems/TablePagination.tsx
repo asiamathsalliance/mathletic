@@ -76,7 +76,7 @@ export function TablePagination({
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
           className={cn(
-            "inline-flex h-9 items-center gap-1 rounded-xl border border-border bg-card px-3 text-sm font-medium shadow-sm",
+            "inline-flex h-9 cursor-pointer items-center gap-1 rounded-xl border border-border bg-card px-3 text-sm font-medium shadow-sm",
             "transition-all duration-200 hover:-translate-y-px hover:shadow-md",
             "disabled:pointer-events-none disabled:opacity-40"
           )}
@@ -106,7 +106,7 @@ export function TablePagination({
                 onClick={() => onPageChange(item)}
                 aria-current={item === page ? "page" : undefined}
                 className={cn(
-                  "inline-flex h-9 min-w-9 items-center justify-center rounded-xl px-2.5 text-sm font-medium tabular-nums",
+                  "inline-flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-xl px-2.5 text-sm font-medium tabular-nums",
                   "transition-all duration-200",
                   item === page
                     ? "bg-primary text-primary-foreground shadow-sm"
@@ -124,7 +124,7 @@ export function TablePagination({
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
           className={cn(
-            "inline-flex h-9 items-center gap-1 rounded-xl border border-border bg-card px-3 text-sm font-medium shadow-sm",
+            "inline-flex h-9 cursor-pointer items-center gap-1 rounded-xl border border-border bg-card px-3 text-sm font-medium shadow-sm",
             "transition-all duration-200 hover:-translate-y-px hover:shadow-md",
             "disabled:pointer-events-none disabled:opacity-40"
           )}

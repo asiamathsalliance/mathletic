@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Card,
@@ -19,13 +19,19 @@ import { AiUnavailableModal } from "@/components/AiUnavailableModal";
 import { isAiUnavailableError } from "@/lib/aiErrors";
 import { formatQuestionSourceLabel } from "@/lib/questionUtils";
 
+const WRONGS_BEFORE_SOLUTION = 3;
+
 interface QuestionCardProps {
   question: Question;
+  /** Fired when the user first marks this question correct / completed. */
+  onSolved?: (questionId: string) => void;
 }
 
-export function QuestionCard({ question }: QuestionCardProps) {
+export function QuestionCard({ question, onSolved }: QuestionCardProps) {
   const [showSolution, setShowSolution] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [wrongSelected, setWrongSelected] = useState<Set<number>>(() => new Set());
+  const [wrongCount, setWrongCount] = useState(0);
   const [studentAnswer, setStudentAnswer] = useState("");
   const [answerAnalysis, setAnswerAnalysis] = useState<string | null>(null);
   const [answerVerdict, setAnswerVerdict] = useState<AnswerVerdict | null>(null);
@@ -35,10 +41,23 @@ export function QuestionCard({ question }: QuestionCardProps) {
   const [showAiUnavailable, setShowAiUnavailable] = useState(false);
 
   const { solvedIds, reportAttempt } = useProgress();
+  // Correct index is already on the loaded question — never fetch on click.
+  const correctIndex = question.correctIndex;
+  const solvedNotified = useRef(false);
 
   useEffect(() => {
     if (solvedIds.has(question.id)) setIsSolved(true);
   }, [solvedIds, question.id]);
+
+  const markSolved = () => {
+    if (solvedNotified.current) {
+      setIsSolved(true);
+      return;
+    }
+    solvedNotified.current = true;
+    setIsSolved(true);
+    onSolved?.(question.id);
+  };
 
   const imagePath =
     question.image && question.image !== "none"
@@ -51,9 +70,14 @@ export function QuestionCard({ question }: QuestionCardProps) {
   const isMultipleChoice =
     question.choices &&
     question.choices.length >= 4 &&
-    typeof question.correctIndex === "number";
+    typeof correctIndex === "number";
 
-  const hasTried = isMultipleChoice ? selectedChoice !== null : true;
+  const answeredCorrect =
+    isMultipleChoice && selectedChoice !== null && selectedChoice === correctIndex;
+
+  // Session-local: unlock after 3 wrongs, or once they get it right this session.
+  const solutionUnlocked =
+    !isMultipleChoice || wrongCount >= WRONGS_BEFORE_SOLUTION || answeredCorrect;
 
   const handleCheckAnswer = async () => {
     if (!studentAnswer.trim()) {
@@ -87,6 +111,30 @@ export function QuestionCard({ question }: QuestionCardProps) {
     } finally {
       setIsCheckingAnswer(false);
     }
+  };
+
+  const handleChoiceClick = (index: number) => {
+    if (answeredCorrect || typeof correctIndex !== "number") return;
+
+    const correctAnswer = index === correctIndex;
+
+    // Instant UI feedback first — progress persistence is deferred.
+    setSelectedChoice(index);
+    if (correctAnswer) {
+      markSolved();
+    } else {
+      setWrongSelected((prev) => {
+        if (prev.has(index)) return prev;
+        const next = new Set(prev);
+        next.add(index);
+        return next;
+      });
+      setWrongCount((c) => c + 1);
+    }
+
+    queueMicrotask(() => {
+      reportAttempt(question, correctAnswer);
+    });
   };
 
   return (
@@ -174,8 +222,11 @@ export function QuestionCard({ question }: QuestionCardProps) {
                     variant="ghost"
                     onClick={() => {
                       if (!isSolved) {
-                        reportAttempt(question, true);
-                        setIsSolved(true);
+                        queueMicrotask(() => {
+                          reportAttempt(question, true);
+                        });
+                        markSolved();
+                        setShowSolution(true);
                       }
                     }}
                   >
@@ -199,15 +250,15 @@ export function QuestionCard({ question }: QuestionCardProps) {
           <CardContent className="play-mcq-section mt-4 border-t border-border pt-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
             {question.choices.map((choice, index) => {
-              const chosen = selectedChoice === index;
-              const correct = index === question.correctIndex;
-              const showCorrectStyle = chosen && correct;
-              const chosenIncorrect = chosen && !correct;
-              const answeredCorrect = selectedChoice === question.correctIndex;
+              const isCorrectChoice = index === correctIndex;
+              const showCorrectStyle = answeredCorrect && isCorrectChoice;
+              const chosenIncorrect = wrongSelected.has(index) || (
+                selectedChoice === index && !isCorrectChoice
+              );
               const disabled = answeredCorrect;
 
               const baseClasses =
-                "relative rounded-lg border-2 p-4 text-left transition-all focus-visible:outline-none flex items-center gap-3 min-h-[3rem]";
+                "relative rounded-lg border-2 p-4 text-left transition-colors focus-visible:outline-none flex items-center gap-3 min-h-[3rem]";
 
               const stateClasses = showCorrectStyle
                 ? "border-green-500 bg-green-50 dark:bg-green-950/30"
@@ -220,16 +271,8 @@ export function QuestionCard({ question }: QuestionCardProps) {
                   key={index}
                   type="button"
                   disabled={disabled}
-                  onClick={() => {
-                    if (disabled) return;
-                    setSelectedChoice(index);
-                    const correctAnswer = index === question.correctIndex;
-                    reportAttempt(question, correctAnswer);
-                    if (!isSolved && correctAnswer) {
-                      setIsSolved(true);
-                    }
-                  }}
-                  className={`${baseClasses} ${stateClasses} ${disabled ? "cursor-default" : ""}`}
+                  onClick={() => handleChoiceClick(index)}
+                  className={`${baseClasses} ${stateClasses} ${disabled ? "cursor-default" : "cursor-pointer"}`}
                 >
                   <span className="font-medium text-muted-foreground shrink-0">
                     {String.fromCharCode(65 + index)}.
@@ -242,7 +285,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                       <Check className="h-4 w-4" />
                     </span>
                   )}
-                  {chosenIncorrect && (
+                  {chosenIncorrect && !showCorrectStyle && (
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
                       <X className="h-4 w-4" />
                     </span>
@@ -251,10 +294,17 @@ export function QuestionCard({ question }: QuestionCardProps) {
               );
             })}
             </div>
+            {isMultipleChoice && !solutionUnlocked && wrongCount > 0 && (
+              <p className="mt-3 text-xs text-muted-foreground">
+                {WRONGS_BEFORE_SOLUTION - wrongCount} more wrong{" "}
+                {WRONGS_BEFORE_SOLUTION - wrongCount === 1 ? "try" : "tries"} to unlock the
+                solution
+              </p>
+            )}
           </CardContent>
         )}
         <CardContent className={isMultipleChoice ? "pt-0" : "pt-0"}>
-          {showSolution && (
+          {showSolution && solutionUnlocked && (
           <div className="rounded-lg bg-muted/60 p-4 border border-border space-y-3">
             <p className="text-sm font-medium text-muted-foreground">
               Solution
@@ -279,12 +329,12 @@ export function QuestionCard({ question }: QuestionCardProps) {
           </div>
         )}
         </CardContent>
-        {hasTried && (
+        {solutionUnlocked && (
           <CardFooter className="min-h-[3.5rem] flex items-center justify-start py-4">
             <Button
               variant={showSolution ? "secondary" : "default"}
               onClick={() => setShowSolution((s) => !s)}
-              className="hover:opacity-90 hover:scale-[1.02] transition-all"
+              className="cursor-pointer hover:opacity-90 hover:scale-[1.02] transition-all"
             >
               {showSolution ? "Hide Solution" : "Show Solution"}
             </Button>

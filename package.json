@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:solutions": "node scripts/check-solutions-katex.mjs",
+    "check:latex": "node scripts/check-latex-forced.mjs",
+    "import:questions": "node scripts/import-questions.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -16,6 +19,8 @@
     "clsx": "^2.1.1",
     "katex": "^0.16.38",
     "lucide-react": "^0.577.0",
+    "mathjs": "^14.5.2",
+    "mathlive": "^0.105.1",
     "next": "16.1.6",
     "openai": "^6.27.0",
     "react": "19.2.3",
