@@ -1,9 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { Question } from "@/types/question";
-import { fetchQuestionsForDropdown, questionPreviewForDropdown } from "@/lib/searchDropdown";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
+import {
+  fetchQuestionsForDropdown,
+  questionPreviewForDropdown,
+  type SearchDropdownHit,
+} from "@/lib/searchDropdown";
 import { Search } from "lucide-react";
 import { LatexText } from "@/components/LatexText";
 
@@ -12,23 +15,37 @@ export function SearchBar() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [matches, setMatches] = useState<Question[]>([]);
+  const [matches, setMatches] = useState<SearchDropdownHit[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [, startTransition] = useTransition();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const latestQuery = useRef("");
 
-  // Debounced fetch of dropdown matches from the API.
+  // Debounced fetch — summaries API is cheap; keep debounce short for snappy feel.
   useEffect(() => {
     const q = query.trim();
+    latestQuery.current = q;
     if (!q) {
       setMatches([]);
+      setLoading(false);
       return;
     }
+    setLoading(true);
     const controller = new AbortController();
     const timer = setTimeout(() => {
-      fetchQuestionsForDropdown(q, 8, controller.signal)
-        .then(setMatches)
-        .catch(() => {});
-    }, 200);
+      fetchQuestionsForDropdown(q, 6, controller.signal)
+        .then((hits) => {
+          if (latestQuery.current !== q) return;
+          startTransition(() => {
+            setMatches(hits);
+            setLoading(false);
+          });
+        })
+        .catch(() => {
+          if (latestQuery.current === q) setLoading(false);
+        });
+    }, 120);
     return () => {
       controller.abort();
       clearTimeout(timer);
@@ -46,9 +63,17 @@ export function SearchBar() {
   }, []);
 
   const goToQuestion = useCallback(
-    (question: Question) => {
+    (question: SearchDropdownHit) => {
       setOpen(false);
-      router.push(`/search?q=${encodeURIComponent(question.id)}&from=${encodeURIComponent("/play")}`);
+      setQuery("");
+      setMatches([]);
+      // Return to the page the user was on when they used the search bar —
+      // not the search-results list (that only applies when opening from /search results).
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const current = `${path}${search}` || "/";
+      const from = path.startsWith("/questions/") ? "/" : current;
+      router.push(`/questions/${question.id}?from=${encodeURIComponent(from)}`);
     },
     [router]
   );
@@ -60,6 +85,11 @@ export function SearchBar() {
       if (!trimmed) return;
       if (activeIndex >= 0 && matches[activeIndex]) {
         goToQuestion(matches[activeIndex]);
+        return;
+      }
+      // Single exact dropdown hit → open question directly
+      if (matches.length === 1) {
+        goToQuestion(matches[0]);
         return;
       }
       setOpen(false);
@@ -82,7 +112,7 @@ export function SearchBar() {
   };
 
   return (
-    <div ref={rootRef} className="search-row relative flex-1 max-w-[400px] w-full">
+    <div ref={rootRef} className="search-row relative w-full max-w-[400px] flex-1">
       <form onSubmit={handleSubmit} className="search-field w-full">
         <input
           ref={inputRef}
@@ -103,11 +133,7 @@ export function SearchBar() {
           autoComplete="off"
         />
         <button type="submit" className="search-btn" aria-label="Search">
-          <Search
-            className="size-[18px] -rotate-12"
-            strokeWidth={2.25}
-            aria-hidden
-          />
+          <Search className="size-[18px] -rotate-12" strokeWidth={2.25} aria-hidden />
         </button>
       </form>
 
@@ -117,7 +143,17 @@ export function SearchBar() {
           role="listbox"
           className="search-dropdown absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-[320px] overflow-y-auto"
         >
-          {matches.length === 0 ? (
+          {loading && matches.length === 0 ? (
+            <>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <li key={i} className="animate-pulse px-4 py-3" aria-hidden={i > 0}>
+                  <div className="h-4 w-[88%] rounded bg-[var(--ink-muted)]/20" />
+                  <div className="mt-2 h-3 w-40 max-w-full rounded bg-[var(--ink-muted)]/15" />
+                  {i === 0 ? <span className="sr-only">Searching…</span> : null}
+                </li>
+              ))}
+            </>
+          ) : matches.length === 0 ? (
             <li className="search-dropdown-empty px-4 py-3 text-sm font-bold text-[var(--ink-muted)]">
               No matching questions
             </li>
@@ -126,13 +162,13 @@ export function SearchBar() {
               <li key={q.id} role="option" aria-selected={i === activeIndex}>
                 <button
                   type="button"
-                  className={`search-dropdown-item w-full text-left px-4 py-3 transition-colors ${
+                  className={`search-dropdown-item w-full px-4 py-3 text-left transition-colors ${
                     i === activeIndex ? "search-dropdown-item-active" : ""
                   }`}
                   onMouseEnter={() => setActiveIndex(i)}
                   onClick={() => goToQuestion(q)}
                 >
-                  <div className="text-sm font-extrabold text-[var(--ink)] leading-snug line-clamp-2">
+                  <div className="line-clamp-2 text-sm font-extrabold leading-snug text-[var(--ink)]">
                     <LatexText>{questionPreviewForDropdown(q.questionText)}</LatexText>
                   </div>
                   <span className="mt-1 block text-[11px] font-bold uppercase tracking-wide text-[var(--ink-muted)]">
@@ -143,10 +179,10 @@ export function SearchBar() {
             ))
           )}
           {matches.length > 0 && (
-            <li className="border-t-[2px] border-[var(--ink)] px-4 py-2 bg-[var(--green-tint)]">
+            <li className="border-t-[2px] border-[var(--ink)] bg-[var(--green-tint)] px-4 py-2">
               <button
                 type="button"
-                className="text-xs font-extrabold text-[var(--ink)] underline"
+                className="cursor-pointer text-xs font-extrabold text-[var(--ink)] underline"
                 onClick={() => {
                   setOpen(false);
                   router.push(`/search?q=${encodeURIComponent(query.trim())}`);

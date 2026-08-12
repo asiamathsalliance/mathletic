@@ -46,20 +46,16 @@ export async function checkAndAwardAchievements(
     if (!unlocked.has("century_multiplication")) {
       const { data: multSessions } = await supabase
         .from("sprint_sessions")
-        .select("id")
+        .select("problems_solved")
         .eq("user_id", userId)
-        .eq("mode_type", "MULTIPLICATION");
-      const sessionIds = (multSessions ?? []).map((s) => s.id);
-      if (sessionIds.length > 0) {
-        const { count } = await supabase
-          .from("sprint_attempts")
-          .select("id", { count: "exact", head: true })
-          .eq("correct", true)
-          .not("operand_a", "is", null)
-          .in("session_id", sessionIds);
-        if ((count ?? 0) >= 100) {
-          toAward.push("century_multiplication");
-        }
+        .eq("mode_type", "MULTIPLICATION")
+        .eq("is_complete", true);
+      const totalCorrect = (multSessions ?? []).reduce(
+        (sum, s) => sum + (s.problems_solved ?? 0),
+        0
+      );
+      if (totalCorrect >= 100) {
+        toAward.push("century_multiplication");
       }
     }
   }

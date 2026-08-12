@@ -2,13 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
-import { Loader2 } from "lucide-react";
 import { useProfile } from "@/lib/profile/useProfile";
 import { useProgress } from "@/lib/useProgress";
 import { ProfileLayout } from "@/components/profile/ProfileNav";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { useProfileStatsFromAttempts } from "@/components/profile/ProfileHeader";
 import { localDayKey } from "@/lib/progressStats";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 export default function ProfileStatisticsClient() {
   const router = useRouter();
@@ -32,11 +32,7 @@ export default function ProfileStatisticsClient() {
   stats.solved = solvedIds.size;
 
   if (loading) {
-    return (
-      <div className="flex min-h-[40vh] items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <ProfilePageSkeleton label="Loading statistics…" />;
   }
 
   return (

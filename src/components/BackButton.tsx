@@ -22,7 +22,7 @@ function BackButtonInner() {
   if (from) {
     const label = from.startsWith("/browse")
       ? "Back to browse"
-      : from.startsWith("/search")
+      : from.startsWith("/search?")
         ? "Back to search results"
         : "Go back";
     return (

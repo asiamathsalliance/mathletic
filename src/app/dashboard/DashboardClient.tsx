@@ -146,20 +146,6 @@ export function DashboardClient({
     return result;
   }, [solvedEntries, signedIn, profile, difficultyById]);
 
-  const recent = useMemo(
-    () =>
-      [...solvedEntries]
-        .sort((a, b) => b.solvedAt - a.solvedAt)
-        .slice(0, 12)
-        .map((e) => ({
-          id: `solved-${e.id}`,
-          label: `Solved ${e.id}`,
-          meta: difficultyById.get(e.id) ?? "",
-          timestamp: e.solvedAt,
-        })),
-    [solvedEntries, difficultyById]
-  );
-
   const streak = useMemo(() => {
     const days = new Set(solvedEntries.map((e) => dayKey(e.solvedAt)));
     let count = 0;
@@ -286,31 +272,6 @@ export function DashboardClient({
                 }
               />
             </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card className="border-2 border-border">
-        <CardHeader>
-          <CardTitle className="text-section-header">Recent activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {recent.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No activity yet. Start practicing!</p>
-          ) : (
-            <ul className="space-y-2">
-              {recent.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex justify-between items-center text-sm border-b border-border pb-2 last:border-0"
-                >
-                  <span className="text-foreground">{item.label}</span>
-                  <span className="text-muted-foreground text-xs">
-                    {item.meta} · {new Date(item.timestamp).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
           )}
         </CardContent>
       </Card>

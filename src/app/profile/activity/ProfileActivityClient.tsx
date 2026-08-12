@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
-import { Loader2 } from "lucide-react";
 import { useProfile } from "@/lib/profile/useProfile";
 import { useProgress } from "@/lib/useProgress";
 import { ProfileLayout } from "@/components/profile/ProfileNav";
 import { ActivityHeatmap } from "@/components/dashboard/ActivityHeatmap";
 import { localDayKey } from "@/lib/progressStats";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 export default function ProfileActivityClient() {
   const router = useRouter();
@@ -48,11 +48,7 @@ export default function ProfileActivityClient() {
   }, [attempts]);
 
   if (loading) {
-    return (
-      <div className="flex min-h-[40vh] items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <ProfilePageSkeleton label="Loading activity…" />;
   }
 
   return (

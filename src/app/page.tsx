@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { ProblemFilters } from "@/components/problems/ProblemFilters";
 import { ProblemTable } from "@/components/problems/ProblemTable";
 import { StatsStrip } from "@/components/problems/StatsStrip";
+import { ProblemTableSkeleton } from "@/components/PageLoading";
 import { buildPracticeList } from "@/lib/practiceList";
 import { DEFAULT_PAGE_SIZE } from "@/lib/pagination";
 
@@ -36,11 +37,19 @@ export default async function HomePage({ searchParams }: PageProps) {
         </p>
       </div>
 
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <div className="flex h-16 animate-pulse gap-3">
+            <div className="h-full flex-1 rounded-xl bg-muted/50" />
+            <div className="h-full flex-1 rounded-xl bg-muted/50" />
+            <div className="h-full flex-1 rounded-xl bg-muted/50" />
+          </div>
+        }
+      >
         <StatsStrip />
       </Suspense>
 
-      <Suspense fallback={<div className="h-10 bg-muted rounded animate-pulse" />}>
+      <Suspense fallback={<div className="h-10 animate-pulse rounded-full bg-muted" />}>
         <ProblemFilters
           topics={initial.topics}
           bankTotal={initial.bankTotal}
@@ -48,7 +57,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         />
       </Suspense>
 
-      <Suspense fallback={<p className="text-muted-foreground">Loading…</p>}>
+      <Suspense fallback={<ProblemTableSkeleton />}>
         <ProblemTable
           initialItems={initial.items}
           initialTotal={initial.total}

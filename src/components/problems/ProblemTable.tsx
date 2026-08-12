@@ -7,6 +7,7 @@ import { parsePage, parsePageSize, type PageSizeOption } from "@/lib/pagination"
 import { useSolvedIds } from "@/lib/useProgress";
 import { ProblemTableHeader, ProblemTableRows } from "@/components/problems/ProblemTableRows";
 import { TablePagination } from "@/components/problems/TablePagination";
+import { ProblemTableSkeleton } from "@/components/PageLoading";
 import type { QuestionTableRow } from "@/lib/questionTable";
 
 interface ListResponse {
@@ -148,13 +149,19 @@ export function ProblemTable({
     );
   }
 
+  if (loading || isPending) {
+    return (
+      <div ref={tableRef} className="scroll-mt-4">
+        <ProblemTableSkeleton rows={Math.min(pageSize, 10)} />
+      </div>
+    );
+  }
+
   return (
     <div ref={tableRef} className="scroll-mt-4">
       <div
         key={`${page}-${pageSize}`}
-        className={`rounded-lg border border-border bg-card overflow-hidden problem-table-page-in ${
-          loading || isPending ? "opacity-70" : ""
-        }`}
+        className="rounded-lg border border-border bg-card overflow-hidden problem-table-page-in"
       >
         <ul>
           <ProblemTableHeader />

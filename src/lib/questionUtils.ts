@@ -80,6 +80,47 @@ export function searchQuestionList(questions: Question[], query: string): Questi
   });
 }
 
+/** Lightweight shape used by list/search UIs (no solutions/choices). */
+export type SearchableSummary = {
+  id: string;
+  curriculum: string;
+  topic: string;
+  difficulty: string;
+  year?: number;
+  examSource?: string;
+  preview: string;
+  amcYear?: number;
+  problemNumber?: number;
+};
+
+function summarySearchBlob(s: SearchableSummary): string {
+  return [
+    s.id,
+    s.curriculum,
+    s.topic,
+    s.difficulty,
+    s.examSource,
+    s.preview,
+    s.year,
+    s.amcYear,
+    s.problemNumber != null ? `problem ${s.problemNumber}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+/** Keyword search over summaries (list pages / dropdown — never loads solutions). */
+export function searchSummaryList(summaries: SearchableSummary[], query: string): SearchableSummary[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const terms = q.split(/\s+/).filter(Boolean);
+  return summaries.filter((s) => {
+    const blob = summarySearchBlob(s);
+    return terms.every((term) => blob.includes(term));
+  });
+}
+
 /**
  * AI-style search: interprets natural language (e.g. "IB trig questions")
  * into curriculum, topic, difficulty and filters questions accordingly.
@@ -129,6 +170,45 @@ export function searchQuestionListAI(questions: Question[], query: string): Ques
   return result;
 }
 
+/** Same interpret+filter path as searchQuestionListAI, but for lightweight summaries. */
+export function searchSummaryListAI(
+  summaries: SearchableSummary[],
+  query: string
+): SearchableSummary[] {
+  const q = query.trim();
+  if (!q) return [];
+
+  const { curriculum, topic, difficulty, keywords } = interpretSearchQuery(q);
+  const hasInterpreted =
+    curriculum != null || topic != null || difficulty != null || keywords.length > 0;
+
+  if (!hasInterpreted) {
+    return searchSummaryList(summaries, q);
+  }
+
+  let result = summaries;
+
+  if (curriculum) {
+    result = result.filter((s) => s.curriculum === curriculum);
+  }
+  if (topic) {
+    const topicNames = getTopicNamesForCanonical(topic) ?? [topic];
+    result = result.filter((s) => topicNames.includes(s.topic));
+  }
+  if (difficulty) {
+    result = result.filter((s) => s.difficulty === difficulty);
+  }
+
+  if (keywords.length > 0) {
+    result = result.filter((s) => {
+      const text = summarySearchBlob(s);
+      return keywords.some((kw) => text.includes(kw));
+    });
+  }
+
+  return result;
+}
+
 /** Filter questions by explicit curriculum, topic, difficulty and optional keyword. */
 export function filterQuestionList(
   questions: Question[],
@@ -165,6 +245,40 @@ export function filterQuestionList(
         .join(" ")
         .toLowerCase();
       return text.includes(k) || k.split(/\s+/).some((w) => text.includes(w));
+    });
+  }
+
+  return result;
+}
+
+/** Filter summaries for list UIs (same filters as filterQuestionList). */
+export function filterSummaryList(
+  summaries: SearchableSummary[],
+  filters: {
+    curriculum?: string;
+    topic?: string;
+    difficulty?: string;
+    keyword?: string;
+  }
+): SearchableSummary[] {
+  let result = summaries;
+
+  if (filters.curriculum) {
+    result = result.filter((s) => s.curriculum === filters.curriculum);
+  }
+  if (filters.topic) {
+    const topicNames = getTopicNamesForCanonical(filters.topic) ?? [filters.topic];
+    result = result.filter((s) => topicNames.includes(s.topic));
+  }
+  if (filters.difficulty) {
+    result = result.filter((s) => s.difficulty === filters.difficulty);
+  }
+
+  if (filters.keyword?.trim()) {
+    const terms = filters.keyword.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    result = result.filter((s) => {
+      const text = summarySearchBlob(s);
+      return terms.every((t) => text.includes(t));
     });
   }
 

@@ -7,6 +7,11 @@ interface PageProps {
   searchParams: Promise<{ from?: string }>;
 }
 
+function safeBackHref(from?: string): string {
+  if (!from || !from.startsWith("/") || from.startsWith("//")) return "/";
+  return from;
+}
+
 export default async function QuestionPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { from } = await searchParams;
@@ -15,8 +20,8 @@ export default async function QuestionPage({ params, searchParams }: PageProps) 
   if (!question) notFound();
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <QuestionDetail question={question} backHref={from ?? "/"} />
+    <div className="mx-auto w-full max-w-[920px]">
+      <QuestionDetail question={question} backHref={safeBackHref(from)} />
     </div>
   );
 }

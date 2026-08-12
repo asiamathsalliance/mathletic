@@ -52,41 +52,6 @@ export function getActivityByDay(): ActivityDay[] {
   return result;
 }
 
-export interface RecentActivityItem {
-  id: string;
-  type: "solved" | "run";
-  label: string;
-  timestamp: number;
-  meta?: string;
-}
-
-export function getRecentActivity(limit = 15): RecentActivityItem[] {
-  const items: RecentActivityItem[] = [];
-
-  for (const [id, entry] of Object.entries(getSolvedMap())) {
-    items.push({
-      id: `solved-${id}`,
-      type: "solved",
-      label: `Solved ${id}`,
-      timestamp: entry.solvedAt,
-      meta: entry.difficulty,
-    });
-  }
-
-  const profile = getGameProfile();
-  for (const run of profile.runHistory ?? []) {
-    items.push({
-      id: run.id,
-      type: "run",
-      label: `${run.category} challenge`,
-      timestamp: run.completedAt,
-      meta: `${run.accuracy}% · +${run.totalXp} pts`,
-    });
-  }
-
-  return items.sort((a, b) => b.timestamp - a.timestamp).slice(0, limit);
-}
-
 export function getAggregateAccuracy(): number {
   const profile = getGameProfile();
   const runs = profile.runHistory;

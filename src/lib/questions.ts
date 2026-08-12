@@ -21,7 +21,9 @@ import questionsAmc from "@/data/questions-amc.json";
 import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import {
   filterQuestionList,
+  filterSummaryList,
   searchQuestionListAI,
+  searchSummaryListAI,
   seededRandom,
 } from "@/lib/questionUtils";
 import {
@@ -440,6 +442,18 @@ export async function searchQuestionsAI(query: string): Promise<Question[]> {
   return searchQuestionListAI(questions, query);
 }
 
+/**
+ * Search for list/dropdown UIs — uses cached summaries only (never the full bank).
+ * Caps results so RSC/API payloads stay tiny.
+ */
+export async function searchQuestionSummaries(
+  query: string,
+  limit = 50
+): Promise<QuestionSummary[]> {
+  const summaries = await getQuestionSummaries();
+  return searchSummaryListAI(summaries, query).slice(0, Math.max(1, limit)) as QuestionSummary[];
+}
+
 export async function getQuestionsByFilters(filters: {
   curriculum?: string;
   topic?: string;
@@ -448,4 +462,18 @@ export async function getQuestionsByFilters(filters: {
 }): Promise<Question[]> {
   const questions = await getAllQuestions();
   return filterQuestionList(questions, filters);
+}
+
+/** Filter summaries for search result pages (no full question payload). */
+export async function getSummariesByFilters(
+  filters: {
+    curriculum?: string;
+    topic?: string;
+    difficulty?: string;
+    keyword?: string;
+  },
+  limit = 50
+): Promise<QuestionSummary[]> {
+  const summaries = await getQuestionSummaries();
+  return filterSummaryList(summaries, filters).slice(0, Math.max(1, limit)) as QuestionSummary[];
 }

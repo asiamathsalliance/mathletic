@@ -1,5 +1,3 @@
-import type { Question } from "@/types/question";
-
 /** Truncate question text for dropdown while keeping LaTeX fragments intact when possible. */
 export function questionPreviewForDropdown(text: string, maxLen = 120): string {
   const trimmed = text.trim();
@@ -14,16 +12,28 @@ export function questionPreviewForDropdown(text: string, maxLen = 120): string {
   return `${cut.trim()}…`;
 }
 
-/** Fetch dropdown matches from the search API (questions now live in the DB). */
+/** Slim hit shape for the header search dropdown (no solutions/choices). */
+export type SearchDropdownHit = {
+  id: string;
+  curriculum: string;
+  topic: string;
+  difficulty: string;
+  questionText: string;
+};
+
+/** Fetch dropdown matches from the lightweight search API. */
 export async function fetchQuestionsForDropdown(
   query: string,
-  limit = 8,
+  limit = 6,
   signal?: AbortSignal
-): Promise<Question[]> {
+): Promise<SearchDropdownHit[]> {
   const q = query.trim();
   if (!q) return [];
-  const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, { signal });
+  const res = await fetch(
+    `/api/search?q=${encodeURIComponent(q)}&limit=${Math.min(limit, 12)}`,
+    { signal, cache: "no-store" }
+  );
   if (!res.ok) return [];
-  const data = (await res.json()) as { results?: Question[] };
+  const data = (await res.json()) as { results?: SearchDropdownHit[] };
   return (data.results ?? []).slice(0, limit);
 }

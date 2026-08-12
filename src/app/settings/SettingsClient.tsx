@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
 import {
   COUNTRIES,
   GRADES,
@@ -16,6 +15,7 @@ import { SaveButton } from "@/components/ui/SaveButton";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import type { AccentColor, ThemeMode, UserProfile } from "@/types/profile";
 import { cn } from "@/lib/utils";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 const SECTIONS = [
   { id: "profile", label: "Profile" },
@@ -45,11 +45,7 @@ export default function SettingsClient() {
   }, [profile]);
 
   if (loading || !form) {
-    return (
-      <div className="flex min-h-[40vh] items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <ProfilePageSkeleton label="Loading settings…" />;
   }
 
   async function handleSave(): Promise<boolean> {

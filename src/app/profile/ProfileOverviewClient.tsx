@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
 import { useProfile } from "@/lib/profile/useProfile";
 import { useProgress } from "@/lib/useProgress";
 import { ProfileLayout } from "@/components/profile/ProfileNav";
@@ -13,6 +12,7 @@ import { AchievementGrid } from "@/components/profile/AchievementGrid";
 import { ActivityHeatmap } from "@/components/dashboard/ActivityHeatmap";
 import { localDayKey } from "@/lib/progressStats";
 import { useAchievementStats } from "@/lib/profile/useAchievementStats";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 export function ProfileOverviewClient() {
   const router = useRouter();
@@ -48,11 +48,7 @@ export function ProfileOverviewClient() {
   const stats = { ...baseStats, solved: solvedIds.size, achievementsEarned };
 
   if (loading || !profile) {
-    return (
-      <div className="flex min-h-[40vh] items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <ProfilePageSkeleton label="Loading profile…" />;
   }
 
   const recentAchievements = achievements.filter((a) => a.unlocked).reverse().slice(0, 2);

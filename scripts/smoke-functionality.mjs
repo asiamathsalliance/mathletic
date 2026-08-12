@@ -84,18 +84,22 @@ function src(rel) {
   return readFileSync(join(root, rel), "utf8");
 }
 
-ok("QuestionCard uses TypedAnswerPanel", src("src/components/QuestionCard.tsx").includes("TypedAnswerPanel"));
-ok("QuestionDetail uses TypedAnswerPanel", src("src/components/QuestionDetail.tsx").includes("TypedAnswerPanel"));
+ok("QuestionCard uses MCQ choices", src("src/components/QuestionCard.tsx").includes("choices.map"));
+ok("QuestionDetail uses MCQ choices", src("src/components/QuestionDetail.tsx").includes("choices.map"));
 ok("Sprint ProblemPlay still MCQ", src("src/components/sprint/ProblemPlay.tsx").includes("choices.map"));
 ok("sprint pool filters verified", src("src/lib/sprintProblemPool.ts").includes('.eq("verified", true)'));
 ok("questions getters filter verified", src("src/lib/questions.ts").includes('.eq("verified", true)'));
-ok("toClientQuestion strips secrets", src("src/lib/questions.ts").includes("toClientQuestion"));
-ok(
-  "TypedAnswerPanel loading overlay",
-  src("src/components/TypedAnswerPanel.tsx").includes("Checking your answer")
-);
+ok("list path uses question summaries", src("src/lib/questions.ts").includes("getQuestionSummaries"));
+ok("questionToSummary exists", src("src/lib/questionSummary.ts").includes("questionToSummary"));
 ok("leaderboard reads cache", src("src/lib/leaderboard.ts").includes("leaderboard_cache"));
 ok("grade route omits answer_value in JSON responses", !/answer_value\s*:/.test(src("src/app/api/grade/route.ts")));
+ok("dashboard has no Recent activity feed", !src("src/app/dashboard/DashboardClient.tsx").includes("Recent activity"));
+ok("dashboard keeps ActivityHeatmap", src("src/app/dashboard/DashboardClient.tsx").includes("ActivityHeatmap"));
+ok(
+  "century achievement uses session aggregates",
+  src("src/lib/sprintAchievements.ts").includes("problems_solved") &&
+    !src("src/lib/sprintAchievements.ts").includes('.from("sprint_attempts")')
+);
 
 const BASE = process.env.BASE_URL || "";
 let server = null;

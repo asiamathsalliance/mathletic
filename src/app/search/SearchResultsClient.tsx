@@ -1,19 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Circle } from "lucide-react";
-import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
-import { CurriculumTag } from "@/components/ui/CurriculumTag";
+import { CheckCircle2 } from "lucide-react";
 import { LatexText } from "@/components/LatexText";
-import { stripLatexPreview } from "@/lib/questionTable";
+import { CurriculumTag } from "@/components/ui/CurriculumTag";
+import { getSimpleTopic } from "@/lib/questionTable";
+import type { QuestionSummary } from "@/lib/questionSummary";
 import { useSolvedIds } from "@/lib/useProgress";
-import { isMcqQuestion } from "@/lib/questionUtils";
-import type { Question } from "@/types/question";
+import { cn } from "@/lib/utils";
+import type { Difficulty } from "@/types/question";
 
 interface SearchResultsClientProps {
   query: string;
-  results: Question[];
+  results: QuestionSummary[];
 }
+
+/** Same horizontal proportions as the practice-bank / LeetCode-style problem list. */
+const ROW_GRID =
+  "grid-cols-[1.25rem_minmax(0,1fr)_3.5rem_12rem_6.5rem] items-center gap-2.5";
+
+const DIFFICULTY_TEXT: Record<Difficulty, { label: string; className: string }> = {
+  Easy: { label: "Easy", className: "text-[#2F7D4F]" },
+  Medium: { label: "Med.", className: "text-[#C9941F]" },
+  Hard: { label: "Hard", className: "text-[#C94A3D]" },
+};
 
 export function SearchResultsClient({ query, results }: SearchResultsClientProps) {
   const { solvedIds } = useSolvedIds();
@@ -36,95 +46,63 @@ export function SearchResultsClient({ query, results }: SearchResultsClientProps
   }
 
   return (
-    <>
-      <div className="hidden md:block rounded-lg border border-border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/50 text-left text-meta">
-              <th className="px-4 py-3 w-10 font-medium"> </th>
-              <th className="px-4 py-3 font-medium normal-case tracking-normal text-muted-foreground">
-                Title
-              </th>
-              <th className="px-4 py-3 w-24 font-medium normal-case tracking-normal text-muted-foreground">
-                Difficulty
-              </th>
-              <th className="px-4 py-3 w-24 font-medium normal-case tracking-normal text-muted-foreground">
-                Curriculum
-              </th>
-              <th className="px-4 py-3 font-medium normal-case tracking-normal text-muted-foreground">
-                Topic
-              </th>
-              <th className="px-4 py-3 w-16 font-medium normal-case tracking-normal text-muted-foreground">
-                Type
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((q) => {
-              const solved = solvedIds.has(q.id);
-              const type = isMcqQuestion(q) ? "MCQ" : "Long";
-              return (
-                <tr key={q.id} className="problem-table-row border-b border-border last:border-0">
-                  <td className="px-4 py-3">
-                    {solved ? (
-                      <CheckCircle2 className="size-4 text-[#2F7D4F]" aria-label="Solved" />
-                    ) : (
-                      <Circle className="size-4 text-muted-foreground" aria-label="Unsolved" />
-                    )}
-                  </td>
-                  <td className="px-4 py-3">
-                    <Link href={`/questions/${q.id}`} className="text-foreground line-clamp-1">
-                      {stripLatexPreview(q.questionText)}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3">
-                    <DifficultyBadge difficulty={q.difficulty} />
-                  </td>
-                  <td className="px-4 py-3">
-                    <CurriculumTag curriculum={q.curriculum} />
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">{q.topic}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{type}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+    <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <ul>
+        <li
+          className={`hidden md:grid ${ROW_GRID} border-b border-border bg-muted/40 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground`}
+        >
+          <span />
+          <span>Question</span>
+          <span className="text-right">Difficulty</span>
+          <span className="text-right">Topic</span>
+          <span className="text-right">Subject</span>
+        </li>
 
-      <ul className="md:hidden space-y-2">
-        {results.map((q) => {
+        {results.map((q, i) => {
           const solved = solvedIds.has(q.id);
-          const type = isMcqQuestion(q) ? "MCQ" : "Long";
+          const diff = DIFFICULTY_TEXT[q.difficulty];
+          const href = `/questions/${q.id}?from=${encodeURIComponent(`/search?q=${query}`)}`;
+
           return (
-            <li key={q.id}>
+            <li key={q.id} className="border-b border-border last:border-0">
               <Link
-                href={`/questions/${q.id}`}
-                className="block rounded-lg border border-border bg-card p-4 hover:bg-muted/50 transition-colors"
+                href={href}
+                className={`problem-table-row grid ${ROW_GRID} cursor-pointer px-4 py-3`}
               >
-                <div className="flex items-start gap-3">
+                <span className="flex h-full items-center justify-center self-stretch">
                   {solved ? (
-                    <CheckCircle2 className="size-4 mt-0.5 shrink-0 text-[#2F7D4F]" />
-                  ) : (
-                    <Circle className="size-4 mt-0.5 shrink-0 text-muted-foreground" />
+                    <CheckCircle2 className="size-4 text-[#2F7D4F]" aria-label="Solved" />
+                  ) : null}
+                </span>
+
+                <span className="problem-preview min-w-0 self-center text-sm font-medium text-foreground">
+                  <span className="text-muted-foreground">{i + 1}.&nbsp;</span>
+                  <LatexText singleLine>{q.preview}</LatexText>
+                </span>
+
+                <span
+                  className={cn(
+                    "flex h-full items-center justify-end self-stretch text-sm font-medium",
+                    diff.className
                   )}
-                  <div className="min-w-0 flex-1 space-y-2">
-                    <p className="text-sm font-medium line-clamp-2">
-                      <LatexText>{q.questionText}</LatexText>
-                    </p>
-                    <div className="flex flex-wrap gap-2 items-center">
-                      <DifficultyBadge difficulty={q.difficulty} />
-                      <CurriculumTag curriculum={q.curriculum} />
-                      <span className="text-meta normal-case tracking-normal">{q.topic}</span>
-                      <span className="text-meta normal-case tracking-normal">{type}</span>
-                    </div>
-                  </div>
-                </div>
+                >
+                  {diff.label}
+                </span>
+
+                <span className="hidden md:flex h-full min-w-0 items-center justify-end self-stretch">
+                  <span className="block max-w-full truncate text-xs leading-normal text-muted-foreground">
+                    {getSimpleTopic(q.topic)}
+                  </span>
+                </span>
+
+                <span className="hidden sm:flex h-full items-center justify-end self-stretch">
+                  <CurriculumTag curriculum={q.curriculum} />
+                </span>
               </Link>
             </li>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

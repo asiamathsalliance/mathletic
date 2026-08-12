@@ -8,7 +8,7 @@ A LeetCode-style practice platform for **AMC 10/12** competition math plus **HSC
 - **Sprint** — Two 5-minute modes: **Multiplication Sprint** (times tables 1–20, streak bonuses) and **Problem Sprint** (random Easy MCQs from the full bank); personal bests and mode-specific leaderboards
 - **Leaderboard** — Most Solved / Best Sprint / By Topic, each with Daily / Weekly / All-Time windows; sprint board filters by multiplication or problem mode
 - **Question detail** — Vertical MCQ layout, long-answer checking, solution reveal
-- **Dashboard** — Solved counts, activity heatmap, recent activity
+- **Dashboard** — Solved counts and activity heatmap
 - **Search** — Keyword and AI-powered natural language search
 - **Auth** — Google sign-in via Supabase; logged-out users keep localStorage progress as a preview, which is imported into the DB on first sign-in
 

@@ -1,17 +1,12 @@
 import { Suspense } from "react";
 import { WelcomeClient } from "./WelcomeClient";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 export const metadata = { title: "Welcome | Mathletic" };
 
 export default function WelcomePage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[50vh] items-center justify-center text-muted-foreground">
-          Loading…
-        </div>
-      }
-    >
+    <Suspense fallback={<ProfilePageSkeleton label="Loading welcome…" />}>
       <WelcomeClient />
     </Suspense>
   );

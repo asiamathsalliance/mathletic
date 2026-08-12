@@ -14,13 +14,6 @@ import type { AchievementProgress, UserProfile } from "@/types/profile";
 import type { ActivityDay } from "@/lib/progressStats";
 import type { Difficulty } from "@/types/question";
 
-export interface PublicRecentItem {
-  id: string;
-  type: "solved" | "achievement";
-  label: string;
-  timestamp: string;
-}
-
 export interface PublicProfilePayload {
   userId: string;
   username: string;
@@ -53,7 +46,6 @@ export interface PublicProfilePayload {
   byCompetition: CompetitionStats[];
   activity: ActivityDay[];
   achievements: AchievementProgress[];
-  recentActivity: PublicRecentItem[];
   showCountry: boolean;
   showSchool: boolean;
   showActivity: boolean;
@@ -259,7 +251,6 @@ async function loadPublicProfile(
   const attempting = attemptRows.filter((a) => a.status === "attempted").length;
 
   const difficultyById = new Map(questions.map((q) => [q.id, q.difficulty]));
-  const topicById = new Map(questions.map((q) => [q.id, q.topic]));
 
   const byDifficulty: Record<Difficulty, { solved: number; total: number }> = {
     Easy: { total: 0, solved: 0 },
@@ -416,30 +407,6 @@ async function loadPublicProfile(
     }
   }
 
-  const recentSolves: PublicRecentItem[] = attemptRows
-    .filter((a) => a.status === "solved" && a.solved_at)
-    .sort((a, b) => new Date(b.solved_at!).getTime() - new Date(a.solved_at!).getTime())
-    .slice(0, 10)
-    .map((a) => ({
-      id: `solve-${a.question_id}`,
-      type: "solved" as const,
-      label: `Solved "${topicById.get(a.question_id) ?? a.question_id}"`,
-      timestamp: a.solved_at!,
-    }));
-
-  const recentAchievements: PublicRecentItem[] = achievements
-    .filter((a) => a.unlockedAt)
-    .map((a) => ({
-      id: `badge-${a.id}`,
-      type: "achievement" as const,
-      label: `Unlocked ${a.title}`,
-      timestamp: a.unlockedAt!,
-    }));
-
-  const recentActivity = [...recentSolves, ...recentAchievements]
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    .slice(0, 10);
-
   const country =
     profileMeta.country || (targetCountry ? countryByCode(targetCountry)?.name : null) || null;
 
@@ -482,7 +449,6 @@ async function loadPublicProfile(
     byCompetition,
     activity: showActivity ? activity : [],
     achievements,
-    recentActivity: showActivity ? recentActivity : [],
     showCountry,
     showSchool,
     showActivity,

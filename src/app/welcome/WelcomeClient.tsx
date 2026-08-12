@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { Check, Loader2 } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   COUNTRIES,
   GRADES,
@@ -15,6 +15,7 @@ import { ProfilePreviewCard, ProfileCard } from "@/components/profile/ProfileCar
 import { useTheme } from "@/components/theme/ThemeProvider";
 import type { DifficultyPreference, UserProfile } from "@/types/profile";
 import { cn } from "@/lib/utils";
+import { ProfilePageSkeleton } from "@/components/PageLoading";
 
 export function WelcomeClient() {
   const router = useRouter();
@@ -78,11 +79,7 @@ export function WelcomeClient() {
   }
 
   if (loading || !signedIn) {
-    return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <ProfilePageSkeleton label="Loading welcome…" />;
   }
 
   const merged = { ...profile, ...form } as UserProfile;
