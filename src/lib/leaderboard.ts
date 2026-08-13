@@ -1,16 +1,14 @@
 import { unstable_cache } from "next/cache";
 import { createAnonClient } from "@/lib/supabase/server";
-import { TOPIC_BY_QUESTION_ID, LEADERBOARD_TOPICS } from "@/lib/leaderboardTopics";
 import { resolvePublicUserLabels } from "@/lib/publicProfile";
 
-export type Board = "solved" | "sprint" | "topic";
+export type Board = "solved" | "sprint";
 export type Window = "daily" | "weekly" | "all";
 export type SprintMode = "MULTIPLICATION" | "PROBLEM_POOL";
 
 export const BOARDS: { id: Board; label: string }[] = [
   { id: "solved", label: "Most Solved" },
   { id: "sprint", label: "Best Sprint" },
-  { id: "topic", label: "By Topic" },
 ];
 
 export const WINDOWS: { id: Window; label: string }[] = [
@@ -46,7 +44,6 @@ export interface LeaderboardParams {
   board: Board;
   window: Window;
   mode: SprintMode;
-  topic: string;
 }
 
 export interface LeaderboardUserInfo {
@@ -64,7 +61,6 @@ export interface LeaderboardSearchParams {
   board?: string;
   window?: string;
   mode?: string;
-  topic?: string;
 }
 
 function windowStart(window: Window): Date | null {
@@ -76,15 +72,12 @@ function windowStart(window: Window): Date | null {
 }
 
 export function parseLeaderboardParams(raw: LeaderboardSearchParams): LeaderboardParams {
+  // Legacy `board=topic` links fall back to Most Solved.
   const board = (BOARDS.some((b) => b.id === raw.board) ? raw.board : "solved") as Board;
   const window = (WINDOWS.some((w) => w.id === raw.window) ? raw.window : "all") as Window;
   const mode: SprintMode = raw.mode === "PROBLEM_POOL" ? "PROBLEM_POOL" : "MULTIPLICATION";
-  const topic =
-    raw.topic && LEADERBOARD_TOPICS.includes(raw.topic)
-      ? raw.topic
-      : (LEADERBOARD_TOPICS[0] ?? "");
 
-  return { board, window, mode, topic };
+  return { board, window, mode };
 }
 
 export function valueLabelFor(params: LeaderboardParams): string {
@@ -103,23 +96,19 @@ export function makeLeaderboardHref(
   if (nextBoard === "sprint") {
     p.set("mode", over.mode ?? params.mode);
   }
-  if (nextBoard === "topic") {
-    p.set("topic", over.topic ?? params.topic);
-  }
   return `/leaderboard?${p.toString()}`;
 }
 
 async function fetchFromCache(params: LeaderboardParams): Promise<LeaderboardRow[] | null> {
   const supabase = createAnonClient();
   const mode = params.board === "sprint" ? params.mode : "";
-  const topic = params.board === "topic" ? params.topic : "";
   const { data, error } = await supabase
     .from("leaderboard_cache")
     .select("user_id, value, rank")
     .eq("board", params.board)
     .eq("time_window", params.window)
     .eq("mode", mode)
-    .eq("topic", topic)
+    .eq("topic", "")
     .order("rank", { ascending: true })
     .limit(TOP_N);
   if (error || !data || data.length === 0) return null;
@@ -140,7 +129,7 @@ async function fetchLeaderboardRowsLive(params: LeaderboardParams): Promise<Lead
   const supabase = createAnonClient();
   const since = windowStart(params.window);
 
-  if (params.board === "solved" || params.board === "topic") {
+  if (params.board === "solved") {
     let query = supabase
       .from("question_attempts")
       .select("user_id, question_id, solved_at")
@@ -149,12 +138,6 @@ async function fetchLeaderboardRowsLive(params: LeaderboardParams): Promise<Lead
     const { data } = await query;
     const counts = new Map<string, number>();
     for (const a of data ?? []) {
-      if (
-        params.board === "topic" &&
-        TOPIC_BY_QUESTION_ID.get(a.question_id) !== params.topic
-      ) {
-        continue;
-      }
       counts.set(a.user_id, (counts.get(a.user_id) ?? 0) + 1);
     }
     const rows = [...counts.entries()]

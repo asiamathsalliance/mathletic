@@ -6,7 +6,6 @@ import {
   makeLeaderboardHref,
   type LeaderboardParams,
 } from "@/lib/leaderboard";
-import { LEADERBOARD_TOPICS } from "@/lib/leaderboardTopics";
 import { cn } from "@/lib/utils";
 
 export function LeaderboardTabs({ params }: { params: LeaderboardParams }) {
@@ -63,25 +62,6 @@ export function LeaderboardTabs({ params }: { params: LeaderboardParams }) {
               )}
             >
               {m.label}
-            </Link>
-          ))}
-        </div>
-      )}
-
-      {params.board === "topic" && (
-        <div className="flex flex-wrap gap-1.5">
-          {LEADERBOARD_TOPICS.map((t) => (
-            <Link
-              key={t}
-              href={makeLeaderboardHref(params, { topic: t })}
-              className={cn(
-                "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                t === params.topic
-                  ? "border-primary bg-primary/15 text-foreground"
-                  : "border-border bg-card text-muted-foreground hover:text-foreground"
-              )}
-            >
-              {t}
             </Link>
           ))}
         </div>

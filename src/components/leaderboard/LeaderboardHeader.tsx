@@ -8,7 +8,7 @@ export function LeaderboardHeader() {
         Leaderboard
       </h1>
       <p className="text-muted-foreground mt-1">
-        Most solved, best sprint scores, and topic specialists.
+        Most solved and best sprint scores.
       </p>
     </div>
   );

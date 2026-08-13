@@ -1,6 +1,5 @@
 import { createAnonClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { TOPIC_BY_QUESTION_ID, LEADERBOARD_TOPICS } from "@/lib/leaderboardTopics";
 import type { Board, SprintMode, Window } from "@/lib/leaderboard";
 import { SPRINT_MODES, WINDOWS, TOP_N } from "@/lib/leaderboard";
 
@@ -12,10 +11,7 @@ function windowStart(window: Window): Date | null {
   return d;
 }
 
-async function aggregateSolved(
-  window: Window,
-  topic: string | null
-): Promise<{ userId: string; value: number }[]> {
+async function aggregateSolved(window: Window): Promise<{ userId: string; value: number }[]> {
   const supabase = createAnonClient();
   const since = windowStart(window);
   let query = supabase
@@ -26,7 +22,6 @@ async function aggregateSolved(
   const { data } = await query;
   const counts = new Map<string, number>();
   for (const a of data ?? []) {
-    if (topic && TOPIC_BY_QUESTION_ID.get(a.question_id) !== topic) continue;
     counts.set(a.user_id, (counts.get(a.user_id) ?? 0) + 1);
   }
   return [...counts.entries()]
@@ -111,17 +106,17 @@ async function upsertSlice(
 /** Recompute all leaderboard slices into leaderboard_cache. */
 export async function refreshLeaderboardCache(): Promise<{ slices: number }> {
   let slices = 0;
+  const admin = createAdminClient();
+
+  // Drop legacy By Topic cache rows (board no longer exposed in UI).
+  if (admin) {
+    await admin.from("leaderboard_cache").delete().eq("board", "topic");
+  }
 
   for (const window of WINDOWS.map((w) => w.id)) {
-    const solved = await aggregateSolved(window, null);
+    const solved = await aggregateSolved(window);
     await upsertSlice("solved", window, "", "", solved);
     slices += 1;
-
-    for (const topic of LEADERBOARD_TOPICS) {
-      const byTopic = await aggregateSolved(window, topic);
-      await upsertSlice("topic", window, "", topic, byTopic);
-      slices += 1;
-    }
 
     for (const mode of SPRINT_MODES.map((m) => m.id)) {
       const sprint = await aggregateSprint(window, mode);

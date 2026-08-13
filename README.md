@@ -6,7 +6,7 @@ A LeetCode-style practice platform for **AMC 10/12** competition math plus **HSC
 
 - **Practice** — Filterable problem table (subject/competition, AMC variant, difficulty, topic, status, type) with solved status and a personal stats strip
 - **Sprint** — Two 5-minute modes: **Multiplication Sprint** (times tables 1–20, streak bonuses) and **Problem Sprint** (random Easy MCQs from the full bank); personal bests and mode-specific leaderboards
-- **Leaderboard** — Most Solved / Best Sprint / By Topic, each with Daily / Weekly / All-Time windows; sprint board filters by multiplication or problem mode
+- **Leaderboard** — Most Solved / Best Sprint, each with Daily / Weekly / All-Time windows; sprint board filters by multiplication or problem mode
 - **Question detail** — Vertical MCQ layout, long-answer checking, solution reveal
 - **Dashboard** — Solved counts and activity heatmap
 - **Search** — Keyword and AI-powered natural language search
@@ -115,7 +115,7 @@ src/
 | `/sprint` | Choose multiplication or problem sprint |
 | `/sprint/multiplication` | 5-minute multiplication tables sprint |
 | `/sprint/problem` | 5-minute easy problem sprint |
-| `/leaderboard` | Most Solved / Best Sprint / By Topic |
+| `/leaderboard` | Most Solved / Best Sprint |
 | `/browse` | Topic explorer |
 | `/dashboard` | Progress & stats |
 | `/search?q=...` | Search results |

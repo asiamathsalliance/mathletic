@@ -40,7 +40,7 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
     return <LeaderboardUnavailable />;
   }
 
-  const suspenseKey = `${params.board}-${params.window}-${params.mode}-${params.topic}`;
+  const suspenseKey = `${params.board}-${params.window}-${params.mode}`;
 
   return (
     <div className="space-y-6">
