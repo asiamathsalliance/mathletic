@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
-import { createClient, createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getQuestionSecret } from "@/lib/questionSecrets";
 
 /**
@@ -35,19 +36,21 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: "Solve the question first" }, { status: 403 });
   }
 
-  const anon = createAnonClient();
-  const { data: row } = await anon
-    .from("questions")
-    .select("solution, solution_image_url, verified")
-    .eq("id", questionId)
-    .eq("verified", true)
-    .maybeSingle();
+  const admin = createAdminClient();
+  if (admin) {
+    const { data: row } = await admin
+      .from("questions")
+      .select("solution, solution_image_url, verified")
+      .eq("id", questionId)
+      .eq("verified", true)
+      .maybeSingle();
 
-  if (row) {
-    return Response.json({
-      solution: row.solution ?? "",
-      solutionImage: row.solution_image_url ?? null,
-    });
+    if (row) {
+      return Response.json({
+        solution: row.solution ?? "",
+        solutionImage: row.solution_image_url ?? null,
+      });
+    }
   }
 
   const secret = getQuestionSecret(questionId);

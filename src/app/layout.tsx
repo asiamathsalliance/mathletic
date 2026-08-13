@@ -39,8 +39,15 @@ export default function RootLayout({
             <div className="app-wrap flex flex-col flex-1">
               <AppHeader />
               <main className="flex-1 w-full page-main">{children}</main>
-              <footer className="app-footer">
-                Mathletic — HSC, IB, AP & A-Level practice
+              <footer className="app-footer flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                <span>Mathletic — HSC, IB, AP & A-Level practice</span>
+                <span className="text-muted-foreground">·</span>
+                <a href="/privacy" className="underline-offset-2 hover:underline">
+                  Privacy
+                </a>
+                <a href="/terms" className="underline-offset-2 hover:underline">
+                  Terms
+                </a>
               </footer>
             </div>
             <Fab />

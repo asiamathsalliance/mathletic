@@ -35,6 +35,31 @@ export default function SettingsClient() {
   const [section, setSection] = useState<SectionId>("profile");
   const [form, setForm] = useState<UserProfile | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleDeleteAccount() {
+    if (deleteConfirm !== "DELETE" || deleting) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/account/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: "DELETE" }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setDeleteError(data.error || "Could not delete account.");
+        setDeleting(false);
+        return;
+      }
+      router.replace("/?deleted=1");
+    } catch {
+      setDeleteError("Could not delete account.");
+      setDeleting(false);
+    }
+  }
 
   useEffect(() => {
     if (!loading && !signedIn) router.replace("/");
@@ -209,8 +234,16 @@ export default function SettingsClient() {
               Type DELETE to confirm
               <input className="field-input mt-1.5 border-destructive/30" value={deleteConfirm} onChange={(e) => setDeleteConfirm(e.target.value)} placeholder="DELETE" />
             </label>
-            <button type="button" disabled={deleteConfirm !== "DELETE"} className="mt-4 rounded-xl bg-destructive px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-40">
-              Delete Account
+            {deleteError && (
+              <p className="mt-3 text-sm text-destructive">{deleteError}</p>
+            )}
+            <button
+              type="button"
+              disabled={deleteConfirm !== "DELETE" || deleting}
+              onClick={handleDeleteAccount}
+              className="mt-4 cursor-pointer rounded-xl bg-destructive px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-40"
+            >
+              {deleting ? "Deleting…" : "Delete Account"}
             </button>
           </div>
         )}

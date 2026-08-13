@@ -94,7 +94,7 @@ interface SummaryRow {
   amc_variant: "A" | "B" | null;
   problem_number: number | null;
   question_text: string;
-  correct_index: number | null;
+  is_mcq?: boolean | null;
   verified?: boolean | null;
 }
 
@@ -139,7 +139,7 @@ function rowToQuestion(row: QuestionRow): Question {
 }
 
 const SUMMARY_SELECT_BASE =
-  "id, competition, topic, year, exam_source, difficulty, amc_year, amc_variant, problem_number, question_text, correct_index";
+  "id, competition, topic, year, exam_source, difficulty, amc_year, amc_variant, problem_number, question_text, is_mcq";
 
 async function fetchSummariesFromDb(): Promise<QuestionSummary[] | null> {
   if (!isSupabaseConfigured()) return null;
@@ -193,7 +193,7 @@ async function fetchSummariesFromDb(): Promise<QuestionSummary[] | null> {
         amc_variant: row.amc_variant,
         problem_number: row.problem_number,
         question_text: row.question_text.slice(0, 240),
-        choices: row.correct_index != null ? ["", "", "", ""] : null,
+        choices: row.is_mcq ? ["", "", "", ""] : null,
       })
     );
   } catch (err) {

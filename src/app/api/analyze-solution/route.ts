@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { chatWithDeepseek, chatWithDeepseekStream, VERDICT_PREFERRED_MODELS } from "@/lib/localLlm";
 import { parseVerdictFromAnalysis, formatAnalysisForDisplay, buildVerdictUserMessage, type AnswerCheckContext } from "@/lib/checkAnswer";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
 
 export const maxDuration = 120;
 
@@ -32,6 +33,14 @@ You must output in LaTeX so the response can be rendered: use $...$ for inline m
 Strict limit: Keep your entire response under 300 words. Do not repeat the same block of text or code. Give one clear, concise answer only.`;
 
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(`analyze:${clientIp(request)}`, { limit: 15, windowMs: 60_000 });
+  if (!rl.ok) {
+    return Response.json(
+      { error: "Too many requests. Try again shortly." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+    );
+  }
+
   let formData: FormData;
   try {
     formData = await request.formData();

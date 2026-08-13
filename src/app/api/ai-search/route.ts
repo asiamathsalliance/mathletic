@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { chatWithDeepseek } from "@/lib/localLlm";
 import type { Curriculum, Difficulty } from "@/types/question";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
 
 const TOPICS = [
   "Algebra",
@@ -45,6 +46,14 @@ function parseFilters(raw: string): AISearchFilters {
 }
 
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(`ai-search:${clientIp(request)}`, { limit: 20, windowMs: 60_000 });
+  if (!rl.ok) {
+    return Response.json(
+      { error: "Too many requests. Try again shortly." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+    );
+  }
+
   let body: { query?: string };
   try {
     body = await request.json();

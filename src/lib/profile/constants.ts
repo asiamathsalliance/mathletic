@@ -99,6 +99,8 @@ export function defaultProfile(email?: string): UserProfile {
     },
     onboardingComplete: false,
     xp: 0,
+    acceptedTermsAt: undefined,
+    ageAttested13Plus: undefined,
   };
 }
 

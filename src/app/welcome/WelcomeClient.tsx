@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Check } from "lucide-react";
@@ -65,11 +66,17 @@ export function WelcomeClient() {
   const canContinueStep1 =
     Boolean(form.username && form.username.length >= 3 && usernameOk && form.countryCode);
 
+  const [ageOk, setAgeOk] = useState(false);
+  const [termsOk, setTermsOk] = useState(false);
+
   async function finish() {
+    if (!ageOk || !termsOk) return;
     setSaving(true);
     const saved = await save({
       ...form,
       onboardingComplete: true,
+      ageAttested13Plus: true,
+      acceptedTermsAt: new Date().toISOString(),
     } as UserProfile);
     setSaving(false);
     if (saved) {
@@ -331,13 +338,47 @@ export function WelcomeClient() {
                   </div>
                 </div>
 
+                <div className="space-y-3 rounded-xl border border-border bg-muted/30 p-4 text-sm">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={ageOk}
+                      onChange={(e) => setAgeOk(e.target.checked)}
+                      className="mt-0.5 size-4 rounded border-border"
+                    />
+                    <span>
+                      I confirm I am at least <strong>13 years old</strong>, or I have a parent or
+                      guardian&apos;s permission to use Mathletic.
+                    </span>
+                  </label>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={termsOk}
+                      onChange={(e) => setTermsOk(e.target.checked)}
+                      className="mt-0.5 size-4 rounded border-border"
+                    />
+                    <span>
+                      I agree to the{" "}
+                      <Link href="/terms" className="underline font-medium" target="_blank">
+                        Terms of Service
+                      </Link>{" "}
+                      and{" "}
+                      <Link href="/privacy" className="underline font-medium" target="_blank">
+                        Privacy Policy
+                      </Link>
+                      .
+                    </span>
+                  </label>
+                </div>
+
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(1)} className="btn-secondary">
                     Back
                   </button>
                   <button
                     type="button"
-                    disabled={saving || success}
+                    disabled={saving || success || !ageOk || !termsOk}
                     onClick={finish}
                     className={cn("btn-primary", success && "bg-[#2F7D4F]")}
                   >

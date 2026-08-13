@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { safeInternalPath } from "@/lib/safeRedirect";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  const next = safeInternalPath(searchParams.get("next"), "/");
 
   if (code) {
     const supabase = await createClient();
@@ -26,7 +27,7 @@ export async function GET(request: Request) {
       if (isLocal) {
         return NextResponse.redirect(`${origin}${destination}`);
       }
-      if (forwardedHost) {
+      if (forwardedHost && !forwardedHost.includes("/") && !forwardedHost.includes("\\")) {
         return NextResponse.redirect(`https://${forwardedHost}${destination}`);
       }
       return NextResponse.redirect(`${origin}${destination}`);

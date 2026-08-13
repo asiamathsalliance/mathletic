@@ -44,6 +44,10 @@ export interface UserProfile {
   appearance: AppearancePrefs;
   onboardingComplete: boolean;
   xp: number;
+  /** ISO timestamp when user accepted Terms + Privacy (onboarding). */
+  acceptedTermsAt?: string;
+  /** User attested they are 13+ (or have parental consent) during onboarding. */
+  ageAttested13Plus?: boolean;
 }
 
 export interface ProfileStats {

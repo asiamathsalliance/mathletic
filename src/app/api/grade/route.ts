@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
-import { createClient, createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { gradeTypedAnswer } from "@/lib/gradeAnswer";
 import { getQuestionSecret } from "@/lib/questionSecrets";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@/lib/checkAnswer";
 import { chatWithDeepseek, VERDICT_PREFERRED_MODELS } from "@/lib/localLlm";
 import { COMPETITION_TO_LABEL, type Competition } from "@/types/question";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
 
 /**
  * POST /api/grade
@@ -17,6 +19,14 @@ import { COMPETITION_TO_LABEL, type Competition } from "@/types/question";
  * Never returns answer_value. Solution only when correct.
  */
 export async function POST(request: NextRequest) {
+  const rl = rateLimit(`grade:${clientIp(request)}`, { limit: 30, windowMs: 60_000 });
+  if (!rl.ok) {
+    return Response.json(
+      { error: "Too many requests. Try again shortly." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+    );
+  }
+
   let body: { questionId?: string; studentAnswer?: string };
   try {
     body = await request.json();
@@ -41,15 +51,18 @@ export async function POST(request: NextRequest) {
   let context: AnswerCheckContext = {};
 
   if (isSupabaseConfigured()) {
-    const anon = createAnonClient();
-    const { data: row, error } = await anon
-      .from("questions")
-      .select(
-        "id, verified, question_text, solution, solution_image_url, answer_value, answer_type, competition, topic, difficulty, exam_source"
-      )
-      .eq("id", questionId)
-      .eq("verified", true)
-      .maybeSingle();
+    // Secrets columns are revoked from anon (migration 006) — use service role.
+    const admin = createAdminClient();
+    const { data: row, error } = admin
+      ? await admin
+          .from("questions")
+          .select(
+            "id, verified, question_text, solution, solution_image_url, answer_value, answer_type, competition, topic, difficulty, exam_source"
+          )
+          .eq("id", questionId)
+          .eq("verified", true)
+          .maybeSingle()
+      : { data: null, error: null };
 
     if (!error && row) {
       questionText = String(row.question_text ?? "");
