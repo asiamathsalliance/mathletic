@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { AppHeader } from "@/components/AppHeader";
 import { BackgroundShapes } from "@/components/BackgroundShapes";
@@ -42,12 +43,12 @@ export default function RootLayout({
               <footer className="app-footer flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
                 <span>Mathletic — HSC, IB, AP & A-Level practice</span>
                 <span className="text-muted-foreground">·</span>
-                <a href="/privacy" className="underline-offset-2 hover:underline">
+                <Link href="/privacy" className="underline-offset-2 hover:underline">
                   Privacy
-                </a>
-                <a href="/terms" className="underline-offset-2 hover:underline">
+                </Link>
+                <Link href="/terms" className="underline-offset-2 hover:underline">
                   Terms
-                </a>
+                </Link>
               </footer>
             </div>
             <Fab />

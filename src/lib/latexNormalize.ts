@@ -605,7 +605,7 @@ export function normalizeLatexContent(input: string | null | undefined): string 
 /** Wrap a short choice in $...$ when it is clearly math. */
 export function normalizeChoice(choice: string | null | undefined): string {
   if (!choice) return "";
-  let c = fixMathrmSpacing(
+  const c = fixMathrmSpacing(
     fixChoiceWrappers(fixCurrencyDollars(String(choice).trim()))
   );
   if (!c) return c;

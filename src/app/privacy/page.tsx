@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalSection, LegalShell } from "@/components/legal/LegalDoc";
 import { PRIVACY_CONTACT_EMAIL, PRIVACY_CONTACT_MAILTO } from "@/lib/legal";
 
@@ -27,7 +28,7 @@ export default function PrivacyPage() {
         <p>
           This page is about <strong>data and privacy</strong>. Rules for using the product
           (acceptable use, eligibility, disclaimers) are in the{" "}
-          <a href="/terms">Terms of Service</a>.
+          <Link href="/terms">Terms of Service</Link>.
         </p>
       </LegalSection>
 

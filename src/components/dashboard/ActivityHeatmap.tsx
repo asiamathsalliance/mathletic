@@ -282,13 +282,20 @@ export function ActivityHeatmap({ data, title }: ActivityHeatmapProps) {
 
   const hideTooltip = useCallback(() => setTooltip(null), []);
 
-  let cellOffset = 0;
-  const monthMeta = months.map((month) => {
-    const cellCount = month.weeks.reduce((n, w) => n + w.length, 0);
-    const meta = { cellDelayStart: cellOffset, labelDelayMs: cellOffset * 12 + 200 };
-    cellOffset += cellCount;
-    return meta;
-  });
+  const monthMeta = months.reduce<
+    { metas: { cellDelayStart: number; labelDelayMs: number }[]; offset: number }
+  >(
+    (acc, month) => {
+      const cellCount = month.weeks.reduce((n, w) => n + w.length, 0);
+      acc.metas.push({
+        cellDelayStart: acc.offset,
+        labelDelayMs: acc.offset * 12 + 200,
+      });
+      acc.offset += cellCount;
+      return acc;
+    },
+    { metas: [], offset: 0 }
+  ).metas;
 
   return (
     <div

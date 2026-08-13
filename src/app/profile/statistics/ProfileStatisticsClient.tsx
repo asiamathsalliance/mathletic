@@ -28,8 +28,8 @@ export default function ProfileStatisticsClient() {
     return Object.entries(buckets).map(([date, count]) => ({ date, count }));
   }, [attempts]);
 
-  const stats = useProfileStatsFromAttempts(solvedIds.size, activity);
-  stats.solved = solvedIds.size;
+  const baseStats = useProfileStatsFromAttempts(solvedIds.size, activity);
+  const stats = { ...baseStats, solved: solvedIds.size };
 
   if (loading) {
     return <ProfilePageSkeleton label="Loading statistics…" />;

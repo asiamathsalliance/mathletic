@@ -39,7 +39,7 @@ export function MultiplicationPlay({
   const [streak, setStreak] = useState(0);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [animTick, setAnimTick] = useState(0);
-  const shownAt = useRef(Date.now());
+  const shownAt = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const streakRef = useRef(0);
 
@@ -48,6 +48,7 @@ export function MultiplicationPlay({
   }, [streak]);
 
   useEffect(() => {
+    shownAt.current = Date.now();
     inputRef.current?.focus();
   }, [problem]);
 
@@ -56,7 +57,8 @@ export function MultiplicationPlay({
       if (submitting || frozen || feedback) return;
       setSubmitting(true);
 
-      const timeTakenSeconds = (Date.now() - shownAt.current) / 1000;
+      const started = shownAt.current || Date.now();
+      const timeTakenSeconds = (Date.now() - started) / 1000;
       const streakBefore = streakRef.current;
       const locallyCorrect = problem.operandA * problem.operandB === value;
       const points = multiplicationPoints(locallyCorrect, streakBefore);

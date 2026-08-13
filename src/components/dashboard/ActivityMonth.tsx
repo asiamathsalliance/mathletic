@@ -78,8 +78,6 @@ export function ActivityMonth({
   onCellEnter,
   onCellLeave,
 }: ActivityMonthProps) {
-  let cellIndex = 0;
-
   return (
     <div
       className="flex shrink-0 snap-center flex-col items-center"
@@ -97,8 +95,9 @@ export function ActivityMonth({
             style={{ gap: "var(--heatmap-gap, 5px)" }}
           >
             {week.map((day, di) => {
-              const delay = cellDelayStart + cellIndex * 12;
-              cellIndex += 1;
+              const flatIndex =
+                month.weeks.slice(0, wi).reduce((n, w) => n + w.length, 0) + di;
+              const delay = cellDelayStart + flatIndex * 12;
               const cellSize = "var(--heatmap-cell, 22px)";
               if (!day) {
                 return (

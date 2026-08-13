@@ -38,11 +38,18 @@ export function ProblemPlay({
     correctIndex: number;
   } | null>(null);
   const [busy, setBusy] = useState(false);
-  const shownAt = useRef(Date.now());
+  const shownAt = useRef(0);
   const seenIds = useRef<string[]>([initialQuestion.id, ...initialPrefetch.map((q) => q.id)]);
   const answerKeyRef = useRef<Record<string, number>>({ ...initialAnswerKey });
   const queueRef = useRef(queue);
-  queueRef.current = queue;
+
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, [question.id]);
 
   const mergeRefill = useCallback((data: Record<string, unknown>) => {
     const refill = data.question as SprintQuestion | null | undefined;
@@ -66,7 +73,8 @@ export function ProblemPlay({
       setBusy(true);
       setSelected(index);
 
-      const timeTakenSeconds = (Date.now() - shownAt.current) / 1000;
+      const started = shownAt.current || Date.now();
+      const timeTakenSeconds = (Date.now() - started) / 1000;
       const correct = index === correctIndex;
       const points = problemPoolPoints(correct, timeTakenSeconds);
       const feedbackStartedAt = Date.now();

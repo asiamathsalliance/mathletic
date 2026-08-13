@@ -70,7 +70,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
-    const useLocal = () => {
+    // Named without a `use` prefix — eslint treats `use*` as a Hook.
+    const applyLocalProgress = () => {
       if (cancelled) return;
       const map = getSolvedMap();
       setSignedIn(false);
@@ -80,7 +81,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     };
 
     if (!isSupabaseConfigured()) {
-      useLocal();
+      applyLocalProgress();
       return;
     }
 
@@ -89,7 +90,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       .then((data: { signedIn?: boolean; attempts?: AttemptRecord[] }) => {
         if (cancelled) return;
         if (!data.signedIn) {
-          useLocal();
+          applyLocalProgress();
           return;
         }
         const dbAttempts = data.attempts ?? [];
@@ -100,7 +101,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         );
         setLoaded(true);
       })
-      .catch(useLocal);
+      .catch(applyLocalProgress);
 
     return () => {
       cancelled = true;
