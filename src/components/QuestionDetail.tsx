@@ -180,22 +180,32 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                       });
                     }}
                     className={cn(
-                      "flex cursor-pointer items-center gap-3 w-full rounded-md border px-4 py-3 text-left transition-colors",
+                      "flex cursor-pointer items-center gap-3 w-full rounded-lg border-2 px-4 py-3 text-left transition-colors min-h-[3rem]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       "disabled:cursor-default",
-                      showCorrect && "border-l-4 border-l-[#2F7D4F] bg-[#2F7D4F]/10 border-border",
-                      showWrong && "border-l-4 border-l-[#C94A3D] bg-[#C94A3D]/10 border-border",
-                      !showCorrect && !showWrong && "border-border hover:bg-muted/50"
+                      showCorrect && "border-green-500 bg-green-50 dark:bg-green-950/30",
+                      showWrong && "border-red-500 bg-red-50 dark:bg-red-950/30",
+                      !showCorrect &&
+                        !showWrong &&
+                        "border-border bg-card hover:bg-muted/50"
                     )}
                   >
-                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
-                      {String.fromCharCode(65 + index)}
+                    <span className="font-medium text-muted-foreground shrink-0">
+                      {String.fromCharCode(65 + index)}.
                     </span>
                     <span className="flex-1 min-w-0 text-sm">
                       <LatexText>{choice}</LatexText>
                     </span>
-                    {showCorrect && <Check className="size-4 text-[#24603D] shrink-0" />}
-                    {showWrong && !showCorrect && <X className="size-4 text-[#A03328] shrink-0" />}
+                    {showCorrect && (
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                        <Check className="h-4 w-4" />
+                      </span>
+                    )}
+                    {showWrong && !showCorrect && (
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
+                        <X className="h-4 w-4" />
+                      </span>
+                    )}
                   </button>
                 );
               })}

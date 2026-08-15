@@ -46,7 +46,7 @@ export function questionToSummary(q: Question): QuestionSummary {
     year: q.year,
     examSource: q.examSource,
     preview: truncateLatex(q.questionText, 90),
-    isMcq: Boolean(q.choices && q.choices.length >= 4 && typeof q.correctIndex === "number"),
+    isMcq: Boolean(q.choices && q.choices.length >= 4),
     amcYear: q.amcYear,
     amcVariant: q.amcVariant,
     problemNumber: q.problemNumber,

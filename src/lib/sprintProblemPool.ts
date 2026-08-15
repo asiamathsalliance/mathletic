@@ -2,7 +2,8 @@ import { unstable_cache } from "next/cache";
 import type { Question } from "@/types/question";
 import { isMcqQuestion } from "@/lib/questionUtils";
 import type { SprintQuestion } from "@/lib/sprint";
-import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { isSupabaseConfigured } from "@/lib/supabase/server";
 import questionsHsc from "@/data/questions-hsc.json";
 import questionsIb from "@/data/questions-ib.json";
 import questionsAp from "@/data/questions-ap.json";
@@ -55,8 +56,11 @@ let sprintVerifiedColumnAvailable: boolean | null = null;
 async function loadEasyMcqPool(): Promise<SprintPoolItem[]> {
   if (!isSupabaseConfigured()) return fromJsonBank();
 
+  // correct_index is revoked from anon (migration 006) — use service role.
+  const supabase = createAdminClient();
+  if (!supabase) return fromJsonBank();
+
   try {
-    const supabase = createAnonClient();
     const rows: {
       id: string;
       question_text: string;
@@ -125,7 +129,7 @@ async function loadEasyMcqPool(): Promise<SprintPoolItem[]> {
 /** Easy MCQ pool for problem sprint — cached across requests. */
 export const getCachedEasySprintPool = unstable_cache(
   loadEasyMcqPool,
-  ["easy-sprint-pool-v3-verified"],
+  ["easy-sprint-pool-v4-admin"],
   { revalidate: 300 }
 );
 

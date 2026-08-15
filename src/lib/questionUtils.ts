@@ -7,7 +7,9 @@ import { getTopicNamesForCanonical } from "@/lib/curriculumStreams";
 import { interpretSearchQuery } from "@/lib/searchInterpret";
 
 export function isMcqQuestion(q: Question): boolean {
-  return Boolean(q.choices && q.choices.length >= 4 && typeof q.correctIndex === "number");
+  // Choices alone define MCQ UI. correctIndex may be omitted from public DB
+  // reads (migration 006) and attached server-side for grading.
+  return Boolean(q.choices && q.choices.length >= 4);
 }
 
 export function isLongAnswerQuestion(q: Question): boolean {

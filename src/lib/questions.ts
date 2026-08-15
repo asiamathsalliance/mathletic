@@ -19,6 +19,7 @@ import questionsAp from "@/data/questions-ap.json";
 import questionsAlevel from "@/data/questions-alevel.json";
 import questionsAmc from "@/data/questions-amc.json";
 import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   filterQuestionList,
   filterSummaryList,
@@ -76,11 +77,79 @@ interface QuestionRow {
   question_text: string;
   image_url: string | null;
   choices: string[] | null;
-  correct_index: number | null;
-  solution: string | null;
-  solution_image_url: string | null;
+  /** Secret — only present when fetched with service role. */
+  correct_index?: number | null;
+  solution?: string | null;
+  solution_image_url?: string | null;
   tags: string[] | null;
   verified?: boolean | null;
+  is_mcq?: boolean | null;
+}
+
+/**
+ * Columns granted to anon/authenticated after migration 006.
+ * Never use select("*") with the anon client — Postgres denies it when any
+ * column (e.g. solution / correct_index) is revoked.
+ */
+const PUBLIC_QUESTION_SELECT = [
+  "id",
+  "competition",
+  "stream",
+  "topic",
+  "subtopic",
+  "year",
+  "exam_source",
+  "difficulty",
+  "amc_year",
+  "amc_variant",
+  "problem_number",
+  "difficulty_bucket",
+  "question_text",
+  "image_url",
+  "choices",
+  "tags",
+  "verified",
+  "is_mcq",
+].join(", ");
+
+/**
+ * Public columns + answer key + solution. Service role only — anon cannot
+ * read correct_index / solution (migration 006). Used for practice pages so
+ * MCQ grading and "Show solution" still work after unlock.
+ */
+const PRACTICE_QUESTION_SELECT = `${PUBLIC_QUESTION_SELECT}, correct_index, solution, solution_image_url`;
+
+const jsonById = new Map(jsonQuestions.map((q) => [q.id, q]));
+
+/**
+ * Attach MCQ key + solution for practice UI. Prefer DB fields; fall back to
+ * bundled JSON when the row was fetched without secrets (or DB row is thin).
+ */
+function withPracticeAnswerKey(q: Question): Question {
+  const fromJson = jsonById.get(q.id);
+  let next = q;
+
+  if (
+    q.choices &&
+    q.choices.length >= 4 &&
+    typeof q.correctIndex !== "number" &&
+    fromJson &&
+    typeof fromJson.correctIndex === "number"
+  ) {
+    next = { ...next, correctIndex: fromJson.correctIndex };
+  }
+
+  const hasSolution = Boolean(next.solution?.trim() || next.solutionImage);
+  const solutionPlaceholder = /\\boxed\{\s*\?/.test(next.solution ?? "");
+  if ((!hasSolution || solutionPlaceholder) && fromJson) {
+    next = {
+      ...next,
+      solution: fromJson.solution ?? "",
+      solutionImage: fromJson.solutionImage ?? next.solutionImage,
+    };
+  }
+
+  return next;
 }
 
 interface SummaryRow {
@@ -210,7 +279,7 @@ const getCachedSummaries = unstable_cache(
     const fromDb = await fetchSummariesFromDb();
     return fromDb ?? jsonSummaries;
   },
-  ["question-summaries-v8"],
+  ["question-summaries-v10"],
   { revalidate: BANK_REVALIDATE_SECONDS }
 );
 
@@ -220,13 +289,20 @@ export const getQuestionSummaries = cache(async (): Promise<QuestionSummary[]> =
 });
 
 async function loadAllQuestionsFromDb(): Promise<Question[]> {
-  const supabase = createAnonClient();
+  // Need correct_index for MCQ practice UI; anon cannot read it (migration 006).
+  const admin = createAdminClient();
+  const supabase = admin ?? createAnonClient();
+  const select = admin ? PRACTICE_QUESTION_SELECT : PUBLIC_QUESTION_SELECT;
   const rows: QuestionRow[] = [];
   const PAGE = 1000;
   let useVerified = verifiedColumnAvailable !== false;
 
   for (let from = 0; ; from += PAGE) {
-    let query = supabase.from("questions").select("*").order("id").range(from, from + PAGE - 1);
+    let query = supabase
+      .from("questions")
+      .select(select)
+      .order("id")
+      .range(from, from + PAGE - 1);
     if (useVerified) query = query.eq("verified", true);
 
     const { data, error } = await query;
@@ -243,10 +319,12 @@ async function loadAllQuestionsFromDb(): Promise<Question[]> {
       throw error;
     }
     if (useVerified) verifiedColumnAvailable = true;
-    rows.push(...((data ?? []) as QuestionRow[]));
+    rows.push(...((data ?? []) as unknown as QuestionRow[]));
     if (!data || data.length < PAGE) break;
   }
-  return rows.length > 0 ? rows.map(rowToQuestion) : jsonQuestions;
+  return rows.length > 0
+    ? rows.map((row) => withPracticeAnswerKey(rowToQuestion(row)))
+    : jsonQuestions;
 }
 
 const getCachedAllQuestions = unstable_cache(
@@ -258,7 +336,7 @@ const getCachedAllQuestions = unstable_cache(
       return jsonQuestions;
     }
   },
-  ["all-questions-v2"],
+  ["all-questions-v7"],
   { revalidate: BANK_REVALIDATE_SECONDS }
 );
 
@@ -269,11 +347,13 @@ export const getAllQuestions = cache(async (): Promise<Question[]> => {
 });
 
 async function fetchQuestionByIdFromDb(id: string): Promise<Question | undefined> {
-  const supabase = createAnonClient();
+  const admin = createAdminClient();
+  const supabase = admin ?? createAnonClient();
+  const select = admin ? PRACTICE_QUESTION_SELECT : PUBLIC_QUESTION_SELECT;
   let useVerified = verifiedColumnAvailable !== false;
 
   for (let attempt = 0; attempt < 2; attempt++) {
-    let query = supabase.from("questions").select("*").eq("id", id);
+    let query = supabase.from("questions").select(select).eq("id", id);
     if (useVerified) query = query.eq("verified", true);
     const { data, error } = await query.maybeSingle();
     if (error) {
@@ -288,7 +368,9 @@ async function fetchQuestionByIdFromDb(id: string): Promise<Question | undefined
       throw error;
     }
     if (useVerified) verifiedColumnAvailable = true;
-    if (data) return rowToQuestion(data as QuestionRow);
+    if (data) {
+      return withPracticeAnswerKey(rowToQuestion(data as unknown as QuestionRow));
+    }
     return undefined;
   }
   return undefined;
@@ -301,7 +383,7 @@ export const getQuestionById = cache(async (id: string): Promise<Question | unde
   try {
     const cached = await unstable_cache(
       () => fetchQuestionByIdFromDb(id),
-      ["question-by-id-v2", id],
+      ["question-by-id-v7", id],
       { revalidate: BANK_REVALIDATE_SECONDS, tags: [`question:${id}`] }
     )();
     return cached ?? jsonQuestions.find((q) => q.id === id);
@@ -327,7 +409,7 @@ export interface TopicQuestionFilter {
 export const getQuestionsByTopic = cache(
   async (filter: TopicQuestionFilter): Promise<Question[]> => {
     const key = [
-      "topic-questions-v1",
+      "topic-questions-v6",
       filter.topic,
       filter.competition ?? "",
       filter.curriculum ?? "",
@@ -349,7 +431,9 @@ export const getQuestionsByTopic = cache(
       }
 
       try {
-        const supabase = createAnonClient();
+        const admin = createAdminClient();
+        const supabase = admin ?? createAnonClient();
+        const select = admin ? PRACTICE_QUESTION_SELECT : PUBLIC_QUESTION_SELECT;
         let useVerified = verifiedColumnAvailable !== false;
         const rows: QuestionRow[] = [];
         const PAGE = 1000;
@@ -357,7 +441,7 @@ export const getQuestionsByTopic = cache(
         for (let from = 0; ; from += PAGE) {
           let query = supabase
             .from("questions")
-            .select("*")
+            .select(select)
             .eq("topic", filter.topic)
             .order("id")
             .range(from, from + PAGE - 1);
@@ -376,11 +460,11 @@ export const getQuestionsByTopic = cache(
             throw error;
           }
           if (useVerified) verifiedColumnAvailable = true;
-          rows.push(...((data ?? []) as QuestionRow[]));
+          rows.push(...((data ?? []) as unknown as QuestionRow[]));
           if (!data || data.length < PAGE) break;
         }
 
-        let result = rows.map(rowToQuestion);
+        let result = rows.map((row) => withPracticeAnswerKey(rowToQuestion(row)));
         if (filter.curriculum) {
           result = result.filter((q) => q.curriculum === filter.curriculum);
         }

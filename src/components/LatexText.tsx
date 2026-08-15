@@ -36,7 +36,7 @@ function renderLatex(latex: string, displayMode: boolean): string | null {
         "\\dfrac": "\\frac",
         "\\tfrac": "\\frac",
         "\\textdollar": "\\$",
-        "\\cent": "\\text{¢}",
+        "\\cent": "\\text{c}",
       },
     });
   } catch {
@@ -134,9 +134,19 @@ export function LatexText({
       }
 
       // Inline: $...$ or \(...\)
+      // Do not let `$…$` swallow display openers (`\[` / `\begin{align}`); treat as text
+      // and let the next scan pick up the display block.
       const inlineDollar = remaining.match(/^\$((?:\\.|[^$\\])*?)\$/);
       const inlineParen = remaining.match(/^\\\(\s*([\s\S]*?)\s*\\\)/);
-      const inlineMatch = inlineDollar ?? inlineParen;
+      let inlineMatch = inlineDollar ?? inlineParen;
+      if (
+        inlineMatch &&
+        /\\\[|\\begin\{(?:align|equation|gather|multline|eqnarray|alignat)/.test(
+          inlineMatch[1] ?? ""
+        )
+      ) {
+        inlineMatch = null;
+      }
       const inlineContent = inlineMatch ? inlineMatch[1] : null;
 
       if (inlineContent !== null && inlineMatch) {

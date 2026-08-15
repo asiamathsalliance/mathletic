@@ -9,6 +9,8 @@
     "lint": "eslint",
     "check:solutions": "node scripts/check-solutions-katex.mjs",
     "check:latex": "node scripts/check-latex-forced.mjs",
+    "check:latex:normalized": "node scripts/check-latex-normalized.mjs",
+    "check:latex:first200": "FIRST_N=200 node scripts/check-latex-normalized.mjs",
     "import:questions": "node scripts/import-questions.mjs"
   },
   "dependencies": {

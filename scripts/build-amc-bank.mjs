@@ -149,9 +149,13 @@ function bucketFor(n) {
 /**
  * Classify into browse topics used by the app:
  * Algebra | Geometry | Number Theory | Counting & Probability
+ *
+ * Prefer stem over solution — solutions often borrow other-topic language.
+ * Keep in sync with scripts/reclassify-amc-topics.mjs.
  */
 function classifyTopic(stem, solution = "") {
-  const text = `${stem}\n${solution}`.toLowerCase();
+  const stemL = String(stem ?? "").toLowerCase();
+  const solL = String(solution ?? "").toLowerCase();
 
   const scores = {
     Geometry: 0,
@@ -160,48 +164,186 @@ function classifyTopic(stem, solution = "") {
     Algebra: 0,
   };
 
-  const bump = (topic, n = 1) => {
-    scores[topic] += n;
+  const bump = (topic, n, where = "stem") => {
+    scores[topic] += where === "stem" ? n : Math.max(1, Math.round(n * 0.35));
   };
 
-  // Geometry
-  if (
-    /\b(triangle|circle|radius|diameter|perimeter|polygon|quadrilateral|rectangle|square|rhombus|parallelogram|trapezoid|hexagon|pentagon|octagon|angle|degree|area of|volume|surface area|similar triangles|congruent|hypotenuse|leg|chord|arc|sector|inscribed|circumscribed|coordinate geometry|distance formula|midpoint|slope of|perpendicular|parallel lines|3d|cube|sphere|cylinder|cone|pyramid|asy\b)/i.test(
-      text
+  const scan = (text, where) => {
+    if (
+      /\b(triangle|quadrilateral|parallelogram|rhombus|trapezoid|trapezium|hexagon|pentagon|octagon|dodecagon|polygon|tetrahedron|polyhedron|dodecahedron|cube|cuboid|sphere|cylinder|cone|pyramid|prism|rectangular box|right rectangular)\b/.test(
+        text
+      )
     )
-  )
-    bump("Geometry", 3);
-  if (/\\triangle|\\angle|\\odot|\\perp|\\parallel/.test(text)) bump("Geometry", 2);
-
-  // Counting & Probability
-  if (
-    /\b(probability|random|expected value|combinat|permutation|how many ways|how many different|arrangements|choose|factorial|cards?|dice|coin|spinner|sequence of|ordered pairs|unordered|subset|inclusion.exclusion|binomial coefficient)/i.test(
-      text
+      bump("Geometry", 5, where);
+    if (
+      /\b(circle|radius|diameter|circumference|chord|arc|sector|inscribed|circumscribed|concentric|tangent to)\b/.test(
+        text
+      )
     )
-  )
-    bump("Counting & Probability", 3);
-  if (/\\binom|\\dfrac\{1\}\{[0-9]+\}|n!|P\(|C\(/.test(text)) bump("Counting & Probability", 2);
-
-  // Number Theory
-  if (
-    /\b(prime|composite|divisible|divisor|divides|gcd|lcm|modulo|congruence|remainder when|integer solutions|digits? of|units digit|base[- ]10|base[- ]2|perfect square|perfect cube|odd integer|even integer|relatively prime|coprime|factorial ends|number of positive divisors)/i.test(
-      text
+      bump("Geometry", 4, where);
+    if (
+      /\b(hypotenuse|isosceles|equilateral|scalene|right[- ]angled|right triangle|similar triangles|congruent triangles)\b/.test(
+        text
+      )
     )
-  )
-    bump("Number Theory", 3);
-  if (/\\bmod\b|\\equiv|\\gcd|\\operatorname\{gcd\}/.test(text)) bump("Number Theory", 2);
-
-  // Algebra (default-ish)
-  if (
-    /\b(equation|solve for|function|polynomial|quadratic|linear|system of|inequalit|absolute value|exponent|logarithm|sequence|arithmetic sequence|geometric sequence|ratio|proportion|percent|mean|median|average|expression|simplify|factor|expand|complex number|i\^|matrix|determinant)/i.test(
-      text
+      bump("Geometry", 4, where);
+    if (
+      /\b(perimeter of|area of the|surface area|volume of|altitude to|angle bisector|perpendicular bisector|midpoint of (?:the )?(?:side|segment)|coordinate plane.*(?:triangle|circle|square)|lattice (?:point|polygon))\b/.test(
+        text
+      )
     )
-  )
-    bump("Algebra", 2);
-  if (/f\(|\\frac|\\sqrt|x\^|y\^/.test(text)) bump("Algebra", 1);
+      bump("Geometry", 3, where);
+    if (
+      /\b(line segment|rotated|rotation|reflection|translation|swept out|inscribed in|circumscribed about|semicircle|disk of|square of side|side length|equilateral triangle|isosceles triangle)\b/.test(
+        text
+      )
+    )
+      bump("Geometry", 4, where);
+    if (
+      /\b(?:disk|circle|sphere|coin)s?\b[^.]{0,40}\brolls?\b|\brolls?\s+(?:around|inside|outside|along|on)\b/.test(
+        text
+      )
+    )
+      bump("Geometry", 4, where);
+    if (/\\triangle|\\angle|\\odot|\\perp|\\parallel|\[asy\]/.test(text))
+      bump("Geometry", 3, where);
+    if (
+      /\b(rectangle|square region|unit square|square \[|grid of squares|regular polygon|regular (?:triangle|hexagon|octagon|pentagon))\b/.test(
+        text
+      )
+    )
+      bump("Geometry", 2, where);
+    if (/\b(walls?|ceiling|floor of a room|fly is in the air)\b/.test(text))
+      bump("Geometry", 4, where);
 
-  const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    if (
+      /\b(prime(?:s| number)?|composite|divisible by|positive divisors?|number of divisors|divisor(?:s)? of|divides|gcd|lcm|greatest common|least common multiple|relatively prime|coprime|pairwise relatively)\b/.test(
+        text
+      )
+    )
+      bump("Number Theory", 5, where);
+    if (
+      /\b(modulo|congruent modulo|remainder when|leaves a remainder|units digit|tens digit|digits? of|digit sum|base[- ]\d+|palindrome|perfect square|perfect cube|squarefree|odd positive integer|even positive integer)\b/.test(
+        text
+      )
+    )
+      bump("Number Theory", 4, where);
+    if (/\\bmod\b|\\equiv|\\gcd|\\operatorname\{gcd\}|\\mathrm\{gcd\}/.test(text))
+      bump("Number Theory", 3, where);
+    if (
+      /\b(integer(?:s)? (?:n|m|k|x|y)|positive integers?|how many positive integers|largest integer|smallest positive integer)\b/.test(
+        text
+      ) &&
+      /\b(digit|divis|prime|remainder|mod|factor)\b/.test(text)
+    )
+      bump("Number Theory", 2, where);
+
+    if (
+      /\b(probability|randomly (?:chosen|selected|picked)|chosen at random|expected value|fair (?:coin|die|dice)|unfair (?:coin|die)|spinner)\b/.test(
+        text
+      )
+    )
+      bump("Counting & Probability", 6, where);
+    if (
+      /\b(how many ways|how many different|number of ways|arrangements?|permutations?|combinations?|combinat|ordered arrangements?|indistinguishable|distinguishable)\b/.test(
+        text
+      )
+    )
+      bump("Counting & Probability", 5, where);
+    if (
+      /\b(cards? from a|deck of|dice|coin flips?|drawn from|seated around|circular table|committee|teams? of)\b/.test(
+        text
+      )
+    )
+      bump("Counting & Probability", 3, where);
+    if (/\\binom/.test(text)) bump("Counting & Probability", 4, where);
+    if (
+      /\bhow many (?:ordered )?(?:pairs|triples|integers|positive integers)\b/.test(text) &&
+      !/\b(equation|satisfy|solution|polynomial|divisible|prime|remainder|perfect square|consecutive)\b/.test(
+        text
+      )
+    )
+      bump("Counting & Probability", 3, where);
+
+    if (
+      /\b(polynomial|quadratic|cubic|quartic|linear equation|system of equations|solve for|absolute value|inequalit|logarithm|logarithmic|exponential function|complex number|imaginary|determinant|matrix)\b/.test(
+        text
+      )
+    )
+      bump("Algebra", 5, where);
+    if (
+      /\b(arithmetic sequence|geometric sequence|arithmetic progression|geometric progression|common ratio|common difference|infinite series|partial sum)\b/.test(
+        text
+      )
+    )
+      bump("Algebra", 5, where);
+    if (
+      /\b(function f|f\s*\(|domain of|range of|composition|inverse function|proportional|percent(?:age)?|mean|median|average of)\b/.test(
+        text
+      )
+    )
+      bump("Algebra", 3, where);
+    if (
+      /\b(simplify|expand|factor(?:ed|ing)?|expression|equation|roots? of the|real (?:root|number|solution)s?)\b/.test(
+        text
+      )
+    )
+      bump("Algebra", 2, where);
+    if (/\\log\b|\\ln\b|\\sin\b|\\cos\b|\\tan\b|x\^[2-9]|\\frac\{[^}]*x/.test(text))
+      bump("Algebra", 2, where);
+  };
+
+  scan(stemL, "stem");
+  scan(solL, "sol");
+
+  if (/\bperfect square\b/.test(stemL)) {
+    scores.Geometry = Math.max(0, scores.Geometry - 3);
+    scores["Number Theory"] += 2;
+  }
+  if (/\bdegree of (?:the )?(?:polynomial|equation)\b/.test(stemL)) {
+    scores.Geometry = Math.max(0, scores.Geometry - 4);
+  }
+  if (/\b(geometric sequence|geometric progression|common ratio)\b/.test(stemL)) {
+    scores.Geometry = Math.max(0, scores.Geometry - 5);
+  }
+  if (/\b(probability|randomly|fair (?:coin|die)|chosen at random)\b/.test(stemL)) {
+    if (scores["Counting & Probability"] >= 5) {
+      scores.Geometry = Math.min(scores.Geometry, 2);
+    }
+  }
+  if (
+    /\b(?:disk|circle|sphere)s?\b[^.]{0,40}\brolls?\b|\brolls?\s+(?:around|inside|outside)\b|\bswept out\b|\bline segment.*rotat|\brotat(?:ed|ion).*line segment\b/.test(
+      stemL
+    )
+  ) {
+    scores.Geometry += 3;
+    scores["Number Theory"] = Math.min(scores["Number Theory"], Math.max(0, scores.Geometry - 1));
+  }
+  if (
+    /\b(each (?:of the )?vertices|associated with one of the (?:digits|colors)|each digit used once|each region is to be (?:painted|colored)|colored (?:red|blue|green|white))\b/.test(
+      stemL
+    ) &&
+    /\b(octagon|pentagon|hexagon|triangle|square|grid|polygon|center)\b/.test(stemL)
+  ) {
+    scores["Counting & Probability"] += 4;
+  }
+  if (/\bcentral angles\b/.test(stemL) && /\barithmetic sequence\b/.test(stemL)) {
+    scores.Algebra += 5;
+    scores.Geometry = Math.min(scores.Geometry, 1);
+    scores["Number Theory"] = Math.min(scores["Number Theory"], 1);
+  }
+  if (/\b(consecutive (?:positive )?squares|perfect squares? less than|units digit)\b/.test(stemL)) {
+    scores["Counting & Probability"] = Math.min(scores["Counting & Probability"], 1);
+    scores["Number Theory"] += 2;
+  }
+
+  const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   if (ranked[0][1] === 0) return "Algebra";
+  if (ranked[0][1] === ranked[1][1]) {
+    const tie = ranked.filter(([, s]) => s === ranked[0][1]).map(([t]) => t);
+    const pref = ["Counting & Probability", "Number Theory", "Geometry", "Algebra"];
+    for (const p of pref) if (tie.includes(p)) return p;
+  }
   return ranked[0][0];
 }
 
