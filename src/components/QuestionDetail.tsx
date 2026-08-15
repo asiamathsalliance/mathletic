@@ -13,6 +13,7 @@ import { checkAnswerWithLocalModel, type AnswerVerdict } from "@/lib/checkAnswer
 import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
 import { isAiUnavailableError } from "@/lib/aiErrors";
+import { AsyDiagram } from "@/components/AsyDiagram";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
 import { CurriculumTag } from "@/components/ui/CurriculumTag";
 import { cn } from "@/lib/utils";
@@ -138,6 +139,10 @@ export function QuestionDetail({ question, backHref = "/" }: QuestionDetailProps
                 unoptimized={imagePath.startsWith("http")}
               />
             </div>
+          )}
+
+          {!imagePath && question.diagramAsy && (
+            <AsyDiagram source={question.diagramAsy} />
           )}
 
           <div className="text-base leading-relaxed">

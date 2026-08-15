@@ -18,6 +18,7 @@ import questionsIb from "@/data/questions-ib.json";
 import questionsAp from "@/data/questions-ap.json";
 import questionsAlevel from "@/data/questions-alevel.json";
 import questionsAmc from "@/data/questions-amc.json";
+import amcDiagrams from "@/data/amc-diagrams.json";
 import { createAnonClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
@@ -57,7 +58,58 @@ const jsonQuestions: Question[] = [
   ...q,
   competition: q.competition ?? LABEL_FROM_CURRICULUM[q.curriculum],
   verified: true,
+  diagramAsy:
+    q.diagramAsy ??
+    (amcDiagrams as Record<string, string>)[q.id],
 }));
+
+const jsonById = new Map(jsonQuestions.map((q) => [q.id, q]));
+const diagramById = amcDiagrams as Record<string, string>;
+
+/**
+ * Attach MCQ key + solution for practice UI. Prefer DB fields; fall back to
+ * bundled JSON when the row was fetched without secrets (or DB row is thin).
+ */
+function withPracticeAnswerKey(q: Question): Question {
+  const fromJson = jsonById.get(q.id);
+  let next = q;
+
+  if (
+    q.choices &&
+    q.choices.length >= 4 &&
+    typeof q.correctIndex !== "number" &&
+    fromJson &&
+    typeof fromJson.correctIndex === "number"
+  ) {
+    next = { ...next, correctIndex: fromJson.correctIndex };
+  }
+
+  const hasSolution = Boolean(next.solution?.trim() || next.solutionImage);
+  const solutionPlaceholder = /\\boxed\{\s*\?/.test(next.solution ?? "");
+  if ((!hasSolution || solutionPlaceholder) && fromJson) {
+    next = {
+      ...next,
+      solution: fromJson.solution ?? "",
+      solutionImage: fromJson.solutionImage ?? next.solutionImage,
+    };
+  }
+
+  // Prefer cleaned JSON stem when DB still has Asymptote fences/tags.
+  if (
+    fromJson &&
+    (/```(?:asy|asymptote)/i.test(next.questionText) ||
+      /\[asy\]/i.test(next.questionText) ||
+      /\bunitsize\s*\(/.test(next.questionText))
+  ) {
+    next = { ...next, questionText: fromJson.questionText };
+  }
+
+  if (!next.diagramAsy && diagramById[next.id]) {
+    next = { ...next, diagramAsy: diagramById[next.id] };
+  }
+
+  return next;
+}
 
 const jsonSummaries: QuestionSummary[] = jsonQuestions.map(questionToSummary);
 
@@ -119,39 +171,6 @@ const PUBLIC_QUESTION_SELECT = [
  */
 const PRACTICE_QUESTION_SELECT = `${PUBLIC_QUESTION_SELECT}, correct_index, solution, solution_image_url`;
 
-const jsonById = new Map(jsonQuestions.map((q) => [q.id, q]));
-
-/**
- * Attach MCQ key + solution for practice UI. Prefer DB fields; fall back to
- * bundled JSON when the row was fetched without secrets (or DB row is thin).
- */
-function withPracticeAnswerKey(q: Question): Question {
-  const fromJson = jsonById.get(q.id);
-  let next = q;
-
-  if (
-    q.choices &&
-    q.choices.length >= 4 &&
-    typeof q.correctIndex !== "number" &&
-    fromJson &&
-    typeof fromJson.correctIndex === "number"
-  ) {
-    next = { ...next, correctIndex: fromJson.correctIndex };
-  }
-
-  const hasSolution = Boolean(next.solution?.trim() || next.solutionImage);
-  const solutionPlaceholder = /\\boxed\{\s*\?/.test(next.solution ?? "");
-  if ((!hasSolution || solutionPlaceholder) && fromJson) {
-    next = {
-      ...next,
-      solution: fromJson.solution ?? "",
-      solutionImage: fromJson.solutionImage ?? next.solutionImage,
-    };
-  }
-
-  return next;
-}
-
 interface SummaryRow {
   id: string;
   competition: Competition;
@@ -197,6 +216,7 @@ function rowToQuestion(row: QuestionRow): Question {
     problemNumber: row.problem_number ?? undefined,
     difficultyBucket: row.difficulty_bucket ?? undefined,
     questionText: row.question_text,
+    diagramAsy: diagramById[row.id],
     image: row.image_url ?? undefined,
     choices: row.choices ?? undefined,
     correctIndex: row.correct_index ?? undefined,
@@ -279,7 +299,7 @@ const getCachedSummaries = unstable_cache(
     const fromDb = await fetchSummariesFromDb();
     return fromDb ?? jsonSummaries;
   },
-  ["question-summaries-v10"],
+  ["question-summaries-v11"],
   { revalidate: BANK_REVALIDATE_SECONDS }
 );
 
@@ -336,7 +356,7 @@ const getCachedAllQuestions = unstable_cache(
       return jsonQuestions;
     }
   },
-  ["all-questions-v7"],
+  ["all-questions-v9"],
   { revalidate: BANK_REVALIDATE_SECONDS }
 );
 
@@ -383,7 +403,7 @@ export const getQuestionById = cache(async (id: string): Promise<Question | unde
   try {
     const cached = await unstable_cache(
       () => fetchQuestionByIdFromDb(id),
-      ["question-by-id-v7", id],
+      ["question-by-id-v9", id],
       { revalidate: BANK_REVALIDATE_SECONDS, tags: [`question:${id}`] }
     )();
     return cached ?? jsonQuestions.find((q) => q.id === id);
@@ -409,7 +429,7 @@ export interface TopicQuestionFilter {
 export const getQuestionsByTopic = cache(
   async (filter: TopicQuestionFilter): Promise<Question[]> => {
     const key = [
-      "topic-questions-v6",
+      "topic-questions-v9",
       filter.topic,
       filter.competition ?? "",
       filter.curriculum ?? "",

@@ -48,6 +48,11 @@ async function download(url, dest) {
 function stripAsy(text) {
   return String(text)
     .replace(/\[asy\][\s\S]*?\[\/asy\]/gi, "")
+    .replace(/```(?:asy|asymptote)[^\n]*\n[\s\S]*?```/gi, "")
+    .replace(
+      /```\s*\n(?:\s*(?:unitsize|import\s+graph|pair\s+[A-Z]\s*=)[\s\S]*?)```/gi,
+      ""
+    )
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }

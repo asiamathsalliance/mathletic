@@ -58,6 +58,11 @@ export interface Question {
   difficulty: Difficulty;
   questionText: string;
   /**
+   * Optional Asymptote source for an AoPS-style geometry diagram.
+   * Rendered client-side to SVG when the subset interpreter supports it.
+   */
+  diagramAsy?: string;
+  /**
    * Optional question image path, e.g. "/questions/q1.png".
    * In questions.json use: "image": "/questions/..." or "image": "none".
    */

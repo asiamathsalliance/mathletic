@@ -31478,7 +31478,7 @@
     "problemNumber": 5,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In the figure below, the outside square contains infinitely many squares, each of them with the same center and sides parallel to the outside square. The ratio of the side length of a square to the side length of the next inner square is $k$, where $0 < k < 1.$ The spaces between squares are alternately shaded as shown in the figure (which is not necessarily drawn to scale).\n\n```asy\nunitsize(1cm);\n\nint n = 25;\nreal s = 6;\nreal ratio = 0.767; //definitely not on purpose\nreal a = s;\n\nfor (int i = 0; i < n; ++i) {\n real b = a * ratio;\n\n // Draw current square\n draw(box((-a/2,-a/2),(a/2,a/2)));\n\n if (i % 2 == 1) {\n fill(box((-a/2,-a/2),(a/2,a/2)), gray(1));\n } else {\n fill(box((-a/2,-a/2),(a/2,a/2)), lightred);\n }\n\n a = b;\n}\n\ndraw(box((-a/2,-a/2),(a/2,a/2)));\n```\n\nThe area of the shaded portion of the figure is $64\\%$ of the area of the original square. What is $k$?",
+    "questionText": "In the figure below, the outside square contains infinitely many squares, each of them with the same center and sides parallel to the outside square. The ratio of the side length of a square to the side length of the next inner square is $k$, where $0 < k < 1.$ The spaces between squares are alternately shaded as shown in the figure (which is not necessarily drawn to scale).\n\nThe area of the shaded portion of the figure is $64\\%$ of the area of the original square. What is $k$?",
     "choices": [
       "$\\frac{3}{5}$",
       "$\\frac{16}{25}$",
@@ -31633,7 +31633,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In the figure shown below, major arc $\\widehat{AD}$ and minor arc $\\widehat{BC}$ have the same center, $O$. Also, $A$ lies between $O$ and $B$, and $D$ lies between $O$ and $C$. Major arc $\\widehat{AD}$, minor arc $\\widehat{BC}$, and each of the two segments $\\overline{AB}$ and $\\overline{CD}$ have length $2\\pi$. What is the distance from $O$ to $A$?\n\n```asy\nusepackage(\"mathptmx\"); size(6cm); defaultpen(linewidth(0.7)); real r = 1 - pi + sqrt(pi^2 + 1);\npair O = (0, 0), A = r * dir(-30), B = (r + 2pi) * dir(-30), C = (r + 2pi) * dir(30), D = r * dir(30);\ndraw(arc(O, r, 30, 330)); draw(arc(O, r + 2pi, -30, 30)); draw(O--A, dashed); draw(O--D, dashed); draw(A--B); draw(C--D); dot(\"$O$\", O, dir(135)); dot(\"$A$\", A, dir(270)); dot(\"$B$\", B, dir(0)); dot(\"$C$\", C, dir(0)); dot(\"$D$\", D, 1.5 * dir(70));\n```",
+    "questionText": "In the figure shown below, major arc $\\widehat{AD}$ and minor arc $\\widehat{BC}$ have the same center, $O$. Also, $A$ lies between $O$ and $B$, and $D$ lies between $O$ and $C$. Major arc $\\widehat{AD}$, minor arc $\\widehat{BC}$, and each of the two segments $\\overline{AB}$ and $\\overline{CD}$ have length $2\\pi$. What is the distance from $O$ to $A$?",
     "choices": [
       "$1$",
       "$1 - \\pi + \\sqrt{\\pi^{2} + 1}$",
@@ -31757,7 +31757,7 @@
     "problemNumber": 14,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Points $F$, $G$, and $H$ are collinear with $G$ between $F$ and $H$. The ellipse with foci at $G$ and $H$ is internally tangent to the ellipse with foci at $F$ and $G$, as shown below.\n\n```asy\n/* Made by Mathemagician108 */\nimport graph;\nunitsize(0.15 inch);\ndraw(ellipse((0,0), 12, 4));\ndraw(ellipse((8,0), 4, 1.45));\npair F = (-6,0); pair G = (6,0); pair H = (10,0);\ndot(F^^G^^H);\nlabel(\"$F$\", F, 1.5*S, p=fontsize(8pt));\nlabel(\"$G$\", G, 1.5*S, p=fontsize(8pt));\nlabel(\"$H$\", H, 1.5*S, p=fontsize(8pt));\n```\n\nThe two ellipses have the same eccentricity $e$, and the ratio of their areas is $2025$. (Recall that the eccentricity of an ellipse is $e = \\tfrac{c}{a}$, where $c$ is the distance from the center to a focus, and $2a$ is the length of the major axis.) What is $e$?",
+    "questionText": "Points $F$, $G$, and $H$ are collinear with $G$ between $F$ and $H$. The ellipse with foci at $G$ and $H$ is internally tangent to the ellipse with foci at $F$ and $G$, as shown below.\n\nThe two ellipses have the same eccentricity $e$, and the ratio of their areas is $2025$. (Recall that the eccentricity of an ellipse is $e = \\tfrac{c}{a}$, where $c$ is the distance from the center to a focus, and $2a$ is the length of the major axis.) What is $e$?",
     "choices": [
       "$\\frac35$",
       "$\\frac{16}{25}$",
@@ -31943,7 +31943,7 @@
     "problemNumber": 20,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The base of the pentahedron shown below is a $13 \\times 8$ rectangle, and its lateral faces are two isosceles triangles with base of length $8$ and congruent sides of length $13$, and two isosceles trapezoids with bases of length $7$ and $13$ and nonparallel sides of length $13$.\n\n```asy\n/* Refined by Mathemagician108 */\nimport graph3;\nsize(200);\nreal l = 13;\nreal w = 8;\nreal offset = (l - 7)/2; // 3\nreal midy = w/2; // 4\nreal h = 12;\ntriple O1 = (0,0,0);\ntriple O2 = (l,0,0);\ntriple O3 = (l,w,0);\ntriple O4 = (0,w,0);\ntriple T1 = (offset, midy, h);\ntriple T2 = (l - offset, midy, h);\ncurrentprojection=orthographic((-4,-6,3));\ndraw(O4--O1--O2, linewidth(1));\ndraw(O2--O3--O4, dashed + linewidth(1));\ndraw(O3--T2, dashed + linewidth(1));\ndraw(O1--T1, linewidth(1));\ndraw(O4--T1, linewidth(1));\ndraw(O2--T2, linewidth(1));\ndraw(T1--T2, linewidth(1));\nlabel(\"13\", (O1+O2)/2, 3*-Y); // Bottom length\nlabel(\"13\", (O2+T2)/2, 1.5*X);\nlabel(\"13\", (O4+T1)/2, 2*-X);\nlabel(\"8\", (O1+O4)/2, 2*-X); // Width\nlabel(\"7\", (T1+T2)/2, 1.5*Z); // Top length\n```\n\nWhat is the volume of the pentahedron?",
+    "questionText": "The base of the pentahedron shown below is a $13 \\times 8$ rectangle, and its lateral faces are two isosceles triangles with base of length $8$ and congruent sides of length $13$, and two isosceles trapezoids with bases of length $7$ and $13$ and nonparallel sides of length $13$.\n\nWhat is the volume of the pentahedron?",
     "choices": [
       "$416$",
       "$520$",
@@ -32067,7 +32067,7 @@
     "problemNumber": 24,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "A circle of radius $r$ is surrounded by $12$ circles of radius $1,$ externally tangent to the central circle and sequentially tangent to each other, as shown. Then $r$ can be written as $\\sqrt a + \\sqrt b + c,$ where $a, b, c$ are integers. What is $a+b+c?$ ```asy\ndefaultpen(fontsize(12)+linewidth(1)); size(200);\nreal r=2.925, x=360/12;\npair O=origin;\ndraw(CR(O,r),black+1.5);\nfor (int i = 0; i<12; ++i) {\n draw(CR((r+1)*dir(i*x),1));\n}\ndot(O); dot((r+1)*right);\ndraw(O--(r,0)^^(r+1,0)--(r+2,0), linewidth(0.5));\nlabel(\"$r$\",(r/2,0),up);\nlabel(\"$1$\",(r+3/2,0),up);\n```",
+    "questionText": "A circle of radius $r$ is surrounded by $12$ circles of radius $1,$ externally tangent to the central circle and sequentially tangent to each other, as shown. Then $r$ can be written as $\\sqrt a + \\sqrt b + c,$ where $a, b, c$ are integers. What is $a+b+c?$",
     "choices": [
       "$3$",
       "$5$",
@@ -32439,7 +32439,7 @@
     "problemNumber": 12,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The windshield wiper on the driver's side of a large bus is depicted below.\n\n```asy\n/* Made by MRENTHUSIASM */\nsize(200);\npair A, B, C, D;\nA = origin;\nB = (3/2,3*sqrt(3)/2);\nC = B+(0,1.75);\nD = B-(0,1.75);\ndraw(A--B,linewidth(1.1));\ndraw(C--D,red+linewidth(2.1));\ndot(A^^B,linewidth(5));\nlabel(\"$A$\",A,1.5*W);\nlabel(\"$B$\",B,1.5*E);\nlabel(\"$C$\",C,1.5*E);\nlabel(\"$D$\",D,1.5*E);\n```\n\nArm $\\overline{AB}$ pivots back and forth around point $A$, sweeping out an arc of $60^{\\circ}$, symmetric about the vertical line through $A$. The wiper blade $\\overline{CD}$ is attached to $B$ at its midpoint and stays vertical as the arm moves. The arm is $3$ feet long, and the wiper blade is $3.5$ feet tall. What is the area of the windshield cleaned by the wiper, in square feet, to the nearest hundredth? (Assume that the windshield is a flat vertical surface.)",
+    "questionText": "The windshield wiper on the driver's side of a large bus is depicted below.\n\nArm $\\overline{AB}$ pivots back and forth around point $A$, sweeping out an arc of $60^{\\circ}$, symmetric about the vertical line through $A$. The wiper blade $\\overline{CD}$ is attached to $B$ at its midpoint and stays vertical as the arm moves. The arm is $3$ feet long, and the wiper blade is $3.5$ feet tall. What is the area of the windshield cleaned by the wiper, in square feet, to the nearest hundredth? (Assume that the windshield is a flat vertical surface.)",
     "choices": [
       "$9.68$",
       "$10.14$",
@@ -32470,7 +32470,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A circle has been divided into 6 sectors of different sizes. Then 2 of the sectors are painted red, 2 painted green, and 2 painted blue so that no two neighboring sectors are painted the same color. One such coloring is shown below.\n\n```asy\n/* Made by Mathemagician108 */\nunitsize(1.7cm);\npair O = (0, 0);\nreal R = 2;\n\npair A = (R, 0);\npair B = (0.5*R, 0.866*R);\npair C = (0, R);\npair D = (-R, 0);\npair E = (-0.954*R, -0.3*R);\npair F = (-0.22*R, -0.975*R);\n\npath sector1 = O -- A .. arc(O,A,B) -- cycle;\npath sector2 = O -- B .. arc(O,B,C) -- cycle;\npath sector3 = O -- C .. arc(O,C,D) -- cycle;\npath sector4 = O -- D .. arc(O,D,E) -- cycle;\npath sector5 = O -- E .. arc(O,E,F) -- cycle;\npath sector6 = O -- F .. arc(O,F,A) -- cycle;\n\npen r = rgb(255, 120, 120);\npen g = rgb(120, 255, 120);\npen b = rgb(120, 120, 255);\nfilldraw(sector1, g);\nfilldraw(sector2, r);\nfilldraw(sector3, b);\nfilldraw(sector4, r);\nfilldraw(sector5, g);\nfilldraw(sector6, b);\n\ndraw(circle(O, R));\n\ndefaultpen(fontsize(12pt));\nlabel(\"green\", (0.57*R, 0.32*R));\nlabel(\"red\", (0.16*R, 0.63*R));\nlabel(\"blue\", (-0.45*R, 0.45*R));\nlabel(\"red\", (-0.69*R, -0.1*R));\nlabel(\"green\", (-0.45*R, -0.5*R));\nlabel(\"blue\", (0.39*R, -0.49*R));\n```\n\nHow many different colorings are possible?",
+    "questionText": "A circle has been divided into 6 sectors of different sizes. Then 2 of the sectors are painted red, 2 painted green, and 2 painted blue so that no two neighboring sectors are painted the same color. One such coloring is shown below.\n\nHow many different colorings are possible?",
     "choices": [
       "$12$",
       "$16$",
@@ -32532,7 +32532,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A container has a $1\\times 1$ square bottom, a $3 \\times {}3$ open square top, and four congruent trapezoidal sides, as shown. Starting when the container is empty, a hose that runs water at a constant rate takes $35$ minutes to fill the container up to the midline of the trapezoids.\n\n```asy\n/* Made by Mathemagician108 */\nimport graph3;\nsize(200);\nreal a = 1;\nreal d = 0.6;\nreal h = 0.9;\ntriple A1 = (a,0,0); triple B1 = (0,a,0); triple C1 = (-a,0,0); triple D1 = (0,-a,0);\ntriple A2 = (a+d,0,h); triple B2 = (0,a+d,h); triple C2 = (-(a+d),0,h); triple D2 = (0,-(a+d),h);\ntriple A3 = (a+2*d,0,2*h); triple B3 = (0,a+2*d,2*h); triple C3 = (-(a+2*d),0,2*h); triple D3 = (0,-(a+2*d),2*h);\n\npath3 bottom = A1--B1--C1--D1--cycle;\npath3 backright = A1--B1--B2--A2--cycle;\npath3 backleft = B1--C1--C2--B2--cycle;\npath3 frontleft = C1--D1--D3--C3--cycle;\npath3 frontright = D1--A1--A3--D3--cycle;\n\ndefaultpen(1);\npen blue = rgb(202, 201, 255);\npen red = rgb(255, 164, 164);\n\n// colored surfaces\ndraw(surface(bottom), emissive(gray));\ndraw(surface(backright), emissive(blue));\ndraw(surface(backleft), emissive(blue));\ndraw(surface(frontleft), emissive(red));\ndraw(surface(frontright), emissive(red));\n// black outlines\ndraw(A1--D1--C1);\ndraw(A2--D2--C2);\ndraw(A3--D3--C3, linewidth(1.4));\ndraw((0.32,0.68,0)--B1--(-0.32,0.68,0));\ndraw((1.25,0.35,h)--B2--(-1.25,0.35,h));\ndraw(A3--B3--C3);\ndraw(A1--A3);\ndraw(B1--B3);\ndraw(C1--C3);\ndraw(D1--D3, linewidth(1.4));\n\ncurrentprojection=perspective((0,-4,3));\n```\n\nHow many more minutes will it take to fill the remainder of the container?",
+    "questionText": "A container has a $1\\times 1$ square bottom, a $3 \\times {}3$ open square top, and four congruent trapezoidal sides, as shown. Starting when the container is empty, a hose that runs water at a constant rate takes $35$ minutes to fill the container up to the midline of the trapezoids.\n\nHow many more minutes will it take to fill the remainder of the container?",
     "choices": [
       "$70$",
       "$85$",
@@ -33400,7 +33400,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "On top of a rectangular card with sides of length $1$ and $2+\\sqrt{3}$, an identical card is placed so that two of their diagonals line up, as shown ($\\overline{AC}$, in this case).\n\n```asy\ndefaultpen(fontsize(12)+0.85); size(150);\nreal h=2.25;\npair C=origin,B=(0,h),A=(1,h),D=(1,0),Dp=reflect(A,C)*D,Bp=reflect(A,C)*B;\npair L=extension(A,Dp,B,C),R=extension(Bp,C,A,D);\ndraw(L--B--A--Dp--C--Bp--A);\ndraw(C--D--R);\ndraw(L--C^^R--A,dashed+0.6);\ndraw(A--C,black+0.6);\ndot(\"$C$\",C,2*dir(C-R)); dot(\"$A$\",A,1.5*dir(A-L)); dot(\"$B$\",B,dir(B-R));\n```\n\nContinue the process, adding a third card to the second, and so on, lining up successive diagonals after rotating clockwise. In total, how many cards must be used until a vertex of a new card lands exactly on the vertex labeled $B$ in the figure?",
+    "questionText": "On top of a rectangular card with sides of length $1$ and $2+\\sqrt{3}$, an identical card is placed so that two of their diagonals line up, as shown ($\\overline{AC}$, in this case).\n\nContinue the process, adding a third card to the second, and so on, lining up successive diagonals after rotating clockwise. In total, how many cards must be used until a vertex of a new card lands exactly on the vertex labeled $B$ in the figure?",
     "choices": [
       "$6$",
       "$8$",
@@ -33524,7 +33524,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "The figure below shows a dotted grid $8$ cells wide and $3$ cells tall consisting of $1''\\times1''$ squares. Carl places $1$-inch toothpicks along some of the sides of the squares to create a closed loop that does not intersect itself. The numbers in the cells indicate the number of sides of that square that are to be covered by toothpicks, and any number of toothpicks are allowed if no number is written. In how many ways can Carl place the toothpicks?\n\n```asy\nsize(6cm);\nfor (int i=0; i<9; ++i) {\n draw((i,0)--(i,3),dotted);\n}\nfor (int i=0; i<4; ++i){\n draw((0,i)--(8,i),dotted);\n}\nfor (int i=0; i<8; ++i) {\n for (int j=0; j<3; ++j) {\n if (j==1) {\n label(\"1\",(i+0.5,1.5));\n}}}\n```",
+    "questionText": "The figure below shows a dotted grid $8$ cells wide and $3$ cells tall consisting of $1''\\times1''$ squares. Carl places $1$-inch toothpicks along some of the sides of the squares to create a closed loop that does not intersect itself. The numbers in the cells indicate the number of sides of that square that are to be covered by toothpicks, and any number of toothpicks are allowed if no number is written. In how many ways can Carl place the toothpicks?",
     "choices": [
       "$130$",
       "$144$",
@@ -33834,7 +33834,7 @@
     "problemNumber": 7,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In the figure below $WXYZ$ is a rectangle with $WX=4$ and $WZ=8$. Point $M$ lies $\\overline{XY}$, point $A$ lies on $\\overline{YZ}$, and $\\angle WMA$ is a right angle. The areas of $\\triangle WXM$ and $\\triangle WAZ$ are equal. What is the area of $\\triangle WMA$?\n\n```asy\npair X = (0, 0);\npair W = (0, 4);\npair Y = (8, 0);\npair Z = (8, 4);\nlabel(\"$X$\", X, dir(180));\nlabel(\"$W$\", W, dir(180));\nlabel(\"$Y$\", Y, dir(0));\nlabel(\"$Z$\", Z, dir(0));\n\ndraw(W--X--Y--Z--cycle);\ndot(X);\ndot(Y);\ndot(W);\ndot(Z);\npair M = (2, 0);\npair A = (8, 3);\nlabel(\"$A$\", A, dir(0));\ndot(M);\ndot(A);\ndraw(W--M--A--cycle);\nmarkscalefactor = 0.05;\ndraw(rightanglemark(W, M, A));\nlabel(\"$M$\", M, dir(-90));\n```",
+    "questionText": "In the figure below $WXYZ$ is a rectangle with $WX=4$ and $WZ=8$. Point $M$ lies $\\overline{XY}$, point $A$ lies on $\\overline{YZ}$, and $\\angle WMA$ is a right angle. The areas of $\\triangle WXM$ and $\\triangle WAZ$ are equal. What is the area of $\\triangle WMA$?",
     "choices": [
       "$13$",
       "$14$",
@@ -34671,7 +34671,7 @@
     "problemNumber": 9,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A square of area $2$ is inscribed in a square of area $3$, creating four congruent triangles, as shown below. What is the ratio of the shorter leg to the longer leg in the shaded right triangle?\n\n```asy\nsize(200);\ndefaultpen(linewidth(0.6pt)+fontsize(10pt));\nreal y = sqrt(3);\npair A,B,C,D,E,F,G,H;\nA = (0,0);\nB = (0,y);\nC = (y,y);\nD = (y,0);\nE = ((y + 1)/2,y);\nF = (y, (y - 1)/2);\nG = ((y - 1)/2, 0);\nH = (0,(y + 1)/2);\nfill(H--B--E--cycle, gray);\ndraw(A--B--C--D--cycle);\ndraw(E--F--G--H--cycle);\n```",
+    "questionText": "A square of area $2$ is inscribed in a square of area $3$, creating four congruent triangles, as shown below. What is the ratio of the shorter leg to the longer leg in the shaded right triangle?",
     "choices": [
       "frac15",
       "frac14",
@@ -34950,7 +34950,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Circle $C_1$ and $C_2$ each have radius $1$, and the distance between their centers is $\\frac{1}{2}$. Circle $C_3$ is the largest circle internally tangent to both $C_1$ and $C_2$. Circle $C_4$ is internally tangent to both $C_1$ and $C_2$ and externally tangent to $C_3$. What is the radius of $C_4$?\n\n```asy\nimport olympiad;\nsize(10cm);\ndraw(circle((0,0),0.75));\ndraw(circle((-0.25,0),1));\ndraw(circle((0.25,0),1));\ndraw(circle((0,6/7),3/28));\npair A = (0,0), B = (-0.25,0), C = (0.25,0), D = (0,6/7), E = (-0.95710678118, 0.70710678118), F = (0.95710678118, -0.70710678118);\ndot(B^^C);\ndraw(B--E, dashed);\ndraw(C--F, dashed);\ndraw(B--C);\nlabel(\"$C_4$\", D);\nlabel(\"$C_1$\", (-1.375, 0));\nlabel(\"$C_2$\", (1.375,0));\nlabel(\"$\\frac{1}{2}$\", (0, -.125));\nlabel(\"$C_3$\", (-0.4, -0.4));\nlabel(\"$1$\", (-.85, 0.70));\nlabel(\"$1$\", (.85, -.7));\nimport olympiad;\nmarkscalefactor=0.005;\n```",
+    "questionText": "Circle $C_1$ and $C_2$ each have radius $1$, and the distance between their centers is $\\frac{1}{2}$. Circle $C_3$ is the largest circle internally tangent to both $C_1$ and $C_2$. Circle $C_4$ is internally tangent to both $C_1$ and $C_2$ and externally tangent to $C_3$. What is the radius of $C_4$?",
     "choices": [
       "$\\frac{1}{14}$",
       "$\\frac{1}{12}$",
@@ -36159,7 +36159,7 @@
     "problemNumber": 7,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A rectangle is partitioned into $5$ regions as shown. Each region is to be painted a solid color - red, orange, yellow, blue, or green - so that regions that touch are painted different colors, and colors can be used more than once. How many different colorings are possible?\n\n```asy\nsize(5.5cm); draw((0,0)--(0,2)--(2,2)--(2,0)--cycle); draw((2,0)--(8,0)--(8,2)--(2,2)--cycle); draw((8,0)--(12,0)--(12,2)--(8,2)--cycle); draw((0,2)--(6,2)--(6,4)--(0,4)--cycle); draw((6,2)--(12,2)--(12,4)--(6,4)--cycle);\n```",
+    "questionText": "A rectangle is partitioned into $5$ regions as shown. Each region is to be painted a solid color - red, orange, yellow, blue, or green - so that regions that touch are painted different colors, and colors can be used more than once. How many different colorings are possible?",
     "choices": [
       "$120$",
       "$270$",
@@ -36531,7 +36531,7 @@
     "problemNumber": 19,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Suppose that $13$ cards numbered $1, 2, 3, \\ldots, 13$ are arranged in a row. The task is to pick them up in numerically increasing order, working repeatedly from left to right. In the example below, cards $1, 2, 3$ are picked up on the first pass, $4$ and $5$ on the second pass, $6$ on the third pass, $7, 8, 9, 10$ on the fourth pass, and $11, 12, 13$ on the fifth pass. For how many of the $13!$ possible orderings of the cards will the $13$ cards be picked up in exactly two passes?\n\n```asy\nsize(11cm);\ndraw((0,0)--(2,0)--(2,3)--(0,3)--cycle);\nlabel(\"7\", (1,1.5));\ndraw((3,0)--(5,0)--(5,3)--(3,3)--cycle);\nlabel(\"11\", (4,1.5));\ndraw((6,0)--(8,0)--(8,3)--(6,3)--cycle);\nlabel(\"8\", (7,1.5));\ndraw((9,0)--(11,0)--(11,3)--(9,3)--cycle);\nlabel(\"6\", (10,1.5));\ndraw((12,0)--(14,0)--(14,3)--(12,3)--cycle);\nlabel(\"4\", (13,1.5));\ndraw((15,0)--(17,0)--(17,3)--(15,3)--cycle);\nlabel(\"5\", (16,1.5));\ndraw((18,0)--(20,0)--(20,3)--(18,3)--cycle);\nlabel(\"9\", (19,1.5));\ndraw((21,0)--(23,0)--(23,3)--(21,3)--cycle);\nlabel(\"12\", (22,1.5));\ndraw((24,0)--(26,0)--(26,3)--(24,3)--cycle);\nlabel(\"1\", (25,1.5));\ndraw((27,0)--(29,0)--(29,3)--(27,3)--cycle);\nlabel(\"13\", (28,1.5));\ndraw((30,0)--(32,0)--(32,3)--(30,3)--cycle);\nlabel(\"10\", (31,1.5));\ndraw((33,0)--(35,0)--(35,3)--(33,3)--cycle);\nlabel(\"2\", (34,1.5));\ndraw((36,0)--(38,0)--(38,3)--(36,3)--cycle);\nlabel(\"3\", (37,1.5));\n```",
+    "questionText": "Suppose that $13$ cards numbered $1, 2, 3, \\ldots, 13$ are arranged in a row. The task is to pick them up in numerically increasing order, working repeatedly from left to right. In the example below, cards $1, 2, 3$ are picked up on the first pass, $4$ and $5$ on the second pass, $6$ on the third pass, $7, 8, 9, 10$ on the fourth pass, and $11, 12, 13$ on the fifth pass. For how many of the $13!$ possible orderings of the cards will the $13$ cards be picked up in exactly two passes?",
     "choices": [
       "$4082$",
       "$4095$",
@@ -36779,7 +36779,7 @@
     "problemNumber": 2,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In rhombus $ABCD$, point $P$ lies on segment $\\overline{AD}$ so that $\\overline{BP}$ $\\perp$ $\\overline{AD}$, $AP = 3$, and $PD = 2$. What is the area of $ABCD$? (Note: The figure is not drawn to scale.)\n\n```asy\nimport olympiad;\nsize(180);\nreal r = 3, s = 5, t = sqrt(r*r+s*s);\ndefaultpen(linewidth(0.6) + fontsize(10));\npair A = (0,0), B = (r,s), C = (r+t,s), D = (t,0), P = (r,0);\ndraw(A--B--C--D--A^^B--P^^rightanglemark(B,P,D));\nlabel(\"$A$\",A,SW);\nlabel(\"$B$\", B, NW);\nlabel(\"$C$\",C,NE);\nlabel(\"$D$\",D,SE);\nlabel(\"$P$\",P,S);\n```",
+    "questionText": "In rhombus $ABCD$, point $P$ lies on segment $\\overline{AD}$ so that $\\overline{BP}$ $\\perp$ $\\overline{AD}$, $AP = 3$, and $PD = 2$. What is the area of $ABCD$? (Note: The figure is not drawn to scale.)",
     "choices": [
       "$3\\sqrt 5$",
       "$10$",
@@ -37120,7 +37120,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The diagram below shows a rectangle with side lengths $4$ and $8$ and a square with side length $5$. Three vertices of the square lie on three different sides of the rectangle, as shown. What is the area of the region inside both the square and the rectangle?\n\n```asy\nsize(5cm);\nfilldraw((4,0)--(8,3)--(8-3/4,4)--(1,4)--cycle,mediumgray);\ndraw((0,0)--(8,0)--(8,4)--(0,4)--cycle,linewidth(1.1));\ndraw((1,0)--(1,4)--(4,0)--(8,3)--(5,7)--(1,4),linewidth(1.1));\nlabel(\"$4$\", (8,2), E);\nlabel(\"$8$\", (4,0), S);\nlabel(\"$5$\", (3,11/2), NW);\ndraw((1,.35)--(1.35,.35)--(1.35,0),linewidth(1.1));\n```",
+    "questionText": "The diagram below shows a rectangle with side lengths $4$ and $8$ and a square with side length $5$. Three vertices of the square lie on three different sides of the rectangle, as shown. What is the area of the region inside both the square and the rectangle?",
     "choices": [
       "$15\\dfrac{1}{8}$",
       "$15\\dfrac{3}{8}$",
@@ -37275,7 +37275,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Each square in a $5 \\times 5$ grid is either filled or empty, and has up to eight adjacent neighboring squares, where neighboring squares share either a side or a corner. The grid is transformed by the following rules:\n\n* Any filled square with two or three filled neighbors remains filled.\n\n* Any empty square with exactly three filled neighbors becomes a filled square.\n\n* All other squares remain empty or become empty.\n\nA sample transformation is shown in the figure below.\n\n```asy\nimport geometry;\n unitsize(0.6cm);\n\n void ds(pair x) {\n filldraw(x -- (1,0) + x -- (1,1) + x -- (0,1)+x -- cycle,mediumgray,invisible);\n }\n\n ds((1,1));\n ds((2,1));\n ds((3,1));\n ds((1,3));\n\n for (int i = 0; i <= 5; ++i) {\n draw((0,i)--(5,i));\n draw((i,0)--(i,5));\n }\n\n label(\"Initial\", (2.5,-1));\n draw((6,2.5)--(8,2.5),Arrow);\n\n ds((10,2));\n ds((11,1));\n ds((11,0));\n\n for (int i = 0; i <= 5; ++i) {\n draw((9,i)--(14,i));\n draw((i+9,0)--(i+9,5));\n }\n\n label(\"Transformed\", (11.5,-1));\n```\n\nSuppose the $5 \\times 5$ grid has a border of empty squares surrounding a $3 \\times 3$ subgrid. How many initial configurations will lead to a transformed grid consisting of a single filled square in the center after a single transformation? (Rotations and reflections of the same configuration are considered different.)\n\n```asy\nimport geometry;\n unitsize(0.6cm);\n\n void ds(pair x) {\n filldraw(x -- (1,0) + x -- (1,1) + x -- (0,1)+x -- cycle,mediumgray,invisible);\n }\n\n for (int i = 1; i < 4; ++ i) {\n for (int j = 1; j < 4; ++j) {\n label(\"?\",(i + 0.5, j + 0.5));\n }\n }\n\n for (int i = 0; i <= 5; ++i) {\n draw((0,i)--(5,i));\n draw((i,0)--(i,5));\n }\n\n label(\"Initial\", (2.5,-1));\n draw((6,2.5)--(8,2.5),Arrow);\n\n ds((11,2));\n\n for (int i = 0; i <= 5; ++i) {\n draw((9,i)--(14,i));\n draw((i+9,0)--(i+9,5));\n }\n\n label(\"Transformed\", (11.5,-1));\n```",
+    "questionText": "Each square in a $5 \\times 5$ grid is either filled or empty, and has up to eight adjacent neighboring squares, where neighboring squares share either a side or a corner. The grid is transformed by the following rules:\n\n* Any filled square with two or three filled neighbors remains filled.\n\n* Any empty square with exactly three filled neighbors becomes a filled square.\n\n* All other squares remain empty or become empty.\n\nA sample transformation is shown in the figure below.\n\nSuppose the $5 \\times 5$ grid has a border of empty squares surrounding a $3 \\times 3$ subgrid. How many initial configurations will lead to a transformed grid consisting of a single filled square in the center after a single transformation? (Rotations and reflections of the same configuration are considered different.)",
     "choices": [
       "$14$",
       "$18$",
@@ -40127,7 +40127,7 @@
     "problemNumber": 9,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A three-quarter sector of a circle of radius $4$ inches together with its interior can be rolled up to form the lateral surface of a right circular cone by taping together along the two radii shown. What is the volume of the cone in cubic inches?\n\n```asy\ndraw(Arc((0,0), 4, 0, 270));\ndraw((0,-4)--(0,0)--(4,0));\n\nlabel(\"$4$\", (2,0), S);\n```",
+    "questionText": "A three-quarter sector of a circle of radius $4$ inches together with its interior can be rolled up to form the lateral surface of a right circular cone by taping together along the two radii shown. What is the volume of the cone in cubic inches?",
     "choices": [
       "$3\\pi \\sqrt5$",
       "$4\\pi \\sqrt3$",
@@ -40375,7 +40375,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "In square $ABCD$, points $E$ and $H$ lie on $\\overline{AB}$ and $\\overline{DA}$, respectively, so that $AE=AH.$ Points $F$ and $G$ lie on $\\overline{BC}$ and $\\overline{CD}$, respectively, and points $I$ and $J$ lie on $\\overline{EH}$ so that $\\overline{FI} \\perp \\overline{EH}$ and $\\overline{GJ} \\perp \\overline{EH}$. See the figure below. Triangle $AEH$, quadrilateral $BFIE$, quadrilateral $DHJG$, and pentagon $FCGJI$ each has area $1.$ What is $FI^2$?\n\n```asy\nreal x=2sqrt(2);\nreal y=2sqrt(16-8sqrt(2))-4+2sqrt(2);\nreal z=2sqrt(8-4sqrt(2));\npair A, B, C, D, E, F, G, H, I, J;\nA = (0,0);\nB = (4,0);\nC = (4,4);\nD = (0,4);\nE = (x,0);\nF = (4,y);\nG = (y,4);\nH = (0,x);\nI = F + z * dir(225);\nJ = G + z * dir(225);\n\ndraw(A--B--C--D--A);\ndraw(H--E);\ndraw(J--G^^F--I);\ndraw(rightanglemark(G, J, I), linewidth(.5));\ndraw(rightanglemark(F, I, E), linewidth(.5));\n\ndot(\"$A$\", A, S);\ndot(\"$B$\", B, S);\ndot(\"$C$\", C, dir(90));\ndot(\"$D$\", D, dir(90));\ndot(\"$E$\", E, S);\ndot(\"$F$\", F, dir(0));\ndot(\"$G$\", G, N);\ndot(\"$H$\", H, W);\ndot(\"$I$\", I, SW);\ndot(\"$J$\", J, SW);\n```",
+    "questionText": "In square $ABCD$, points $E$ and $H$ lie on $\\overline{AB}$ and $\\overline{DA}$, respectively, so that $AE=AH.$ Points $F$ and $G$ lie on $\\overline{BC}$ and $\\overline{CD}$, respectively, and points $I$ and $J$ lie on $\\overline{EH}$ so that $\\overline{FI} \\perp \\overline{EH}$ and $\\overline{GJ} \\perp \\overline{EH}$. See the figure below. Triangle $AEH$, quadrilateral $BFIE$, quadrilateral $DHJG$, and pentagon $FCGJI$ each has area $1.$ What is $FI^2$?",
     "choices": [
       "$\\frac{7}{3}$",
       "$8-4\\sqrt2$",
@@ -40778,7 +40778,7 @@
     "problemNumber": 6,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "The figure below shows line $\\ell$ with a regular, infinite, recurring pattern of squares and line segments.\n\n```asy\nsize(300);\ndefaultpen(linewidth(0.8));\nreal r = 0.35;\npath P = (0,0)--(0,1)--(1,1)--(1,0), Q = (1,1)--(1+r,1+r);\npath Pp = (0,0)--(0,-1)--(1,-1)--(1,0), Qp = (-1,-1)--(-1-r,-1-r);\nfor(int i=0;i <= 4;i=i+1)\n{\ndraw(shift((4*i,0)) * P);\ndraw(shift((4*i,0)) * Q);\n}\nfor(int i=1;i <= 4;i=i+1)\n{\ndraw(shift((4*i-2,0)) * Pp);\ndraw(shift((4*i-1,0)) * Qp);\n}\ndraw((-1,0)--(18.5,0));\n```\n\nHow many of the following four kinds of rigid motion transformations of the plane in which this figure is drawn, other than the identity transformation, will transform this figure into itself?\n*some rotation around a point of line $\\ell$ *some translation in the direction parallel to line $\\ell$ *the reflection across line $\\ell$ *some reflection across a line perpendicular to line $\\ell$",
+    "questionText": "The figure below shows line $\\ell$ with a regular, infinite, recurring pattern of squares and line segments.\n\nHow many of the following four kinds of rigid motion transformations of the plane in which this figure is drawn, other than the identity transformation, will transform this figure into itself?\n*some rotation around a point of line $\\ell$ *some translation in the direction parallel to line $\\ell$ *the reflection across line $\\ell$ *some reflection across a line perpendicular to line $\\ell$",
     "choices": [
       "$0$",
       "$1$",
@@ -40902,7 +40902,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "The figure below shows $13$ circles of radius $1$ within a larger circle. All the intersections occur at points of tangency. What is the area of the region, shaded in the figure, inside the larger circle but outside all the circles of radius $1$?\n\n```asy\nunitsize(20);filldraw(circle((0,0),2*sqrt(3)+1),rgb(0.5,0.5,0.5));filldraw(circle((-2,0),1),white);filldraw(circle((0,0),1),white);filldraw(circle((2,0),1),white);filldraw(circle((1,sqrt(3)),1),white);filldraw(circle((3,sqrt(3)),1),white);filldraw(circle((-1,sqrt(3)),1),white);filldraw(circle((-3,sqrt(3)),1),white);filldraw(circle((1,-1*sqrt(3)),1),white);filldraw(circle((3,-1*sqrt(3)),1),white);filldraw(circle((-1,-1*sqrt(3)),1),white);filldraw(circle((-3,-1*sqrt(3)),1),white);filldraw(circle((0,2*sqrt(3)),1),white);filldraw(circle((0,-2*sqrt(3)),1),white);\n```",
+    "questionText": "The figure below shows $13$ circles of radius $1$ within a larger circle. All the intersections occur at points of tangency. What is the area of the region, shaded in the figure, inside the larger circle but outside all the circles of radius $1$?",
     "choices": [
       "$4 \\pi \\sqrt{3}$",
       "$7 \\pi$",
@@ -41832,7 +41832,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "As shown in the figure, line segment $\\overline{AD}$ is trisected by points $B$ and $C$ so that $AB=BC=CD=2.$ Three semicircles of radius $1,$ $\\overarc{AEB},\\overarc{BFC},$ and $\\overarc{CGD},$ have their diameters on $\\overline{AD},$ and are tangent to line $EG$ at $E,F,$ and $G,$ respectively. A circle of radius $2$ has its center on $F.$ The area of the region inside the circle but outside the three semicircles, shaded in the figure, can be expressed in the form $$ \\frac{a}{b}\\cdot\\pi-\\sqrt{c}+d, $$where $a,b,c,$ and $d$ are positive integers and $a$ and $b$ are relatively prime. What is $a+b+c+d$?\n\n```asy\nsize(6cm);\nfilldraw(circle((0,0),2), gray(0.7));\nfilldraw(arc((0,-1),1,0,180) -- cycle, gray(1.0));\nfilldraw(arc((-2,-1),1,0,180) -- cycle, gray(1.0));\nfilldraw(arc((2,-1),1,0,180) -- cycle, gray(1.0));\ndot((-3,-1));\nlabel(\"$A$\",(-3,-1),S);\ndot((-2,0));\nlabel(\"$E$\",(-2,0),NW);\ndot((-1,-1));\nlabel(\"$B$\",(-1,-1),S);\ndot((0,0));\nlabel(\"$F$\",(0,0),N);\ndot((1,-1));\nlabel(\"$C$\",(1,-1), S);\ndot((2,0));\nlabel(\"$G$\", (2,0),NE);\ndot((3,-1));\nlabel(\"$D$\", (3,-1), S);\n```",
+    "questionText": "As shown in the figure, line segment $\\overline{AD}$ is trisected by points $B$ and $C$ so that $AB=BC=CD=2.$ Three semicircles of radius $1,$ $\\overarc{AEB},\\overarc{BFC},$ and $\\overarc{CGD},$ have their diameters on $\\overline{AD},$ and are tangent to line $EG$ at $E,F,$ and $G,$ respectively. A circle of radius $2$ has its center on $F.$ The area of the region inside the circle but outside the three semicircles, shaded in the figure, can be expressed in the form $$ \\frac{a}{b}\\cdot\\pi-\\sqrt{c}+d, $$where $a,b,c,$ and $d$ are positive integers and $a$ and $b$ are relatively prime. What is $a+b+c+d$?",
     "choices": [
       "$13$",
       "$14$",
@@ -42390,7 +42390,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "All of the triangles in the diagram below are similar to isosceles triangle $ABC$, in which $AB=AC$. Each of the $7$ smallest triangles has area $1,$ and $\\triangle ABC$ has area $40$. What is the area of trapezoid $DBCE$?\n\n```asy\nunitsize(5);\ndot((0,0));\ndot((60,0));\ndot((50,10));\ndot((10,10));\ndot((30,30));\ndraw((0,0)--(60,0)--(50,10)--(30,30)--(10,10)--(0,0));\ndraw((10,10)--(50,10));\nlabel(\"$B$\",(0,0),SW);\nlabel(\"$C$\",(60,0),SE);\nlabel(\"$E$\",(50,10),E);\nlabel(\"$D$\",(10,10),W);\nlabel(\"$A$\",(30,30),N);\ndraw((10,10)--(15,15)--(20,10)--(25,15)--(30,10)--(35,15)--(40,10)--(45,15)--(50,10));\ndraw((15,15)--(45,15));\n```",
+    "questionText": "All of the triangles in the diagram below are similar to isosceles triangle $ABC$, in which $AB=AC$. Each of the $7$ smallest triangles has area $1,$ and $\\triangle ABC$ has area $40$. What is the area of trapezoid $DBCE$?",
     "choices": [
       "$16$",
       "$18$",
@@ -42483,7 +42483,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A paper triangle with sides of lengths $3,4,$ and $5$ inches, as shown, is folded so that point $A$ falls on point $B$. What is the length in inches of the crease?\n\n```asy\ndraw((0,0)--(4,0)--(4,3)--(0,0));\nlabel(\"$A$\", (0,0), SW);\nlabel(\"$B$\", (4,3), NE);\nlabel(\"$C$\", (4,0), SE);\nlabel(\"$4$\", (2,0), S);\nlabel(\"$3$\", (4,1.5), E);\nlabel(\"$5$\", (2,1.5), NW);\nfill(origin--(0,0)--(4,3)--(4,0)--cycle, gray);\n```",
+    "questionText": "A paper triangle with sides of lengths $3,4,$ and $5$ inches, as shown, is folded so that point $A$ falls on point $B$. What is the length in inches of the crease?",
     "choices": [
       "$1+\\frac12 \\sqrt2$",
       "sqrt3",
@@ -42669,7 +42669,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Farmer Pythagoras has a field in the shape of a right triangle. The right triangle's legs have lengths $3$ and $4$ units. In the corner where those sides meet at a right angle, he leaves a small unplanted square $S$ so that from the air it looks like the right angle symbol. The rest of the field is planted. The shortest distance from $S$ to the hypotenuse is $2$ units. What fraction of the field is planted?\n\n```asy\n/* Edited by MRENTHUSIASM */\nsize(160);\npair A, B, C, D, F;\nA = origin;\nB = (4,0);\nC = (0,3);\nD = (2/7,2/7);\nF = foot(D,B,C);\nfill(A--(2/7,0)--D--(0,2/7)--cycle, lightgray);\ndraw(A--B--C--cycle);\ndraw((2/7,0)--D--(0,2/7));\nlabel(\"$4$\", midpoint(A--B), N);\nlabel(\"$3$\", midpoint(A--C), E);\nlabel(\"$2$\", midpoint(D--F), SE);\nlabel(\"$S$\", midpoint(A--D));\ndraw(D--F, dashed);\n```",
+    "questionText": "Farmer Pythagoras has a field in the shape of a right triangle. The right triangle's legs have lengths $3$ and $4$ units. In the corner where those sides meet at a right angle, he leaves a small unplanted square $S$ so that from the air it looks like the right angle symbol. The rest of the field is planted. The shortest distance from $S$ to the hypotenuse is $2$ units. What fraction of the field is planted?",
     "choices": [
       "$\\frac{25}{27}$",
       "$\\frac{26}{27}$",
@@ -43258,7 +43258,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A closed box with a square base is to be wrapped with a square sheet of wrapping paper. The box is centered on the wrapping paper with the vertices of the base lying on the midlines of the square sheet of paper, as shown in the figure on the left. The four corners of the wrapping paper are to be folded up over the sides and brought together to meet at the center of the top of the box, point $A$ in the figure on the right. The box has base length $w$ and height $h$. What is the area of the sheet of wrapping paper?\n\n```asy\nsize(270pt);\ndefaultpen(fontsize(10pt));\nfilldraw(((3,3)--(-3,3)--(-3,-3)--(3,-3)--cycle),lightgrey);\ndot((-3,3));\nlabel(\"$A$\",(-3,3),NW);\ndraw((1,3)--(-3,-1),dashed+linewidth(.5));\ndraw((-1,3)--(3,-1),dashed+linewidth(.5));\ndraw((-1,-3)--(3,1),dashed+linewidth(.5));\ndraw((1,-3)--(-3,1),dashed+linewidth(.5));\ndraw((0,2)--(2,0)--(0,-2)--(-2,0)--cycle,linewidth(.5));\ndraw((0,3)--(0,-3),linetype(\"2.5 2.5\")+linewidth(.5));\ndraw((3,0)--(-3,0),linetype(\"2.5 2.5\")+linewidth(.5));\nlabel('$w$',(-1,-1),SW);\nlabel('$w$',(1,-1),SE);\ndraw((4.5,0)--(6.5,2)--(8.5,0)--(6.5,-2)--cycle);\ndraw((4.5,0)--(8.5,0));\ndraw((6.5,2)--(6.5,-2));\nlabel(\"$A$\",(6.5,0),NW);\ndot((6.5,0));\n```",
+    "questionText": "A closed box with a square base is to be wrapped with a square sheet of wrapping paper. The box is centered on the wrapping paper with the vertices of the base lying on the midlines of the square sheet of paper, as shown in the figure on the left. The four corners of the wrapping paper are to be folded up over the sides and brought together to meet at the center of the top of the box, point $A$ in the figure on the right. The box has base length $w$ and height $h$. What is the area of the sheet of wrapping paper?",
     "choices": [
       "$2(w+h)^2$",
       "$\\frac{(w+h)^2}2$",
@@ -43320,7 +43320,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Square $ABCD$ has side length $30$. Point $P$ lies inside the square so that $AP = 12$ and $BP = 26$. The centroids of $\\triangle{ABP}$, $\\triangle{BCP}$, $\\triangle{CDP}$, and $\\triangle{DAP}$ are the vertices of a convex quadrilateral. What is the area of that quadrilateral?\n\n```asy\nunitsize(120);\npair B = (0, 0), A = (0, 1), D = (1, 1), C = (1, 0), P = (1/4, 2/3);\ndraw(A--B--C--D--cycle);\ndot(P);\ndefaultpen(fontsize(10pt));\ndraw(A--P--B);\ndraw(C--P--D);\nlabel(\"$A$\", A, W);\nlabel(\"$B$\", B, W);\nlabel(\"$C$\", C, E);\nlabel(\"$D$\", D, E);\nlabel(\"$P$\", P, N*1.5+E*0.5);\ndot(A);\ndot(B);\ndot(C);\ndot(D);\n```",
+    "questionText": "Square $ABCD$ has side length $30$. Point $P$ lies inside the square so that $AP = 12$ and $BP = 26$. The centroids of $\\triangle{ABP}$, $\\triangle{BCP}$, $\\triangle{CDP}$, and $\\triangle{DAP}$ are the vertices of a convex quadrilateral. What is the area of that quadrilateral?",
     "choices": [
       "$100\\sqrt{2}$",
       "$100\\sqrt{3}$",
@@ -45490,7 +45490,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "What is the area of the shaded region of the given $8\\times 5$ rectangle?\n\n```asy\nsize(6cm);\ndefaultpen(fontsize(9pt));\ndraw((0,0)--(8,0)--(8,5)--(0,5)--cycle);\nfilldraw((7,0)--(8,0)--(8,1)--(0,4)--(0,5)--(1,5)--cycle,gray(0.8));\n\nlabel(\"$1$\",(1/2,5),dir(90));\nlabel(\"$7$\",(9/2,5),dir(90));\n\nlabel(\"$1$\",(8,1/2),dir(0));\nlabel(\"$4$\",(8,3),dir(0));\n\nlabel(\"$1$\",(15/2,0),dir(270));\nlabel(\"$7$\",(7/2,0),dir(270));\n\nlabel(\"$1$\",(0,9/2),dir(180));\nlabel(\"$4$\",(0,2),dir(180));\n```",
+    "questionText": "What is the area of the shaded region of the given $8\\times 5$ rectangle?",
     "choices": [
       "$4.75$",
       "$5$",
@@ -47567,7 +47567,7 @@
     "problemNumber": 25,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "A collection of circles in the upper half-plane, all tangent to the $x$-axis, is constructed in layers as follows. Layer $L_0$ consists of two circles of radii $70^2$ and $73^2$ that are externally tangent. For $k\\ge1$, the circles in $\\bigcup_{j=0}^{k-1}L_j$ are ordered according to their points of tangency with the $x$-axis. For every pair of consecutive circles in this order, a new circle is constructed externally tangent to each of the two circles in the pair. Layer $L_k$ consists of the $2^{k-1}$ circles constructed in this way. Let $S=\\bigcup_{j=0}^{6}L_j$, and for every circle $C$ denote by $r(C)$ its radius. What is $$ \\sum_{C\\in S} \\frac{1}{\\sqrt{r(C)}}? $$ ```asy\nimport olympiad;\nsize(350);\ndefaultpen(linewidth(0.7));\n// define a bunch of arrays and starting points\npair[] coord = new pair[65];\nint[] trav = {32,16,8,4,2,1};\ncoord[0] = (0,73^2); coord[64] = (2*73*70,70^2);\n// draw the big circles and the bottom line\npath arc1 = arc(coord[0],coord[0].y,260,360);\npath arc2 = arc(coord[64],coord[64].y,175,280);\nfill((coord[0].x-910,coord[0].y)--arc1--cycle,gray(0.75));\nfill((coord[64].x+870,coord[64].y+425)--arc2--cycle,gray(0.75));\ndraw(arc1^^arc2);\ndraw((-930,0)--(70^2+73^2+850,0));\n// We now apply the findCenter function 63 times to get\n// the location of the centers of all 63 constructed circles.\n// The complicated array setup ensures that all the circles\n// will be taken in the right order\nfor(int i = 0;i<=5;i=i+1)\n{\nint skip = trav[i];\nfor(int k=skip;k<=64 - skip; k = k + 2*skip)\n{\npair cent1 = coord[k-skip], cent2 = coord[k+skip];\nreal r1 = cent1.y, r2 = cent2.y, rn=r1*r2/((sqrt(r1)+sqrt(r2))^2);\nreal shiftx = cent1.x + sqrt(4*r1*rn);\ncoord[k] = (shiftx,rn);\n}\n// Draw the remaining 63 circles\n}\nfor(int i=1;i<=63;i=i+1)\n{\nfilldraw(circle(coord[i],coord[i].y),gray(0.75));\n}\n```",
+    "questionText": "A collection of circles in the upper half-plane, all tangent to the $x$-axis, is constructed in layers as follows. Layer $L_0$ consists of two circles of radii $70^2$ and $73^2$ that are externally tangent. For $k\\ge1$, the circles in $\\bigcup_{j=0}^{k-1}L_j$ are ordered according to their points of tangency with the $x$-axis. For every pair of consecutive circles in this order, a new circle is constructed externally tangent to each of the two circles in the pair. Layer $L_k$ consists of the $2^{k-1}$ circles constructed in this way. Let $S=\\bigcup_{j=0}^{6}L_j$, and for every circle $C$ denote by $r(C)$ its radius. What is $$ \\sum_{C\\in S} \\frac{1}{\\sqrt{r(C)}}? $$",
     "choices": [
       "$\\frac{286}{35}$",
       "$\\frac{583}{70}$",
@@ -48869,7 +48869,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A $4\\times 4\\times h$ rectangular box contains a sphere of radius $2$ and eight smaller spheres of radius $1$. The smaller spheres are each tangent to three sides of the box, and the larger sphere is tangent to each of the smaller spheres. What is $h$?\n\n<center>\n\n```asy\nimport graph3;\nimport solids;\nreal h=2+2*sqrt(7);\ncurrentprojection=orthographic((0.75,-5,h/2+1),target=(2,2,h/2));\ncurrentlight=light(4,-4,4);\ndraw((0,0,0)--(4,0,0)--(4,4,0)--(0,4,0)--(0,0,0)^^(4,0,0)--(4,0,h)--(4,4,h)--(0,4,h)--(0,4,0));\ndraw(shift((1,3,1))*unitsphere,gray(0.85));\ndraw(shift((3,3,1))*unitsphere,gray(0.85));\ndraw(shift((3,1,1))*unitsphere,gray(0.85));\ndraw(shift((1,1,1))*unitsphere,gray(0.85));\ndraw(shift((2,2,h/2))*scale(2,2,2)*unitsphere,gray(0.85));\ndraw(shift((1,3,h-1))*unitsphere,gray(0.85));\ndraw(shift((3,3,h-1))*unitsphere,gray(0.85));\ndraw(shift((3,1,h-1))*unitsphere,gray(0.85));\ndraw(shift((1,1,h-1))*unitsphere,gray(0.85));\ndraw((0,0,0)--(0,0,h)--(4,0,h)^^(0,0,h)--(0,4,h));\n```\n\n</center>",
+    "questionText": "A $4\\times 4\\times h$ rectangular box contains a sphere of radius $2$ and eight smaller spheres of radius $1$. The smaller spheres are each tangent to three sides of the box, and the larger sphere is tangent to each of the smaller spheres. What is $h$?\n\n<center>\n\n</center>",
     "choices": [
       "$2+2\\sqrt 7$",
       "$3+2\\sqrt 5$",
@@ -49768,7 +49768,7 @@
     "problemNumber": 21,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "In the figure, $ABCD$ is a square of side length $1$. The rectangles $JKHG$ and $EBCF$ are congruent. What is $BE$?\n\n```asy\npair A=(1,0), B=(0,0), C=(0,1), D=(1,1), E=(2-sqrt(3),0), F=(2-sqrt(3),1), G=(1,sqrt(3)/2), H=(2.5-sqrt(3),1), J=(.5,0), K=(2-sqrt(3),1-sqrt(3)/2);\ndraw(A--B--C--D--cycle);\ndraw(K--H--G--J--cycle);\ndraw(F--E);\nlabel(\"$A$\",A,SE); label(\"$B$\",B,SW); label(\"$C$\",C,NW); label(\"$D$\",D,NE); label(\"$E$\",E,S); label(\"$F$\",F,N);\nlabel(\"$G$\",G,E); label(\"$H$\",H,N); label(\"$J$\",J,S); label(\"$K$\",K,W);\n```",
+    "questionText": "In the figure, $ABCD$ is a square of side length $1$. The rectangles $JKHG$ and $EBCF$ are congruent. What is $BE$?",
     "choices": [
       "$\\frac{1}{2}(\\sqrt{6}-2)$",
       "$\\frac{1}{4}$",
@@ -49923,7 +49923,7 @@
     "problemNumber": 1,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Square $ABCD$ has side length $10$. Point $E$ is on $\\overline{BC}$, and the area of $\\bigtriangleup ABE$ is $40$. What is $BE$?\n\n```asy\npair A,B,C,D,E;\nA=(0,0);\nB=(0,50);\nC=(50,50);\nD=(50,0);\nE = (40,50);\n draw(A--B);\n draw(B--E);\n draw(E--C);\ndraw(C--D);\ndraw(D--A);\ndraw(A--E);\ndot(A);\ndot(B);\ndot(C);\ndot(D);\ndot(E);\nlabel(\"A\",A,SW);\nlabel(\"B\",B,NW);\nlabel(\"C\",C,NE);\nlabel(\"D\",D,SE);\nlabel(\"E\",E,N);\n```",
+    "questionText": "Square $ABCD$ has side length $10$. Point $E$ is on $\\overline{BC}$, and the area of $\\bigtriangleup ABE$ is $40$. What is $BE$?",
     "choices": [
       "$4$",
       "$5$",
@@ -50202,7 +50202,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Triangle $ABC$ is equilateral with $AB=1$. Points $E$ and $G$ are on $\\overline{AC}$ and points $D$ and $F$ are on $\\overline{AB}$ such that both $\\overline{DE}$ and $\\overline{FG}$ are parallel to $\\overline{BC}$. Furthermore, triangle $ADE$ and trapezoids $DFGE$ and $FBCG$ all have the same perimeter. What is $DE+FG$?\n\n```asy\nsize(180);\npen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);\nreal s=1/2,m=5/6,l=1;\npair A=origin,B=(l,0),C=rotate(60)*l,D=(s,0),E=rotate(60)*s,F=m,G=rotate(60)*m;\ndraw(A--B--C--cycle^^D--E^^F--G);\ndot(A^^B^^C^^D^^E^^F^^G);\nlabel(\"$A$\",A,SW);\nlabel(\"$B$\",B,SE);\nlabel(\"$C$\",C,N);\nlabel(\"$D$\",D,S);\nlabel(\"$E$\",E,NW);\nlabel(\"$F$\",F,S);\nlabel(\"$G$\",G,NW);\n```",
+    "questionText": "Triangle $ABC$ is equilateral with $AB=1$. Points $E$ and $G$ are on $\\overline{AC}$ and points $D$ and $F$ are on $\\overline{AB}$ such that both $\\overline{DE}$ and $\\overline{FG}$ are parallel to $\\overline{BC}$. Furthermore, triangle $ADE$ and trapezoids $DFGE$ and $FBCG$ all have the same perimeter. What is $DE+FG$?",
     "choices": [
       "$1$",
       "$\\dfrac{3}{2}$",
@@ -51845,7 +51845,7 @@
     "problemNumber": 14,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The closed curve in the figure is made up of $9$ congruent circular arcs each of length $\\frac{2\\pi}{3}$, where each of the centers of the corresponding circles is among the vertices of a regular hexagon of side $2$. What is the area enclosed by the curve?\n\n```asy\nsize(6cm);\ndefaultpen(fontsize(6pt));\ndotfactor=4;\nlabel(\"$\\circ$\",(0,1));\nlabel(\"$\\circ$\",(0.865,0.5));\nlabel(\"$\\circ$\",(-0.865,0.5));\nlabel(\"$\\circ$\",(0.865,-0.5));\nlabel(\"$\\circ$\",(-0.865,-0.5));\nlabel(\"$\\circ$\",(0,-1));\ndot((0,1.5));\ndot((-0.4325,0.75));\ndot((0.4325,0.75));\ndot((-0.4325,-0.75));\ndot((0.4325,-0.75));\ndot((-0.865,0));\ndot((0.865,0));\ndot((-1.2975,-0.75));\ndot((1.2975,-0.75));\ndraw(Arc((0,1),0.5,210,-30));\ndraw(Arc((0.865,0.5),0.5,150,270));\ndraw(Arc((0.865,-0.5),0.5,90,-150));\ndraw(Arc((0.865,-0.5),0.5,90,-150));\ndraw(Arc((0,-1),0.5,30,150));\ndraw(Arc((-0.865,-0.5),0.5,330,90));\ndraw(Arc((-0.865,0.5),0.5,-90,30));\n```",
+    "questionText": "The closed curve in the figure is made up of $9$ congruent circular arcs each of length $\\frac{2\\pi}{3}$, where each of the centers of the corresponding circles is among the vertices of a regular hexagon of side $2$. What is the area enclosed by the curve?",
     "choices": [
       "$2\\pi+6$",
       "$2\\pi+4\\sqrt3$",
@@ -52837,7 +52837,7 @@
     "problemNumber": 21,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Square $AXYZ$ is inscribed in equiangular hexagon $ABCDEF$ with $X$ on $\\overline{BC}$, $Y$ on $\\overline{DE}$, and $Z$ on $\\overline{EF}$. Suppose that $AB=40$, and $EF=41(\\sqrt{3}-1)$. What is the side-length of the square?\n\n```asy\nsize(200);\ndefaultpen(linewidth(1));\npair A=origin,B=(2.5,0),C=B+2.5*dir(60), D=C+1.75*dir(120),E=D-(3.19,0),F=E-1.8*dir(60);\npair X=waypoint(B--C,0.345),Z=rotate(90,A)*X,Y=rotate(90,Z)*A;\ndraw(A--B--C--D--E--F--cycle);\ndraw(A--X--Y--Z--cycle,linewidth(0.9)+linetype(\"2 2\"));\ndot(\"$A$\",A,W,linewidth(4));\ndot(\"$B$\",B,dir(0),linewidth(4));\ndot(\"$C$\",C,dir(0),linewidth(4));\ndot(\"$D$\",D,dir(20),linewidth(4));\ndot(\"$E$\",E,dir(100),linewidth(4));\ndot(\"$F$\",F,W,linewidth(4));\ndot(\"$X$\",X,dir(0),linewidth(4));\ndot(\"$Y$\",Y,N,linewidth(4));\ndot(\"$Z$\",Z,W,linewidth(4));\n```",
+    "questionText": "Square $AXYZ$ is inscribed in equiangular hexagon $ABCDEF$ with $X$ on $\\overline{BC}$, $Y$ on $\\overline{DE}$, and $Z$ on $\\overline{EF}$. Suppose that $AB=40$, and $EF=41(\\sqrt{3}-1)$. What is the side-length of the square?",
     "choices": [
       "$29\\sqrt{3}$",
       "$\\frac{21}{2}\\sqrt{2}+\\frac{41}{2}\\sqrt{3}$",
@@ -52868,7 +52868,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "A bug travels from $A$ to $B$ along the segments in the hexagonal lattice pictured below. The segments marked with an arrow can be traveled only in the direction of the arrow, and the bug never travels the same segment more than once. How many different paths are there?\n\n```asy\nsize(10cm);\ndraw((0.0,0.0)--(1.0,1.7320508075688772)--(3.0,1.7320508075688772)--(4.0,3.4641016151377544)--(6.0,3.4641016151377544)--(7.0,5.196152422706632)--(9.0,5.196152422706632)--(10.0,6.928203230275509)--(12.0,6.928203230275509));\ndraw((0.0,0.0)--(1.0,1.7320508075688772)--(3.0,1.7320508075688772)--(4.0,3.4641016151377544)--(6.0,3.4641016151377544)--(7.0,5.196152422706632)--(9.0,5.196152422706632)--(10.0,6.928203230275509)--(12.0,6.928203230275509));\ndraw((3.0,-1.7320508075688772)--(4.0,0.0)--(6.0,0.0)--(7.0,1.7320508075688772)--(9.0,1.7320508075688772)--(10.0,3.4641016151377544)--(12.0,3.464101615137755)--(13.0,5.196152422706632)--(15.0,5.196152422706632));\ndraw((6.0,-3.4641016151377544)--(7.0,-1.7320508075688772)--(9.0,-1.7320508075688772)--(10.0,0.0)--(12.0,0.0)--(13.0,1.7320508075688772)--(15.0,1.7320508075688776)--(16.0,3.464101615137755)--(18.0,3.4641016151377544));\ndraw((9.0,-5.196152422706632)--(10.0,-3.464101615137755)--(12.0,-3.464101615137755)--(13.0,-1.7320508075688776)--(15.0,-1.7320508075688776)--(16.0,0)--(18.0,0.0)--(19.0,1.7320508075688772)--(21.0,1.7320508075688767));\ndraw((12.0,-6.928203230275509)--(13.0,-5.196152422706632)--(15.0,-5.196152422706632)--(16.0,-3.464101615137755)--(18.0,-3.4641016151377544)--(19.0,-1.7320508075688772)--(21.0,-1.7320508075688767)--(22.0,0));\ndraw((0.0,-0.0)--(1.0,-1.7320508075688772)--(3.0,-1.7320508075688772)--(4.0,-3.4641016151377544)--(6.0,-3.4641016151377544)--(7.0,-5.196152422706632)--(9.0,-5.196152422706632)--(10.0,-6.928203230275509)--(12.0,-6.928203230275509));\ndraw((3.0,1.7320508075688772)--(4.0,-0.0)--(6.0,-0.0)--(7.0,-1.7320508075688772)--(9.0,-1.7320508075688772)--(10.0,-3.4641016151377544)--(12.0,-3.464101615137755)--(13.0,-5.196152422706632)--(15.0,-5.196152422706632));\ndraw((6.0,3.4641016151377544)--(7.0,1.7320508075688772)--(9.0,1.7320508075688772)--(10.0,-0.0)--(12.0,-0.0)--(13.0,-1.7320508075688772)--(15.0,-1.7320508075688776)--(16.0,-3.464101615137755)--(18.0,-3.4641016151377544));\ndraw((9.0,5.1961524)--(10.0,3.464101)--(12.0,3.46410)--(13.0,1.73205)--(15.0,1.732050)--(16.0,0)--(18.0,-0.0)--(19.0,-1.7320)--(21.0,-1.73205080));\ndraw((12.0,6.928203)--(13.0,5.1961524)--(15.0,5.1961524)--(16.0,3.464101615)--(18.0,3.4641016)--(19.0,1.7320508)--(21.0,1.732050)--(22.0,0));\ndot((0,0));\ndot((22,0));\nlabel(\"$A$\",(0,0),WNW);\nlabel(\"$B$\",(22,0),E);\nfilldraw((2.0,1.7320508075688772)--(1.6,1.2320508075688772)--(1.75,1.7320508075688772)--(1.6,2.232050807568877)--cycle,black);\nfilldraw((5.0,3.4641016151377544)--(4.6,2.9641016151377544)--(4.75,3.4641016151377544)--(4.6,3.9641016151377544)--cycle,black);\nfilldraw((8.0,5.196152422706632)--(7.6,4.696152422706632)--(7.75,5.196152422706632)--(7.6,5.696152422706632)--cycle,black);\nfilldraw((11.0,6.928203230275509)--(10.6,6.428203230275509)--(10.75,6.928203230275509)--(10.6,7.428203230275509)--cycle,black);\nfilldraw((4.6,0.0)--(5.0,-0.5)--(4.85,0.0)--(5.0,0.5)--cycle,white);\nfilldraw((8.0,1.732050)--(7.6,1.2320)--(7.75,1.73205)--(7.6,2.2320)--cycle,black);\nfilldraw((11.0,3.4641016)--(10.6,2.9641016)--(10.75,3.46410161)--(10.6,3.964101)--cycle,black);\nfilldraw((14.0,5.196152422706632)--(13.6,4.696152422706632)--(13.75,5.196152422706632)--(13.6,5.696152422706632)--cycle,black);\nfilldraw((8.0,-1.732050)--(7.6,-2.232050)--(7.75,-1.7320508)--(7.6,-1.2320)--cycle,black);\nfilldraw((10.6,0.0)--(11,-0.5)--(10.85,0.0)--(11,0.5)--cycle,white);\nfilldraw((14.0,1.7320508075688772)--(13.6,1.2320508075688772)--(13.75,1.7320508075688772)--(13.6,2.232050807568877)--cycle,black);\nfilldraw((17.0,3.464101615137755)--(16.6,2.964101615137755)--(16.75,3.464101615137755)--(16.6,3.964101615137755)--cycle,black);\nfilldraw((11.0,-3.464101615137755)--(10.6,-3.964101615137755)--(10.75,-3.464101615137755)--(10.6,-2.964101615137755)--cycle,black);\nfilldraw((14.0,-1.7320508075688776)--(13.6,-2.2320508075688776)--(13.75,-1.7320508075688776)--(13.6,-1.2320508075688776)--cycle,black);\nfilldraw((16.6,0)--(17,-0.5)--(16.85,0)--(17,0.5)--cycle,white);\nfilldraw((20.0,1.7320508075688772)--(19.6,1.2320508075688772)--(19.75,1.7320508075688772)--(19.6,2.232050807568877)--cycle,black);\nfilldraw((14.0,-5.196152422706632)--(13.6,-5.696152422706632)--(13.75,-5.196152422706632)--(13.6,-4.696152422706632)--cycle,black);\nfilldraw((17.0,-3.464101615137755)--(16.6,-3.964101615137755)--(16.75,-3.464101615137755)--(16.6,-2.964101615137755)--cycle,black);\nfilldraw((20.0,-1.7320508075688772)--(19.6,-2.232050807568877)--(19.75,-1.7320508075688772)--(19.6,-1.2320508075688772)--cycle,black);\nfilldraw((2.0,-1.7320508075688772)--(1.6,-1.2320508075688772)--(1.75,-1.7320508075688772)--(1.6,-2.232050807568877)--cycle,black);\nfilldraw((5.0,-3.4641016)--(4.6,-2.964101)--(4.75,-3.4641)--(4.6,-3.9641016)--cycle,black);\nfilldraw((8.0,-5.1961524)--(7.6,-4.6961524)--(7.75,-5.19615242)--(7.6,-5.696152422)--cycle,black);\nfilldraw((11.0,-6.9282032)--(10.6,-6.4282032)--(10.75,-6.928203)--(10.6,-7.428203)--cycle,black);\n```",
+    "questionText": "A bug travels from $A$ to $B$ along the segments in the hexagonal lattice pictured below. The segments marked with an arrow can be traveled only in the direction of the arrow, and the bug never travels the same segment more than once. How many different paths are there?",
     "choices": [
       "$2112$",
       "$2304$",
@@ -53023,7 +53023,7 @@
     "problemNumber": 2,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "There are $5$ coins placed flat on a table according to the figure. What is the order of the coins from top to bottom?\n\n```asy\nsize(100); defaultpen(linewidth(.8pt)+fontsize(8pt));\ndraw(arc((0,1), 1.2, 25, 214));\ndraw(arc((.951,.309), 1.2, 0, 360));\ndraw(arc((.588,-.809), 1.2, 132, 370));\ndraw(arc((-.588,-.809), 1.2, 75, 300));\ndraw(arc((-.951,.309), 1.2, 96, 228));\nlabel(\"$A$\",(0,1),NW); label(\"$B$\",(-1.1,.309),NW); label(\"$C$\",(.951,.309),E); label(\"$D$\",(-.588,-.809),W); label(\"$E$\",(.588,-.809),S);\n```",
+    "questionText": "There are $5$ coins placed flat on a table according to the figure. What is the order of the coins from top to bottom?",
     "choices": [
       "(C, A, E, D, B)",
       "(C, A, D, E, B)",
@@ -54108,7 +54108,7 @@
     "problemNumber": 12,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A dart board is a regular octagon divided into regions as shown below. Suppose that a dart thrown at the board is equally likely to land anywhere on the board. What is the probability that the dart lands within the center square?\n\n```asy\nunitsize(10mm);\ndefaultpen(linewidth(.8pt)+fontsize(10pt));\ndotfactor=4;\npair A=(0,1), B=(1,0), C=(1+sqrt(2),0), D=(2+sqrt(2),1), E=(2+sqrt(2),1+sqrt(2)), F=(1+sqrt(2),2+sqrt(2)), G=(1,2+sqrt(2)), H=(0,1+sqrt(2));\ndraw(A--B--C--D--E--F--G--H--cycle);\ndraw(A--D);\ndraw(B--G);\ndraw(C--F);\ndraw(E--H);\n```",
+    "questionText": "A dart board is a regular octagon divided into regions as shown below. Suppose that a dart thrown at the board is equally likely to land anywhere on the board. What is the probability that the dart lands within the center square?",
     "choices": [
       "$\\frac{\\sqrt{2} - 1}{2}$",
       "$\\frac{1}{4}$",
@@ -54604,7 +54604,7 @@
     "problemNumber": 3,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Rectangle $ABCD$, pictured below, shares $50\\%$ of its area with square $EFGH$. Square $EFGH$ shares $20\\%$ of its area with rectangle $ABCD$. What is $\\frac{AB}{AD}$?\n\n<center>\n\n```asy\nunitsize(1mm);\ndefaultpen(linewidth(.8pt)+fontsize(8pt));\n\ndraw((0,0)--(0,25)--(25,25)--(25,0)--cycle);\nfill((0,20)--(0,15)--(25,15)--(25,20)--cycle,gray);\ndraw((0,15)--(0,20)--(25,20)--(25,15)--cycle);\ndraw((25,15)--(25,20)--(50,20)--(50,15)--cycle);\n\nlabel(\"$A$\",(0,20),W);\nlabel(\"$B$\",(50,20),E);\nlabel(\"$C$\",(50,15),E);\nlabel(\"$D$\",(0,15),W);\nlabel(\"$E$\",(0,25),NW);\nlabel(\"$F$\",(25,25),NE);\nlabel(\"$G$\",(25,0),SE);\nlabel(\"$H$\",(0,0),SW);\n```\n\n</center>",
+    "questionText": "Rectangle $ABCD$, pictured below, shares $50\\%$ of its area with square $EFGH$. Square $EFGH$ shares $20\\%$ of its area with rectangle $ABCD$. What is $\\frac{AB}{AD}$?\n\n<center>\n\n</center>",
     "choices": [
       "$4$",
       "$5$",
@@ -55348,7 +55348,7 @@
     "problemNumber": 2,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A big $L$ is formed as shown. What is its area?\n\n<center>\n\n```asy\nunitsize(4mm);\ndefaultpen(linewidth(.8pt));\n\ndraw((0,0)--(5,0)--(5,2)--(2,2)--(2,8)--(0,8)--cycle);\nlabel(\"8\",(0,4),W);\nlabel(\"5\",(5/2,0),S);\nlabel(\"2\",(5,1),E);\nlabel(\"2\",(1,8),N);\n```\n\n</center>",
+    "questionText": "A big $L$ is formed as shown. What is its area?\n\n<center>\n\n</center>",
     "choices": [
       "$22$",
       "$24$",
@@ -56309,7 +56309,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Four congruent rectangles are placed as shown. The area of the outer square is $4$ times that of the inner square. What is the ratio of the length of the longer side of each rectangle to the length of its shorter side?\n<center>\n\n```asy\nunitsize(6mm);\ndefaultpen(linewidth(.8pt));\n\npath p=(1,1)--(-2,1)--(-2,2)--(1,2);\ndraw(p);\ndraw(rotate(90)*p);\ndraw(rotate(180)*p);\ndraw(rotate(270)*p);\n```\n\n</center>",
+    "questionText": "Four congruent rectangles are placed as shown. The area of the outer square is $4$ times that of the inner square. What is the ratio of the length of the longer side of each rectangle to the length of its shorter side?\n<center>\n\n</center>",
     "choices": [
       "$3$",
       "$\\sqrt {10}$",
@@ -56371,7 +56371,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In quadrilateral $ABCD$, $AB = 5$, $BC = 17$, $CD = 5$, $DA = 9$, and $BD$ is an integer. What is $BD$?\n<center>\n\n```asy\nunitsize(4mm);\ndefaultpen(linewidth(.8pt)+fontsize(8pt));\ndotfactor=4;\n\npair C=(0,0), B=(17,0);\npair D=intersectionpoints(Circle(C,5),Circle(B,13))[0];\npair A=intersectionpoints(Circle(D,9),Circle(B,5))[0];\npair[] dotted={A,B,C,D};\n\ndraw(D--A--B--C--D--B);\ndot(dotted);\nlabel(\"$D$\",D,NW);\nlabel(\"$C$\",C,W);\nlabel(\"$B$\",B,E);\nlabel(\"$A$\",A,NE);\n```\n\n</center>",
+    "questionText": "In quadrilateral $ABCD$, $AB = 5$, $BC = 17$, $CD = 5$, $DA = 9$, and $BD$ is an integer. What is $BD$?\n<center>\n\n</center>",
     "choices": [
       "$11$",
       "$12$",
@@ -56402,7 +56402,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The figures $F_1$, $F_2$, $F_3$, and $F_4$ shown are the first in a sequence of figures. For $n\\ge3$, $F_n$ is constructed from $F_{n - 1}$ by surrounding it with a square and placing one more diamond on each side of the new square than $F_{n - 1}$ had on each side of its outside square. For example, figure $F_3$ has $13$ diamonds. How many diamonds are there in figure $F_{20}$?\n<center>\n\n```asy\nunitsize(3mm);\ndefaultpen(linewidth(.8pt)+fontsize(8pt));\n\npath d=(1/2,0)--(0,sqrt(3)/2)--(-1/2,0)--(0,-sqrt(3)/2)--cycle;\nmarker m=marker(scale(5)*d,Fill);\npath f1=(0,0);\npath f2=(0,0)--(-1,1)--(1,1)--(1,-1)--(-1,-1);\npath[] g2=(-1,1)--(-1,-1)--(0,0)^^(1,-1)--(0,0)--(1,1);\npath f3=f2--(-2,-2)--(-2,0)--(-2,2)--(0,2)--(2,2)--(2,0)--(2,-2)--(0,-2);\npath[] g3=g2^^(-2,-2)--(0,-2)^^(2,-2)--(1,-1)^^(1,1)--(2,2)^^(-1,1)--(-2,2);\npath[] f4=f3^^(-3,-3)--(-3,-1)--(-3,1)--(-3,3)--(-1,3)--(1,3)--(3,3)--\n(3,1)--(3,-1)--(3,-3)--(1,-3)--(-1,-3);\npath[] g4=g3^^(-2,-2)--(-3,-3)--(-1,-3)^^(3,-3)--(2,-2)^^(2,2)--(3,3)^^\n(-2,2)--(-3,3);\n\ndraw(f1,m);\ndraw(shift(5,0)*f2,m);\ndraw(shift(5,0)*g2);\ndraw(shift(12,0)*f3,m);\ndraw(shift(12,0)*g3);\ndraw(shift(21,0)*f4,m);\ndraw(shift(21,0)*g4);\nlabel(\"$F_1$\",(0,-4));\nlabel(\"$F_2$\",(5,-4));\nlabel(\"$F_3$\",(12,-4));\nlabel(\"$F_4$\",(21,-4));\n```\n\n</center>",
+    "questionText": "The figures $F_1$, $F_2$, $F_3$, and $F_4$ shown are the first in a sequence of figures. For $n\\ge3$, $F_n$ is constructed from $F_{n - 1}$ by surrounding it with a square and placing one more diamond on each side of the new square than $F_{n - 1}$ had on each side of its outside square. For example, figure $F_3$ has $13$ diamonds. How many diamonds are there in figure $F_{20}$?\n<center>\n\n</center>",
     "choices": [
       "$401$",
       "$485$",
@@ -56464,7 +56464,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A ship sails $10$ miles in a straight line from $A$ to $B$, turns through an angle between $45^{\\circ}$ and $60^{\\circ}$, and then sails another $20$ miles to $C$. Let $AC$ be measured in miles. Which of the following intervals contains $AC^2$?\n\n```asy\nunitsize(2mm);\ndefaultpen(linewidth(.8pt)+fontsize(10pt));\ndotfactor=4;\n\npair B=(0,0), A=(-10,0), C=20*dir(50);\n\ndraw(A--B--C);\ndraw(A--C,linetype(\"4 4\"));\n\ndot(A);\ndot(B);\ndot(C);\nlabel(\"$10$\",midpoint(A--B),S);\nlabel(\"$20$\",midpoint(B--C),SE);\nlabel(\"$A$\",A,SW);\nlabel(\"$B$\",B,SE);\nlabel(\"$C$\",C,NE);\n```",
+    "questionText": "A ship sails $10$ miles in a straight line from $A$ to $B$, turns through an angle between $45^{\\circ}$ and $60^{\\circ}$, and then sails another $20$ miles to $C$. Let $AC$ be measured in miles. Which of the following intervals contains $AC^2$?",
     "choices": [
       "[400,500]",
       "[500,600]",
@@ -56960,7 +56960,7 @@
     "problemNumber": 4,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A rectangular yard contains two flower beds in the shape of congruent isosceles right triangles. The remainder of the yard has a trapezoidal shape, as shown. The parallel sides of the trapezoid have lengths $15$ and $25$ meters. What fraction of the yard is occupied by the flower beds?\n<center>\n\n```asy\nunitsize(2mm);\ndefaultpen(linewidth(.8pt));\n\nfill((0,0)--(0,5)--(5,5)--cycle,gray);\nfill((25,0)--(25,5)--(20,5)--cycle,gray);\ndraw((0,0)--(0,5)--(25,5)--(25,0)--cycle);\ndraw((0,0)--(5,5));\ndraw((20,5)--(25,0));\n```\n\n</center>",
+    "questionText": "A rectangular yard contains two flower beds in the shape of congruent isosceles right triangles. The remainder of the yard has a trapezoidal shape, as shown. The parallel sides of the trapezoid have lengths $15$ and $25$ meters. What fraction of the yard is occupied by the flower beds?\n<center>\n\n</center>",
     "choices": [
       "$\\frac18$",
       "$\\frac16$",
@@ -57270,7 +57270,7 @@
     "problemNumber": 14,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Five unit squares are arranged in the coordinate plane as shown, with the lower left corner at the origin. The slanted line, extending from $(c,0)$ to $(3,3)$, divides the entire region into two regions of equal area. What is $c$?\n\n```asy\nunitsize(1cm);\ndefaultpen(linewidth(.8pt)+fontsize(8pt));\n\nfill((2/3,0)--(3,3)--(3,1)--(2,1)--(2,0)--cycle,gray);\n\nxaxis(\"$x$\",-0.5,4,EndArrow(HookHead,4));\nyaxis(\"$y$\",-0.5,4,EndArrow(4));\n\ndraw((0,1)--(3,1)--(3,3)--(2,3)--(2,0));\ndraw((1,0)--(1,2)--(3,2));\ndraw((2/3,0)--(3,3));\n\nlabel(\"$(c,0)$\",(2/3,0),S);\nlabel(\"$(3,3)$\",(3,3),NE);\n```",
+    "questionText": "Five unit squares are arranged in the coordinate plane as shown, with the lower left corner at the origin. The slanted line, extending from $(c,0)$ to $(3,3)$, divides the entire region into two regions of equal area. What is $c$?",
     "choices": [
       "$\\frac12$",
       "$\\frac35$",
@@ -57611,7 +57611,7 @@
     "problemNumber": 25,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "The set $G$ is defined by the points $(x,y)$ with integer coordinates, $3\\le|x|\\le7$, $3\\le|y|\\le7$. How many squares of side length at least $6$ have their four vertices in $G$?\n\n```asy\ndefaultpen(black+0.75bp+fontsize(8pt));\nsize(5cm);\npath p = scale(.15)*unitcircle;\ndraw((-8,0)--(8.5,0),Arrow(HookHead,1mm));\ndraw((0,-8)--(0,8.5),Arrow(HookHead,1mm));\nint i,j;\nfor (i=-7;i<8;++i) {\nfor (j=-7;j<8;++j) {\nif (((-7 <= i) && (i <= -3)) || ((3 <= i) && (i<= 7))) { if (((-7 <= j) && (j <= -3)) || ((3 <= j) && (j<= 7))) { fill(shift(i,j)*p,black); }}}} draw((-7,-.2)--(-7,.2),black+0.5bp);\ndraw((-3,-.2)--(-3,.2),black+0.5bp);\ndraw((3,-.2)--(3,.2),black+0.5bp);\ndraw((7,-.2)--(7,.2),black+0.5bp);\ndraw((-.2,-7)--(.2,-7),black+0.5bp);\ndraw((-.2,-3)--(.2,-3),black+0.5bp);\ndraw((-.2,3)--(.2,3),black+0.5bp);\ndraw((-.2,7)--(.2,7),black+0.5bp);\nlabel(\"$-7$\",(-7,0),S);\nlabel(\"$-3$\",(-3,0),S);\nlabel(\"$3$\",(3,0),S);\nlabel(\"$7$\",(7,0),S);\nlabel(\"$-7$\",(0,-7),W);\nlabel(\"$-3$\",(0,-3),W);\nlabel(\"$3$\",(0,3),W);\nlabel(\"$7$\",(0,7),W);\n```",
+    "questionText": "The set $G$ is defined by the points $(x,y)$ with integer coordinates, $3\\le|x|\\le7$, $3\\le|y|\\le7$. How many squares of side length at least $6$ have their four vertices in $G$?",
     "choices": [
       "$125$",
       "$150$",
@@ -57890,7 +57890,7 @@
     "problemNumber": 9,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Older television screens have an aspect ratio of $4: 3$. That is, the ratio of the width to the height is $4: 3$. The aspect ratio of many movies is not $4: 3$, so they are sometimes shown on a television screen by \"letterboxing\" - darkening strips of equal height at the top and bottom of the screen, as shown. Suppose a movie has an aspect ratio of $2: 1$ and is shown on an older television screen with a $27$-inch diagonal. What is the height, in inches, of each darkened strip?\n\n```asy\nunitsize(1mm);\nfilldraw((0,0)--(21.6,0)--(21.6,2.7)--(0,2.7)--cycle,grey,black);\nfilldraw((0,13.5)--(21.6,13.5)--(21.6,16.2)--(0,16.2)--cycle,grey,black);\ndraw((0,0)--(21.6,0)--(21.6,16.2)--(0,16.2)--cycle);\n```",
+    "questionText": "Older television screens have an aspect ratio of $4: 3$. That is, the ratio of the width to the height is $4: 3$. The aspect ratio of many movies is not $4: 3$, so they are sometimes shown on a television screen by \"letterboxing\" - darkening strips of equal height at the top and bottom of the screen, as shown. Suppose a movie has an aspect ratio of $2: 1$ and is shown on an older television screen with a $27$-inch diagonal. What is the height, in inches, of each darkened strip?",
     "choices": [
       "$2$",
       "$2.25$",
@@ -57952,7 +57952,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Three cubes are each formed from the pattern shown. They are then stacked on a table one on top of another so that the $13$ visible numbers have the greatest possible sum. What is that sum?\n\n```asy\nunitsize(.8cm);\n\npen p = linewidth(1);\ndraw(shift(-2,0)*unitsquare,p);\nlabel(\"1\",(-1.5,0.5));\ndraw(shift(-1,0)*unitsquare,p);\nlabel(\"2\",(-0.5,0.5));\ndraw(unitsquare,p);\nlabel(\"32\",(0.5,0.5));\ndraw(shift(1,0)*unitsquare,p);\nlabel(\"16\",(1.5,0.5));\ndraw(shift(0,1)*unitsquare,p);\nlabel(\"4\",(0.5,1.5));\ndraw(shift(0,-1)*unitsquare,p);\nlabel(\"8\",(0.5,-0.5));\n```",
+    "questionText": "Three cubes are each formed from the pattern shown. They are then stacked on a table one on top of another so that the $13$ visible numbers have the greatest possible sum. What is that sum?",
     "choices": [
       "$154$",
       "$159$",
@@ -58293,7 +58293,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "A round table has radius $4$. Six rectangular place mats are placed on the table. Each place mat has width $1$ and length $x$ as shown. They are positioned so that each mat has two corners on the edge of the table, these two corners being end points of the same side of length $x$. Further, the mats are positioned so that the inner corners each touch an inner corner of an adjacent mat. What is $x$?\n\n```asy\nunitsize(4mm);\ndefaultpen(linewidth(.8)+fontsize(8));\ndraw(Circle((0,0),4));\npath mat=(-2.687,-1.5513)--(-2.687,1.5513)--(-3.687,1.5513)--(-3.687,-1.5513)--cycle;\ndraw(mat);\ndraw(rotate(60)*mat);\ndraw(rotate(120)*mat);\ndraw(rotate(180)*mat);\ndraw(rotate(240)*mat);\ndraw(rotate(300)*mat);\nlabel(\"\\(x\\)\",(-1.55,2.1),E);\nlabel(\"\\(1\\)\",(-0.5,3.8),S);\n```",
+    "questionText": "A round table has radius $4$. Six rectangular place mats are placed on the table. Each place mat has width $1$ and length $x$ as shown. They are positioned so that each mat has two corners on the edge of the table, these two corners being end points of the same side of length $x$. Further, the mats are positioned so that the inner corners each touch an inner corner of an adjacent mat. What is $x$?",
     "choices": [
       "$2\\sqrt{5}-\\sqrt{3}$",
       "$3$",
@@ -58510,7 +58510,7 @@
     "problemNumber": 4,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "On circle $O$, points $C$ and $D$ are on the same side of diameter $\\overline{AB}$, $\\angle AOC = 30^\\circ$, and $\\angle DOB = 45^\\circ$. What is the ratio of the area of the smaller sector $COD$ to the area of the circle?\n\n```asy\nunitsize(6mm);\ndefaultpen(linewidth(0.7)+fontsize(8pt));\n\npair C = 3*dir (30);\npair D = 3*dir (135);\npair A = 3*dir (0);\npair B = 3*dir(180);\npair O = (0,0);\ndraw (Circle ((0, 0), 3));\nlabel (\"\\(C\\)\", C, NE);\nlabel (\"\\(D\\)\", D, NW);\nlabel (\"\\(B\\)\", B, W);\nlabel (\"\\(A\\)\", A, E);\nlabel (\"\\(O\\)\", O, S);\nlabel (\"\\(45^\\circ\\)\", (-0.3,0.1), WNW);\nlabel (\"\\(30^\\circ\\)\", (0.5,0.1), ENE);\ndraw (A--B);\ndraw (O--D);\ndraw (O--C);\n```\n\n(Solution)",
+    "questionText": "On circle $O$, points $C$ and $D$ are on the same side of diameter $\\overline{AB}$, $\\angle AOC = 30^\\circ$, and $\\angle DOB = 45^\\circ$. What is the ratio of the area of the smaller sector $COD$ to the area of the circle?\n\n(Solution)",
     "choices": [
       "$\\frac {2}{9}$",
       "$\\frac {1}{4}$",
@@ -60060,7 +60060,7 @@
     "problemNumber": 6,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "The $8\\times 18$ rectangle $ABCD$ is cut into two congruent hexagons, as shown, in such a way that the two hexagons can be repositioned without overlap to form a square. What is $y$?\n\n```asy\nunitsize(3mm);\ndefaultpen(fontsize(10pt)+linewidth(.8pt));\ndotfactor=4;\ndraw((0,4)--(18,4)--(18,-4)--(0,-4)--cycle);\ndraw((6,4)--(6,0)--(12,0)--(12,-4));\nlabel(\"$A$\",(0,4),NW);\nlabel(\"$B$\",(18,4),NE);\nlabel(\"$C$\",(18,-4),SE);\nlabel(\"$D$\",(0,-4),SW);\nlabel(\"$y$\",(3,4),S);\nlabel(\"$y$\",(15,-4),N);\nlabel(\"$18$\",(9,4),N);\nlabel(\"$18$\",(9,-4),S);\nlabel(\"$8$\",(0,0),W);\nlabel(\"$8$\",(18,0),E);\ndot((0,4));\ndot((18,4));\ndot((18,-4));\ndot((0,-4));\n```",
+    "questionText": "The $8\\times 18$ rectangle $ABCD$ is cut into two congruent hexagons, as shown, in such a way that the two hexagons can be repositioned without overlap to form a square. What is $y$?",
     "choices": [
       "$6$",
       "$7$",
@@ -60246,7 +60246,7 @@
     "problemNumber": 12,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A number of linked rings, each 1 cm thick, are hanging on a peg. The top ring has an outside diameter of 20 cm. The outside diameter of each of the outer rings is 1 cm less than that of the ring above it. The bottom ring has an outside diameter of 3 cm. What is the distance, in cm, from the top of the top ring to the bottom of the bottom ring?\n<!-- <center>Image:2006_AMC10A-14.png</center> -->\n\n```asy\nsize(7cm); pointpen = black; pathpen = linewidth(0.7);\nD(CR((0,0),10));\nD(CR((0,0),9.5));\nD(CR((0,-18.5),9.5));\nD(CR((0,-18.5),9));\nMP(\"$\\vdots$\",(0,-31),(0,0));\nD(CR((0,-39),3));\nD(CR((0,-39),2.5));\nD(CR((0,-43.5),2.5));\nD(CR((0,-43.5),2));\nD(CR((0,-47),2));\nD(CR((0,-47),1.5));\nD(CR((0,-49.5),1.5));\nD(CR((0,-49.5),1.0));\n\nD((12,-10)--(12,10)); MP('20',(12,0),E);\nD((12,-51)--(12,-48)); MP('3',(12,-49.5),E);\n```",
+    "questionText": "A number of linked rings, each 1 cm thick, are hanging on a peg. The top ring has an outside diameter of 20 cm. The outside diameter of each of the outer rings is 1 cm less than that of the ring above it. The bottom ring has an outside diameter of 3 cm. What is the distance, in cm, from the top of the top ring to the bottom of the bottom ring?\n<!-- <center>Image:2006_AMC10A-14.png</center> -->",
     "choices": [
       "$171$",
       "$173$",
@@ -60277,7 +60277,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "<!-- <center>Image:2006_AMC_12A_Problem_13.gif</center> -->\nThe vertices of a $3-4-5$ right triangle are the centers of three mutually externally tangent circles, as shown. What is the sum of the areas of the three circles?\n\n```asy\nunitsize(5mm);\ndefaultpen(fontsize(10pt)+linewidth(.8pt));\npair B=(0,0), C=(5,0);\npair A=intersectionpoints(Circle(B,3),Circle(C,4))[0];\ndraw(A--B--C--cycle);\ndraw(Circle(C,3));\ndraw(Circle(A,1));\ndraw(Circle(B,2));\nlabel(\"$A$\",A,N);\nlabel(\"$B$\",B,W);\nlabel(\"$C$\",C,E);\nlabel(\"3\",midpoint(B--A),NW);\nlabel(\"4\",midpoint(A--C),NE);\nlabel(\"5\",midpoint(B--C),S);\n```",
+    "questionText": "<!-- <center>Image:2006_AMC_12A_Problem_13.gif</center> -->\nThe vertices of a $3-4-5$ right triangle are the centers of three mutually externally tangent circles, as shown. What is the sum of the areas of the three circles?",
     "choices": [
       "$12\\pi$",
       "$\\frac{25\\pi}{2}$",
@@ -60370,7 +60370,7 @@
     "problemNumber": 16,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Circles with centers $A$ and $B$ have radii $3$ and $8$, respectively. A common internal tangent intersects the circles at $C$ and $D$, respectively. Lines $AB$ and $CD$ intersect at $E$, and $AE=5$. What is $CD$?\n<!-- center -->\n\n```asy\nunitsize(2.5mm);\ndefaultpen(fontsize(10pt)+linewidth(.8pt));\ndotfactor=3;\npair A=(0,0), Ep=(5,0), B=(5+40/3,0);\npair M=midpoint(A--Ep);\npair C=intersectionpoints(Circle(M,2.5),Circle(A,3))[1];\npair D=B+8*dir(180+degrees(C));\ndot(A);\ndot(C);\ndot(B);\ndot(D);\ndraw(C--D);\ndraw(A--B);\ndraw(Circle(A,3));\ndraw(Circle(B,8));\nlabel(\"$A$\",A,W);\nlabel(\"$B$\",B,E);\nlabel(\"$C$\",C,SE);\nlabel(\"$E$\",Ep,SSE);\nlabel(\"$D$\",D,NW);\n```",
+    "questionText": "Circles with centers $A$ and $B$ have radii $3$ and $8$, respectively. A common internal tangent intersects the circles at $C$ and $D$, respectively. Lines $AB$ and $CD$ intersect at $E$, and $AE=5$. What is $CD$?\n<!-- center -->",
     "choices": [
       "$13$",
       "$\\frac{44}{3}$",
@@ -60401,7 +60401,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Square $ABCD$ has side length $s$, a circle centered at $E$ has radius $r$, and $r$ and $s$ are both rational. The circle passes through $D$, and $D$ lies on $\\overline{BE}$. Point $F$ lies on the circle, on the same side of $\\overline{BE}$ as $A$. Segment $AF$ is tangent to the circle, and $AF=\\sqrt{9+5\\sqrt{2}}$. What is $r/s$?\n<!-- center -->\n\n```asy\nunitsize(6mm);\ndefaultpen(linewidth(.8pt)+fontsize(10pt));\ndotfactor=3;\npair B=(0,0), C=(3,0), D=(3,3), A=(0,3);\npair Ep=(3+5*sqrt(2)/6,3+5*sqrt(2)/6);\npair F=intersectionpoints(Circle(A,sqrt(9+5*sqrt(2))),Circle(Ep,5/3))[0];\npair[] dots={A,B,C,D,Ep,F};\ndraw(A--F);\ndraw(Circle(Ep,5/3));\ndraw(A--B--C--D--cycle);\ndot(dots);\nlabel(\"$A$\",A,NW);\nlabel(\"$B$\",B,SW);\nlabel(\"$C$\",C,SE);\nlabel(\"$D$\",D,SW);\nlabel(\"$E$\",Ep,E);\nlabel(\"$F$\",F,NW);\n```",
+    "questionText": "Square $ABCD$ has side length $s$, a circle centered at $E$ has radius $r$, and $r$ and $s$ are both rational. The circle passes through $D$, and $D$ lies on $\\overline{BE}$. Point $F$ lies on the circle, on the same side of $\\overline{BE}$ as $A$. Segment $AF$ is tangent to the circle, and $AF=\\sqrt{9+5\\sqrt{2}}$. What is $r/s$?\n<!-- center -->",
     "choices": [
       "$\\frac{1}{2}$",
       "$\\frac{5}{9}$",
@@ -60959,7 +60959,7 @@
     "problemNumber": 23,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Isosceles $\\triangle ABC$ has a right angle at $C$. Point $P$ is inside $\\triangle ABC$, such that $PA=11$, $PB=7$, and $PC=6$. Legs $\\overline{AC}$ and $\\overline{BC}$ have length $s=\\sqrt{a+b\\sqrt{2}}$, where $a$ and $b$ are positive integers. What is $a+b$?\n\n```asy\npathpen = linewidth(0.7); pointpen = black;\npen f = fontsize(10);\nsize(5cm);\npair B = (0,sqrt(85+42*sqrt(2)));\npair A = (B.y,0);\npair C = (0,0);\npair P = IP(arc(B,7,180,360),arc(C,6,0,90));\nD(A--B--C--cycle);\nD(P--A);\nD(P--B);\nD(P--C);\nMP(\"A\",D(A),plain.E,f);\nMP(\"B\",D(B),plain.N,f);\nMP(\"C\",D(C),plain.SW,f);\nMP(\"P\",D(P),plain.NE,f);\n```",
+    "questionText": "Isosceles $\\triangle ABC$ has a right angle at $C$. Point $P$ is inside $\\triangle ABC$, such that $PA=11$, $PB=7$, and $PC=6$. Legs $\\overline{AC}$ and $\\overline{BC}$ have length $s=\\sqrt{a+b\\sqrt{2}}$, where $a$ and $b$ are positive integers. What is $a+b$?",
     "choices": [
       "$85$",
       "$91$",
@@ -61238,7 +61238,7 @@
     "problemNumber": 7,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Square $EFGH$ is inside the square $ABCD$ so that each side of $EFGH$ can be extended to pass through a vertex of $ABCD$. Square $ABCD$ has side length $\\sqrt{50}$, $E$ is between $B$ and $H$, and $BE = 1$. What is the area of the inner square $EFGH$?\n\n```asy\nunitsize(4cm);\ndefaultpen(linewidth(.8pt)+fontsize(10pt));\npair D=(0,0), C=(1,0), B=(1,1), A=(0,1);\npair F=intersectionpoints(Circle(D,2/sqrt(5)),Circle(A,1))[0];\npair G=foot(A,D,F), H=foot(B,A,G), E=foot(C,B,H);\ndraw(A--B--C--D--cycle);\ndraw(D--F);\ndraw(C--E);\ndraw(B--H);\ndraw(A--G);\nlabel(\"$A$\",A,NW);\nlabel(\"$B$\",B,NE);\nlabel(\"$C$\",C,SE);\nlabel(\"$D$\",D,SW);\nlabel(\"$E$\",E,NNW);\nlabel(\"$F$\",F,ENE);\nlabel(\"$G$\",G,SSE);\nlabel(\"$H$\",H,WSW);\n```",
+    "questionText": "Square $EFGH$ is inside the square $ABCD$ so that each side of $EFGH$ can be extended to pass through a vertex of $ABCD$. Square $ABCD$ has side length $\\sqrt{50}$, $E$ is between $B$ and $H$, and $BE = 1$. What is the area of the inner square $EFGH$?",
     "choices": [
       "$25$",
       "$32$",
@@ -61424,7 +61424,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "In the five-sided star shown, the letters $A$, $B$, $C$, $D$ and $E$ are replaced by the numbers $3$, $5$, $6$, $7$ and $9$, although not necessarily in that order. The sums of the numbers at the ends of the line segments $\\overline{AB}$, $\\overline{BC}$, $\\overline{CD}$, $\\overline{DE}$ and $\\overline{EA}$ form an arithmetic sequence, although not necessarily in that order. What is the middle term of the arithmetic sequence?\n\n```asy\nsize(150);\ndefaultpen(linewidth(0.8));\nstring[] strng = {'A','D','B','E','C'};\npair A=dir(90),B=dir(306),C=dir(162),D=dir(18),E=dir(234);\ndraw(A--B--C--D--E--cycle);\nfor(int i=0;i<=4;i=i+1)\n{\npath circ=circle(dir(90-72*i),0.125);\nunfill(circ);\ndraw(circ);\nlabel(\"$\"+strng[i]+\"$\",dir(90-72*i));\n}\n```",
+    "questionText": "In the five-sided star shown, the letters $A$, $B$, $C$, $D$ and $E$ are replaced by the numbers $3$, $5$, $6$, $7$ and $9$, although not necessarily in that order. The sums of the numbers at the ends of the line segments $\\overline{AB}$, $\\overline{BC}$, $\\overline{CD}$, $\\overline{DE}$ and $\\overline{EA}$ form an arithmetic sequence, although not necessarily in that order. What is the middle term of the arithmetic sequence?",
     "choices": [
       "$9$",
       "$10$",
@@ -61486,7 +61486,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Let $\\overline{AB}$ be a diameter of a circle and $C$ be a point on $\\overline{AB}$ with $2 \\cdot AC = BC$. Let $D$ and $E$ be points on the circle such that $\\overline{DC} \\perp \\overline{AB}$ and $\\overline{DE}$ is a second diameter. What is the ratio of the area of $\\triangle DCE$ to the area of $\\triangle ABD$?\n\n```asy\nunitsize(2.5cm);\ndefaultpen(fontsize(10pt)+linewidth(.8pt));\ndotfactor=3;\npair O=(0,0), C=(-1/3.0), B=(1,0), A=(-1,0);\npair D=dir(aCos(C.x)), E=(-D.x,-D.y);\ndraw(A--B--D--cycle);\ndraw(D--E--C);\ndraw(unitcircle,white);\ndrawline(D,C);\ndot(O);\nclip(unitcircle);\ndraw(unitcircle);\nlabel(\"$E$\",E,SSE);\nlabel(\"$B$\",B,E);\nlabel(\"$A$\",A,W);\nlabel(\"$D$\",D,NNW);\nlabel(\"$C$\",C,SW);\ndraw(rightanglemark(D,C,B,2));\n```",
+    "questionText": "Let $\\overline{AB}$ be a diameter of a circle and $C$ be a point on $\\overline{AB}$ with $2 \\cdot AC = BC$. Let $D$ and $E$ be points on the circle such that $\\overline{DC} \\perp \\overline{AB}$ and $\\overline{DE}$ is a second diameter. What is the ratio of the area of $\\triangle DCE$ to the area of $\\triangle ABD$?",
     "choices": [
       "$\\frac{1}{6}$",
       "$\\frac{1}{4}$",
@@ -61517,7 +61517,7 @@
     "problemNumber": 16,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Three circles of radius $s$ are drawn in the first quadrant of the $xy$-plane. The first circle is tangent to both axes, the second is tangent to the first circle and the $x$-axis, and the third is tangent to the first circle and the $y$-axis. A circle of radius $r > s$ is tangent to both axes and to the second and third circles. What is $r/s$?\n\n```asy\nimport graph;\nunitsize(3mm);\ndefaultpen(linewidth(.8pt)+fontsize(10pt));\ndotfactor=3;\npair O0=(9,9), O1=(1,1), O2=(3,1), O3=(1,3);\npair P0=O0+9*dir(-45), P3=O3+dir(70);\npair[] ps={O0,O1,O2,O3};\ndot(ps);\ndraw(Circle(O0,9));\ndraw(Circle(O1,1));\ndraw(Circle(O2,1));\ndraw(Circle(O3,1));\ndraw(O0--P0,linetype(\"3 3\"));\ndraw(O3--P3,linetype(\"2 2\"));\ndraw((0,0)--(18,0));\ndraw((0,0)--(0,18));\nlabel(\"$r$\",midpoint(O0--P0),NE);\nlabel(\"$s$\",(-1.5,4));\ndraw((-1,4)--midpoint(O3--P3));\n```",
+    "questionText": "Three circles of radius $s$ are drawn in the first quadrant of the $xy$-plane. The first circle is tangent to both axes, the second is tangent to the first circle and the $x$-axis, and the third is tangent to the first circle and the $y$-axis. A circle of radius $r > s$ is tangent to both axes and to the second and third circles. What is $r/s$?",
     "choices": [
       "$5$",
       "$6$",
@@ -61951,7 +61951,7 @@
     "problemNumber": 5,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "An $8$-foot by $10$-foot floor is tiled with square tiles of size $1$ foot by $1$ foot. Each tile has a pattern consisting of four white quarter circles of radius $1/2$ foot centered at each corner of the tile. The remaining portion of the tile is shaded. How many square feet of the floor are shaded?\n\n```asy\nunitsize(2cm);\ndefaultpen(linewidth(.8pt));\nfill(unitsquare,gray);\nfilldraw(Arc((0,0),.5,0,90)--(0,0)--cycle,white,black);\nfilldraw(Arc((1,0),.5,90,180)--(1,0)--cycle,white,black);\nfilldraw(Arc((1,1),.5,180,270)--(1,1)--cycle,white,black);\nfilldraw(Arc((0,1),.5,270,360)--(0,1)--cycle,white,black);\n```",
+    "questionText": "An $8$-foot by $10$-foot floor is tiled with square tiles of size $1$ foot by $1$ foot. Each tile has a pattern consisting of four white quarter circles of radius $1/2$ foot centered at each corner of the tile. The remaining portion of the tile is shaded. How many square feet of the floor are shaded?",
     "choices": [
       "$80-20\\pi$",
       "$60-10\\pi$",
@@ -62819,7 +62819,7 @@
     "problemNumber": 19,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Circles $A, B$ and $C$ are externally tangent to each other, and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B$?\n\n<center>\n\n```asy\nunitsize(15mm);\npair A=(-1,0),B=(2/3,8/9),C=(2/3,-8/9),D=(0,0);\n\ndraw(Circle(D,2));\ndraw(Circle(A,1));\ndraw(Circle(B,8/9));\ndraw(Circle(C,8/9));\n\nlabel(\"\\(A\\)\", A);\nlabel(\"\\(B\\)\", B);\nlabel(\"\\(C\\)\", C);\nlabel(\"\\(D\\)\", (-1.2,1.8));\n```\n\n</center>",
+    "questionText": "Circles $A, B$ and $C$ are externally tangent to each other, and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B$?\n\n<center>\n\n</center>",
     "choices": [
       "frac23",
       "$\\frac {\\sqrt3}{2}$",
@@ -62881,7 +62881,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "An annulus is the region between two concentric circles. The concentric circles in the ﬁgure have radii $b$ and $c$, with $b>c$. Let $OX$ be a radius of the larger circle, let $XZ$ be tangent to the smaller circle at $Z$, and let $OY$ be the radius of the larger circle that contains $Z$. Let $a=XZ$, $d=YZ$, and $e=XY$. What is the area of the annulus?\n\n```asy\nimport graph;\nunitsize(1.5cm);\ndefaultpen(0.8);\nreal r1=1.5, r2=2.5;\npair O=(0,0);\npath inner=Circle(O,r1), outer=Circle(O,r2);\npair Y=(0,r2), Z=(0,r1), X=intersectionpoint( Z--(Z+(10,0)), outer );\nfilldraw(outer,lightgray,black);\nfilldraw(inner,white,black);\ndraw(X--O--Y); draw(Y--X--Z);\nlabel(\"$O$\",O,SW);\nlabel(\"$X$\",X,E);\nlabel(\"$Y$\",Y,N);\nlabel(\"$Z$\",Z,SW);\nlabel(\"$a$\",X--Z,N);\nlabel(\"$b$\",0.25*X,SE);\nlabel(\"$c$\",O--Z,E);\nlabel(\"$d$\",Y--Z,W);\nlabel(\"$e$\",Y*0.65 + X*0.35,SW);\ndefaultpen(0.5);\ndot(O); dot(X); dot(Z); dot(Y);\n```",
+    "questionText": "An annulus is the region between two concentric circles. The concentric circles in the ﬁgure have radii $b$ and $c$, with $b>c$. Let $OX$ be a radius of the larger circle, let $XZ$ be tangent to the smaller circle at $Z$, and let $OY$ be the radius of the larger circle that contains $Z$. Let $a=XZ$, $d=YZ$, and $e=XY$. What is the area of the annulus?",
     "choices": [
       "$\\pi a^2$",
       "$\\pi b^2$",
@@ -63005,7 +63005,7 @@
     "problemNumber": 14,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "In $\\triangle ABC$, $AB=13$, $AC=5$, and $BC=12$. Points $M$ and $N$ lie on $AC$ and $BC$, respectively, with $CM=CN=4$. Points $J$ and $K$ are on $AB$ so that $MJ$ and $NK$ are perpendicular to $AB$. What is the area of pentagon $CMJKN$?\n\n```asy\nunitsize(0.5cm);\ndefaultpen(0.8);\npair C=(0,0), A=(0,5), B=(12,0), M=(0,4), N=(4,0);\npair J=intersectionpoint(A--B, M--(M+rotate(90)*(B-A)) );\npair K=intersectionpoint(A--B, N--(N+rotate(90)*(B-A)) );\ndraw( A--B--C--cycle );\ndraw( M--J );\ndraw( N--K );\nlabel(\"$A$\",A,NW);\nlabel(\"$B$\",B,SE);\nlabel(\"$C$\",C,SW);\nlabel(\"$M$\",M,SW);\nlabel(\"$N$\",N,S);\nlabel(\"$J$\",J,NE);\nlabel(\"$K$\",K,NE);\n```",
+    "questionText": "In $\\triangle ABC$, $AB=13$, $AC=5$, and $BC=12$. Points $M$ and $N$ lie on $AC$ and $BC$, respectively, with $CM=CN=4$. Points $J$ and $K$ are on $AB$ so that $MJ$ and $NK$ are perpendicular to $AB$. What is the area of pentagon $CMJKN$?",
     "choices": [
       "$15$",
       "$\\frac{81}{5}$",
@@ -63315,7 +63315,7 @@
     "problemNumber": 24,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "In $\\triangle ABC$, $AB = BC$, and $\\overline{BD}$ is an altitude. Point $E$ is on the extension of $\\overline{AC}$ such that $BE = 10$. The values of $\\tan \\angle CBE$, $\\tan \\angle DBE$, and $\\tan \\angle ABE$ form a geometric progression, and the values of $\\cot \\angle DBE,$ $\\cot \\angle CBE,$ $\\cot \\angle DBC$ form an arithmetic progression. What is the area of $\\triangle ABC$?\n\n<center>\n\n```asy\nsize(120);\ndefaultpen(0.7);\npair A = (0,0), D = (5*2^.5/3,0), C = (10*2^.5/3,0), B = (5*2^.5/3,5*2^.5), E = (13*2^.5/3,0);\ndraw(A--D--C--E--B--C--D--B--cycle);\nlabel(\"\\(A\\)\",A,S);\nlabel(\"\\(B\\)\",B,N);\nlabel(\"\\(C\\)\",C,S);\nlabel(\"\\(D\\)\",D,S);\nlabel(\"\\(E\\)\",E,S);\n```\n\n</center>",
+    "questionText": "In $\\triangle ABC$, $AB = BC$, and $\\overline{BD}$ is an altitude. Point $E$ is on the extension of $\\overline{AC}$ such that $BE = 10$. The values of $\\tan \\angle CBE$, $\\tan \\angle DBE$, and $\\tan \\angle ABE$ form a geometric progression, and the values of $\\cot \\angle DBE,$ $\\cot \\angle CBE,$ $\\cot \\angle DBC$ form an arithmetic progression. What is the area of $\\triangle ABC$?\n\n<center>\n\n</center>",
     "choices": [
       "$16$",
       "$\\frac {50}3$",
@@ -64121,7 +64121,7 @@
     "problemNumber": 16,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Three semicircles of radius 1 are constructed on diameter AB of a semicircle of\nradius 2. The centers of the small semicircles divide AB into four line segments\nof equal length, as shown. What is the area of the shaded region that lies within\nthe large semicircle but outside the smaller semicircles?\n\n```asy\nimport graph;\nunitsize(14mm);\ndefaultpen(linewidth(.8pt)+fontsize(8pt));\ndashed=linetype(\"4 4\");\ndotfactor=3;\npair A=(-2,0), B=(2,0);\nfill(Arc((0,0),2,0,180)--cycle,mediumgray);\nfill(Arc((-1,0),1,0,180)--cycle,white);\nfill(Arc((0,0),1,0,180)--cycle,white);\nfill(Arc((1,0),1,0,180)--cycle,white);\ndraw(Arc((-1,0),1,60,180));\ndraw(Arc((0,0),1,0,60),dashed);\ndraw(Arc((0,0),1,60,120));\ndraw(Arc((0,0),1,120,180),dashed);\ndraw(Arc((1,0),1,0,120));\ndraw(Arc((0,0),2,0,180)--cycle);\ndot((0,0));\ndot((-1,0));\ndot((1,0));\ndraw((-2,-0.1)--(-2,-0.3),gray);\ndraw((-1,-0.1)--(-1,-0.3),gray);\ndraw((1,-0.1)--(1,-0.3),gray);\ndraw((2,-0.1)--(2,-0.3),gray);\nlabel(\"$A$\",A,W);\nlabel(\"$B$\",B,E);\nlabel(\"1\",(-1.5,-0.1),S);\nlabel(\"2\",(0,-0.1),S);\nlabel(\"1\",(1.5,-0.1),S);\n```",
+    "questionText": "Three semicircles of radius 1 are constructed on diameter AB of a semicircle of\nradius 2. The centers of the small semicircles divide AB into four line segments\nof equal length, as shown. What is the area of the shaded region that lies within\nthe large semicircle but outside the smaller semicircles?",
     "choices": [
       "$\\pi - \\sqrt{3}$",
       "$\\pi - \\sqrt{2}$",
@@ -64307,7 +64307,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Let $ABCD$ be a rhombus with $AC = 16$ and $BD = 30$. Let $N$ be a point on $\\overline{AB}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{AC}$ and $\\overline{BD}$, respectively. Which of the following is closest to the minimum possible value of $PQ$?\n\n<center>\n\n```asy\nsize(200);\ndefaultpen(0.6);\npair O = (15*15/17,8*15/17), C = (17,0), D = (0,0), P = (25.6,19.2), Q = (25.6, 18.5);\npair A = 2*O-C, B = 2*O-D;\npair P = (A+O)/2, Q=(B+O)/2, N=(A+B)/2;\ndraw(A--B--C--D--cycle);\ndraw(A--O--B--O--C--O--D);\ndraw(P--N--Q);\nlabel(\"\\(A\\)\",A,WNW);\nlabel(\"\\(B\\)\",B,ESE);\nlabel(\"\\(C\\)\",C,ESE);\nlabel(\"\\(D\\)\",D,SW);\nlabel(\"\\(P\\)\",P,SSW);\nlabel(\"\\(Q\\)\",Q,SSE);\nlabel(\"\\(N\\)\",N,NNE);\n```\n\n</center>",
+    "questionText": "Let $ABCD$ be a rhombus with $AC = 16$ and $BD = 30$. Let $N$ be a point on $\\overline{AB}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{AC}$ and $\\overline{BD}$, respectively. Which of the following is closest to the minimum possible value of $PQ$?\n\n<center>\n\n</center>",
     "choices": [
       "$6.5$",
       "$6.75$",
@@ -64586,7 +64586,7 @@
     "problemNumber": 5,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Each of the small circles in the figure has radius one. The innermost circle is tangent to the six circles that surround it, and each of those circles is tangent to the large circle and to its small-circle neighbors. Find the area of the shaded region.\n\n```asy\nimport graph;\nunitsize(.3cm);\npath c=Circle((0,2),1);\nfilldraw(Circle((0,0),3),grey,black);\nfilldraw(Circle((0,0),1),white,black);\nfilldraw(c,white,black);\nfilldraw(rotate(60)*c,white,black);\nfilldraw(rotate(120)*c,white,black);\nfilldraw(rotate(180)*c,white,black);\nfilldraw(rotate(240)*c,white,black);\nfilldraw(rotate(300)*c,white,black);\n```",
+    "questionText": "Each of the small circles in the figure has radius one. The innermost circle is tangent to the six circles that surround it, and each of those circles is tangent to the large circle and to its small-circle neighbors. Find the area of the shaded region.",
     "choices": [
       "$\\pi$",
       "$1.5\\pi$",
@@ -64710,7 +64710,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Betsy designed a flag using blue triangles, small white squares, and a red center square, as shown. Let $B$ be the total area of the blue triangles, $W$ the total area of the white squares, and $R$ the area of the red square. Which of the following is correct?\n\n```asy\nunitsize(3mm);\nfill((-4,-4)--(-4,4)--(4,4)--(4,-4)--cycle,blue);\nfill((-2,-2)--(-2,2)--(2,2)--(2,-2)--cycle,red);\npath onewhite=(-3,3)--(-2,4)--(-1,3)--(-2,2)--(-3,3)--(-1,3)--(0,4)--(1,3)--(0,2)--(-1,3)--(1,3)--(2,4)--(3,3)--(2,2)--(1,3)--cycle;\npath divider=(-2,2)--(-3,3)--cycle;\nfill(onewhite,white);\nfill(rotate(90)*onewhite,white);\nfill(rotate(180)*onewhite,white);\nfill(rotate(270)*onewhite,white);\n```",
+    "questionText": "Betsy designed a flag using blue triangles, small white squares, and a red center square, as shown. Let $B$ be the total area of the blue triangles, $W$ the total area of the white squares, and $R$ the area of the red square. Which of the following is correct?",
     "choices": [
       "B = W",
       "W = R",
@@ -66694,7 +66694,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A circle centered at $A$ with a radius of 1 and a circle centered at $B$ with a radius of 4 are externally tangent. A third circle is tangent to the first two and to one of their common external tangents as shown. The radius of the third circle is\n\n```asy\nunitsize(0.75cm);\npair A=(0,1), B=(4,4);\ndot(A); dot(B);\ndraw( circle(A,1) );\ndraw( circle(B,4) );\ndraw( (-1.5,0)--(8.5,0) );\ndraw( A -- (A+(-1,0)) );\nlabel(\"$1$\", A -- (A+(-1,0)), N );\ndraw( B -- (B+(4,0)) );\nlabel(\"$4$\", B -- (B+(4,0)), N );\nlabel(\"$A$\",A,E);\nlabel(\"$B$\",B,W);\n\nfilldraw( circle( (12/9,4/9), 4/9 ), lightgray, black );\ndot( (12/9,4/9) );\n```",
+    "questionText": "A circle centered at $A$ with a radius of 1 and a circle centered at $B$ with a radius of 4 are externally tangent. A third circle is tangent to the first two and to one of their common external tangents as shown. The radius of the third circle is",
     "choices": [
       "$\\frac {1}{3}$",
       "$\\frac {2}{5}$",
@@ -67159,7 +67159,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Figures $0$, $1$, $2$, and $3$ consist of $1$, $5$, $13$, and $25$ nonoverlapping unit squares, respectively. If the pattern were continued, how many nonoverlapping unit squares would there be in figure 100?\n\n```asy\nunitsize(8);\ndraw((0,0)--(1,0)--(1,1)--(0,1)--cycle);\ndraw((9,0)--(10,0)--(10,3)--(9,3)--cycle);\ndraw((8,1)--(11,1)--(11,2)--(8,2)--cycle);\ndraw((19,0)--(20,0)--(20,5)--(19,5)--cycle);\ndraw((18,1)--(21,1)--(21,4)--(18,4)--cycle);\ndraw((17,2)--(22,2)--(22,3)--(17,3)--cycle);\ndraw((32,0)--(33,0)--(33,7)--(32,7)--cycle);\ndraw((29,3)--(36,3)--(36,4)--(29,4)--cycle);\ndraw((31,1)--(34,1)--(34,6)--(31,6)--cycle);\ndraw((30,2)--(35,2)--(35,5)--(30,5)--cycle);\nlabel(\"Figure\",(0.5,-1),S);\nlabel(\"$0$\",(0.5,-2.5),S);\nlabel(\"Figure\",(9.5,-1),S);\nlabel(\"$1$\",(9.5,-2.5),S);\nlabel(\"Figure\",(19.5,-1),S);\nlabel(\"$2$\",(19.5,-2.5),S);\nlabel(\"Figure\",(32.5,-1),S);\nlabel(\"$3$\",(32.5,-2.5),S);\n```",
+    "questionText": "Figures $0$, $1$, $2$, and $3$ consist of $1$, $5$, $13$, and $25$ nonoverlapping unit squares, respectively. If the pattern were continued, how many nonoverlapping unit squares would there be in figure 100?",
     "choices": [
       "$10401$",
       "$19801$",

@@ -18,6 +18,7 @@ import { InlineAnswerFeedback } from "@/components/play/InlineAnswerFeedback";
 import { AiUnavailableModal } from "@/components/AiUnavailableModal";
 import { isAiUnavailableError } from "@/lib/aiErrors";
 import { formatQuestionSourceLabel } from "@/lib/questionUtils";
+import { AsyDiagram } from "@/components/AsyDiagram";
 
 const WRONGS_BEFORE_SOLUTION = 3;
 
@@ -177,6 +178,9 @@ export function QuestionCard({ question, onSolved }: QuestionCardProps) {
               unoptimized={imagePath!.startsWith("http")}
             />
           </div>
+        )}
+        {!hasQuestionImage && question.diagramAsy && (
+          <AsyDiagram source={question.diagramAsy} />
         )}
           {question.questionText && (
             <div className="text-base md:text-lg leading-relaxed">

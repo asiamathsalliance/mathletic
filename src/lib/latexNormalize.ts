@@ -937,11 +937,28 @@ function closeInlineBeforeDisplayMath(text: string): string {
   return out;
 }
 
+/**
+ * Remove Asymptote diagram blocks. AoPS uses `[asy]…[/asy]`; some bank rows
+ * store the same diagrams as Markdown fences (```asy … ```), which otherwise
+ * leak into the UI and break `$A$` / `$1$` labels inside the code.
+ */
+function stripAsymptoteBlocks(text: string): string {
+  let t = text;
+  t = t.replace(/\[asy\][\s\S]*?\[\/asy\]/gi, "");
+  t = t.replace(/```(?:asy|asymptote)[^\n]*\n[\s\S]*?```/gi, "");
+  // Rare: bare fence with no language tag that is clearly Asymptote
+  t = t.replace(
+    /```\s*\n(?:\s*(?:unitsize|import\s+graph|pair\s+[A-Z]\s*=)[\s\S]*?)```/gi,
+    ""
+  );
+  return t.replace(/\n{3,}/g, "\n\n").trim();
+}
+
 export function normalizeLatexContent(input: string | null | undefined): string {
   if (!input) return "";
   let text = String(input);
 
-  text = text.replace(/\[asy\][\s\S]*?\[\/asy\]/gi, "");
+  text = stripAsymptoteBlocks(text);
   text = stripCredits(text);
   text = fixCurrencyDollars(text);
   text = separateInlineBeforeDisplay(text);
