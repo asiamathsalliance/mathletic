@@ -1293,7 +1293,7 @@
       "$4$"
     ],
     "correctIndex": 4,
-    "solution": "First, we know that $P(2022)$ and $P(2024)$ must be integers since they are both divisible by $2$.\nThen Let’s consider the remaining two numbers. Since they are not divisible by $2$, the result of the first term must be a certain number $+\\frac{1}{2}$, and the result of the second term must be a certain number $+\\frac{1}{4}$. Similarly, the remaining two terms must each be $\\frac{1}{8}$.\nTheir sum is $\\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\frac{1}{8} = 1$, so $P(2023)$ and $P(2025)$ are also integers.\nTherefore, the answer is $\\boxed{4}$.",
+    "solution": "First, we know that $P(2022)$ and $P(2024)$ must be integers since they are both divisible by $2$.\nThen Let\u2019s consider the remaining two numbers. Since they are not divisible by $2$, the result of the first term must be a certain number $+\\frac{1}{2}$, and the result of the second term must be a certain number $+\\frac{1}{4}$. Similarly, the remaining two terms must each be $\\frac{1}{8}$.\nTheir sum is $\\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\frac{1}{8} = 1$, so $P(2023)$ and $P(2025)$ are also integers.\nTherefore, the answer is $\\boxed{4}$.",
     "tags": [
       "amc10",
       "number-theory",
@@ -1882,7 +1882,7 @@
       "$96$"
     ],
     "correctIndex": 3,
-    "solution": "Let a \"tile\" denote a \\(1 \\times 1\\) square, and a \"square\" refer to a \\(2 \\times 2\\) square.\nWe have \\(4! = 24\\) possible ways to fill out the top-left square. Next, we fill out the bottom-right corner tile. In the bottom-right square, one corner is already filled (the central tile) from our initial coloring), so we have 3 color options remaining for this.\nNow considering the remaining tiles, all of these only have one way to be filled (Try it yourself if you don’t believe).\nFor example, the right tile of the middle row is part of two squares: the top-right and the bottom-right. Among these squares, 3 colors have already been used, leaving us with only 1 remaining option. Similarly, every other remaining square has only one available option for coloring.\nThus, the total number of ways is \\(3 \\times 4! = \\boxed{72}\\).\n\nA quick version of this method is used when you use for example B as the top left corner block. You can see that B in the top left corner has 6 possible ways. Now, see that there are 3 possible corners for a center cell and there are 4 possible center cells. We get 6 times 4 times 3 = D, 72. (I'm not very good at using latex)",
+    "solution": "Let a \"tile\" denote a \\(1 \\times 1\\) square, and a \"square\" refer to a \\(2 \\times 2\\) square.\nWe have \\(4! = 24\\) possible ways to fill out the top-left square. Next, we fill out the bottom-right corner tile. In the bottom-right square, one corner is already filled (the central tile) from our initial coloring), so we have 3 color options remaining for this.\nNow considering the remaining tiles, all of these only have one way to be filled (Try it yourself if you don\u2019t believe).\nFor example, the right tile of the middle row is part of two squares: the top-right and the bottom-right. Among these squares, 3 colors have already been used, leaving us with only 1 remaining option. Similarly, every other remaining square has only one available option for coloring.\nThus, the total number of ways is \\(3 \\times 4! = \\boxed{72}\\).\n\nA quick version of this method is used when you use for example B as the top left corner block. You can see that B in the top left corner has 6 possible ways. Now, see that there are 3 possible corners for a center cell and there are 4 possible center cells. We get 6 times 4 times 3 = D, 72. (I'm not very good at using latex)",
     "tags": [
       "amc10",
       "counting-probability",
@@ -2006,7 +2006,7 @@
       "$\\frac{1}{2}$"
     ],
     "correctIndex": 0,
-    "solution": "To find the total amount of vertices we first find the amount of edges, and that is $\\frac{20 \\times 3}{2}$. Next, to find the amount of vertices we can use Euler's characteristic, $V - E + F = 2$, and therefore the amount of vertices is $12$ So there are $P(12,3) = 1320$ ways to choose 3 distinct points.\nNow, the furthest distance we can get from one point to another point in an icosahedron is 3. Which gives us a range of $1 \\leq d(Q, R), d(R, S) \\leq 3$ With some case work, we get two cases:\nCase 1: $d(Q, R) = 3; d(R, S) = 1, 2$ Since we have only one way to choose Q, that is, the opposite point from R, we have one option for Q and any of the other points could work for S.\nThen, we get $12 \\times 1 \\times 10 = 120$ (ways to choose R × ways to choose Q × ways to choose S)\nCase 2: $d(Q, R) = 2; d(R, S) = 1$ We can visualize the icosahedron as 4 rows, first row with 1 vertex, second row with 5 vertices, third row with 5 vertices and fourth row with 1 vertex. We set R as the one vertex on the first row, and we have 12 options for R. Then, Q can be any of the 5 points on the third row and finally S can be one of the 5 points on the second row.\nTherefore, we have $12 \\times 5 \\times 5 = 300$ (ways to choose R × ways to choose Q × ways to choose S)\nHence, $P(d(Q, R)>d(R, S)) = \\frac{120+300}{1320} = \\boxed{\\frac{7}{22}}$",
+    "solution": "To find the total amount of vertices we first find the amount of edges, and that is $\\frac{20 \\times 3}{2}$. Next, to find the amount of vertices we can use Euler's characteristic, $V - E + F = 2$, and therefore the amount of vertices is $12$ So there are $P(12,3) = 1320$ ways to choose 3 distinct points.\nNow, the furthest distance we can get from one point to another point in an icosahedron is 3. Which gives us a range of $1 \\leq d(Q, R), d(R, S) \\leq 3$ With some case work, we get two cases:\nCase 1: $d(Q, R) = 3; d(R, S) = 1, 2$ Since we have only one way to choose Q, that is, the opposite point from R, we have one option for Q and any of the other points could work for S.\nThen, we get $12 \\times 1 \\times 10 = 120$ (ways to choose R \u00d7 ways to choose Q \u00d7 ways to choose S)\nCase 2: $d(Q, R) = 2; d(R, S) = 1$ We can visualize the icosahedron as 4 rows, first row with 1 vertex, second row with 5 vertices, third row with 5 vertices and fourth row with 1 vertex. We set R as the one vertex on the first row, and we have 12 options for R. Then, Q can be any of the 5 points on the third row and finally S can be one of the 5 points on the second row.\nTherefore, we have $12 \\times 5 \\times 5 = 300$ (ways to choose R \u00d7 ways to choose Q \u00d7 ways to choose S)\nHence, $P(d(Q, R)>d(R, S)) = \\frac{120+300}{1320} = \\boxed{\\frac{7}{22}}$",
     "tags": [
       "amc10",
       "counting-probability",
@@ -3060,7 +3060,7 @@
       "$1296$"
     ],
     "correctIndex": 4,
-    "solution": "For some $n$, let there be $n+1$ parking spaces counterclockwise in a circle. Consider a string of $n$ integers $c_1c_2 \\ldots c_n$ each between $0$ and $n$, and let $n$ cars come into this circle so that the $i$ th car tries to park at spot $c_i$, but if it is already taken then it instead keeps going counterclockwise and takes the next available spot. After this process, exactly one spot will remain empty.\nThen the strings of $n$ numbers between $0$ and $n-1$ that contain at least $k$ integers $<k$ for $1 \\leq k \\leq n$ are exactly the set of strings that leave spot $n$ empty. Also note for any string $c_1c_2 \\ldots c_n$, we can add $1$ to each $c_i$ (mod $n+1$) to shift the empty spot counterclockwise, meaning for each string there exists exactly one $j$ with $0 \\leq j \\leq n$ so that $(c_1+j)(c_2+j) \\ldots (c_n+j)$ leaves spot $n$ empty. This gives there are $\\frac{(n+1)^{n}}{n+1} = (n+1)^{n-1}$ such strings.\nPlugging in $n = 5$ gives $\\boxed{1296}$ such strings.\n\nNote: If you are confused, the problem is equivalent to “How many strings of length $5$ formed from the digits $0$, $1$, $2$, $3$, $4$, $5$ are there such that for each $j \\in \\{1,2,3,4,5\\}$, at least $j$ of the digits are less than $j$?”",
+    "solution": "For some $n$, let there be $n+1$ parking spaces counterclockwise in a circle. Consider a string of $n$ integers $c_1c_2 \\ldots c_n$ each between $0$ and $n$, and let $n$ cars come into this circle so that the $i$ th car tries to park at spot $c_i$, but if it is already taken then it instead keeps going counterclockwise and takes the next available spot. After this process, exactly one spot will remain empty.\nThen the strings of $n$ numbers between $0$ and $n-1$ that contain at least $k$ integers $<k$ for $1 \\leq k \\leq n$ are exactly the set of strings that leave spot $n$ empty. Also note for any string $c_1c_2 \\ldots c_n$, we can add $1$ to each $c_i$ (mod $n+1$) to shift the empty spot counterclockwise, meaning for each string there exists exactly one $j$ with $0 \\leq j \\leq n$ so that $(c_1+j)(c_2+j) \\ldots (c_n+j)$ leaves spot $n$ empty. This gives there are $\\frac{(n+1)^{n}}{n+1} = (n+1)^{n-1}$ such strings.\nPlugging in $n = 5$ gives $\\boxed{1296}$ such strings.\n\nNote: If you are confused, the problem is equivalent to \u201cHow many strings of length $5$ formed from the digits $0$, $1$, $2$, $3$, $4$, $5$ are there such that for each $j \\in \\{1,2,3,4,5\\}$, at least $j$ of the digits are less than $j$?\u201d",
     "tags": [
       "amc10",
       "geometry",
@@ -3091,7 +3091,7 @@
       "$340$"
     ],
     "correctIndex": 1,
-    "solution": "Let $r$ be the number of lattice points on the side length of square $R$, $s$ be the number of lattice points on the side length of square $S$, and $t$ be the number of lattice points on the side length of square $T$. Note that the actual lengths of the side lengths are the number of lattice points minus $1$, so we can work in terms of $r, s, t$ and subtract $3$ to get the actual answer at the end. Furthermore, note that the number of lattice points inside a rectangular region is equal to the number of lattice points in its width times the number of lattice points along its length.\nUsing this fact, the number of lattice points in $R$ is $r^2$, the number of lattice points in $S$ is $s^2$, and the number of lattice points in $T$ is $t^2$.\nNow, by the first condition, we have \\[r^2=\\frac{9}{4}\\cdot s^2 \\implies r = \\frac{3}{2}s (1)\\]\nThe second condition, the number of lattice points contained in $T$ is a fourth of the number of lattice points contained in $R \\cup S$. The number of lattice points in $R \\cup S$ is equal to the sum of the lattice points in their individually bounded regions, but the lattice points along the y-axis for the full length of square $S$ is shared by both of them, so we need to subtract that out.\nIn all, this condition yields us $t^2 = \\frac{1}{4}\\cdot(r^2 + s^2 - s )\\implies t^2 = \\frac{1}{4}\\cdot\\left(\\frac{9}{4}\\cdot s^2 + s^2 - s \\right)$ $\\implies t^2=\\frac{1}{4}\\cdot\\frac{13s^2-4s}{4} \\implies 16t^2= s(13s-4)$ Note from $(1)$ that $s$ is a multiple of $2$. We can write $s=2j$ and substitute: $16t^2=2j(26j-4) \\implies 4t^2=j(13j-2)$.\nNote that $j$ must be divisible by two for the product to be divisible by 4. Thus we make another substitution, $j=2k$:\n \\[4t^2=2k(26k-2) \\implies t^2 = k(13k-1) (2)\\]\nFinally we look at the last condition; that the fraction of the lattice points inside $S$ that are inside $S \\cap T$ is $27$ times the fraction of lattice points inside $r$ that are inside $R \\cap T$.\nLet $x$ be the number of lattice points along the bottom of the rectangle formed by $S \\cap T$, and $y$ be the number of lattice points along the bottom of the the rectangle formed by $R \\cap T$.\nTherefore, the number of lattice points in $S\\cap T$ is $xt$ and the number of lattice points in $R \\cap T$ is $yt$.\nThus by this condition, $\\frac{xt}{s^2} = 27 \\cdot \\frac{yt}{r^2} \\implies \\frac{x}{s^2} = 27 \\cdot \\frac{y}{\\frac{9}{4}\\cdot s^2} \\implies x= 12y$ Finally, notice that $t=x+y-1=12y+y-1$ (subtracting overlap), and so we have \\[t=13y-1 (3)\\]\nNow notice that by $(3)$, $t\\equiv -1 \\pmod{13}\\implies t^2 \\equiv 1 \\pmod{13}$.\nHowever, by $(2)$, $t^2 \\equiv k \\cdot -1 \\pmod{13}$. Therefore, $-k \\equiv 1 \\pmod{13} \\implies k \\equiv -1 \\pmod{13}$ Also, by $(2)$, we know $k$ must be a perfect square since $k$ is relatively prime to $13k-1$ (Euclids algorithm) and the two must multiply to a perfect square. Hence we know two conditions on $k$, and we can now guess and check to find the smallest that satisfies both.\nWe check $k=12$ first since its one less than a multiple of $13$, but this does not work. Next, we have $k=25$ which works because $25$ is a perfect square. Thus we have found the smallest $k$, and therefore the smallest $r, s, t$.\nNow we just work backwards: $j= 2k = 50$ and $s=2j=100$. Then $r=\\frac{3}{2}\\cdot 100 = 150$. Finally, from $(2)$, $t^2=25(13\\cdot25-1) \\implies t^2 = 25 \\cdot 324 \\implies t=5\\cdot 18=90$.\nFinally, the sum of each square’s side lengths is $r+s+t-3=340-3=337=\\boxed{337}$.",
+    "solution": "Let $r$ be the number of lattice points on the side length of square $R$, $s$ be the number of lattice points on the side length of square $S$, and $t$ be the number of lattice points on the side length of square $T$. Note that the actual lengths of the side lengths are the number of lattice points minus $1$, so we can work in terms of $r, s, t$ and subtract $3$ to get the actual answer at the end. Furthermore, note that the number of lattice points inside a rectangular region is equal to the number of lattice points in its width times the number of lattice points along its length.\nUsing this fact, the number of lattice points in $R$ is $r^2$, the number of lattice points in $S$ is $s^2$, and the number of lattice points in $T$ is $t^2$.\nNow, by the first condition, we have \\[r^2=\\frac{9}{4}\\cdot s^2 \\implies r = \\frac{3}{2}s (1)\\]\nThe second condition, the number of lattice points contained in $T$ is a fourth of the number of lattice points contained in $R \\cup S$. The number of lattice points in $R \\cup S$ is equal to the sum of the lattice points in their individually bounded regions, but the lattice points along the y-axis for the full length of square $S$ is shared by both of them, so we need to subtract that out.\nIn all, this condition yields us $t^2 = \\frac{1}{4}\\cdot(r^2 + s^2 - s )\\implies t^2 = \\frac{1}{4}\\cdot\\left(\\frac{9}{4}\\cdot s^2 + s^2 - s \\right)$ $\\implies t^2=\\frac{1}{4}\\cdot\\frac{13s^2-4s}{4} \\implies 16t^2= s(13s-4)$ Note from $(1)$ that $s$ is a multiple of $2$. We can write $s=2j$ and substitute: $16t^2=2j(26j-4) \\implies 4t^2=j(13j-2)$.\nNote that $j$ must be divisible by two for the product to be divisible by 4. Thus we make another substitution, $j=2k$:\n \\[4t^2=2k(26k-2) \\implies t^2 = k(13k-1) (2)\\]\nFinally we look at the last condition; that the fraction of the lattice points inside $S$ that are inside $S \\cap T$ is $27$ times the fraction of lattice points inside $r$ that are inside $R \\cap T$.\nLet $x$ be the number of lattice points along the bottom of the rectangle formed by $S \\cap T$, and $y$ be the number of lattice points along the bottom of the the rectangle formed by $R \\cap T$.\nTherefore, the number of lattice points in $S\\cap T$ is $xt$ and the number of lattice points in $R \\cap T$ is $yt$.\nThus by this condition, $\\frac{xt}{s^2} = 27 \\cdot \\frac{yt}{r^2} \\implies \\frac{x}{s^2} = 27 \\cdot \\frac{y}{\\frac{9}{4}\\cdot s^2} \\implies x= 12y$ Finally, notice that $t=x+y-1=12y+y-1$ (subtracting overlap), and so we have \\[t=13y-1 (3)\\]\nNow notice that by $(3)$, $t\\equiv -1 \\pmod{13}\\implies t^2 \\equiv 1 \\pmod{13}$.\nHowever, by $(2)$, $t^2 \\equiv k \\cdot -1 \\pmod{13}$. Therefore, $-k \\equiv 1 \\pmod{13} \\implies k \\equiv -1 \\pmod{13}$ Also, by $(2)$, we know $k$ must be a perfect square since $k$ is relatively prime to $13k-1$ (Euclids algorithm) and the two must multiply to a perfect square. Hence we know two conditions on $k$, and we can now guess and check to find the smallest that satisfies both.\nWe check $k=12$ first since its one less than a multiple of $13$, but this does not work. Next, we have $k=25$ which works because $25$ is a perfect square. Thus we have found the smallest $k$, and therefore the smallest $r, s, t$.\nNow we just work backwards: $j= 2k = 50$ and $s=2j=100$. Then $r=\\frac{3}{2}\\cdot 100 = 150$. Finally, from $(2)$, $t^2=25(13\\cdot25-1) \\implies t^2 = 25 \\cdot 324 \\implies t=5\\cdot 18=90$.\nFinally, the sum of each square\u2019s side lengths is $r+s+t-3=340-3=337=\\boxed{337}$.",
     "tags": [
       "amc10",
       "geometry",
@@ -3206,7 +3206,7 @@
     "problemNumber": 4,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A donkey suffers an attack of hiccups and the first hiccup happens at $4:00$ one afternoon. Suppose that\nthe donkey hiccups regularly every $5$ seconds. At what time does the donkey’s $700$ th hiccup occur?",
+    "questionText": "A donkey suffers an attack of hiccups and the first hiccup happens at $4:00$ one afternoon. Suppose that\nthe donkey hiccups regularly every $5$ seconds. At what time does the donkey\u2019s $700$ th hiccup occur?",
     "choices": [
       "$15 \\text{ seconds after } 4:58$",
       "$20 \\text{ seconds after } 4:58$",
@@ -3649,7 +3649,7 @@
       "$23$"
     ],
     "correctIndex": 4,
-    "solution": "Given that all the answer choices and coefficients are integers, we hope that $P(x)$ has positive integer coefficients.\nThroughout this solution, we will express all polynomials in base $x$. E.g. $x^2 + x + 1 = 111_{x}$.\nWe are given:\n \\[111a + 12 = 101b + 21 = P(x).\\]\nWe add $111$ and $101$ to each side and balance respectively:\n \\[111(a - 1) + 123 = 101(b - 1) + 122 = P(x).\\]\nWe make the unit's digits equal:\n \\[111(a - 1) + 123 = 101(b - 2) + 223 = P(x).\\]\nWe now notice that:\n \\[111(a - 11) + 1233 = 101(b - 12) + 1233 = P(x).\\]\nTherefore $a = 11_{x} = x + 1$, $b = 12_{x} = x + 2$, and $P(x) = 1233_{x} = x^3 + 2x^2 + 3x + 3$. $3$ is the minimal degree of $P(x)$ since there is no way to influence the $x$ ‘s digit in $101b + 21$ when $b$ is an integer. The desired sum is $1^2 + 2^2 +3^2+ 3^2 = \\boxed{23}$ P.S. The four computational steps can be deduced through quick experimentation.",
+    "solution": "Given that all the answer choices and coefficients are integers, we hope that $P(x)$ has positive integer coefficients.\nThroughout this solution, we will express all polynomials in base $x$. E.g. $x^2 + x + 1 = 111_{x}$.\nWe are given:\n \\[111a + 12 = 101b + 21 = P(x).\\]\nWe add $111$ and $101$ to each side and balance respectively:\n \\[111(a - 1) + 123 = 101(b - 1) + 122 = P(x).\\]\nWe make the unit's digits equal:\n \\[111(a - 1) + 123 = 101(b - 2) + 223 = P(x).\\]\nWe now notice that:\n \\[111(a - 11) + 1233 = 101(b - 12) + 1233 = P(x).\\]\nTherefore $a = 11_{x} = x + 1$, $b = 12_{x} = x + 2$, and $P(x) = 1233_{x} = x^3 + 2x^2 + 3x + 3$. $3$ is the minimal degree of $P(x)$ since there is no way to influence the $x$ \u2018s digit in $101b + 21$ when $b$ is an integer. The desired sum is $1^2 + 2^2 +3^2+ 3^2 = \\boxed{23}$ P.S. The four computational steps can be deduced through quick experimentation.",
     "tags": [
       "amc10",
       "algebra",
@@ -6709,7 +6709,7 @@
     "problemNumber": 21,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "There exists a unique strictly increasing sequence of nonnegative integers $a_1 < a_2 < … < a_k$ such that \\[\\frac{2^{289}+1}{2^{17}+1} = 2^{a_1} + 2^{a_2} + … + 2^{a_k}.\\] What is $k?$",
+    "questionText": "There exists a unique strictly increasing sequence of nonnegative integers $a_1 < a_2 < \u2026 < a_k$ such that \\[\\frac{2^{289}+1}{2^{17}+1} = 2^{a_1} + 2^{a_2} + \u2026 + 2^{a_k}.\\] What is $k?$",
     "choices": [
       "$117$",
       "$136$",
@@ -7648,7 +7648,7 @@
       "$91$"
     ],
     "correctIndex": 1,
-    "solution": "We try to find the worst case scenario where we can find the maximum number of balls that can be drawn while getting $<15$ of each color by applying the pigeonhole principle and through this we get a perfect guarantee.\nNamely, we can draw up to $14$ red balls, $14$ green balls, $14$ yellow balls, $13$ blue balls, $11$ white balls, and $9$ black balls, for a total of $75$ balls, without drawing $15$ balls of any one color. Drawing one more ball guarantees that we will get $15$ balls of one color — either red, green, or yellow. Thus, the answer is $75 + 1 = \\boxed{76}$.",
+    "solution": "We try to find the worst case scenario where we can find the maximum number of balls that can be drawn while getting $<15$ of each color by applying the pigeonhole principle and through this we get a perfect guarantee.\nNamely, we can draw up to $14$ red balls, $14$ green balls, $14$ yellow balls, $13$ blue balls, $11$ white balls, and $9$ black balls, for a total of $75$ balls, without drawing $15$ balls of any one color. Drawing one more ball guarantees that we will get $15$ balls of one color \u2014 either red, green, or yellow. Thus, the answer is $75 + 1 = \\boxed{76}$.",
     "tags": [
       "amc10",
       "counting-probability",
@@ -8848,7 +8848,7 @@
     "problemNumber": 21,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Debra flips a fair coin repeatedly, keeping track of how many heads and how many tails she has seen in total, until she gets either two heads in a row or two tails in a row, at which point she stops flipping. What is the probability that she gets two heads in a row but she sees a second tail before she sees a second head？",
+    "questionText": "Debra flips a fair coin repeatedly, keeping track of how many heads and how many tails she has seen in total, until she gets either two heads in a row or two tails in a row, at which point she stops flipping. What is the probability that she gets two heads in a row but she sees a second tail before she sees a second head\uff1f",
     "choices": [
       "$\\frac{1}{36}$",
       "$\\frac{1}{24}$",
@@ -10398,7 +10398,7 @@
     "problemNumber": 4,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Mia is \"helping\" her mom pick up $30$ toys that are strewn on the floor. Mia’s mom manages to put $3$ toys into the toy box every $30$ seconds, but each time immediately after those $30$ seconds have elapsed, Mia takes $2$ toys out of the box. How much time, in minutes, will it take Mia and her mom to put all $30$ toys into the box for the first time?",
+    "questionText": "Mia is \"helping\" her mom pick up $30$ toys that are strewn on the floor. Mia\u2019s mom manages to put $3$ toys into the toy box every $30$ seconds, but each time immediately after those $30$ seconds have elapsed, Mia takes $2$ toys out of the box. How much time, in minutes, will it take Mia and her mom to put all $30$ toys into the box for the first time?",
     "choices": [
       "$13.5$",
       "$14$",
@@ -10531,7 +10531,7 @@
       "$490$"
     ],
     "correctIndex": 1,
-    "solution": "Each one of the ten people has to shake hands with all the $20$ other people they don’t know. So $10\\cdot20 = 200$. From there, we calculate how many handshakes occurred between the people who don’t know each other. This is simply counting how many ways to choose two people to shake hands from $10$, or $\\binom{10}{2} = 45$. Thus the answer is $200 + 45 = \\boxed{245}$.",
+    "solution": "Each one of the ten people has to shake hands with all the $20$ other people they don\u2019t know. So $10\\cdot20 = 200$. From there, we calculate how many handshakes occurred between the people who don\u2019t know each other. This is simply counting how many ways to choose two people to shake hands from $10$, or $\\binom{10}{2} = 45$. Thus the answer is $200 + 45 = \\boxed{245}$.",
     "tags": [
       "amc10",
       "counting-probability",
@@ -10748,7 +10748,7 @@
       "$\\frac{7}{8}$"
     ],
     "correctIndex": 2,
-    "solution": "Denote \"winning\" to mean \"picking a greater number\".\nThere is a $\\frac{1}{2}$ chance that Laurent chooses a number in the interval $[2017, 4034]$. In this case, Chloé cannot possibly win, since the maximum number she can pick is $2017$. Otherwise, if Laurent picks a number in the interval $[0, 2017]$, with probability $\\frac{1}{2}$, then the two people are symmetric, and each has a $\\frac{1}{2}$ chance of winning. Then, the total probability is: $\\frac{1}{2}\\times1 + \\frac{1}{2}\\times\\frac{1}{2} = \\boxed{\\frac{3}{4}}$",
+    "solution": "Denote \"winning\" to mean \"picking a greater number\".\nThere is a $\\frac{1}{2}$ chance that Laurent chooses a number in the interval $[2017, 4034]$. In this case, Chlo\u00e9 cannot possibly win, since the maximum number she can pick is $2017$. Otherwise, if Laurent picks a number in the interval $[0, 2017]$, with probability $\\frac{1}{2}$, then the two people are symmetric, and each has a $\\frac{1}{2}$ chance of winning. Then, the total probability is: $\\frac{1}{2}\\times1 + \\frac{1}{2}\\times\\frac{1}{2} = \\boxed{\\frac{3}{4}}$",
     "tags": [
       "amc10",
       "counting-probability",
@@ -11802,7 +11802,7 @@
       "$169$"
     ],
     "correctIndex": 2,
-    "solution": "WLOG, let the centroid of $\\triangle ABC$ be $I = (-1,-1)$. The centroid of an equilateral triangle is the same as the circumcenter. It follows that the circumcircle must intersect the graph exactly three times. Therefore, $A = (1,1)$, so $AI = BI = CI = 2\\sqrt{2}$, so since $\\triangle AIB$ is isosceles and $\\angle AIB = 120^{\\circ}$, then by the Law of Cosines , $AB = 2\\sqrt{6}$. Alternatively, we can use the fact that the circumradius of an equilateral triangle is equal to $\\frac {s}{\\sqrt{3}}$. Therefore, the area of the triangle is $\\frac{(2\\sqrt{6})^2\\sqrt{3}}4 = 6\\sqrt{3}$, so the square of the area of the triangle is $\\boxed{108}$.\n\nNote: We could’ve also noticed that the centroid divides the median into segments of ratio $2:1.$ peelybonehead",
+    "solution": "WLOG, let the centroid of $\\triangle ABC$ be $I = (-1,-1)$. The centroid of an equilateral triangle is the same as the circumcenter. It follows that the circumcircle must intersect the graph exactly three times. Therefore, $A = (1,1)$, so $AI = BI = CI = 2\\sqrt{2}$, so since $\\triangle AIB$ is isosceles and $\\angle AIB = 120^{\\circ}$, then by the Law of Cosines , $AB = 2\\sqrt{6}$. Alternatively, we can use the fact that the circumradius of an equilateral triangle is equal to $\\frac {s}{\\sqrt{3}}$. Therefore, the area of the triangle is $\\frac{(2\\sqrt{6})^2\\sqrt{3}}4 = 6\\sqrt{3}$, so the square of the area of the triangle is $\\boxed{108}$.\n\nNote: We could\u2019ve also noticed that the centroid divides the median into segments of ratio $2:1.$ peelybonehead",
     "tags": [
       "amc10",
       "geometry",
@@ -12847,7 +12847,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Carl decided to fence in his rectangular garden. He bought $20$ fence posts, placed one on each of the four corners, and spaced out the rest evenly along the edges of the garden, leaving exactly $4$ yards between neighboring posts. The longer side of his garden, including the corners, has twice as many posts as the shorter side, including the corners. What is the area, in square yards, of Carl’s garden?",
+    "questionText": "Carl decided to fence in his rectangular garden. He bought $20$ fence posts, placed one on each of the four corners, and spaced out the rest evenly along the edges of the garden, leaving exactly $4$ yards between neighboring posts. The longer side of his garden, including the corners, has twice as many posts as the shorter side, including the corners. What is the area, in square yards, of Carl\u2019s garden?",
     "choices": [
       "$256$",
       "$336$",
@@ -17878,7 +17878,7 @@
       "$660$"
     ],
     "correctIndex": 1,
-    "solution": "Note that if $n$ is the number of friends each person has, then $n$ can be any integer from $1$ to $4$, inclusive, truly.\nOne person can have at most 4 friends since they cannot be all friends (stated in the problem).\nAlso note that the cases of $n=1$ and $n=4$ are the same, since a map showing a solution for $n=1$ can correspond one-to-one with a map of a solution for $n=4$ by simply making every pair of friends non-friends and vice versa. The same can be said of configurations with $n=2$ when compared to configurations of $n=3$. Thus, we have two cases to examine, $n=1$ and $n=2$, and we count each of these combinations twice.\n(Note: If you aren’t familiar with one-to-one correspondences, think of it like this: the number of ways to choose 4 friends is equal to number of ways to exclude one friend from your friend group. Hence, since the number of ways to choose 1 friend is the same thing as choosing 1 to not be friends with, $n=1$ and $n=4$ have the same number of ways. Similarly, $n=2$ and $n=3$ have the same number of ways as well. peelybonehead)\nFor $n=1$, if everyone has exactly one friend, that means there must be $3$ pairs of friends, with no other interconnections. The first person has $5$ choices for a friend. There are $4$ people left. The next person has $3$ choices for a friend. There are two people left, and these remaining two must be friends. Thus, there are $15$ configurations with $n=1$.\nFor $n=2$, there are two possibilities. The group of $6$ can be split into two groups of $3$, with each group creating a friendship triangle. The first person has $\\binom{5}{2} = 10$ ways to pick two friends from the other five, while the other three are forced together. Thus, there are $10$ triangular configurations.\nHowever, the group can also form a friendship hexagon, with each person sitting on a vertex, and each side representing the two friends that person has. The first person may be seated anywhere on the hexagon without loss of generality . This person has $\\binom{5}{2} = 10$ choices for the two friends on the adjoining vertices. Each of the three remaining people can be seated \"across\" from one of the original three people, forming a different configuration. Thus, there are $10 \\cdot 3! = 60$ hexagonal configurations, and in total $70$ configurations for $n=2$.\nAs stated before, $n=3$ has $70$ configurations, and $n=4$ has $15$ configurations. This gives a total of $(70 + 15)\\cdot 2 = 170$ configurations, which is option $\\boxed{170}$.",
+    "solution": "Note that if $n$ is the number of friends each person has, then $n$ can be any integer from $1$ to $4$, inclusive, truly.\nOne person can have at most 4 friends since they cannot be all friends (stated in the problem).\nAlso note that the cases of $n=1$ and $n=4$ are the same, since a map showing a solution for $n=1$ can correspond one-to-one with a map of a solution for $n=4$ by simply making every pair of friends non-friends and vice versa. The same can be said of configurations with $n=2$ when compared to configurations of $n=3$. Thus, we have two cases to examine, $n=1$ and $n=2$, and we count each of these combinations twice.\n(Note: If you aren\u2019t familiar with one-to-one correspondences, think of it like this: the number of ways to choose 4 friends is equal to number of ways to exclude one friend from your friend group. Hence, since the number of ways to choose 1 friend is the same thing as choosing 1 to not be friends with, $n=1$ and $n=4$ have the same number of ways. Similarly, $n=2$ and $n=3$ have the same number of ways as well. peelybonehead)\nFor $n=1$, if everyone has exactly one friend, that means there must be $3$ pairs of friends, with no other interconnections. The first person has $5$ choices for a friend. There are $4$ people left. The next person has $3$ choices for a friend. There are two people left, and these remaining two must be friends. Thus, there are $15$ configurations with $n=1$.\nFor $n=2$, there are two possibilities. The group of $6$ can be split into two groups of $3$, with each group creating a friendship triangle. The first person has $\\binom{5}{2} = 10$ ways to pick two friends from the other five, while the other three are forced together. Thus, there are $10$ triangular configurations.\nHowever, the group can also form a friendship hexagon, with each person sitting on a vertex, and each side representing the two friends that person has. The first person may be seated anywhere on the hexagon without loss of generality . This person has $\\binom{5}{2} = 10$ choices for the two friends on the adjoining vertices. Each of the three remaining people can be seated \"across\" from one of the original three people, forming a different configuration. Thus, there are $10 \\cdot 3! = 60$ hexagonal configurations, and in total $70$ configurations for $n=2$.\nAs stated before, $n=3$ has $70$ configurations, and $n=4$ has $15$ configurations. This gives a total of $(70 + 15)\\cdot 2 = 170$ configurations, which is option $\\boxed{170}$.",
     "tags": [
       "amc10",
       "counting-probability",
@@ -19822,7 +19822,7 @@
     "problemNumber": 20,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Rhombus $ABCD$ has side length $2$ and $\\angle B = 120$ °. Region $R$ consists of all points inside the rhombus that are closer to vertex $B$ than any of the other three vertices. What is the area of $R$?",
+    "questionText": "Rhombus $ABCD$ has side length $2$ and $\\angle B = 120$ \u00b0. Region $R$ consists of all points inside the rhombus that are closer to vertex $B$ than any of the other three vertices. What is the area of $R$?",
     "choices": [
       "$\\frac{\\sqrt{3}}{3}$",
       "$\\frac{\\sqrt{3}}{2}$",
@@ -20597,7 +20597,7 @@
     "problemNumber": 25,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Jim starts with a positive integer $n$ and creates a sequence of numbers. Each successive number is obtained by subtracting the largest possible integer square less than or equal to the current number until zero is reached. For example, if Jim starts with $n = 55$, then his sequence contains $5$ numbers:\n\n \\[\\begin{array}{ccccc} {}&{}&{}&{}&55\\\\ 55&-&7^2&=&6\\\\ 6&-&2^2&=&2\\\\ 2&-&1^2&=&1\\\\ 1&-&1^2&=&0\\\\ \\end{array}\\]\nLet $N$ be the smallest number for which Jim’s sequence has $8$ numbers. What is the units digit of $N$?",
+    "questionText": "Jim starts with a positive integer $n$ and creates a sequence of numbers. Each successive number is obtained by subtracting the largest possible integer square less than or equal to the current number until zero is reached. For example, if Jim starts with $n = 55$, then his sequence contains $5$ numbers:\n\n \\[\\begin{array}{ccccc} {}&{}&{}&{}&55\\\\ 55&-&7^2&=&6\\\\ 6&-&2^2&=&2\\\\ 2&-&1^2&=&1\\\\ 1&-&1^2&=&0\\\\ \\end{array}\\]\nLet $N$ be the smallest number for which Jim\u2019s sequence has $8$ numbers. What is the units digit of $N$?",
     "choices": [
       "$1$",
       "$3$",
@@ -20969,7 +20969,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "On a $50$ -question multiple choice math contest, students receive $4$ points for a correct answer, $0$ points for an answer left blank, and $-1$ point for an incorrect answer. Jesse’s total score on the contest was $99$. What is the maximum number of questions that Jesse could have answered correctly?",
+    "questionText": "On a $50$ -question multiple choice math contest, students receive $4$ points for a correct answer, $0$ points for an answer left blank, and $-1$ point for an incorrect answer. Jesse\u2019s total score on the contest was $99$. What is the maximum number of questions that Jesse could have answered correctly?",
     "choices": [
       "$25$",
       "$27$",
@@ -24481,7 +24481,7 @@
       "$42$"
     ],
     "correctIndex": 2,
-    "solution": "We see that side $BE$, which we know is $1$, is also the shorter leg of one of the four right triangles (which are congruent, I won’t prove this). So, $AH = 1$. Then $HB = HE + BE = HE + 1$, and $HE$ is one of the sides of the square whose area we want to find. So:\n\\[1^2 + (HE+1)^2=\\sqrt{50}^2\\]\n\\[1 + (HE+1)^2=50\\]\n\\[(HE+1)^2=49\\]\n\\[HE+1=7\\]\n\\[HE=6\\]\nSo, the area of the square is $6^2=\\boxed{36}$",
+    "solution": "We see that side $BE$, which we know is $1$, is also the shorter leg of one of the four right triangles (which are congruent, I won\u2019t prove this). So, $AH = 1$. Then $HB = HE + BE = HE + 1$, and $HE$ is one of the sides of the square whose area we want to find. So:\n\\[1^2 + (HE+1)^2=\\sqrt{50}^2\\]\n\\[1 + (HE+1)^2=50\\]\n\\[(HE+1)^2=49\\]\n\\[HE+1=7\\]\n\\[HE=6\\]\nSo, the area of the square is $6^2=\\boxed{36}$",
     "tags": [
       "amc10",
       "geometry",
@@ -28914,7 +28914,7 @@
       "$8$"
     ],
     "correctIndex": 0,
-    "solution": "By the factor theorem , $x-2$ is a factor of $P(x)$ if and only if $P(2)=0.$ Therefore, $x$ must equal $2.$ $P(2)=0=2^3k+2(2^2)k^2+k^3,$ which simplifies to $k(k^2+8k+8)=0.$ $k=0$ is a trivial real $0.$ Since $8^2 -4(1)(8)=32 > 0,$ this polynomial does indeed have two real zeros, meaning we can use Vieta’s to conclude that sum of the other two roots are $-8.$ Thus, our answer is $0-8=\\boxed{-8}.$",
+    "solution": "By the factor theorem , $x-2$ is a factor of $P(x)$ if and only if $P(2)=0.$ Therefore, $x$ must equal $2.$ $P(2)=0=2^3k+2(2^2)k^2+k^3,$ which simplifies to $k(k^2+8k+8)=0.$ $k=0$ is a trivial real $0.$ Since $8^2 -4(1)(8)=32 > 0,$ this polynomial does indeed have two real zeros, meaning we can use Vieta\u2019s to conclude that sum of the other two roots are $-8.$ Thus, our answer is $0-8=\\boxed{-8}.$",
     "tags": [
       "amc10",
       "algebra",
@@ -33338,7 +33338,7 @@
     "problemNumber": 16,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A set of $12$ tokens — $3$ red, $2$ white, $1$ blue, and $6$ black — is to be distributed at random to $3$ game players, $4$ tokens per player. The probability that some player gets all the red tokens, another gets all the white tokens, and the remaining player gets the blue token can be written as $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?",
+    "questionText": "A set of $12$ tokens \u2014 $3$ red, $2$ white, $1$ blue, and $6$ black \u2014 is to be distributed at random to $3$ game players, $4$ tokens per player. The probability that some player gets all the red tokens, another gets all the white tokens, and the remaining player gets the blue token can be written as $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?",
     "choices": [
       "$387$",
       "$388$",
@@ -33440,7 +33440,7 @@
       "$\\frac{41}7$"
     ],
     "correctIndex": 3,
-    "solution": "First, $\\angle CBA=60 ^\\circ$ by properties of cyclic quadrilaterals.\nLet $AC=u$. Apply the Law of Cosines on $\\triangle ACD$:\n \\[u^2=3^2+5^2-2(3)(5)\\cos120^\\circ\\]\n \\[u=7\\]\nLet $AB=v$. Apply the Law of Cosines on $\\triangle ABC$:\n \\[7^2=3^2+v^2-2(3)(v)\\cos60^\\circ\\]\n \\[v=\\frac{3\\pm13}{2}\\]\n \\[v=8\\]\nBy Ptolemy’s Theorem ,\n \\[AB \\cdot CD+AD \\cdot BC=AC \\cdot BD\\]\n \\[8 \\cdot 3+5 \\cdot 3=7BD\\]\n \\[BD=\\frac{39}{7}\\]\nSince $\\frac{39}{7}<7$,\nThe answer is $\\boxed{\\frac{39}{7}}$",
+    "solution": "First, $\\angle CBA=60 ^\\circ$ by properties of cyclic quadrilaterals.\nLet $AC=u$. Apply the Law of Cosines on $\\triangle ACD$:\n \\[u^2=3^2+5^2-2(3)(5)\\cos120^\\circ\\]\n \\[u=7\\]\nLet $AB=v$. Apply the Law of Cosines on $\\triangle ABC$:\n \\[7^2=3^2+v^2-2(3)(v)\\cos60^\\circ\\]\n \\[v=\\frac{3\\pm13}{2}\\]\n \\[v=8\\]\nBy Ptolemy\u2019s Theorem ,\n \\[AB \\cdot CD+AD \\cdot BC=AC \\cdot BD\\]\n \\[8 \\cdot 3+5 \\cdot 3=7BD\\]\n \\[BD=\\frac{39}{7}\\]\nSince $\\frac{39}{7}<7$,\nThe answer is $\\boxed{\\frac{39}{7}}$",
     "tags": [
       "amc12",
       "geometry",
@@ -33595,7 +33595,7 @@
       "$24\\sqrt{6}$"
     ],
     "correctIndex": 3,
-    "solution": "Notice that any scalene $\\textit{acute}$ triangle can be the faces of a $\\textit{disphenoid}$. (See proof in Solution 2.)\nAs a result, we simply have to find the smallest area a scalene acute triangle with integer side lengths can take on. This occurs with a $4,5,6$ triangle (notice that if you decrease the value of any of the sides the resulting triangle will either be isosceles, degenerate, or non-acute). For this triangle, the semiperimeter is $\\frac{15}{2}$, so by Heron’s Formula: $$\\begin{align*}\nA&=\\sqrt{\\frac{15}{2}\\cdot\\frac{7}{2}\\cdot\\frac{5}{2}\\cdot\\frac{3}{2}}\\\\\n&=\\sqrt{\\frac{15^2\\cdot7}{16}}\\\\\n&=\\frac{15}{4}\\sqrt{7}\n\\end{align*}$$ The surface area is simply four times the area of one of the triangles, or $\\boxed{15\\sqrt{7}}$",
+    "solution": "Notice that any scalene $\\textit{acute}$ triangle can be the faces of a $\\textit{disphenoid}$. (See proof in Solution 2.)\nAs a result, we simply have to find the smallest area a scalene acute triangle with integer side lengths can take on. This occurs with a $4,5,6$ triangle (notice that if you decrease the value of any of the sides the resulting triangle will either be isosceles, degenerate, or non-acute). For this triangle, the semiperimeter is $\\frac{15}{2}$, so by Heron\u2019s Formula: $$\\begin{align*}\nA&=\\sqrt{\\frac{15}{2}\\cdot\\frac{7}{2}\\cdot\\frac{5}{2}\\cdot\\frac{3}{2}}\\\\\n&=\\sqrt{\\frac{15^2\\cdot7}{16}}\\\\\n&=\\frac{15}{4}\\sqrt{7}\n\\end{align*}$$ The surface area is simply four times the area of one of the triangles, or $\\boxed{15\\sqrt{7}}$",
     "tags": [
       "amc12",
       "geometry",
@@ -34339,7 +34339,7 @@
       "$\\frac{2+\\sqrt2}{3}$"
     ],
     "correctIndex": 1,
-    "solution": "To find the height of the pyramid, we need the length from the center of the octagon (denote as $I$) to its vertices and the length of AV.\nFrom symmetry, we know that $\\overline{AV} = \\overline{DV}$, therefore $\\triangle{AVD}$ is a 45-45-90 triangle. Denote $\\overline{AV}$ as $x$ so that $\\overline{AD} = x\\sqrt{2}$. Doing some geometry on the isosceles trapezoid $ABCD$ (we know this from the fact that it is a regular octagon) reveals that $\\overline{AD}=1+2(\\sqrt{2}/2)=1+\\sqrt{2}$ and $\\overline{AV}=(\\overline{AD})/\\sqrt{2}=(\\sqrt{2}+2)/2$.\nTo find the length $\\overline{IA}$, we cut the octagon into 8 triangles, each with a smallest angle of 45 degrees. Using the law of cosines on $\\triangle{AIB}$ we find that ${\\overline{IA}}^2=(2+\\sqrt{2})/2$.\nFinally, using the pythagorean theorem, we can find that ${\\overline{IV}}^2={\\overline{AV}}^2-{\\overline{IA}}^2= {((\\sqrt{2}+2)/2)}^2 - (2+\\sqrt{2})/2 = \\boxed{(1+\\sqrt{2})/2}$ which is answer choice $\\boxed{B}$.\n～username2333",
+    "solution": "To find the height of the pyramid, we need the length from the center of the octagon (denote as $I$) to its vertices and the length of AV.\nFrom symmetry, we know that $\\overline{AV} = \\overline{DV}$, therefore $\\triangle{AVD}$ is a 45-45-90 triangle. Denote $\\overline{AV}$ as $x$ so that $\\overline{AD} = x\\sqrt{2}$. Doing some geometry on the isosceles trapezoid $ABCD$ (we know this from the fact that it is a regular octagon) reveals that $\\overline{AD}=1+2(\\sqrt{2}/2)=1+\\sqrt{2}$ and $\\overline{AV}=(\\overline{AD})/\\sqrt{2}=(\\sqrt{2}+2)/2$.\nTo find the length $\\overline{IA}$, we cut the octagon into 8 triangles, each with a smallest angle of 45 degrees. Using the law of cosines on $\\triangle{AIB}$ we find that ${\\overline{IA}}^2=(2+\\sqrt{2})/2$.\nFinally, using the pythagorean theorem, we can find that ${\\overline{IV}}^2={\\overline{AV}}^2-{\\overline{IA}}^2= {((\\sqrt{2}+2)/2)}^2 - (2+\\sqrt{2})/2 = \\boxed{(1+\\sqrt{2})/2}$ which is answer choice $\\boxed{B}$.\n\uff5eusername2333",
     "tags": [
       "amc12",
       "geometry",
@@ -35145,7 +35145,7 @@
       "$9$"
     ],
     "correctIndex": 2,
-    "solution": "Consider any sequence with $n$ terms. Every 10 number has such choices: never appear, appear the first time in the first spot, appear the first time in the second spot… and appear the first time in the $n$ th spot, which means every number has $(n+1)$ choices to show up in the sequence. Consequently, for each sequence with length $n$, there are $(n+1)^{10}$ possible ways.\nThus, the desired value is $\\sum_{i=1}^{10}(i+1)^{10}\\equiv \\boxed{5}\\pmod{10}$",
+    "solution": "Consider any sequence with $n$ terms. Every 10 number has such choices: never appear, appear the first time in the first spot, appear the first time in the second spot\u2026 and appear the first time in the $n$ th spot, which means every number has $(n+1)$ choices to show up in the sequence. Consequently, for each sequence with length $n$, there are $(n+1)^{10}$ possible ways.\nThus, the desired value is $\\sum_{i=1}^{10}(i+1)^{10}\\equiv \\boxed{5}\\pmod{10}$",
     "tags": [
       "amc12",
       "number-theory",
@@ -37399,7 +37399,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Ant Amelia starts on the number line at $0$ and crawls in the following manner. For $n=1,2,3,$ Amelia chooses a time duration $t_n$ and an increment $x_n$ independently and uniformly at random from the interval $(0,1).$ During the $n$th step of the process, Amelia moves $x_n$ units in the positive direction, using up $t_n$ minutes. If the total elapsed time has exceeded $1$ minute during the $n$th step, she stops at the end of that step; otherwise, she continues with the next step, taking at most $3$ steps in all. What is the probability that Amelia’s position when she stops will be greater than $1$?",
+    "questionText": "Ant Amelia starts on the number line at $0$ and crawls in the following manner. For $n=1,2,3,$ Amelia chooses a time duration $t_n$ and an increment $x_n$ independently and uniformly at random from the interval $(0,1).$ During the $n$th step of the process, Amelia moves $x_n$ units in the positive direction, using up $t_n$ minutes. If the total elapsed time has exceeded $1$ minute during the $n$th step, she stops at the end of that step; otherwise, she continues with the next step, taking at most $3$ steps in all. What is the probability that Amelia\u2019s position when she stops will be greater than $1$?",
     "choices": [
       "$\\frac{1}{3}$",
       "$\\frac{1}{2}$",
@@ -38112,7 +38112,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Azar and Carl play a game of tic-tac-toe. Azar places an $X$ one of the boxes in a $3$ -by- $3$ array of boxes, then Carl places an $O$ in one of the remaining boxes. After that, Azar places an $X$ in one of the remaining boxes, and so on until all 9 boxes are filled or one of the players has 3 of their symbols in a row—horizontal, vertical, or diagonal—whichever comes first, in which case that player wins the game. Suppose the players make their moves at random, rather than trying to follow a rational strategy, and that Carl wins the game when he places his third $O$. How many ways can the board look after the game is over?",
+    "questionText": "Azar and Carl play a game of tic-tac-toe. Azar places an $X$ one of the boxes in a $3$ -by- $3$ array of boxes, then Carl places an $O$ in one of the remaining boxes. After that, Azar places an $X$ in one of the remaining boxes, and so on until all 9 boxes are filled or one of the players has 3 of their symbols in a row\u2014horizontal, vertical, or diagonal\u2014whichever comes first, in which case that player wins the game. Suppose the players make their moves at random, rather than trying to follow a rational strategy, and that Carl wins the game when he places his third $O$. How many ways can the board look after the game is over?",
     "choices": [
       "$36$",
       "$112$",
@@ -38338,7 +38338,7 @@
       "$: 27\\pi$"
     ],
     "correctIndex": 1,
-    "solution": "Construct the circle that passes through $A$, $O$, and $C$, centered at $X$.\nAlso notice that $\\overline{OA}$ and $\\overline{OC}$ are the angle bisectors of angle $\\angle BAC$ and $\\angle BCA$ respectively. We then deduce $\\angle AOC=120^\\circ$.\nConsider another point $M$ on Circle $X$ opposite to point $O$.\nAs $AOCM$ is an inscribed quadrilateral of Circle $X$, $\\angle AMC=180^\\circ-120^\\circ=60^\\circ$.\nAfterward, deduce that $\\angle AXC=2·\\angle AMC=120^\\circ$.\nBy the Cosine Rule, we have the equation: (where $r$ is the radius of circle $X$) $2r^2(1-\\cos(120^\\circ))=6^2$ $r^2=12$ The area is therefore $\\pi r^2 = \\boxed{12\\pi}$.",
+    "solution": "Construct the circle that passes through $A$, $O$, and $C$, centered at $X$.\nAlso notice that $\\overline{OA}$ and $\\overline{OC}$ are the angle bisectors of angle $\\angle BAC$ and $\\angle BCA$ respectively. We then deduce $\\angle AOC=120^\\circ$.\nConsider another point $M$ on Circle $X$ opposite to point $O$.\nAs $AOCM$ is an inscribed quadrilateral of Circle $X$, $\\angle AMC=180^\\circ-120^\\circ=60^\\circ$.\nAfterward, deduce that $\\angle AXC=2\u00b7\\angle AMC=120^\\circ$.\nBy the Cosine Rule, we have the equation: (where $r$ is the radius of circle $X$) $2r^2(1-\\cos(120^\\circ))=6^2$ $r^2=12$ The area is therefore $\\pi r^2 = \\boxed{12\\pi}$.",
     "tags": [
       "amc12",
       "geometry",
@@ -38949,7 +38949,7 @@
     "problemNumber": 23,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "What is the average number of pairs of consecutive integers in a randomly selected subset of $5$ distinct integers chosen from the set $\\{ 1, 2, 3, …, 30\\}$? (For example the set $\\{1, 17, 18, 19, 30\\}$ has $2$ pairs of consecutive integers.)",
+    "questionText": "What is the average number of pairs of consecutive integers in a randomly selected subset of $5$ distinct integers chosen from the set $\\{ 1, 2, 3, \u2026, 30\\}$? (For example the set $\\{1, 17, 18, 19, 30\\}$ has $2$ pairs of consecutive integers.)",
     "choices": [
       "$\\frac{2}{3}$",
       "$\\frac{29}{36}$",
@@ -39662,7 +39662,7 @@
     "problemNumber": 19,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "There exists a unique strictly increasing sequence of nonnegative integers $a_1 < a_2 < … < a_k$ such that$$ \\frac{2^{289}+1}{2^{17}+1} = 2^{a_1} + 2^{a_2} + … + 2^{a_k}. $$What is $k?$",
+    "questionText": "There exists a unique strictly increasing sequence of nonnegative integers $a_1 < a_2 < \u2026 < a_k$ such that$$ \\frac{2^{289}+1}{2^{17}+1} = 2^{a_1} + 2^{a_2} + \u2026 + 2^{a_k}. $$What is $k?$",
     "choices": [
       "$117$",
       "$136$",
@@ -43701,7 +43701,7 @@
       "$554$"
     ],
     "correctIndex": 3,
-    "solution": "Let $O_1$ and $O_2$ be the centers of $\\omega_1$ and $\\omega_2$ respectively and draw $O_1O_2$, $O_1P_1$, and $O_2P_2$. Note that $\\angle{O_1P_1P_2}$ and $\\angle{O_2P_2P_3}$ are both right. Furthermore, since $\\triangle{P_1P_2P_3}$ is equilateral, $m\\angle{P_1P_2P_3} = 60^\\circ$ and $m\\angle{O_2P_2P_1} = 30^\\circ$. Mark $M$ as the base of the altitude from $O_2$ to $P_1P_2.$ Since $\\triangle P_2O_2M$ is a 30-60-90 triangle, $O_2M = 2$ and $P_2M = 2\\sqrt{3}$. Also, since $O_1O_2 = 8$ and $O_1P_1 = 4$, we can find $P_1M = \\sqrt{8^2 - (4 + 2)^2} = 2\\sqrt{7}$. Thus, $P_1P_2 = P_1M + P_2M = 2\\sqrt{3} + 2\\sqrt{7}$. This makes \\[\\left[P_1P_2P_3\\right] = \\frac{\\sqrt 3}4\\cdot\\left(2\\sqrt 3 + 2\\sqrt 7\\right)^2 = 10\\sqrt 3 + 6\\sqrt 7 = \\sqrt{300} + \\sqrt{252}.\\] So, our answer is $252 + 300 = \\boxed{D)}552}$.\nNote by diyarv:\nA way to see that $P_1M = 2{\\sqrt 7}$ is through similar triangles. Call the intersection between $P_1M$ and $O_1O_2$ $S$. Since angles $\\angle{O_1P_1S}$ and $\\angle{O_2MS}$ are both right angles, and $\\angle{P_1SO_1}$ and $\\angle{MSO_2}$ are congruent, triangles $\\triangle{P_1SO_1}$ and $\\triangle{MSO_2}$ are similar by AA similarity. And, since $O_1P_1$ is $4$ and $O_2M$ is 2, the common ratio is $2$. Using the fact that $O_1S + SO_2 = 8$, we see that these lengths are $\\frac{16}{3}$ and $\\frac{8}{3}$ respectively. Using the Pythagorean theorem, we see that $P_1S$ and $SP_2$ are $\\frac{2\\sqrt{7}}{3}$ and $\\frac{4\\sqrt{7}}{3}$ respectively, giving us a sum of $2\\sqrt{7}$.\nA better note on why $P_1M = \\sqrt{8^2 - (4 + 2)^2}$:\nThis is more easily seen by translating $O_1O_2$ so that $O_2$ is mapped to $M$ and the resulting $O_1’$ remains collinear with the original $O_1$ and $P_1$. This forms a right triangle, with leg $O_1’ P = 4+2 = 6$ and hypotenuse $O_1’O_2 = 8$. Therefore $P_1M = \\sqrt{8^2 - (4 + 2)^2}$",
+    "solution": "Let $O_1$ and $O_2$ be the centers of $\\omega_1$ and $\\omega_2$ respectively and draw $O_1O_2$, $O_1P_1$, and $O_2P_2$. Note that $\\angle{O_1P_1P_2}$ and $\\angle{O_2P_2P_3}$ are both right. Furthermore, since $\\triangle{P_1P_2P_3}$ is equilateral, $m\\angle{P_1P_2P_3} = 60^\\circ$ and $m\\angle{O_2P_2P_1} = 30^\\circ$. Mark $M$ as the base of the altitude from $O_2$ to $P_1P_2.$ Since $\\triangle P_2O_2M$ is a 30-60-90 triangle, $O_2M = 2$ and $P_2M = 2\\sqrt{3}$. Also, since $O_1O_2 = 8$ and $O_1P_1 = 4$, we can find $P_1M = \\sqrt{8^2 - (4 + 2)^2} = 2\\sqrt{7}$. Thus, $P_1P_2 = P_1M + P_2M = 2\\sqrt{3} + 2\\sqrt{7}$. This makes \\[\\left[P_1P_2P_3\\right] = \\frac{\\sqrt 3}4\\cdot\\left(2\\sqrt 3 + 2\\sqrt 7\\right)^2 = 10\\sqrt 3 + 6\\sqrt 7 = \\sqrt{300} + \\sqrt{252}.\\] So, our answer is $252 + 300 = \\boxed{D)}552}$.\nNote by diyarv:\nA way to see that $P_1M = 2{\\sqrt 7}$ is through similar triangles. Call the intersection between $P_1M$ and $O_1O_2$ $S$. Since angles $\\angle{O_1P_1S}$ and $\\angle{O_2MS}$ are both right angles, and $\\angle{P_1SO_1}$ and $\\angle{MSO_2}$ are congruent, triangles $\\triangle{P_1SO_1}$ and $\\triangle{MSO_2}$ are similar by AA similarity. And, since $O_1P_1$ is $4$ and $O_2M$ is 2, the common ratio is $2$. Using the fact that $O_1S + SO_2 = 8$, we see that these lengths are $\\frac{16}{3}$ and $\\frac{8}{3}$ respectively. Using the Pythagorean theorem, we see that $P_1S$ and $SP_2$ are $\\frac{2\\sqrt{7}}{3}$ and $\\frac{4\\sqrt{7}}{3}$ respectively, giving us a sum of $2\\sqrt{7}$.\nA better note on why $P_1M = \\sqrt{8^2 - (4 + 2)^2}$:\nThis is more easily seen by translating $O_1O_2$ so that $O_2$ is mapped to $M$ and the resulting $O_1\u2019$ remains collinear with the original $O_1$ and $P_1$. This forms a right triangle, with leg $O_1\u2019 P = 4+2 = 6$ and hypotenuse $O_1\u2019O_2 = 8$. Therefore $P_1M = \\sqrt{8^2 - (4 + 2)^2}$",
     "tags": [
       "amc12",
       "geometry",
@@ -45995,7 +45995,7 @@
       "$12$"
     ],
     "correctIndex": 1,
-    "solution": "The acceleration must be zero at the $x$ -intercept; this intercept must be an inflection point for the minimum $a$ value.\nDerive $f(x)$ so that the acceleration $f''(x)=0$. Using the power rule, $$\\begin{align*} f(x) &= x^3-ax^2+bx-a \\\\ f’(x) &= 3x^2-2ax+b \\\\ f’’(x) &= 6x-2a \\end{align*}$$ So $x=\\frac{a}{3}$ for the inflection point/root. Furthermore, the slope of the function must be zero - maximum - at the intercept, thus having a triple root at $x=a/3$ (if the slope is greater than zero, there will be two complex roots and we do not want that).\nThe function with the minimum $a$:\n\\[f(x)=\\left(x-\\frac{a}{3}\\right)^3\\]\n \\[x^3-ax^2+\\left(\\frac{a^2}{3}\\right)x-\\frac{a^3}{27}\\]\nSince this is equal to the original equation $x^3-ax^2+bx-a$, equating the coefficients, we get that\n\\[\\frac{a^3}{27}=a\\rightarrow a^2=27\\rightarrow a=3\\sqrt{3}\\]\n \\[b=\\frac{a^2}{3}=\\frac{27}{3}=\\boxed{9}\\]\nThe actual function: $f(x)=x^3-\\left(3\\sqrt{3}\\right)x^2+9x-3\\sqrt{3}$ $f(x)=0\\rightarrow x=\\sqrt{3}$ triple root. \"Complete the cube.\"",
+    "solution": "The acceleration must be zero at the $x$ -intercept; this intercept must be an inflection point for the minimum $a$ value.\nDerive $f(x)$ so that the acceleration $f''(x)=0$. Using the power rule, $$\\begin{align*} f(x) &= x^3-ax^2+bx-a \\\\ f\u2019(x) &= 3x^2-2ax+b \\\\ f\u2019\u2019(x) &= 6x-2a \\end{align*}$$ So $x=\\frac{a}{3}$ for the inflection point/root. Furthermore, the slope of the function must be zero - maximum - at the intercept, thus having a triple root at $x=a/3$ (if the slope is greater than zero, there will be two complex roots and we do not want that).\nThe function with the minimum $a$:\n\\[f(x)=\\left(x-\\frac{a}{3}\\right)^3\\]\n \\[x^3-ax^2+\\left(\\frac{a^2}{3}\\right)x-\\frac{a^3}{27}\\]\nSince this is equal to the original equation $x^3-ax^2+bx-a$, equating the coefficients, we get that\n\\[\\frac{a^3}{27}=a\\rightarrow a^2=27\\rightarrow a=3\\sqrt{3}\\]\n \\[b=\\frac{a^2}{3}=\\frac{27}{3}=\\boxed{9}\\]\nThe actual function: $f(x)=x^3-\\left(3\\sqrt{3}\\right)x^2+9x-3\\sqrt{3}$ $f(x)=0\\rightarrow x=\\sqrt{3}$ triple root. \"Complete the cube.\"",
     "tags": [
       "amc12",
       "algebra",
@@ -46677,7 +46677,7 @@
       "$1$"
     ],
     "correctIndex": 1,
-    "solution": "Solution 1(By Qwertazertl)\nWe are tasked with finding the sum of the areas of every $\\triangle DQ_i^{}P_i^{}$ where $i$ is a positive integer. We can start by finding the area of the first triangle, $\\triangle DQ_1^{}P_1^{}$. This is equal to $\\frac{1}{2}$ ⋅ $DQ_1^{}$ ⋅ $P_1^{}Q_2^{}$. Notice that since triangle $\\triangle DQ_1^{}P_1^{}$ is similar to triangle $\\triangle ABP_1^{}$ in a 1 : 2 ratio, $P_1^{}Q_2^{}$ must equal $\\frac{1}{3}$ (since we are dealing with a unit square whose side lengths are 1). $DQ_1^{}$ is of course equal to $\\frac{1}{2}$ as it is the mid-point of CD. Thus, the area of the first triangle is $[DQ_1P_1]=\\frac{1}{2}$ ⋅ $\\frac{1}{2}$ ⋅ $\\frac{1}{3}$.\nThe second triangle has a base $DQ_2^{}$ equal to that of $P_1^{}Q_2^{}$ (see that $\\triangle DQ_2^{}P_1^{}$ $\\triangle DCB$) and using the same similar triangle logic as with the first triangle, we find the area to be $[DQ_2P_2]=\\frac{1}{2}$ ⋅ $\\frac{1}{3}$ ⋅ $\\frac{1}{4}$. If we continue and test the next few triangles, we will find that the sum of all $\\triangle DQ_i^{}P_i^{}$ is equal to\n \\[\\frac{1}{2} \\sum\\limits_{n=2}^\\infty \\frac{1}{n(n+1)}\\]\nor\n \\[\\frac{1}{2} \\sum\\limits_{n=2}^\\infty \\left(\\frac{1}{n} - \\frac{1}{n+1}\\right)\\]\nThis is known as a telescoping series because we can see that every term after the first $\\frac{1}{n}$ is going to cancel out. Thus, the summation is equal to $\\frac{1}{2}$ and after multiplying by the half out in front, we find that the answer is $\\boxed{\\frac{1}{4}}$",
+    "solution": "Solution 1(By Qwertazertl)\nWe are tasked with finding the sum of the areas of every $\\triangle DQ_i^{}P_i^{}$ where $i$ is a positive integer. We can start by finding the area of the first triangle, $\\triangle DQ_1^{}P_1^{}$. This is equal to $\\frac{1}{2}$ \u22c5 $DQ_1^{}$ \u22c5 $P_1^{}Q_2^{}$. Notice that since triangle $\\triangle DQ_1^{}P_1^{}$ is similar to triangle $\\triangle ABP_1^{}$ in a 1 : 2 ratio, $P_1^{}Q_2^{}$ must equal $\\frac{1}{3}$ (since we are dealing with a unit square whose side lengths are 1). $DQ_1^{}$ is of course equal to $\\frac{1}{2}$ as it is the mid-point of CD. Thus, the area of the first triangle is $[DQ_1P_1]=\\frac{1}{2}$ \u22c5 $\\frac{1}{2}$ \u22c5 $\\frac{1}{3}$.\nThe second triangle has a base $DQ_2^{}$ equal to that of $P_1^{}Q_2^{}$ (see that $\\triangle DQ_2^{}P_1^{}$ $\\triangle DCB$) and using the same similar triangle logic as with the first triangle, we find the area to be $[DQ_2P_2]=\\frac{1}{2}$ \u22c5 $\\frac{1}{3}$ \u22c5 $\\frac{1}{4}$. If we continue and test the next few triangles, we will find that the sum of all $\\triangle DQ_i^{}P_i^{}$ is equal to\n \\[\\frac{1}{2} \\sum\\limits_{n=2}^\\infty \\frac{1}{n(n+1)}\\]\nor\n \\[\\frac{1}{2} \\sum\\limits_{n=2}^\\infty \\left(\\frac{1}{n} - \\frac{1}{n+1}\\right)\\]\nThis is known as a telescoping series because we can see that every term after the first $\\frac{1}{n}$ is going to cancel out. Thus, the summation is equal to $\\frac{1}{2}$ and after multiplying by the half out in front, we find that the answer is $\\boxed{\\frac{1}{4}}$",
     "tags": [
       "amc12",
       "geometry",
@@ -48869,7 +48869,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A $4\\times 4\\times h$ rectangular box contains a sphere of radius $2$ and eight smaller spheres of radius $1$. The smaller spheres are each tangent to three sides of the box, and the larger sphere is tangent to each of the smaller spheres. What is $h$?\n\n<center>\n\n</center>",
+    "questionText": "A $4\\times 4\\times h$ rectangular box contains a sphere of radius $2$ and eight smaller spheres of radius $1$. The smaller spheres are each tangent to three sides of the box, and the larger sphere is tangent to each of the smaller spheres. What is $h$?",
     "choices": [
       "$2+2\\sqrt 7$",
       "$3+2\\sqrt 5$",
@@ -50326,7 +50326,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Rabbits Peter and Pauline have three offspring—Flopsie, Mopsie, and Cotton-tail. These five rabbits are to be distributed to four different pet stores so that no store gets both a parent and a child. It is not required that every store gets a rabbit. In how many different ways can this be done?",
+    "questionText": "Rabbits Peter and Pauline have three offspring\u2014Flopsie, Mopsie, and Cotton-tail. These five rabbits are to be distributed to four different pet stores so that no store gets both a parent and a child. It is not required that every store gets a rabbit. In how many different ways can this be done?",
     "choices": [
       "$96$",
       "$108$",
@@ -50698,7 +50698,7 @@
     "problemNumber": 2,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Mr. Green measures his rectangular garden by walking two of the sides and finds that it is $15$ steps by $20$ steps. Each of Mr. Green’s steps is $2$ feet long. Mr. Green expects a half a pound of potatoes per square foot from his garden. How many pounds of potatoes does Mr. Green expect from his garden?",
+    "questionText": "Mr. Green measures his rectangular garden by walking two of the sides and finds that it is $15$ steps by $20$ steps. Each of Mr. Green\u2019s steps is $2$ feet long. Mr. Green expects a half a pound of potatoes per square foot from his garden. How many pounds of potatoes does Mr. Green expect from his garden?",
     "choices": [
       "$600$",
       "$800$",
@@ -51194,7 +51194,7 @@
     "problemNumber": 18,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Barbara and Jenna play the following game, in which they take turns. A number of coins lie on a table. When it is Barbara’s turn, she must remove $2$ or $4$ coins, unless only one coin remains, in which case she loses her turn. When it is Jenna’s turn, she must remove $1$ or $3$ coins. A coin flip determines who goes first. Whoever removes the last coin wins the game. Assume both players use their best strategy. Who will win when the game starts with $2013$ coins and when the game starts with $2014$ coins?",
+    "questionText": "Barbara and Jenna play the following game, in which they take turns. A number of coins lie on a table. When it is Barbara\u2019s turn, she must remove $2$ or $4$ coins, unless only one coin remains, in which case she loses her turn. When it is Jenna\u2019s turn, she must remove $1$ or $3$ coins. A coin flip determines who goes first. Whoever removes the last coin wins the game. Assume both players use their best strategy. Who will win when the game starts with $2013$ coins and when the game starts with $2014$ coins?",
     "choices": [
       "Barbara will win with $2013$ coins and Jenna will win with $2014$ coins.",
       "Jenna will win with $2013$ coins, and whoever goes first will win with $2014$ coins.",
@@ -53931,7 +53931,7 @@
       "$60$"
     ],
     "correctIndex": 2,
-    "solution": "In order to solve this problem, use of the tangent-tangent intersection theorem (Angle of intersection between two tangents dividing a circle into arc length A and arc length B = 1/2 (Arc A° - Arc B°).\nIn order to utilize this theorem, the degree measures of the arcs must be found. First, set A (Arc length A) equal to 3d, and B (Arc length B) equal to 2d.\nSetting 3d+2d = 360° will find d = 72°, and so therefore Arc length A in degrees will equal 216° and arc length B will equal 144°.\nFinally, simply plug the two arc lengths into the tangent-tangent intersection theorem, and the answer:\n1/2 (216°-144°) = 1/2 (72°) $=\\boxed{36}.$",
+    "solution": "In order to solve this problem, use of the tangent-tangent intersection theorem (Angle of intersection between two tangents dividing a circle into arc length A and arc length B = 1/2 (Arc A\u00b0 - Arc B\u00b0).\nIn order to utilize this theorem, the degree measures of the arcs must be found. First, set A (Arc length A) equal to 3d, and B (Arc length B) equal to 2d.\nSetting 3d+2d = 360\u00b0 will find d = 72\u00b0, and so therefore Arc length A in degrees will equal 216\u00b0 and arc length B will equal 144\u00b0.\nFinally, simply plug the two arc lengths into the tangent-tangent intersection theorem, and the answer:\n1/2 (216\u00b0-144\u00b0) = 1/2 (72\u00b0) $=\\boxed{36}.$",
     "tags": [
       "amc12",
       "geometry",
@@ -54604,7 +54604,7 @@
     "problemNumber": 3,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Rectangle $ABCD$, pictured below, shares $50\\%$ of its area with square $EFGH$. Square $EFGH$ shares $20\\%$ of its area with rectangle $ABCD$. What is $\\frac{AB}{AD}$?\n\n<center>\n\n</center>",
+    "questionText": "Rectangle $ABCD$, pictured below, shares $50\\%$ of its area with square $EFGH$. Square $EFGH$ shares $20\\%$ of its area with rectangle $ABCD$. What is $\\frac{AB}{AD}$?",
     "choices": [
       "$4$",
       "$5$",
@@ -55348,7 +55348,7 @@
     "problemNumber": 2,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A big $L$ is formed as shown. What is its area?\n\n<center>\n\n</center>",
+    "questionText": "A big $L$ is formed as shown. What is its area?",
     "choices": [
       "$22$",
       "$24$",
@@ -56309,7 +56309,7 @@
     "problemNumber": 8,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "Four congruent rectangles are placed as shown. The area of the outer square is $4$ times that of the inner square. What is the ratio of the length of the longer side of each rectangle to the length of its shorter side?\n<center>\n\n</center>",
+    "questionText": "Four congruent rectangles are placed as shown. The area of the outer square is $4$ times that of the inner square. What is the ratio of the length of the longer side of each rectangle to the length of its shorter side?",
     "choices": [
       "$3$",
       "$\\sqrt {10}$",
@@ -56371,7 +56371,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "In quadrilateral $ABCD$, $AB = 5$, $BC = 17$, $CD = 5$, $DA = 9$, and $BD$ is an integer. What is $BD$?\n<center>\n\n</center>",
+    "questionText": "In quadrilateral $ABCD$, $AB = 5$, $BC = 17$, $CD = 5$, $DA = 9$, and $BD$ is an integer. What is $BD$?",
     "choices": [
       "$11$",
       "$12$",
@@ -56402,7 +56402,7 @@
     "problemNumber": 11,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The figures $F_1$, $F_2$, $F_3$, and $F_4$ shown are the first in a sequence of figures. For $n\\ge3$, $F_n$ is constructed from $F_{n - 1}$ by surrounding it with a square and placing one more diamond on each side of the new square than $F_{n - 1}$ had on each side of its outside square. For example, figure $F_3$ has $13$ diamonds. How many diamonds are there in figure $F_{20}$?\n<center>\n\n</center>",
+    "questionText": "The figures $F_1$, $F_2$, $F_3$, and $F_4$ shown are the first in a sequence of figures. For $n\\ge3$, $F_n$ is constructed from $F_{n - 1}$ by surrounding it with a square and placing one more diamond on each side of the new square than $F_{n - 1}$ had on each side of its outside square. For example, figure $F_3$ has $13$ diamonds. How many diamonds are there in figure $F_{20}$?",
     "choices": [
       "$401$",
       "$485$",
@@ -56504,7 +56504,7 @@
       "$\\frac {1}{2}$"
     ],
     "correctIndex": 1,
-    "solution": "Let's label the three points as $A=(0,0)$, $B=(1,1)$, and $C=(6m,0)$.\nClearly, whenever the line $y=mx$ intersects the inside of the triangle, it will intersect the side $BC$. Let $D$ be the point of intersection.\nThe triangles $ABD$ and $ACD$ have the same height, which is the distance between the point $A$ and the line $BC$.\nHence they have equal areas if and only if $D$ is the midpoint of $BC$.\nThe midpoint of the segment $BC$ has coordinates $\\left( \\frac{6m+1}2, \\frac 12 \\right)$. This point lies on the line $y=mx$ if and only if $\\frac 12 = m \\cdot \\frac{6m+1}2$. This simplifies to $6m^2 + m - 1 = 0$. Using Vieta's formulas, we find that the sum of the roots is $\\boxed{- \\!\\frac {1}{6}}$.\n\nFor illustration, below are pictures of the situation for $m=1.5$, $m=0.5$, $m=1/3$, and $m=-1/2$.\n\nNote : In contests when you get problems like these, your AOPS knowledge will not be enough. AOPs books are just the basic, always prep for more.",
+    "solution": "Let's label the three points as $A=(0,0)$, $B=(1,1)$, and $C=(6m,0)$.\nClearly, whenever the line $y=mx$ intersects the inside of the triangle, it will intersect the side $BC$. Let $D$ be the point of intersection.\nThe triangles $ABD$ and $ACD$ have the same height, which is the distance between the point $A$ and the line $BC$.\nHence they have equal areas if and only if $D$ is the midpoint of $BC$.\nThe midpoint of the segment $BC$ has coordinates $\\left( \\frac{6m+1}2, \\frac 12 \\right)$. This point lies on the line $y=mx$ if and only if $\\frac 12 = m \\cdot \\frac{6m+1}2$. This simplifies to $6m^2 + m - 1 = 0$. Using Vieta's formulas, we find that the sum of the roots is $\\boxed{- \\!\\frac {1}{6}}$.\n\nFor illustration, below are pictures of the situation for $m=1.5$, $m=0.5$, $m=1/3$, and $m=-1/2$.\n\nNote\u00a0: In contests when you get problems like these, your AOPS knowledge will not be enough. AOPs books are just the basic, always prep for more.",
     "tags": [
       "amc12",
       "geometry",
@@ -56960,7 +56960,7 @@
     "problemNumber": 4,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "A rectangular yard contains two flower beds in the shape of congruent isosceles right triangles. The remainder of the yard has a trapezoidal shape, as shown. The parallel sides of the trapezoid have lengths $15$ and $25$ meters. What fraction of the yard is occupied by the flower beds?\n<center>\n\n</center>",
+    "questionText": "A rectangular yard contains two flower beds in the shape of congruent isosceles right triangles. The remainder of the yard has a trapezoidal shape, as shown. The parallel sides of the trapezoid have lengths $15$ and $25$ meters. What fraction of the yard is occupied by the flower beds?",
     "choices": [
       "$\\frac18$",
       "$\\frac16$",
@@ -60246,7 +60246,7 @@
     "problemNumber": 12,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A number of linked rings, each 1 cm thick, are hanging on a peg. The top ring has an outside diameter of 20 cm. The outside diameter of each of the outer rings is 1 cm less than that of the ring above it. The bottom ring has an outside diameter of 3 cm. What is the distance, in cm, from the top of the top ring to the bottom of the bottom ring?\n<!-- <center>Image:2006_AMC10A-14.png</center> -->",
+    "questionText": "A number of linked rings, each 1 cm thick, are hanging on a peg. The top ring has an outside diameter of 20 cm. The outside diameter of each of the outer rings is 1 cm less than that of the ring above it. The bottom ring has an outside diameter of 3 cm. What is the distance, in cm, from the top of the top ring to the bottom of the bottom ring?",
     "choices": [
       "$171$",
       "$173$",
@@ -60277,7 +60277,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "<!-- <center>Image:2006_AMC_12A_Problem_13.gif</center> -->\nThe vertices of a $3-4-5$ right triangle are the centers of three mutually externally tangent circles, as shown. What is the sum of the areas of the three circles?",
+    "questionText": "The vertices of a $3-4-5$ right triangle are the centers of three mutually externally tangent circles, as shown. What is the sum of the areas of the three circles?",
     "choices": [
       "$12\\pi$",
       "$\\frac{25\\pi}{2}$",
@@ -61402,7 +61402,7 @@
       "$9$"
     ],
     "correctIndex": 3,
-    "solution": "For convenience’s sake, we can transform $A$ to the origin and $B$ to $(99,999)$ (this does not change the problem). The line $AB$ has the equation $y = \\frac{999}{99}x = \\frac{111}{11}x$. The coordinates are integers if $11|x$, so the values of $x$ are $11, 22 \\ldots 88$, with a total of $8\\implies \\boxed{8}$ coordinates.",
+    "solution": "For convenience\u2019s sake, we can transform $A$ to the origin and $B$ to $(99,999)$ (this does not change the problem). The line $AB$ has the equation $y = \\frac{999}{99}x = \\frac{111}{11}x$. The coordinates are integers if $11|x$, so the values of $x$ are $11, 22 \\ldots 88$, with a total of $8\\implies \\boxed{8}$ coordinates.",
     "tags": [
       "amc12",
       "algebra",
@@ -61548,7 +61548,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A unit cube is cut twice to form three triangular prisms, two of which are congruent, as shown in Figure $1$. The cube is then cut in the same manner along the dashed lines shown in Figure $2$. This creates nine pieces. What is the volume of the piece that contains vertex $W$?\n\nImage:2005 AMC 12A Problem 17.png",
+    "questionText": "A unit cube is cut twice to form three triangular prisms, two of which are congruent, as shown in Figure $1$. The cube is then cut in the same manner along the dashed lines shown in Figure $2$. This creates nine pieces. What is the volume of the piece that contains vertex $W$?",
     "choices": [
       "$\\frac{1}{12}$",
       "$\\frac{1}{9}$",
@@ -62695,7 +62695,7 @@
     "problemNumber": 5,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "The graph of the line $y=mx+b$ is shown. Which of the following is true?\n\nImage:2004 AMC 12A Problem 5.png",
+    "questionText": "The graph of the line $y=mx+b$ is shown. Which of the following is true?",
     "choices": [
       "mb<-1",
       "-1<mb<0",
@@ -62819,7 +62819,7 @@
     "problemNumber": 19,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Circles $A, B$ and $C$ are externally tangent to each other, and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B$?\n\n<center>\n\n</center>",
+    "questionText": "Circles $A, B$ and $C$ are externally tangent to each other, and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B$?",
     "choices": [
       "frac23",
       "$\\frac {\\sqrt3}{2}$",
@@ -62881,7 +62881,7 @@
     "problemNumber": 10,
     "difficultyBucket": "1-10",
     "image": "none",
-    "questionText": "An annulus is the region between two concentric circles. The concentric circles in the ﬁgure have radii $b$ and $c$, with $b>c$. Let $OX$ be a radius of the larger circle, let $XZ$ be tangent to the smaller circle at $Z$, and let $OY$ be the radius of the larger circle that contains $Z$. Let $a=XZ$, $d=YZ$, and $e=XY$. What is the area of the annulus?",
+    "questionText": "An annulus is the region between two concentric circles. The concentric circles in the \ufb01gure have radii $b$ and $c$, with $b>c$. Let $OX$ be a radius of the larger circle, let $XZ$ be tangent to the smaller circle at $Z$, and let $OY$ be the radius of the larger circle that contains $Z$. Let $a=XZ$, $d=YZ$, and $e=XY$. What is the area of the annulus?",
     "choices": [
       "$\\pi a^2$",
       "$\\pi b^2$",
@@ -63315,7 +63315,7 @@
     "problemNumber": 24,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "In $\\triangle ABC$, $AB = BC$, and $\\overline{BD}$ is an altitude. Point $E$ is on the extension of $\\overline{AC}$ such that $BE = 10$. The values of $\\tan \\angle CBE$, $\\tan \\angle DBE$, and $\\tan \\angle ABE$ form a geometric progression, and the values of $\\cot \\angle DBE,$ $\\cot \\angle CBE,$ $\\cot \\angle DBC$ form an arithmetic progression. What is the area of $\\triangle ABC$?\n\n<center>\n\n</center>",
+    "questionText": "In $\\triangle ABC$, $AB = BC$, and $\\overline{BD}$ is an altitude. Point $E$ is on the extension of $\\overline{AC}$ such that $BE = 10$. The values of $\\tan \\angle CBE$, $\\tan \\angle DBE$, and $\\tan \\angle ABE$ form a geometric progression, and the values of $\\cot \\angle DBE,$ $\\cot \\angle CBE,$ $\\cot \\angle DBC$ form an arithmetic progression. What is the area of $\\triangle ABC$?",
     "choices": [
       "$16$",
       "$\\frac {50}3$",
@@ -63749,7 +63749,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "The polygon enclosed by the solid lines in the figure consists of 4 congruent squares joined edge-to-edge. One more congruent square is attached to an edge at one of the nine positions indicated. How many of the nine resulting polygons can be folded to form a cube with one face missing?\n\nImage:2003amc10a10.gif",
+    "questionText": "The polygon enclosed by the solid lines in the figure consists of 4 congruent squares joined edge-to-edge. One more congruent square is attached to an edge at one of the nine positions indicated. How many of the nine resulting polygons can be folded to form a cube with one face missing?",
     "choices": [
       "$2$",
       "$3$",
@@ -63780,7 +63780,7 @@
     "problemNumber": 15,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "A semicircle of diameter $1$ sits at the top of a semicircle of diameter $2$, as shown. The shaded area inside the smaller semicircle and outside the larger semicircle is called a ''lune''. Determine the area of this lune.\n\nImage:2003amc10a19.gif",
+    "questionText": "A semicircle of diameter $1$ sits at the top of a semicircle of diameter $2$, as shown. The shaded area inside the smaller semicircle and outside the larger semicircle is called a ''lune''. Determine the area of this lune.",
     "choices": [
       "$\\frac{1}{6}\\pi-\\frac{\\sqrt{3}}{4}$",
       "$\\frac{\\sqrt{3}}{4}-\\frac{1}{12}\\pi$",
@@ -64090,7 +64090,7 @@
     "problemNumber": 13,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "An ice cream cone consists of a sphere of vanilla ice cream and a right circular cone that has the same diameter as the sphere. If the ice cream melts, it will exactly fill the cone. Assume that the melted ice cream occupies $75\\%$ of the volume of the frozen ice cream. What is the ratio of the cone’s height to its radius ?",
+    "questionText": "An ice cream cone consists of a sphere of vanilla ice cream and a right circular cone that has the same diameter as the sphere. If the ice cream melts, it will exactly fill the cone. Assume that the melted ice cream occupies $75\\%$ of the volume of the frozen ice cream. What is the ratio of the cone\u2019s height to its radius ?",
     "choices": [
       "2:1",
       "3:1",
@@ -64099,7 +64099,7 @@
       "6:1"
     ],
     "correctIndex": 1,
-    "solution": "Let $r$ be the common radius of the sphere and the cone, and $h$ be the cone’s height. Then\n \\[75\\% \\cdot \\left(\\frac 43 \\pi r^3\\right) = \\frac 13 \\pi r^2 h \\Longrightarrow h = 3r\\]\nThus $h:r = 3:1$ and the answer is $\\boxed{B}$.",
+    "solution": "Let $r$ be the common radius of the sphere and the cone, and $h$ be the cone\u2019s height. Then\n \\[75\\% \\cdot \\left(\\frac 43 \\pi r^3\\right) = \\frac 13 \\pi r^2 h \\Longrightarrow h = 3r\\]\nThus $h:r = 3:1$ and the answer is $\\boxed{B}$.",
     "tags": [
       "amc12",
       "geometry",
@@ -64245,7 +64245,7 @@
     "problemNumber": 20,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Part of the graph of $f(x) = ax^3 + bx^2 + cx + d$ is shown. What is $b$?\n\nImage:2003_12B_AMC-20.png",
+    "questionText": "Part of the graph of $f(x) = ax^3 + bx^2 + cx + d$ is shown. What is $b$?",
     "choices": [
       "$-4$",
       "$-2$",
@@ -64307,7 +64307,7 @@
     "problemNumber": 22,
     "difficultyBucket": "21-25",
     "image": "none",
-    "questionText": "Let $ABCD$ be a rhombus with $AC = 16$ and $BD = 30$. Let $N$ be a point on $\\overline{AB}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{AC}$ and $\\overline{BD}$, respectively. Which of the following is closest to the minimum possible value of $PQ$?\n\n<center>\n\n</center>",
+    "questionText": "Let $ABCD$ be a rhombus with $AC = 16$ and $BD = 30$. Let $N$ be a point on $\\overline{AB}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{AC}$ and $\\overline{BD}$, respectively. Which of the following is closest to the minimum possible value of $PQ$?",
     "choices": [
       "$6.5$",
       "$6.75$",
@@ -65888,7 +65888,7 @@
     "problemNumber": 17,
     "difficultyBucket": "11-20",
     "image": "none",
-    "questionText": "Andy’s lawn has twice as much area as Beth’s lawn and three times as much area as Carlos’ lawn. Carlos’ lawn mower cuts half as fast as Beth’s mower and one third as fast as Andy’s mower. If they all start to mow their lawns at the same time, who will finish first?",
+    "questionText": "Andy\u2019s lawn has twice as much area as Beth\u2019s lawn and three times as much area as Carlos\u2019 lawn. Carlos\u2019 lawn mower cuts half as fast as Beth\u2019s mower and one third as fast as Andy\u2019s mower. If they all start to mow their lawns at the same time, who will finish first?",
     "choices": [
       "$\\text{Andy}$",
       "$\\text{Beth}$",
@@ -66579,7 +66579,7 @@
       "$72$"
     ],
     "correctIndex": 3,
-    "solution": "Each of the $\\binom{9}{2} = 36$ pairs of vertices determines two equilateral triangles — one facing towards the center, and one outwards — for a total of 72 triangles. However, the three triangles $A_1A_4A_7$, $A_2A_5A_8$, and $A_3A_6A_9$ are each counted 3 times, resulting in an overcount of 6. Thus, there are $\\boxed{66}$ distinct equilateral triangles.",
+    "solution": "Each of the $\\binom{9}{2} = 36$ pairs of vertices determines two equilateral triangles \u2014 one facing towards the center, and one outwards \u2014 for a total of 72 triangles. However, the three triangles $A_1A_4A_7$, $A_2A_5A_8$, and $A_3A_6A_9$ are each counted 3 times, resulting in an overcount of 6. Thus, there are $\\boxed{66}$ distinct equilateral triangles.",
     "tags": [
       "amc12",
       "geometry",

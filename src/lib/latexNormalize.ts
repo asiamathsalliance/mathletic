@@ -709,6 +709,25 @@ function stripCredits(text: string): string {
   return t.trim();
 }
 
+/**
+ * Drop AoPS wiki image placeholders left in scraped stems, e.g.
+ * `Image:2003amc10a10.gif` or `<!-- <center>Image:….png</center> -->`.
+ * Keeps real `<center>…math…</center>` wrappers intact.
+ */
+function stripImagePlaceholders(text: string): string {
+  let t = text;
+  t = t.replace(
+    /<!--\s*(?:<center>\s*)?Image:[^>]+?(?:<\/center>\s*)?-->/gi,
+    ""
+  );
+  t = t.replace(
+    /(?:^|\n)\s*(?:<center>\s*)?Image:\s*[^\n<]+(?:\s*<\/center>)?\s*(?=\n|$)/gi,
+    "\n"
+  );
+  t = t.replace(/(?:^|\n)\s*<center>\s*<\/center>\s*(?=\n|$)/gi, "\n");
+  return t.replace(/\n{3,}/g, "\n\n").trim();
+}
+
 /** Restore missing backslashes before common TeX commands inside a math body. */
 const TEX_COMMANDS = [
   "longrightarrow",
@@ -959,6 +978,7 @@ export function normalizeLatexContent(input: string | null | undefined): string 
   let text = String(input);
 
   text = stripAsymptoteBlocks(text);
+  text = stripImagePlaceholders(text);
   text = stripCredits(text);
   text = fixCurrencyDollars(text);
   text = separateInlineBeforeDisplay(text);

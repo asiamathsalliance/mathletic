@@ -89,10 +89,28 @@ function parseCall(stmt: string): { name: string; args: string[] } | null {
 
 function safeNumEval(expr: string): number {
   const e = expr.trim();
-  // eslint-disable-next-line no-new-func
   const v = new Function(`"use strict"; return (${e});`)();
   if (typeof v !== "number" || !Number.isFinite(v)) throw new Error(`bad number: ${expr}`);
   return v;
+}
+
+function circleCircleIntersections(c0: Pt, r0: number, c1: Pt, r1: number): Pt[] {
+  const dx = c1.x - c0.x;
+  const dy = c1.y - c0.y;
+  const d = Math.hypot(dx, dy);
+  if (d < 1e-9 || d > r0 + r1 + 1e-9 || d < Math.abs(r0 - r1) - 1e-9) return [];
+  const a = (r0 * r0 - r1 * r1 + d * d) / (2 * d);
+  const h2 = Math.max(0, r0 * r0 - a * a);
+  const h = Math.sqrt(h2);
+  const xm = c0.x + (a * dx) / d;
+  const ym = c0.y + (a * dy) / d;
+  const rx = (-dy * h) / d;
+  const ry = (dx * h) / d;
+  const p0 = { x: xm + rx, y: ym + ry };
+  const p1 = { x: xm - rx, y: ym - ry };
+  // Prefer the "upper" intersection as [0] (AoPS often uses [0] for the top one)
+  if (p0.y > p1.y || (Math.abs(p0.y - p1.y) < 1e-9 && p0.x >= p1.x)) return [p0, p1];
+  return [p1, p0];
 }
 
 export function asyToSvg(source: string): AsyRenderResult {
@@ -116,13 +134,18 @@ function renderAsy(raw: string): AsyRenderResult {
   src = src.replace(/^\s*usepackage\s*\([^;]*\);?/gm, "");
   src = src.replace(/^\s*texpreamble\s*\([^;]*\);?/gm, "");
   src = src.replace(/\bmarkscalefactor\s*=\s*[^;]+;?/g, "");
+  // AoPS olympiad.asy macros: D=draw, CR=circle, MP=label (string) / midpoint (points)
   src = src
-    .replace(/\bD\s*\(/g, "dot(")
-    .replace(/\bMP\s*\(/g, "midpoint(")
+    .replace(/\bD\s*\(/g, "draw(")
     .replace(/\bCR\s*\(/g, "circle(")
     .replace(/\bCircle\s*\(/g, "circle(")
     .replace(/\bArc\s*\(/g, "arc(")
     .replace(/\borigin\b/g, "(0,0)");
+  // MP("text", pos, dir) → label(...); leave MP(A,B) style for midpoint handling below
+  src = src.replace(
+    /\bMP\s*\(\s*("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')\s*,/g,
+    "label($1,"
+  );
 
   // Drop custom void helpers we can't execute — try to keep rest of figure.
   src = src.replace(/\bvoid\s+\w+\s*\([^)]*\)\s*\{[\s\S]*?\n\}/g, "");
@@ -171,8 +194,9 @@ function renderAsy(raw: string): AsyRenderResult {
   const evalPoint = (expr: string, locals: Record<string, number> = {}): Pt => {
     const e0 = expr.trim();
     if (e0 === "cycle") throw new Error("cycle");
-    if (DIR[e0]) return { ...DIR[e0]! };
+    // User-defined pairs shadow compass dirs (E/N/S/W are common point names).
     if (pairs.has(e0)) return { ...pairs.get(e0)! };
+    if (DIR[e0]) return { ...DIR[e0]! };
 
     let m = e0.match(/^midpoint\s*\(\s*([^,]+)\s*,\s*([^)]+)\s*\)$/);
     if (m) {
@@ -180,11 +204,53 @@ function renderAsy(raw: string): AsyRenderResult {
       const b = evalPoint(m[2]!, locals);
       return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
     }
+    // midpoint(A--B)
+    m = e0.match(/^midpoint\s*\(\s*([\s\S]+)\s*\)$/);
+    if (m && m[1]!.includes("--")) {
+      const pts = parsePathExpr(m[1]!, locals);
+      if (pts.length >= 2) {
+        const a = pts[0]!;
+        const b = pts[pts.length - 1]!;
+        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+      }
+    }
     m = e0.match(/^dir\s*\(\s*([^)]+)\s*\)$/);
     if (m) {
       const deg = evalNum(m[1]!, locals);
       const rad = (deg * Math.PI) / 180;
       return { x: Math.cos(rad), y: Math.sin(rad) };
+    }
+    // intersectionpoints(circle(A,r), circle(B,s))[i]
+    m = e0.match(
+      /^intersectionpoints?\s*\(\s*([\s\S]*)\s*\)\s*(?:\[\s*(\d+)\s*\])?$/i
+    );
+    if (m) {
+      const args = splitArgs(m[1]!);
+      if (args.length >= 2) {
+        const circ = (s: string): { c: Pt; r: number } => {
+          const cm = s
+            .trim()
+            .match(/^(?:circle|Circle|CR)\s*\(\s*([\s\S]*)\s*\)$/);
+          if (!cm) throw new Error(`not a circle: ${s}`);
+          const ca = splitArgs(cm[1]!);
+          const c = evalPoint(ca[0]!, locals);
+          const second = ca[1]!.trim();
+          let r: number;
+          try {
+            const b = evalPoint(second, locals);
+            r = Math.hypot(b.x - c.x, b.y - c.y);
+          } catch {
+            r = evalNum(second, locals);
+          }
+          return { c, r };
+        };
+        const A = circ(args[0]!);
+        const B = circ(args[1]!);
+        const pts = circleCircleIntersections(A.c, A.r, B.c, B.r);
+        const idx = m[2] != null ? Number(m[2]) : 0;
+        if (!pts[idx]) throw new Error("no intersection");
+        return pts[idx]!;
+      }
     }
     if (e0.startsWith("(") && e0.endsWith(")")) {
       const args = splitArgs(e0.slice(1, -1));
@@ -224,9 +290,9 @@ function renderAsy(raw: string): AsyRenderResult {
   };
 
   const evalPointTerm = (term: string, locals: Record<string, number>): Pt => {
-    let e = term.trim();
-    if (DIR[e]) return { ...DIR[e]! };
+    const e = term.trim();
     if (pairs.has(e)) return { ...pairs.get(e)! };
+    if (DIR[e]) return { ...DIR[e]! };
 
     const mul = e.match(/^([^*]+)\s*\*\s*([^*]+)$/);
     if (mul) {
@@ -338,8 +404,8 @@ function renderAsy(raw: string): AsyRenderResult {
   };
 
   const arcPoints = (c: Pt, r: number, a0deg: number, a1deg: number): Pt[] => {
-    let a0 = (a0deg * Math.PI) / 180;
-    let a1 = (a1deg * Math.PI) / 180;
+    const a0 = (a0deg * Math.PI) / 180;
+    const a1 = (a1deg * Math.PI) / 180;
     let delta = a1 - a0;
     // Asy arcs go CCW from a0 to a1 typically when a1>a0; if equal full circle
     if (Math.abs(delta) < 1e-9) delta = Math.PI * 2;
@@ -355,6 +421,18 @@ function renderAsy(raw: string): AsyRenderResult {
 
   const parsePathExpr = (expr: string, locals: Record<string, number> = {}): Pt[] => {
     let e = expr.trim();
+    // rotate(deg) * path
+    const rotPath = e.match(/^rotate\s*\(\s*([^)]+)\s*\)\s*\*\s*(.+)$/);
+    if (rotPath) {
+      const deg = evalNum(rotPath[1]!, locals);
+      const rad = (deg * Math.PI) / 180;
+      const cos = Math.cos(rad);
+      const sin = Math.sin(rad);
+      return parsePathExpr(rotPath[2]!, locals).map((p) => ({
+        x: p.x * cos - p.y * sin,
+        y: p.x * sin + p.y * cos,
+      }));
+    }
     // unwrap extra parens
     while (e.startsWith("(") && e.endsWith(")") && splitArgs(e.slice(1, -1)).length === 1) {
       // only unwrap if it's grouping a path, not a point (x,y)
@@ -571,10 +649,6 @@ function renderAsy(raw: string): AsyRenderResult {
       if (!stmt) continue;
       try {
         // for (int i = 0; i < n; ++i) { ... }
-        const forM = stmt.match(
-          /^for\s*\(\s*int\s+(\w+)\s*=\s*([^;]+);\s*\1\s*(<|<=)\s*([^;]+);\s*(?:\+\+\1|\1\+\+|^\+\+)\s*\)\s*\{([\s\S]*)\}\s*$/
-        );
-        // fix: last part of for header
         const forM2 = stmt.match(
           /^for\s*\(\s*int\s+(\w+)\s*=\s*([^;]+);\s*([^;]+);\s*([^)]*)\)\s*\{([\s\S]*)\}\s*$/
         );
@@ -589,7 +663,6 @@ function renderAsy(raw: string): AsyRenderResult {
             let ok = false;
             try {
               ok = Boolean(
-                // eslint-disable-next-line no-new-func
                 new Function(
                   `"use strict"; const ${Object.keys({ ...Object.fromEntries(nums), ...locals })
                     .filter((k) => /^[A-Za-z_]/.test(k))
@@ -663,6 +736,26 @@ function renderAsy(raw: string): AsyRenderResult {
         if (assign && !/^\w+\s*\(/.test(stmt)) {
           const name = assign[1]!;
           const rhs = assign[2]!;
+          // Prefer points/paths over numbers — JS comma-operator makes `(0,0)` eval to 0.
+          const looksPoint =
+            /^\(/.test(rhs.trim()) ||
+            /--|dir\s*\(|midpoint\s*\(|intersection|rotate\s*\(|shift\s*\(/i.test(
+              rhs
+            ) ||
+            /^[A-Za-z_]/.test(rhs.trim());
+          if (looksPoint) {
+            try {
+              pairs.set(name, evalPoint(rhs, locals));
+              continue;
+            } catch {
+              try {
+                paths.set(name, parsePathExpr(rhs, locals));
+                continue;
+              } catch {
+                // fall through to numeric
+              }
+            }
+          }
           try {
             nums.set(name, evalNum(rhs, locals));
           } catch {
@@ -684,7 +777,6 @@ function renderAsy(raw: string): AsyRenderResult {
             const c = ifM[1]!.replace(/\b(\w+)\b/g, (id) =>
               id in locals ? String(locals[id]) : nums.has(id) ? String(nums.get(id)) : id
             );
-            // eslint-disable-next-line no-new-func
             ok = Boolean(new Function(`"use strict"; return (${c});`)());
           } catch {
             ok = false;
@@ -702,7 +794,14 @@ function renderAsy(raw: string): AsyRenderResult {
         else if (name === "filldraw") handleDrawLike("filldraw", args, locals);
         else if (name === "fill") handleDrawLike("fill", args, locals);
         else if (name === "label") handleLabel(args, locals);
-        else if (name === "rightanglemark") {
+        else if (name === "MP" || name === "midpoint") {
+          // leftover MP(A,B) / midpoint as a no-op statement (point forms used in exprs)
+          if (args.length >= 2 && !/^["']/.test(args[0]!.trim())) {
+            // ignore bare midpoint() statements
+          } else if (args.length >= 2) {
+            handleLabel(args, locals);
+          }
+        } else if (name === "rightanglemark") {
           handleDrawLike("draw", [`rightanglemark(${args.join(",")})`], locals);
         }
         // ignore unknown calls
@@ -712,10 +811,21 @@ function renderAsy(raw: string): AsyRenderResult {
     }
   };
 
+  const expectedDraws = (
+    src.match(/\b(?:draw|filldraw|fill|dot|circle)\s*\(/gi) || []
+  ).length;
+
   execStatements(splitStatements(src));
 
   if (!Number.isFinite(minX) || drew === 0) {
     return { ok: false, reason: "No drawable geometry found" };
+  }
+  // Prefer hiding badly incomplete figures over showing the wrong shape.
+  if (expectedDraws >= 4 && drew < Math.max(2, Math.ceil(expectedDraws * 0.35))) {
+    return {
+      ok: false,
+      reason: `Incomplete diagram (${drew}/${expectedDraws} primitives)`,
+    };
   }
 
   const pad = 0.45;
